@@ -54,3 +54,6 @@ next-env.d.ts
 
 # Vercel
 .vercel
+
+# Claude Code memory
+.claude/
