@@ -3,6 +3,9 @@
 -- DTEK Core — Digital Trust Management Platform
 -- ─────────────────────────────────────────────────────────────────────────────
 
+-- Skip body validation so SQL functions can reference tables created later
+SET check_function_bodies = OFF;
+
 -- ── 1. RLS helper: org ID of current user ────────────────────────────────────
 CREATE OR REPLACE FUNCTION current_org_id()
 RETURNS uuid AS $$
