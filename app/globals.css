@@ -368,6 +368,46 @@
   color: var(--text-mute);
 }
 
+/* ── User menu (sidebar-foot) ── */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+}
+.user-menu-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-2), var(--teal));
+  color: #04211d;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.user-menu-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.user-menu-name {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-menu-email {
+  font-size: 11px;
+  color: var(--text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ============================================================
    Topbar
    ============================================================ */
@@ -395,6 +435,11 @@
   font-size: 12px;
   color: var(--text-mute);
   margin-top: 1px;
+}
+.topbar-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 .topbar-right {
   display: flex;
