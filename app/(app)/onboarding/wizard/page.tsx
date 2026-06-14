@@ -1,17 +1,46 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import { Wizard } from '@/components/shared/onboarding/wizard';
 
 export const metadata: Metadata = {
-  title: 'Онбординг — DTEK Core',
+  title: 'Настройка платформы — DTEK Core',
 };
 
-// Onboarding wizard — implemented in S02-T007
-export default function WizardPage() {
-  return (
-    <div className="ob-page">
-      <div className="ob-head">
-        <h1 className="ob-title">Организация создана!</h1>
-        <p className="ob-sub">Мастер настройки будет доступен в следующем обновлении</p>
-      </div>
-    </div>
-  );
+interface Profile {
+  organization_id: string | null;
+}
+
+interface Organization {
+  id: string;
+  name: string;
+}
+
+export default async function WizardPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
+
+  const { data: profileRaw } = await supabase
+    .from('profiles')
+    .select('organization_id')
+    .eq('id', user.id)
+    .single();
+
+  const profile = profileRaw as unknown as Profile | null;
+  if (!profile?.organization_id) redirect('/onboarding/create');
+
+  const { data: orgRaw } = await supabase
+    .from('organizations')
+    .select('id, name')
+    .eq('id', profile.organization_id)
+    .single();
+
+  const org = orgRaw as unknown as Organization | null;
+  if (!org) redirect('/onboarding/create');
+
+  return <Wizard orgId={org.id} orgName={org.name} />;
 }

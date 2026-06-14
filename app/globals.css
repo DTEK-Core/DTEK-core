@@ -842,6 +842,268 @@ select.set-input {
   justify-content: flex-end;
 }
 
+/* ── Wizard layout ── */
+.wiz-content {
+  margin-top: 28px;
+}
+.wiz-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.wiz-step-intro {
+  margin-bottom: 4px;
+}
+.wiz-step-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.wiz-step-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.wiz-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+.wiz-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--teal-soft);
+  color: var(--teal);
+  display: grid;
+  place-items: center;
+}
+
+/* ── Configurator step bar ── */
+.config-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.cstep {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 36px;
+  white-space: nowrap;
+}
+.cstep-n {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-mute);
+  flex-shrink: 0;
+  transition: all 0.14s;
+}
+.cstep.active .cstep-n {
+  background: var(--teal);
+  color: #04211d;
+  border-color: var(--teal);
+}
+.cstep.done .cstep-n {
+  background: var(--teal-soft);
+  color: var(--teal);
+  border-color: var(--teal-line);
+}
+.cstep-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mute);
+}
+.cstep.active .cstep-label,
+.cstep.done .cstep-label {
+  color: var(--text);
+}
+.cstep-line {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  width: 24px;
+  height: 1px;
+  background: var(--border-1);
+}
+
+/* ── Weight editor ── */
+.weights {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.weight-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.weight-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.weight-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+}
+.weight-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--teal) var(--p, 55%), rgba(255,255,255,0.06) var(--p, 55%));
+  outline: none;
+  cursor: pointer;
+}
+.weight-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.18);
+}
+.weight-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+}
+.weight-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--surface-2);
+  border-radius: var(--r);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.weight-total .mono {
+  color: var(--teal);
+}
+.weight-total.warn {
+  color: var(--amber);
+}
+.weight-total.warn .mono {
+  color: var(--amber);
+}
+
+/* ── Object type picker (Step 2) ── */
+.obj-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+.obj-type {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border: 1px solid var(--border-1);
+  border-radius: var(--r);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.14s;
+  cursor: pointer;
+}
+.obj-type:hover {
+  border-color: var(--border-2);
+  background: var(--surface-2);
+  color: var(--text);
+}
+.obj-type.selected {
+  border-color: var(--teal-line);
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+.obj-type-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+.obj-type-label {
+  text-align: center;
+  line-height: 1.3;
+}
+.obj-type-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: var(--teal);
+}
+
+/* ── Invite rows (Step 4) ── */
+.invite-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.invite-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.invite-role {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+/* ── Summary (Step 5) ── */
+.summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.summary-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.summary-item:last-child {
+  border-bottom: none;
+}
+.summary-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mute);
+  width: 130px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.summary-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
 /* ============================================================
    Бейджи
    ============================================================ */
