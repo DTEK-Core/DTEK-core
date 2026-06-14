@@ -1815,3 +1815,67 @@ select.set-input {
 /* brand-name (shared across Landing + Auth) */
 .brand-name { font-weight: 800; font-size: 15px; letter-spacing: -0.01em; color: var(--text); }
 .brand-core { color: var(--teal); }
+
+/* ============================================================
+   Users — таблица участников
+   ============================================================ */
+
+.ot-dim { color: var(--text-dim); }
+
+.utable { overflow: hidden; }
+.utable-head,
+.utable-row {
+  display: grid;
+  grid-template-columns: 2.2fr 1.2fr 1.2fr 1.2fr 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px;
+}
+.utable-head {
+  height: 44px;
+  border-bottom: 1px solid var(--border);
+}
+.uth {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.uth-c,
+.ut-c { text-align: right; justify-self: end; }
+
+.utable-row { height: 64px; border-bottom: 1px solid var(--border); }
+.utable-row:last-child { border-bottom: none; }
+
+.ut-user { display: flex; align-items: center; gap: 12px; }
+.ut-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  color: var(--text-dim);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.ut-user-info { display: flex; flex-direction: column; }
+.ut-name { font-size: 13.5px; font-weight: 600; }
+.ut-email { font-size: 11px; color: var(--text-mute); }
+.ut-cell { font-size: 13px; }
+.ut-status { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-dim); }
+
+/* ── Роли и права (боковая карточка) ── */
+.roles { display: flex; flex-direction: column; gap: 12px; }
+.role {
+  padding: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+}
+.role-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.role-name { font-size: 13.5px; font-weight: 700; }
+.role-perms { font-size: 11px; color: var(--teal); }
+.role-desc { font-size: 12px; color: var(--text-mute); line-height: 1.5; }
