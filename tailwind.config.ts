@@ -14,7 +14,7 @@ const config: Config = {
         mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       colors: {
-        // Shadcn/UI semantic colors (use CSS variable HSL channels)
+        /* ── Shadcn/UI semantic colors ── */
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -49,55 +49,91 @@ const config: Config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
 
-        // DTEK Core brand colors (direct values for custom components)
-        teal: {
-          DEFAULT: '#2dd4bf',
-          '2': '#14b8a6',
+        /* ── DTEK Core фоны ── */
+        bg: {
+          DEFAULT: '#07090d',
+          '1': '#0a0e14',
         },
-        lime: '#5fcf80',
-        crit: '#f0566d',
-        info: '#5b9bf5',
 
-        // Surface layers
+        /* ── DTEK Core поверхности ── */
         surface: {
           DEFAULT: '#0f141c',
           '2': '#141b25',
           '3': '#1a222e',
         },
 
-        // Text utilities
+        /* ── DTEK Core акцентные цвета ── */
+        teal: {
+          DEFAULT: '#2dd4bf',
+          '2': '#14b8a6',
+        },
+        lime: '#5fcf80',
+        amber: '#f5c451',
+        orange: '#f59145',
+        crit: '#f0566d',
+        info: '#5b9bf5',
+
+        /* ── DTEK Core текст ── */
         dim: '#95a3b3',
         mute: '#5d6b7c',
       },
       borderRadius: {
-        // Shadcn uses these three keys
+        /* Shadcn — три обязательных ключа */
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        // DTEK radii
+        /* DTEK — точные значения из дизайна */
         'dtek-sm': '7px',
-        dtek: '11px',
+        'dtek':    '11px',
         'dtek-lg': '16px',
         'dtek-xl': '22px',
       },
       boxShadow: {
-        '1': '0 1px 2px rgba(0,0,0,.4)',
-        '2': '0 12px 32px -8px rgba(0,0,0,.55)',
-        pop: '0 20px 50px -12px rgba(0,0,0,.7)',
+        '1':  '0 1px 2px rgba(0,0,0,.4)',
+        '2':  '0 12px 32px -8px rgba(0,0,0,.55)',
+        'pop':'0 20px 50px -12px rgba(0,0,0,.7)',
       },
       keyframes: {
+        /* Shadcn accordion */
         'accordion-down': {
           from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          to:   { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          to:   { height: '0' },
+        },
+        /* DTEK анимации */
+        shimmer: {
+          from: { backgroundPosition: '200% 0' },
+          to:   { backgroundPosition: '-200% 0' },
+        },
+        pop: {
+          from: { opacity: '0', transform: 'translateY(-6px)' },
+          to:   { opacity: '1', transform: 'none' },
+        },
+        fade: {
+          from: { opacity: '0' },
+          to:   { opacity: '1' },
+        },
+        dotpulse: {
+          '0%':   { boxShadow: '0 0 0 0 currentColor' },
+          '70%':  { boxShadow: '0 0 0 6px transparent' },
+          '100%': { boxShadow: '0 0 0 0 transparent' },
+        },
+        slidein: {
+          from: { transform: 'translateX(100%)' },
+          to:   { transform: 'translateX(0)' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        'accordion-up':   'accordion-up 0.2s ease-out',
+        shimmer:   'shimmer 1.4s infinite',
+        pop:       'pop 0.14s ease',
+        fade:      'fade 0.15s ease',
+        dotpulse:  'dotpulse 1.8s infinite',
+        slidein:   'slidein 0.22s cubic-bezier(.2,.8,.2,1)',
       },
     },
   },
