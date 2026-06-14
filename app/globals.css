@@ -763,6 +763,86 @@ kbd {
 }
 
 /* ============================================================
+   Формы настроек (Settings, Create Org)
+   ============================================================ */
+
+.set-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.set-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.set-field:nth-child(odd):last-child {
+  grid-column: span 2;
+}
+.set-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+.set-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-size: 13.5px;
+  transition: border-color 0.14s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.set-input:focus {
+  outline: none;
+  border-color: var(--teal-line);
+}
+select.set-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235d6b7c' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* ── Onboarding pages ── */
+.ob-page {
+  max-width: 680px;
+  margin: 52px auto;
+  padding: 0 24px 60px;
+}
+.ob-head {
+  margin-bottom: 28px;
+}
+.ob-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.ob-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+.ob-error {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: rgba(240, 86, 109, 0.1);
+  border: 1px solid rgba(240, 86, 109, 0.25);
+  border-radius: var(--r-sm);
+  color: var(--crit);
+  font-size: 13px;
+}
+.ob-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ============================================================
    Бейджи
    ============================================================ */
 
