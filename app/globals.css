@@ -1300,7 +1300,8 @@ kbd {
   padding: 4px;
   margin-bottom: 30px;
 }
-.auth-switch button {
+.auth-switch button,
+.auth-switch a {
   flex: 1;
   padding: 9px;
   border-radius: var(--r-sm);
@@ -1308,10 +1309,23 @@ kbd {
   font-weight: 600;
   color: var(--text-mute);
   transition: all 0.14s;
+  text-align: center;
+  text-decoration: none;
+  display: block;
 }
-.auth-switch button.active {
+.auth-switch button.active,
+.auth-switch a.active {
   background: var(--surface-3);
   color: var(--text);
+}
+
+.auth-error {
+  font-size: 13px;
+  color: var(--crit);
+  background: rgba(240, 86, 109, 0.10);
+  border: 1px solid rgba(240, 86, 109, 0.25);
+  border-radius: var(--r-sm);
+  padding: 9px 13px;
 }
 
 .auth-title {
