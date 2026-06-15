@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Manrope, JetBrains_Mono } from 'next/font/google';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 const manrope = Manrope({
@@ -29,7 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster theme="dark" position="bottom-right" richColors />
+      </body>
     </html>
   );
 }

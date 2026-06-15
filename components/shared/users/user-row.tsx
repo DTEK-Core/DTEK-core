@@ -21,6 +21,7 @@ import {
 import { Icon } from '@/components/shared/icon';
 import { ChangeRoleDropdown } from '@/components/shared/users/change-role-dropdown';
 import { blockUser, unblockUser, removeUser } from '@/lib/actions/users';
+import { revokeInvitation } from '@/lib/actions/invitations';
 
 export interface Member {
   id: string;
@@ -30,6 +31,7 @@ export interface Member {
   team: string | null;
   status: string | null;
   last_seen_at: string | null;
+  invitation_id?: string;
 }
 
 const ROLE_LABELS: Record<string, string> = {
@@ -88,14 +90,16 @@ interface Props {
 
 export function UserRow({ member, currentUserId, currentUserRole }: Props) {
   const [confirmRemove, setConfirmRemove] = useState(false);
+  const [confirmRevoke, setConfirmRevoke] = useState(false);
   const [, startTransition] = useTransition();
 
+  const isInvited = Boolean(member.invitation_id);
   const isSelf = member.id === currentUserId;
   const isOwner = member.role === 'owner';
-  const canEdit = !isSelf && !isOwner && (currentUserRole === 'owner' || currentUserRole === 'admin');
+  const canManage = !isSelf && !isOwner && (currentUserRole === 'owner' || currentUserRole === 'admin');
   const isBlocked = member.status === 'blocked';
 
-  const role = member.role ?? 'viewer';
+  const role = member.role ?? 'analyst';
   const status = member.status ?? 'invited';
   const dotTone = STATUS_DOT_TONES[status] ?? 'neutral';
   const statusLabel = STATUS_LABELS[status] ?? status;
@@ -116,15 +120,23 @@ export function UserRow({ member, currentUserId, currentUserRole }: Props) {
     });
   }
 
+  function handleRevoke() {
+    startTransition(async () => {
+      await revokeInvitation(member.invitation_id!);
+    });
+  }
+
   return (
     <>
       <div className="utable-row">
         {/* Участник */}
         <span className="ut-user">
-          <span className="ut-avatar">{getInitials(member.full_name)}</span>
+          <span className="ut-avatar">{isInvited ? '?' : getInitials(member.full_name)}</span>
           <span className="ut-user-info">
-            <span className="ut-name">{member.full_name ?? '—'}</span>
-            <span className="ut-email mono">{member.email ?? '—'}</span>
+            <span className="ut-name" style={isInvited ? { color: 'var(--text-dim)' } : undefined}>
+              {member.full_name ?? member.email ?? '—'}
+            </span>
+            {!isInvited && <span className="ut-email mono">{member.email ?? '—'}</span>}
           </span>
         </span>
 
@@ -147,33 +159,49 @@ export function UserRow({ member, currentUserId, currentUserRole }: Props) {
         </span>
 
         {/* Активность + actions */}
-        <span className="ut-cell ut-c ot-dim mono" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
+        <span
+          className="ut-cell ut-c ot-dim mono"
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}
+        >
           {relativeTime(member.last_seen_at)}
-          {canEdit && (
+
+          {canManage && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="icon-btn sm" title="Действия" style={{ flexShrink: 0 }}>
                   <Icon name="dots" size={15} />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" style={{ minWidth: 180 }}>
-                <ChangeRoleDropdown userId={member.id} currentRole={role} />
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleBlock}>
-                  {isBlocked ? 'Разблокировать' : 'Заблокировать'}
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setConfirmRemove(true)}
-                  style={{ color: 'var(--crit)' }}
-                >
-                  Удалить из организации
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end" style={{ minWidth: 200 }}>
+                {isInvited ? (
+                  <DropdownMenuItem
+                    onClick={() => setConfirmRevoke(true)}
+                    style={{ color: 'var(--crit)' }}
+                  >
+                    Отозвать приглашение
+                  </DropdownMenuItem>
+                ) : (
+                  <>
+                    <ChangeRoleDropdown userId={member.id} currentRole={role} />
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleBlock}>
+                      {isBlocked ? 'Разблокировать' : 'Заблокировать'}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setConfirmRemove(true)}
+                      style={{ color: 'var(--crit)' }}
+                    >
+                      Удалить из организации
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           )}
         </span>
       </div>
 
+      {/* Confirm remove member */}
       <AlertDialog open={confirmRemove} onOpenChange={setConfirmRemove}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -190,6 +218,27 @@ export function UserRow({ member, currentUserId, currentUserRole }: Props) {
               style={{ background: 'var(--crit)', color: '#fff' }}
             >
               Удалить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Confirm revoke invitation */}
+      <AlertDialog open={confirmRevoke} onOpenChange={setConfirmRevoke}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Отозвать приглашение?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Ссылка для {member.email} станет недействительной.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleRevoke}
+              style={{ background: 'var(--crit)', color: '#fff' }}
+            >
+              Отозвать
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

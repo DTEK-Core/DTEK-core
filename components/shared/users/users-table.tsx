@@ -46,7 +46,7 @@ export function UsersTable({ members, currentUserId, currentUserRole, onInvite }
       </div>
       {members.map((m) => (
         <UserRow
-          key={m.id}
+          key={m.invitation_id ? `inv-${m.invitation_id}` : `usr-${m.id}`}
           member={m}
           currentUserId={currentUserId}
           currentUserRole={currentUserRole}
