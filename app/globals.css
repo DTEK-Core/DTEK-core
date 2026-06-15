@@ -1879,3 +1879,91 @@ select.set-input {
 .role-name { font-size: 13.5px; font-weight: 700; }
 .role-perms { font-size: 11px; color: var(--teal); }
 .role-desc { font-size: 12px; color: var(--text-mute); line-height: 1.5; }
+
+/* ============================================================
+   Settings page
+   ============================================================ */
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+}
+@media (max-width: 800px) {
+  .settings-layout { grid-template-columns: 1fr; }
+}
+.settings-nav { display: flex; flex-direction: column; gap: 2px; }
+.settings-content { max-width: 600px; }
+
+.snav {
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition: all 0.12s;
+  width: 100%;
+}
+.snav:hover { background: rgba(255, 255, 255, 0.04); color: var(--text); }
+.snav.active { background: var(--teal-soft); color: var(--teal); }
+
+/* ── Profile block ── */
+.set-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 22px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+.set-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-2), var(--teal));
+  color: #04211d;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.set-profile-info { flex: 1; }
+.set-profile-name { font-size: 16px; font-weight: 700; }
+.set-profile-role { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+
+/* ── Toggles ── */
+.toggles { display: flex; flex-direction: column; }
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-label { font-size: 13.5px; font-weight: 500; }
+.toggle {
+  width: 42px;
+  height: 24px;
+  border-radius: 20px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-1);
+  padding: 2px;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--teal); border-color: var(--teal); }
+.toggle-knob {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  transition: all 0.18s;
+}
+.toggle.on .toggle-knob { transform: translateX(18px); background: #04211d; }
