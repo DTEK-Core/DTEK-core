@@ -28,5 +28,16 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return { supabaseResponse, user };
+  let organizationId: string | null = null;
+  if (user) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('organization_id')
+      .eq('id', user.id)
+      .single();
+    organizationId =
+      (data as unknown as { organization_id: string | null } | null)?.organization_id ?? null;
+  }
+
+  return { supabaseResponse, user, organizationId };
 }
