@@ -1812,10 +1812,6 @@ select.set-input {
   font-size: inherit;
 }
 
-/* brand-name (shared across Landing + Auth) */
-.brand-name { font-weight: 800; font-size: 15px; letter-spacing: -0.01em; color: var(--text); }
-.brand-core { color: var(--teal); }
-
 /* ============================================================
    Users — таблица участников
    ============================================================ */
@@ -1833,7 +1829,7 @@ select.set-input {
 }
 .utable-head {
   height: 44px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-subtle);
 }
 .uth {
   font-size: 11px;
@@ -1845,7 +1841,7 @@ select.set-input {
 .uth-c,
 .ut-c { text-align: right; justify-self: end; }
 
-.utable-row { height: 64px; border-bottom: 1px solid var(--border); }
+.utable-row { height: 64px; border-bottom: 1px solid var(--border-subtle); }
 .utable-row:last-child { border-bottom: none; }
 
 .ut-user { display: flex; align-items: center; gap: 12px; }
@@ -1872,7 +1868,7 @@ select.set-input {
 .role {
   padding: 14px;
   background: var(--surface-2);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--r);
 }
 .role-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
@@ -1915,7 +1911,7 @@ select.set-input {
   gap: 16px;
   padding-bottom: 22px;
   margin-bottom: 22px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-subtle);
 }
 .set-avatar {
   width: 60px;
@@ -1940,7 +1936,7 @@ select.set-input {
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-subtle);
   width: 100%;
   text-align: left;
   cursor: pointer;
