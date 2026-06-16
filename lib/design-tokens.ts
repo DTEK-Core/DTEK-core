@@ -131,3 +131,21 @@ export const SEVERITY_LEVELS = [
 ] as const;
 
 export type SeverityKey = (typeof SEVERITY_LEVELS)[number]['key'];
+
+/* ── Маппинг типа объекта на имя иконки ── */
+export function typeGlyph(type: string): string {
+  const map: Record<string, string> = {
+    server:      'server',
+    workstation: 'monitor',
+    laptop:      'monitor',
+    network:     'network',
+    app:         'app',
+    database:    'db',
+    service:     'cloud',
+    identity:    'user',
+    ot:          'chip',
+    policy:      'doc',
+    other:       'layers',
+  };
+  return map[type] ?? 'layers';
+}

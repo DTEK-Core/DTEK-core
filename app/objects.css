@@ -1,0 +1,117 @@
+/* ============================================================
+   DTEK Core — Objects screens CSS
+   Источник: design/src/screens.css (Objects / Detail sections)
+   Правило: var(--border) → var(--border-subtle) во всём файле
+   ============================================================ */
+
+/* ---------- Filter select (дополнение к globals.css) ---------- */
+.fsel-menu { top: calc(100% + 6px); left: 0; min-width: 190px; padding: 6px; }
+.fsel-item { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 10px; border-radius: var(--r-sm); font-size: 13px; color: var(--text-dim); transition: all .12s; }
+.fsel-item:hover { background: rgba(255,255,255,.04); color: var(--text); }
+.fsel-item.active { color: var(--teal); }
+.fsel-chev { opacity: 0.5; }
+
+/* ---------- Sort caret ---------- */
+.sort-caret { opacity: 0; color: var(--text-dim); }
+.sort-caret.on { opacity: 1; color: var(--teal); }
+
+/* ---------- Objects table ---------- */
+.otable { width: 100%; }
+.otable-head,
+.otable-row { display: grid; grid-template-columns: 2.4fr 1.2fr 1.1fr 1.1fr .8fr 1fr 1fr; align-items: center; gap: 14px; padding: 0 18px; }
+.otable-head { height: 44px; border-bottom: 1px solid var(--border-subtle); }
+.oth { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 4px; }
+.oth-c, .ot-c { justify-content: flex-end; text-align: right; }
+.otable-row { height: 60px; border-bottom: 1px solid var(--border-subtle); text-align: left; transition: background .12s; }
+.otable-row:hover { background: rgba(255,255,255,.025); }
+.otable-row:last-child { border-bottom: none; }
+.ot-name { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ot-type-ico { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; background: var(--surface-2); color: var(--text-dim); flex-shrink: 0; }
+.ot-name-text { display: flex; flex-direction: column; min-width: 0; }
+.ot-name-main { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ot-name-sub { font-size: 11px; color: var(--text-mute); }
+.ot-cell { font-size: 13px; }
+.ot-dim { color: var(--text-dim); }
+.ot-risks { display: inline-flex; align-items: center; gap: 4px; color: var(--orange); font-weight: 600; }
+.ot-zero { color: var(--text-mute); }
+
+/* ---------- Object cards ---------- */
+.ocards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.ocard { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); padding: 16px; text-align: left; transition: all .15s; border-top: 2px solid var(--c, var(--teal)); }
+.ocard:hover { transform: translateY(-3px); border-color: var(--border-2); box-shadow: var(--sh-2); }
+.ocard-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.ocard-type { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--surface-2); color: var(--text-dim); }
+.ocard-name { font-size: 14.5px; font-weight: 700; }
+.ocard-id { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+.ocard-meta { display: flex; align-items: center; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+.ocard-seg { font-size: 11.5px; color: var(--text-dim); }
+.ocard-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-dim); }
+.ocard-risks { display: flex; align-items: center; gap: 5px; }
+.ocard-conns { display: flex; align-items: center; gap: 5px; color: var(--text-mute); }
+
+/* ---------- Object detail ---------- */
+.detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 18px; flex-wrap: wrap; }
+.detail-id { display: flex; gap: 16px; }
+.detail-type-ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 13px; background: color-mix(in srgb, var(--c, var(--teal)) 12%, transparent); border: 1px solid color-mix(in srgb, var(--c, var(--teal)) 28%, transparent); color: var(--c, var(--teal)); flex-shrink: 0; }
+.detail-title-row { display: flex; align-items: center; gap: 12px; }
+.detail-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+.detail-meta { font-size: 12.5px; color: var(--text-mute); margin-top: 4px; }
+.detail-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.detail-strip { display: flex; align-items: center; gap: 26px; padding: 20px 24px; background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); margin-bottom: 18px; }
+.dstrip-ring { flex-shrink: 0; }
+.dstrip-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 28px; flex: 1; }
+@media (max-width: 800px) { .dstrip-facts { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- Tabs ---------- */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 20px; overflow-x: auto; }
+.tab { padding: 12px 16px; font-size: 13.5px; font-weight: 600; color: var(--text-mute); border-bottom: 2px solid transparent; transition: all .14s; white-space: nowrap; }
+.tab:hover { color: var(--text-dim); }
+.tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+/* ---------- Factor breakdown ---------- */
+.factors { display: flex; flex-direction: column; gap: 18px; }
+.factors.compact { gap: 13px; }
+.factor-top { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.factor-label { font-size: 13px; font-weight: 600; flex: 1; }
+.factor-weight { font-size: 11px; color: var(--text-mute); }
+.factor-score { font-size: 14px; font-weight: 700; min-width: 28px; text-align: right; }
+.factor-desc { font-size: 12px; color: var(--text-mute); margin-top: 7px; line-height: 1.5; }
+
+/* ---------- Risk mini table ---------- */
+.rmini { display: flex; flex-direction: column; }
+.rmini-row { display: flex; align-items: center; gap: 12px; padding: 11px 10px; border-radius: var(--r-sm); text-align: left; transition: background .12s; }
+.rmini-row:hover { background: rgba(255,255,255,.03); }
+.rmini-row + .rmini-row { border-top: 1px solid var(--border-subtle); }
+.rmini-sev { width: 4px; height: 30px; border-radius: 3px; flex-shrink: 0; }
+.sev-critical { background: var(--crit); }
+.sev-high     { background: var(--orange); }
+.sev-medium   { background: var(--amber); }
+.sev-low      { background: var(--info); }
+.rmini-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.rmini-title { font-size: 13px; font-weight: 600; }
+.rmini-meta { font-size: 11px; color: var(--text-mute); }
+.rmini-score { font-size: 13px; font-weight: 700; color: var(--text-dim); }
+
+/* ---------- Connections ---------- */
+.conn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.conn-card { display: flex; align-items: center; gap: 11px; padding: 12px; background: var(--surface-2); border: 1px solid var(--border-subtle); border-radius: var(--r); text-align: left; transition: all .14s; }
+.conn-card:hover { border-color: var(--border-2); transform: translateY(-1px); }
+.conn-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--surface-3); color: var(--text-dim); flex-shrink: 0; }
+.conn-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.conn-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conn-id { font-size: 11px; color: var(--text-mute); }
+
+/* ---------- History timeline ---------- */
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 14px; padding-bottom: 20px; position: relative; }
+.tl-item:not(:last-child)::before { content: ''; position: absolute; left: 5px; top: 14px; bottom: 0; width: 1px; background: var(--border-1); }
+.tl-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; border: 2px solid var(--bg-1); }
+.tl-teal    { background: var(--teal); }
+.tl-crit    { background: var(--crit); }
+.tl-orange  { background: var(--orange); }
+.tl-info    { background: var(--info); }
+.tl-neutral { background: var(--text-mute); }
+.tl-body { display: flex; flex-direction: column; gap: 3px; }
+.tl-time { font-size: 11px; color: var(--text-mute); }
+.tl-text { font-size: 13px; }
