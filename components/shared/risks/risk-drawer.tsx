@@ -1,10 +1,12 @@
 'use client';
 
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
 import { SeverityTag } from '@/components/shared/severity-tag';
 import { Meter } from '@/components/shared/meter';
-import type { RiskRow } from './risks-page-client';
+import { updateRiskStatus, linkRiskToObject } from '@/lib/actions/risks';
+import type { RiskRow, SimpleObj } from './risks-page-client';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -70,20 +72,49 @@ function formatSla(dueDate: string | null): { label: string; overdue: boolean } 
 
 interface RiskDrawerProps {
   risk: RiskRow;
+  objects: SimpleObj[];
   onClose: () => void;
 }
 
-export function RiskDrawer({ risk, onClose }: RiskDrawerProps) {
-  const router     = useRouter();
-  const sla        = formatSla(risk.due_date);
-  const color      = SEVERITY_COLORS[risk.severity] ?? 'var(--teal)';
-  const linkedObj  = risk.linked_objects[0] ?? null;
-  const trustImpact = Math.round((risk.cvss_score ?? 5) * 2);
-  const statusTone  = STATUS_TONE[risk.status] ?? 'neutral';
-  const statusLabel = STATUS_LABELS[risk.status] ?? risk.status;
-  const catLabel    = CATEGORY_LABELS[risk.category] ?? risk.category;
-  const cvssValue   = risk.cvss_score != null ? risk.cvss_score * 10 : 0;
-  const cvssDisplay = risk.cvss_score != null ? risk.cvss_score.toFixed(1) : '—';
+export function RiskDrawer({ risk, objects, onClose }: RiskDrawerProps) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [linkMode, setLinkMode]     = useState(false);
+  const [linkObjId, setLinkObjId]   = useState('');
+  const [linkError, setLinkError]   = useState<string | null>(null);
+
+  const sla          = formatSla(risk.due_date);
+  const color        = SEVERITY_COLORS[risk.severity] ?? 'var(--teal)';
+  const linkedObj    = risk.linked_objects[0] ?? null;
+  const trustImpact  = Math.round((risk.cvss_score ?? 5) * 2);
+  const statusTone   = STATUS_TONE[risk.status] ?? 'neutral';
+  const statusLabel  = STATUS_LABELS[risk.status] ?? risk.status;
+  const catLabel     = CATEGORY_LABELS[risk.category] ?? risk.category;
+  const cvssValue    = risk.cvss_score != null ? risk.cvss_score * 10 : 0;
+  const cvssDisplay  = risk.cvss_score != null ? risk.cvss_score.toFixed(1) : '—';
+  const isResolved   = ['mitigated', 'accepted', 'closed'].includes(risk.status);
+
+  function changeStatus(newStatus: string) {
+    startTransition(async () => {
+      await updateRiskStatus(risk.id, newStatus);
+      router.refresh();
+    });
+  }
+
+  function handleLink() {
+    if (!linkObjId) return;
+    setLinkError(null);
+    startTransition(async () => {
+      const result = await linkRiskToObject(risk.id, linkObjId);
+      if (result?.error) {
+        setLinkError(result.error);
+        return;
+      }
+      setLinkMode(false);
+      setLinkObjId('');
+      router.refresh();
+    });
+  }
 
   return (
     <>
@@ -154,6 +185,56 @@ export function RiskDrawer({ risk, onClose }: RiskDrawerProps) {
             {risk.impact && <Fact label="Влияние" value={risk.impact} />}
           </div>
 
+          {/* Link to object (only if no object linked) */}
+          {!linkedObj && (
+            <div>
+              <h3 className="drawer-sec-title">Привязать к объекту</h3>
+              {linkMode ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <select
+                    className="set-input"
+                    value={linkObjId}
+                    onChange={e => setLinkObjId(e.target.value)}
+                    style={{ fontSize: 13 }}
+                  >
+                    <option value="">— Выберите объект</option>
+                    {objects.map(o => (
+                      <option key={o.id} value={o.id}>{o.name}</option>
+                    ))}
+                  </select>
+                  {linkError && (
+                    <p style={{ fontSize: 12, color: 'var(--crit)', margin: 0 }}>{linkError}</p>
+                  )}
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                      className="btn btn-line btn-sm"
+                      onClick={handleLink}
+                      disabled={!linkObjId || isPending}
+                    >
+                      {isPending ? '…' : 'Привязать'}
+                    </button>
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => { setLinkMode(false); setLinkError(null); }}
+                      disabled={isPending}
+                    >
+                      Отмена
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => setLinkMode(true)}
+                  style={{ fontSize: 13 }}
+                >
+                  <Icon name="link" size={13} />
+                  Привязать к объекту
+                </button>
+              )}
+            </div>
+          )}
+
           {/* Trust impact */}
           <div>
             <h3 className="drawer-sec-title">Влияние на доверие</h3>
@@ -186,13 +267,44 @@ export function RiskDrawer({ risk, onClose }: RiskDrawerProps) {
 
         {/* ── Footer ── */}
         <div className="drawer-foot">
-          <button className="btn btn-ghost btn-sm" disabled title="Доступно в Sprint 07">
-            Принять риск
-          </button>
-          <button className="btn btn-line btn-sm" disabled title="Доступно в Sprint 07">
-            <Icon name="check" size={14} />
-            Взять в работу
-          </button>
+          {!isResolved && (
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => changeStatus('accepted')}
+              disabled={isPending || risk.status === 'accepted'}
+            >
+              Принять риск
+            </button>
+          )}
+          {risk.status === 'open' && (
+            <button
+              className="btn btn-line btn-sm"
+              onClick={() => changeStatus('in_progress')}
+              disabled={isPending}
+            >
+              <Icon name="check" size={14} />
+              Взять в работу
+            </button>
+          )}
+          {risk.status === 'in_progress' && (
+            <button
+              className="btn btn-line btn-sm"
+              onClick={() => changeStatus('mitigated')}
+              disabled={isPending}
+            >
+              <Icon name="check" size={14} />
+              Устранить
+            </button>
+          )}
+          {isResolved && (
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => changeStatus('open')}
+              disabled={isPending}
+            >
+              Открыть повторно
+            </button>
+          )}
         </div>
 
       </aside>

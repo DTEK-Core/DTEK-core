@@ -113,5 +113,19 @@ export default async function RisksPage() {
     };
   });
 
-  return <RisksPageClient risks={risks} />;
+  // ── Load objects for the create-risk form ─────────────────────────────────
+  const { data: objectsRaw } = await admin
+    .from('objects')
+    .select('id, name, type')
+    .eq('organization_id', orgId)
+    .neq('status', 'archived')
+    .order('name');
+
+  const objects = ((objectsRaw as unknown as { id: string; name: string; type: string }[] | null) ?? []).map(o => ({
+    id:   o.id,
+    name: o.name,
+    type: o.type,
+  }));
+
+  return <RisksPageClient risks={risks} userRole={profile.role} objects={objects} />;
 }

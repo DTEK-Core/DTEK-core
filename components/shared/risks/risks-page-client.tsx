@@ -5,12 +5,19 @@ import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
 import { FilterSelect } from '@/components/shared/filter-select';
 import { RiskDrawer } from './risk-drawer';
+import { RiskFormDialog } from './risk-form-dialog';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface LinkedObj {
   id: string;
   name: string;
+}
+
+export interface SimpleObj {
+  id: string;
+  name: string;
+  type: string;
 }
 
 export interface RiskRow {
@@ -33,6 +40,8 @@ export interface RiskRow {
 
 interface RisksPageClientProps {
   risks: RiskRow[];
+  userRole: string;
+  objects: SimpleObj[];
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -102,12 +111,15 @@ function formatSla(dueDate: string | null): { label: string; overdue: boolean } 
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export function RisksPageClient({ risks }: RisksPageClientProps) {
+export function RisksPageClient({ risks, userRole, objects }: RisksPageClientProps) {
   const router = useRouter();
   const [q, setQ]             = useState('');
   const [sevFilter, setSev]   = useState('all');
   const [statFilter, setStat] = useState('all');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId]       = useState<string | null>(null);
+  const [showCreateDialog, setShowCreate] = useState(false);
+
+  const canCreate = ['owner', 'analyst'].includes(userRole);
 
   const activeCount = risks.filter(r => r.status === 'open' || r.status === 'in_progress').length;
 
@@ -150,10 +162,15 @@ export function RisksPageClient({ risks }: RisksPageClientProps) {
             <Icon name="download" size={14} />
             Экспорт
           </button>
-          <button className="btn btn-primary btn-sm" disabled title="Доступно в Sprint 07">
-            <Icon name="plus" size={14} />
-            Зарегистрировать риск
-          </button>
+          {canCreate && (
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => setShowCreate(true)}
+            >
+              <Icon name="plus" size={14} />
+              Зарегистрировать риск
+            </button>
+          )}
         </div>
       </div>
 
@@ -289,8 +306,19 @@ export function RisksPageClient({ risks }: RisksPageClientProps) {
 
       {/* ── Drawer ── */}
       {selected && (
-        <RiskDrawer risk={selected} onClose={() => setSelectedId(null)} />
+        <RiskDrawer
+          risk={selected}
+          objects={objects}
+          onClose={() => setSelectedId(null)}
+        />
       )}
+
+      {/* ── Create dialog ── */}
+      <RiskFormDialog
+        open={showCreateDialog}
+        onOpenChange={setShowCreate}
+        objects={objects}
+      />
     </div>
   );
 }
