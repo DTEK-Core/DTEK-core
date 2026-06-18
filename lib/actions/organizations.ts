@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function createOrganization(formData: FormData) {
   const supabase = await createClient();
@@ -22,8 +23,11 @@ export async function createOrganization(formData: FormData) {
     return { error: 'Заполните все обязательные поля' };
   }
 
-  // Create organization
-  const { data: orgRaw, error: orgError } = await supabase
+  // Admin client bypasses RLS — safe, Server Action runs server-side only.
+  // auth.uid() is not reliably set in PostgREST context after signUp redirect.
+  const admin = createAdminClient();
+
+  const { data: orgRaw, error: orgError } = await admin
     .from('organizations')
     .insert({
       name,
@@ -42,16 +46,14 @@ export async function createOrganization(formData: FormData) {
   const org = orgRaw as unknown as { id: string } | null;
   if (!org?.id) return { error: 'Не удалось создать организацию' };
 
-  // Bind user to organization with owner role
-  const { error: profileError } = await supabase
+  const { error: profileError } = await admin
     .from('profiles')
     .update({ organization_id: org.id, role: 'owner' } as never)
     .eq('id', user.id);
 
   if (profileError) return { error: profileError.message };
 
-  // Create default trust factor config
-  await supabase
+  await admin
     .from('trust_factor_config')
     .insert({ organization_id: org.id } as never);
 

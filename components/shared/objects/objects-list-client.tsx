@@ -8,6 +8,7 @@ import { CritTag } from '@/components/shared/crit-tag';
 import { TrustChip } from '@/components/shared/trust-chip';
 import { FilterSelect } from '@/components/shared/filter-select';
 import { SortCaret } from '@/components/shared/sort-caret';
+import { ObjectFormDialog } from '@/components/shared/objects/object-form-dialog';
 import { getTrustBand, OBJECT_TYPES, TRUST_BANDS, typeGlyph } from '@/lib/design-tokens';
 
 interface TrustPassportSummary {
@@ -79,6 +80,7 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
   const [sort, setSort] = useState<{ key: SortKey; dir: 'asc' | 'desc' }>({ key: 'trust', dir: 'asc' });
 
   const canCreate = userRole === 'owner' || userRole === 'analyst' || userRole === 'admin';
+  const [showAdd, setShowAdd] = useState(false);
 
   const setSortKey = (key: SortKey) => {
     setSort(s => ({ key, dir: s.key === key && s.dir === 'asc' ? 'desc' : 'asc' }));
@@ -119,7 +121,7 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
           {canCreate && (
             <button
               className="btn btn-primary btn-sm"
-              onClick={() => {/* Dialog will be wired in T003 */}}
+              onClick={() => setShowAdd(true)}
             >
               <Icon name="plus" size={14} />
               Добавить объект
@@ -162,6 +164,12 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
         </div>
       </div>
 
+      <ObjectFormDialog
+        open={showAdd}
+        onOpenChange={setShowAdd}
+        userRole={userRole}
+      />
+
       {/* Content */}
       {rows.length === 0 ? (
         <div className="card">
@@ -172,7 +180,11 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
             <div className="empty-title">Объекты не найдены</div>
             <p className="empty-text">Измените фильтры или добавьте объект в цифровую модель организации.</p>
             {canCreate && (
-              <button className="btn btn-line btn-sm" style={{ marginTop: 8 }}>
+              <button
+                className="btn btn-line btn-sm"
+                style={{ marginTop: 8 }}
+                onClick={() => setShowAdd(true)}
+              >
                 <Icon name="plus" size={14} />
                 Добавить объект
               </button>
