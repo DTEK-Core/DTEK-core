@@ -315,7 +315,7 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
           risk={selected}
           objects={objects}
           onClose={() => setSelectedId(null)}
-          onEdit={canCreate ? () => setEditRisk(toEditable(selected)) : undefined}
+          onEdit={canCreate ? () => { setEditRisk(toEditable(selected)); setSelectedId(null); } : undefined}
         />
       )}
 

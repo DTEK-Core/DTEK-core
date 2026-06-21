@@ -20,7 +20,7 @@
 .otable-head,
 .otable-row { display: grid; grid-template-columns: 2.4fr 1.2fr 1.1fr 1.1fr .8fr 1fr 1fr; align-items: center; gap: 14px; padding: 0 18px; }
 .otable-head { height: 44px; border-bottom: 1px solid var(--border-subtle); }
-.oth { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 4px; }
+.oth { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 4px; padding: 0; }
 .oth-c { justify-content: flex-end; }
 .ot-c   { display: flex; justify-content: flex-end; align-items: center; }
 .otable-row { height: 60px; border-bottom: 1px solid var(--border-subtle); text-align: left; transition: background .12s; }
