@@ -10,8 +10,9 @@ const NAV_GROUPS = [
   {
     label: 'Обзор',
     items: [
-      { href: '/dashboard', icon: 'grid', label: 'Центр управления' },
-      { href: '/graph', icon: 'graph', label: 'Граф доверия' },
+      { href: '/',          icon: 'home',    label: 'Главная' },
+      { href: '/dashboard', icon: 'grid',    label: 'Центр управления' },
+      { href: '/graph',     icon: 'graph',   label: 'Граф доверия' },
     ],
   },
   {
@@ -77,7 +78,7 @@ export function AppSidebar({ displayName, email, orgName }: AppSidebarProps) {
             {group.items.map((item) => {
               const active =
                 pathname === item.href ||
-                (item.href !== '/dashboard' && pathname.startsWith(item.href));
+                (item.href !== '/' && item.href !== '/dashboard' && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.href}

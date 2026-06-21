@@ -71,7 +71,7 @@ const STATS = [
   { end: 74,             label: 'индекс доверия организации' },
 ] as const;
 
-export function LandingPage() {
+export function LandingPage({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   useReveal();
   const [scrolled, setScrolled] = useState(false);
 
@@ -104,8 +104,17 @@ export function LandingPage() {
           <a>Документация</a>
         </nav>
         <div className="lp-nav-cta">
-          <Link href="/login"    className="btn btn-ghost btn-sm">Войти</Link>
-          <Link href="/register" className="btn btn-primary btn-sm">Запросить доступ</Link>
+          {isLoggedIn ? (
+            <Link href="/dashboard" className="btn btn-primary btn-sm">
+              <Icon name="grid" size={14} />
+              Открыть платформу
+            </Link>
+          ) : (
+            <>
+              <Link href="/login"    className="btn btn-ghost btn-sm">Войти</Link>
+              <Link href="/register" className="btn btn-primary btn-sm">Запросить доступ</Link>
+            </>
+          )}
         </div>
       </header>
 
@@ -133,14 +142,23 @@ export function LandingPage() {
             связей — вы управляете не списком активов, а доверием всей организации.
           </p>
           <div className="lp-cta" style={{ '--i': 5 } as React.CSSProperties}>
-            <Link href="/register" className="btn btn-primary btn-lg">
-              <Icon name="shield" size={17} />
-              Начать работу
-            </Link>
-            <Link href="/dashboard" className="btn btn-line btn-lg">
-              <Icon name="eye" size={17} />
-              Демо центра управления
-            </Link>
+            {isLoggedIn ? (
+              <Link href="/dashboard" className="btn btn-primary btn-lg">
+                <Icon name="grid" size={17} />
+                Открыть платформу
+              </Link>
+            ) : (
+              <>
+                <Link href="/register" className="btn btn-primary btn-lg">
+                  <Icon name="shield" size={17} />
+                  Начать работу
+                </Link>
+                <Link href="/dashboard" className="btn btn-line btn-lg">
+                  <Icon name="eye" size={17} />
+                  Демо центра управления
+                </Link>
+              </>
+            )}
           </div>
           <div className="lp-cat" style={{ '--i': 6 } as React.CSSProperties}>
             <span className="lp-cat-x mono">не&nbsp;SIEM</span>
