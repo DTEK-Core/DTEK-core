@@ -9,7 +9,8 @@ import { ObjectFormDialog, type EditableObject } from '@/components/shared/objec
 import { FactorBreakdown, type FactorItem } from '@/components/shared/objects/factor-breakdown';
 import { RiskMiniTable, type RiskItem } from '@/components/shared/objects/risk-mini-table';
 import { ConnList, type RelatedObject } from '@/components/shared/objects/conn-list';
-import { HistoryTimeline } from '@/components/shared/objects/history-timeline';
+import { HistoryTimeline, type HistoryEntry } from '@/components/shared/objects/history-timeline';
+export type { HistoryEntry };
 import { getTrustBand, TRUST_FACTORS, OBJECT_TYPES, typeGlyph } from '@/lib/design-tokens';
 
 // ── Public types (re-exported for the Server Component page) ───────────────────
@@ -116,11 +117,12 @@ function makeFactors(passport: PassportData | null): FactorItem[] {
 type TabKey = 'overview' | 'factors' | 'risks' | 'conns' | 'history';
 
 interface ObjectDetailClientProps {
-  object: DetailObject;
-  passport: PassportData | null;
-  risks: RiskItem[];
-  related: RelatedObject[];
-  userRole: string;
+  object:         DetailObject;
+  passport:       PassportData | null;
+  risks:          RiskItem[];
+  related:        RelatedObject[];
+  historyEntries: HistoryEntry[];
+  userRole:       string;
 }
 
 export function ObjectDetailClient({
@@ -128,6 +130,7 @@ export function ObjectDetailClient({
   passport,
   risks,
   related,
+  historyEntries,
   userRole,
 }: ObjectDetailClientProps) {
   const router = useRouter();
@@ -295,7 +298,7 @@ export function ObjectDetailClient({
         )
       )}
       {tab === 'history' && (
-        <HistoryTimeline objectName={object.name} trustScore={object.trust_score} />
+        <HistoryTimeline entries={historyEntries} objectName={object.name} />
       )}
 
       {/* ── Edit dialog ── */}

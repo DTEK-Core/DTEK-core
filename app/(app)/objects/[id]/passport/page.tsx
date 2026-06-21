@@ -173,12 +173,31 @@ export default async function PassportPage({
   const org = orgData as unknown as OrgRaw | null;
   const orgName = org?.short_name ?? org?.name ?? '';
 
+  // ── Delta Trust Score за 30 дней ──────────────────────────────────────────
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const { data: deltaRaw } = await admin
+    .from('trust_score_history')
+    .select('new_score')
+    .eq('object_id', params.id)
+    .eq('organization_id', orgId)
+    .gte('created_at', thirtyDaysAgo)
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .single();
+
+  const firstScore = (deltaRaw as unknown as { new_score: number } | null)?.new_score ?? null;
+  const delta30 = firstScore !== null ? passport.trust_score - firstScore : 0;
+
+  const canRecalculate = ['owner', 'analyst', 'admin'].includes(profile.role);
+
   return (
     <TrustPassportClient
       object={object}
       passport={passport}
       risks={risks}
       orgName={orgName}
+      canRecalculate={canRecalculate}
+      delta30={delta30}
     />
   );
 }

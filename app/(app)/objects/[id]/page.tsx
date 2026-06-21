@@ -8,6 +8,7 @@ import type {
   PassportData,
   RiskItem,
   RelatedObject,
+  HistoryEntry,
 } from '@/components/shared/objects/object-detail-client';
 import '@/app/objects.css';
 
@@ -85,6 +86,15 @@ interface RelatedObjRaw {
   type: string;
   trust_score: number;
   trust_level: string;
+}
+
+interface HistoryEntryRaw {
+  id:         string;
+  old_score:  number | null;
+  new_score:  number;
+  reason:     string | null;
+  changed_by: string;
+  created_at: string;
 }
 
 // ── Page ───────────────────────────────────────────────────────────────────────
@@ -234,12 +244,33 @@ export default async function ObjectDetailPage({
     }));
   }
 
+  // ── Trust Score history (last 20 entries) ─────────────────────────────────
+  const { data: historyRaw } = await admin
+    .from('trust_score_history')
+    .select('id, old_score, new_score, reason, changed_by, created_at')
+    .eq('object_id', params.id)
+    .eq('organization_id', orgId)
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  const historyEntries: HistoryEntry[] = (
+    (historyRaw as unknown as HistoryEntryRaw[] | null) ?? []
+  ).map(h => ({
+    id:         h.id,
+    old_score:  h.old_score,
+    new_score:  h.new_score,
+    reason:     h.reason,
+    changed_by: h.changed_by,
+    created_at: h.created_at,
+  }));
+
   return (
     <ObjectDetailClient
       object={object}
       passport={passport}
       risks={risks}
       related={related}
+      historyEntries={historyEntries}
       userRole={role}
     />
   );

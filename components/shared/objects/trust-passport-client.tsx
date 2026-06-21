@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
 import { Logo } from '@/components/shared/logo';
 import { CritTag } from '@/components/shared/crit-tag';
 import { TrustRing } from '@/components/shared/trust-ring';
 import { getTrustBand, TRUST_FACTORS, OBJECT_TYPES } from '@/lib/design-tokens';
+import { triggerRecalculate } from '@/lib/actions/trust';
+import { fmtDateLong, fmtDateShort } from '@/lib/utils/dates';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -45,10 +47,12 @@ export interface PassportRisk {
 }
 
 interface TrustPassportClientProps {
-  object: PassportObject;
-  passport: PassportData;
-  risks: PassportRisk[];
-  orgName: string;
+  object:         PassportObject;
+  passport:       PassportData;
+  risks:          PassportRisk[];
+  orgName:        string;
+  canRecalculate: boolean;
+  delta30:        number;
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -109,18 +113,10 @@ function typeLabel(type: string): string {
   return OBJECT_TYPES.find(t => t.key === type)?.label ?? type;
 }
 
-function formatCalcDate(iso: string | null): string {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('ru', {
-    day: 'numeric', month: 'short', year: 'numeric',
-  });
-}
-
 function formatRiskMeta(riskId: string, dueDate: string | null): string {
   const shortId = riskId.slice(0, 8);
   if (!dueDate) return shortId;
-  const d = new Date(dueDate).toLocaleDateString('ru', { day: 'numeric', month: 'short' });
-  return `${shortId} · SLA: ${d}`;
+  return `${shortId} · SLA: ${fmtDateShort(new Date(dueDate))}`;
 }
 
 // ── Component ──────────────────────────────────────────────────────────────────
@@ -130,15 +126,32 @@ export function TrustPassportClient({
   passport,
   risks,
   orgName,
+  canRecalculate,
+  delta30,
 }: TrustPassportClientProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [recalcError, setRecalcError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   // Trigger CSS transitions after first paint
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
     return () => clearTimeout(t);
   }, []);
+
+  function handleRecalculate() {
+    setRecalcError(null);
+    startTransition(async () => {
+      try {
+        const result = await triggerRecalculate(object.id);
+        if (result?.error) { setRecalcError(result.error); return; }
+        router.refresh();
+      } catch {
+        setRecalcError('Не удалось запустить переоценку. Попробуйте ещё раз.');
+      }
+    });
+  }
 
   const band    = getTrustBand(passport.trust_score);
   const tone    = BAND_TONE[band.key] ?? 'teal';
@@ -170,12 +183,28 @@ export function TrustPassportClient({
             <Icon name="download" size={14} />
             PDF
           </button>
-          <button className="btn btn-line btn-sm" disabled title="Доступно в Sprint 05">
-            <Icon name="refresh" size={14} />
-            Переоценить
-          </button>
+          {canRecalculate ? (
+            <button
+              className="btn btn-line btn-sm"
+              onClick={handleRecalculate}
+              disabled={isPending}
+            >
+              <Icon name="refresh" size={14} />
+              {isPending ? 'Оценка…' : 'Переоценить'}
+            </button>
+          ) : (
+            <button className="btn btn-line btn-sm" disabled>
+              <Icon name="refresh" size={14} />
+              Переоценить
+            </button>
+          )}
         </div>
       </div>
+      {recalcError && (
+        <div style={{ padding: '8px 24px', fontSize: 12, color: 'var(--crit)' }}>
+          {recalcError}
+        </div>
+      )}
 
       {/* ── Passport card ── */}
       <article
@@ -219,7 +248,14 @@ export function TrustPassportClient({
 
         {/* ── Summary stats ── */}
         <div className="pp-summary">
-          <PpStat label="Изменение, 30 дн" value={<span className="mono">+0 п.</span>} />
+          <PpStat
+            label="Изменение, 30 дн"
+            value={
+              <span className="mono" style={{ color: delta30 > 0 ? 'var(--lime)' : delta30 < 0 ? 'var(--orange)' : undefined }}>
+                {delta30 === 0 ? '—' : `${delta30 > 0 ? '+' : ''}${delta30} п.`}
+              </span>
+            }
+          />
           <PpStat
             label="Открытых рисков"
             value={<span className="mono">{passport.open_risk_count}</span>}
@@ -227,7 +263,7 @@ export function TrustPassportClient({
           />
           <PpStat label="Связей в графе" value={<span className="mono">{passport.connection_count}</span>} />
           <PpStat label="Покрытие ПБ" value={<span className="mono">{passport.compliance_score}%</span>} />
-          <PpStat label="Оценка" value={<span className="mono">{formatCalcDate(passport.calculated_at)}</span>} />
+          <PpStat label="Оценка" value={<span className="mono">{fmtDateLong(passport.calculated_at)}</span>} />
         </div>
 
         {/* ── Factor breakdown ── */}
