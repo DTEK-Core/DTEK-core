@@ -3,7 +3,7 @@
 `Проект: DTEK Core`
 `Спринт: 05`
 `Дата создания: 21.06.2026`
-`Статус: Готов к старту`
+`Статус: В работе 🔄`
 
 ---
 
@@ -139,7 +139,7 @@ Trust Score Engine в MVP НЕ использует Edge Functions (Sprint 08). 
 
 | Задача | Тип | Сложность | Оценка |
 |---|---|---|---|
-| S05-T001 | Trust Score Calculation Library | S | 0.5 дня |
+| S05-T001 | Trust Score Calculation Library | S | 0.5 дня | ✅ Завершена |
 | S05-T002 | Recalculation Engine + Trust Passport Update | L | 3 дня |
 | S05-T003 | Интеграция Engine в риски и объекты | M | 1.5 дня |
 | S05-T004 | Dashboard: Центр управления | M | 2 дня |
