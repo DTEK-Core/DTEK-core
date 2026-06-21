@@ -6,6 +6,7 @@ import { Icon } from '@/components/shared/icon';
 import { SeverityTag } from '@/components/shared/severity-tag';
 import { Meter } from '@/components/shared/meter';
 import { updateRiskStatus, linkRiskToObject } from '@/lib/actions/risks';
+import { formatSla } from '@/lib/utils/dates';
 import type { RiskRow, SimpleObj } from './risks-page-client';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -58,15 +59,6 @@ function riskAge(createdAt: string): string {
   return `${Math.floor(diffDays / 30)} мес`;
 }
 
-function formatSla(dueDate: string | null): { label: string; overdue: boolean } {
-  if (!dueDate) return { label: '—', overdue: false };
-  const due = new Date(dueDate);
-  if (due < new Date()) return { label: 'Просрочен', overdue: true };
-  return {
-    label: due.toLocaleDateString('ru', { day: 'numeric', month: 'short' }),
-    overdue: false,
-  };
-}
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
@@ -74,30 +66,49 @@ interface RiskDrawerProps {
   risk: RiskRow;
   objects: SimpleObj[];
   onClose: () => void;
+  onEdit?: () => void;
 }
 
-export function RiskDrawer({ risk, objects, onClose }: RiskDrawerProps) {
+export function RiskDrawer({ risk, objects, onClose, onEdit }: RiskDrawerProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [linkMode, setLinkMode]     = useState(false);
-  const [linkObjId, setLinkObjId]   = useState('');
-  const [linkError, setLinkError]   = useState<string | null>(null);
+  const [isPending, startTransition]         = useTransition();
+  const [linkMode, setLinkMode]              = useState(false);
+  const [linkObjId, setLinkObjId]            = useState('');
+  const [linkError, setLinkError]            = useState<string | null>(null);
+  // BUG-003: optimistic status for instant UI feedback
+  const [optimisticStatus, setOptimistic]    = useState<string | null>(null);
+  // BUG-005: surface action errors without crashing
+  const [actionError, setActionError]        = useState<string | null>(null);
+
+  const effectiveStatus = optimisticStatus ?? risk.status;
 
   const sla          = formatSla(risk.due_date);
   const color        = SEVERITY_COLORS[risk.severity] ?? 'var(--teal)';
   const linkedObj    = risk.linked_objects[0] ?? null;
   const trustImpact  = Math.round((risk.cvss_score ?? 5) * 2);
-  const statusTone   = STATUS_TONE[risk.status] ?? 'neutral';
-  const statusLabel  = STATUS_LABELS[risk.status] ?? risk.status;
+  const statusTone   = STATUS_TONE[effectiveStatus] ?? 'neutral';
+  const statusLabel  = STATUS_LABELS[effectiveStatus] ?? effectiveStatus;
   const catLabel     = CATEGORY_LABELS[risk.category] ?? risk.category;
   const cvssValue    = risk.cvss_score != null ? risk.cvss_score * 10 : 0;
   const cvssDisplay  = risk.cvss_score != null ? risk.cvss_score.toFixed(1) : '—';
-  const isResolved   = ['mitigated', 'accepted', 'closed'].includes(risk.status);
+  const isResolved   = ['mitigated', 'accepted', 'closed'].includes(effectiveStatus);
 
   function changeStatus(newStatus: string) {
+    setActionError(null);
+    setOptimistic(newStatus);               // BUG-003: instant UI update
     startTransition(async () => {
-      await updateRiskStatus(risk.id, newStatus);
-      router.refresh();
+      try {
+        const result = await updateRiskStatus(risk.id, newStatus);
+        if (result?.error) {
+          setOptimistic(null);              // revert on server error
+          setActionError(result.error);
+          return;
+        }
+        router.refresh();                   // sync server state in background
+      } catch {
+        setOptimistic(null);               // BUG-005: revert on exception
+        setActionError('Не удалось обновить статус. Попробуйте ещё раз.');
+      }
     });
   }
 
@@ -266,17 +277,32 @@ export function RiskDrawer({ risk, objects, onClose }: RiskDrawerProps) {
         </div>
 
         {/* ── Footer ── */}
-        <div className="drawer-foot">
+        <div className="drawer-foot" style={{ flexWrap: 'wrap', gap: 8 }}>
+          {actionError && (
+            <p style={{ width: '100%', fontSize: 12, color: 'var(--crit)', margin: 0 }}>
+              {actionError}
+            </p>
+          )}
+          {onEdit && (
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={onEdit}
+              disabled={isPending}
+            >
+              <Icon name="edit" size={14} />
+              Редактировать
+            </button>
+          )}
           {!isResolved && (
             <button
               className="btn btn-ghost btn-sm"
               onClick={() => changeStatus('accepted')}
-              disabled={isPending || risk.status === 'accepted'}
+              disabled={isPending || effectiveStatus === 'accepted'}
             >
               Принять риск
             </button>
           )}
-          {risk.status === 'open' && (
+          {effectiveStatus === 'open' && (
             <button
               className="btn btn-line btn-sm"
               onClick={() => changeStatus('in_progress')}
@@ -286,7 +312,7 @@ export function RiskDrawer({ risk, objects, onClose }: RiskDrawerProps) {
               Взять в работу
             </button>
           )}
-          {risk.status === 'in_progress' && (
+          {effectiveStatus === 'in_progress' && (
             <button
               className="btn btn-line btn-sm"
               onClick={() => changeStatus('mitigated')}

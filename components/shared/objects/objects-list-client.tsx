@@ -10,6 +10,7 @@ import { FilterSelect } from '@/components/shared/filter-select';
 import { SortCaret } from '@/components/shared/sort-caret';
 import { ObjectFormDialog } from '@/components/shared/objects/object-form-dialog';
 import { getTrustBand, OBJECT_TYPES, TRUST_BANDS, typeGlyph } from '@/lib/design-tokens';
+import { relativeTime } from '@/lib/utils/dates';
 
 interface TrustPassportSummary {
   risk_count: number | null;
@@ -49,15 +50,6 @@ const EXPOSURE_LABELS: Record<string, string> = {
   isolated: 'Изолированный',
 };
 
-function relativeTime(iso: string): string {
-  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
-  if (diff < 60) return 'только что';
-  if (diff < 3600) return `${Math.floor(diff / 60)} мин назад`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)} ч назад`;
-  if (diff < 172800) return 'Вчера';
-  if (diff < 604800) return `${Math.floor(diff / 86400)} дн назад`;
-  return new Date(iso).toLocaleDateString('ru', { day: 'numeric', month: 'short' });
-}
 
 function typeLabel(type: string): string {
   return OBJECT_TYPES.find(t => t.key === type)?.label ?? type;

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
 import { FilterSelect } from '@/components/shared/filter-select';
 import { RiskDrawer } from './risk-drawer';
-import { RiskFormDialog } from './risk-form-dialog';
+import { RiskFormDialog, type EditableRisk } from './risk-form-dialog';
+import { formatSla } from '@/lib/utils/dates';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -99,13 +100,16 @@ const STATUS_OPTIONS = [
   { value: 'closed',      label: 'Закрыт'      },
 ];
 
-function formatSla(dueDate: string | null): { label: string; overdue: boolean } {
-  if (!dueDate) return { label: '—', overdue: false };
-  const due = new Date(dueDate);
-  if (due < new Date()) return { label: 'Просрочен', overdue: true };
+function toEditable(r: RiskRow): EditableRisk {
   return {
-    label: due.toLocaleDateString('ru', { day: 'numeric', month: 'short' }),
-    overdue: false,
+    id:          r.id,
+    title:       r.title,
+    description: r.description,
+    category:    r.category,
+    severity:    r.severity,
+    probability: r.probability,
+    cvss_score:  r.cvss_score,
+    impact:      r.impact,
   };
 }
 
@@ -118,6 +122,7 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
   const [statFilter, setStat] = useState('all');
   const [selectedId, setSelectedId]       = useState<string | null>(null);
   const [showCreateDialog, setShowCreate] = useState(false);
+  const [editRisk, setEditRisk]           = useState<EditableRisk | null>(null);
 
   const canCreate = ['owner', 'analyst'].includes(userRole);
 
@@ -310,6 +315,7 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
           risk={selected}
           objects={objects}
           onClose={() => setSelectedId(null)}
+          onEdit={canCreate ? () => setEditRisk(toEditable(selected)) : undefined}
         />
       )}
 
@@ -318,6 +324,15 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
         open={showCreateDialog}
         onOpenChange={setShowCreate}
         objects={objects}
+      />
+
+      {/* ── Edit dialog ── */}
+      <RiskFormDialog
+        open={editRisk !== null}
+        onOpenChange={v => { if (!v) setEditRisk(null); }}
+        editRisk={editRisk}
+        objects={objects}
+        onDeleted={() => { setEditRisk(null); setSelectedId(null); }}
       />
     </div>
   );

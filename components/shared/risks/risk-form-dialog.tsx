@@ -108,8 +108,8 @@ export function RiskFormDialog({
         return;
       }
 
+      onOpenChange(false);   // BUG-003: close immediately, refresh in background
       router.refresh();
-      onOpenChange(false);
     });
   }
 
@@ -122,9 +122,9 @@ export function RiskFormDialog({
         return;
       }
       setShowDeleteConfirm(false);
-      onOpenChange(false);
+      onOpenChange(false);               // BUG-003: close immediately
       if (onDeleted) onDeleted();
-      else router.refresh();
+      router.refresh();
     });
   }
 
