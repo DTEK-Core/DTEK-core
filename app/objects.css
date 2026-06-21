@@ -23,7 +23,7 @@
 .oth { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 4px; padding: 0; }
 .oth-c { justify-content: flex-end; }
 .ot-c   { display: flex; justify-content: flex-end; align-items: center; }
-.otable-row { height: 60px; border-bottom: 1px solid var(--border-subtle); text-align: left; transition: background .12s; }
+.otable-row { width: 100%; height: 60px; border-bottom: 1px solid var(--border-subtle); text-align: left; transition: background .12s; overflow: hidden; }
 .otable-row:hover { background: rgba(255,255,255,.025); }
 .otable-row:last-child { border-bottom: none; }
 .ot-name { display: flex; align-items: center; gap: 12px; min-width: 0; }
@@ -31,7 +31,7 @@
 .ot-name-text { display: flex; flex-direction: column; min-width: 0; }
 .ot-name-main { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ot-name-sub { font-size: 11px; color: var(--text-mute); }
-.ot-cell { font-size: 13px; }
+.ot-cell { font-size: 13px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ot-dim { color: var(--text-dim); }
 .ot-risks { display: inline-flex; align-items: center; gap: 4px; color: var(--orange); font-weight: 600; }
 .ot-zero { color: var(--text-mute); }
