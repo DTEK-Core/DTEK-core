@@ -68,13 +68,14 @@ export const TRUST_FACTORS = [
 
 export type TrustFactorKey = (typeof TRUST_FACTORS)[number]['key'];
 
-/* ── Уровни доверия (Trust Bands) ── */
+/* ── Уровни доверия (Trust Bands) ──
+   Диапазоны по Trust_Score_Model_v2.md §2 (ADR-001). */
 export const TRUST_BANDS = [
-  { label: 'Критический', range: [0, 39]   as const, color: COLORS.crit,   key: 'critical' },
-  { label: 'Низкий',      range: [40, 54]  as const, color: COLORS.orange,  key: 'low' },
-  { label: 'Средний',     range: [55, 69]  as const, color: COLORS.amber,   key: 'medium' },
-  { label: 'Хороший',     range: [70, 84]  as const, color: COLORS.lime,    key: 'good' },
-  { label: 'Высокий',     range: [85, 100] as const, color: COLORS.teal,    key: 'high' },
+  { label: 'Критический', range: [0,  19]  as const, color: COLORS.crit,   key: 'critical' },
+  { label: 'Низкий',      range: [20, 39]  as const, color: COLORS.orange,  key: 'low' },
+  { label: 'Средний',     range: [40, 59]  as const, color: COLORS.amber,   key: 'medium' },
+  { label: 'Хороший',     range: [60, 79]  as const, color: COLORS.lime,    key: 'good' },
+  { label: 'Высокий',     range: [80, 100] as const, color: COLORS.teal,    key: 'high' },
 ] as const;
 
 export type TrustBandKey = (typeof TRUST_BANDS)[number]['key'];
