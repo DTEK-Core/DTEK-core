@@ -3,7 +3,7 @@
 `Проект: DTEK Core`
 `Спринт: 05`
 `Дата создания: 21.06.2026`
-`Статус: В работе 🔄`
+`Статус: Завершён ✅`
 
 ---
 
@@ -51,8 +51,8 @@ Sprint 05 — последний крупный функциональный с�
 | R1 | Пустая платформа | Sprint 02 | ✅ Завершён |
 | R2 | Цифровая модель данных | Sprint 03 | ✅ Завершён |
 | R2.1 | Стабилизация | Sprint 04 | ✅ Завершён |
-| **R3+R4** | **Trust Score Engine + Visual Model** | **Sprint 05** | 🔜 Текущий |
-| R5 | MVP Security Hardening | Sprint 06+ | 🔜 Следующий |
+| **R3+R4** | **Trust Score Engine + Visual Model** | **Sprint 05** | ✅ Завершён |
+| R5 | MVP Security Hardening | Sprint 06 | 🔜 Следующий |
 
 Sprint 05 объединяет Release 3 (Trust Graph) и Release 4 (Trust Score Engine + Dashboard + Configurator) в один спринт, поскольку является финальным этапом функциональной разработки.
 
