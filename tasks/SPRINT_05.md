@@ -144,7 +144,7 @@ Trust Score Engine в MVP НЕ использует Edge Functions (Sprint 08). 
 | S05-T003 | Интеграция Engine в риски и объекты | M | 1.5 дня | ✅ Завершена |
 | S05-T004 | Dashboard: Центр управления | M | 2 дня | ✅ Завершена |
 | S05-T005 | Trust Graph: Canvas Engine | L | 2.5 дня | ✅ Завершена |
-| S05-T006 | Trust Graph: UI + Relation Management | M | 2 дня |
+| S05-T006 | Trust Graph: UI + Relation Management | M | 2 дня | ✅ Завершена |
 | S05-T007 | Конфигуратор: редактор весов | S | 1 день |
 | **Итого** | | | **~12.5 дней** |
 
