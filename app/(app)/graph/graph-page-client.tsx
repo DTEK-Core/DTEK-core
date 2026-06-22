@@ -4,24 +4,36 @@ import { useRef, useState, useEffect, useMemo } from 'react';
 import { TRUST_BANDS } from '@/lib/design-tokens';
 import type { GraphNode, RawLink } from '@/lib/trust/graph-types';
 import { TrustGraphCanvas } from '@/components/shared/graph/trust-graph-canvas';
+import { GraphPanel } from '@/components/shared/graph/graph-panel';
+import { RelationDialog } from '@/components/shared/graph/relation-dialog';
 
 interface GraphPageClientProps {
   nodes: GraphNode[];
   links: RawLink[];
   orgName: string;
+  orgTrustScore: number;
+  riskCounts: Record<string, number>;
+  canEdit: boolean;
 }
 
-export function GraphPageClient({ nodes, links, orgName }: GraphPageClientProps) {
+export function GraphPageClient({
+  nodes, links, orgName, orgTrustScore, riskCounts, canEdit,
+}: GraphPageClientProps) {
   const stageRef = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState({ width: 900, height: 560 });
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [size, setSize]               = useState({ width: 900, height: 560 });
+  const [selectedId, setSelectedId]   = useState<string | null>(null);
   const [highlightType, setHighlightType] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen]   = useState(false);
 
-  // Stable refs — nodes/links from server never change during page lifetime
-  const stableNodes = useMemo(() => nodes, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const stableLinks = useMemo(() => links, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Stable memoization keyed on actual content (not reference identity).
+  // This prevents useForceGraph from reinitializing on selectedId state changes,
+  // while still updating when router.refresh() delivers new nodes/links.
+  const nodesKey = useMemo(() => nodes.map(n => n.id).join(','), [nodes]);
+  const linksKey = useMemo(() => links.map(l => l.id).join(','), [links]);
+  const stableNodes = useMemo(() => nodes, [nodesKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  const stableLinks = useMemo(() => links, [linksKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Measure canvas stage size
+  // Measure canvas stage
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
@@ -58,27 +70,37 @@ export function GraphPageClient({ nodes, links, orgName }: GraphPageClientProps)
       <div className="screen-head">
         <div>
           <h1 className="screen-title">Граф доверия</h1>
-          <p className="screen-sub">{orgName} · {stableNodes.filter(n => n.type !== 'org').length} объектов · {stableLinks.length} связей</p>
+          <p className="screen-sub">
+            {orgName} · {stableNodes.filter(n => n.type !== 'org').length} объектов ·&nbsp;
+            {stableLinks.filter(l => !l.id.startsWith('org-')).length} связей
+          </p>
         </div>
-        {presentTypes.length > 0 && (
-          <div className="graph-type-filter">
-            <button
-              className={`gtf${highlightType === null ? ' active' : ''}`}
-              onClick={() => setHighlightType(null)}
-            >
-              Все
+        <div className="screen-head-actions" style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          {canEdit && (
+            <button className="btn btn-line btn-sm" onClick={() => setDialogOpen(true)}>
+              + Добавить связь
             </button>
-            {presentTypes.map(t => (
+          )}
+          {presentTypes.length > 0 && (
+            <div className="graph-type-filter">
               <button
-                key={t.key}
-                className={`gtf${highlightType === t.key ? ' active' : ''}`}
-                onClick={() => setHighlightType(prev => prev === t.key ? null : t.key)}
+                className={`gtf${highlightType === null ? ' active' : ''}`}
+                onClick={() => setHighlightType(null)}
               >
-                {t.label}
+                Все
               </button>
-            ))}
-          </div>
-        )}
+              {presentTypes.map(t => (
+                <button
+                  key={t.key}
+                  className={`gtf${highlightType === t.key ? ' active' : ''}`}
+                  onClick={() => setHighlightType(prev => prev === t.key ? null : t.key)}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Layout ── */}
@@ -101,10 +123,10 @@ export function GraphPageClient({ nodes, links, orgName }: GraphPageClientProps)
           <div className="graph-legend">
             <div className="graph-legend-title">Уровень доверия</div>
             {[...TRUST_BANDS].reverse().map(band => (
-              <div key={band.key} style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 5 }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', background: band.color, flexShrink: 0 }} />
-                <span style={{ fontSize: 11, color: 'var(--text-dim)' }}>{band.label}</span>
-                <span style={{ fontSize: 11, color: 'var(--text-mute)', marginLeft: 'auto' }}>
+              <div className="gl-item" key={band.key}>
+                <span className="gl-dot" style={{ background: band.color }} />
+                <span>{band.label}</span>
+                <span style={{ marginLeft: 'auto', color: 'var(--text-mute)', fontSize: 10 }}>
                   {band.range[0]}–{band.range[1]}
                 </span>
               </div>
@@ -113,26 +135,31 @@ export function GraphPageClient({ nodes, links, orgName }: GraphPageClientProps)
 
           {/* Hint */}
           <div className="graph-hint">
-            Скролл — масштаб · Перетяните пустое место — панорама · Клик по узлу — детали
+            Скролл — масштаб · Пустое место — панорама · Клик — детали
           </div>
         </div>
 
-        {/* Panel — placeholder until T006 */}
-        <div className="graph-panel">
-          {selectedNode ? (
-            <div style={{ padding: 20 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{selectedNode.name}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-mute)', marginTop: 4 }}>
-                {selectedNode.type} · Trust Score: {selectedNode.trust_score}
-              </div>
-            </div>
-          ) : (
-            <div style={{ padding: 24, color: 'var(--text-mute)', fontSize: 13, textAlign: 'center', paddingTop: 48 }}>
-              Выберите объект для просмотра деталей
-            </div>
-          )}
-        </div>
+        {/* Panel */}
+        <aside className="graph-panel">
+          <GraphPanel
+            selectedNode={selectedNode}
+            nodes={stableNodes}
+            links={stableLinks}
+            orgTrustScore={orgTrustScore}
+            riskCounts={riskCounts}
+            canEdit={canEdit}
+            onAddRelation={() => setDialogOpen(true)}
+          />
+        </aside>
       </div>
+
+      {/* Relation creation dialog */}
+      <RelationDialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        nodes={stableNodes}
+        defaultSourceId={selectedNode?.type !== 'org' ? selectedNode?.id : undefined}
+      />
     </div>
   );
 }

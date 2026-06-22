@@ -21,16 +21,18 @@ export default async function GraphPage() {
 
   const { data: profileRaw } = await admin
     .from('profiles')
-    .select('organization_id')
+    .select('role, organization_id')
     .eq('id', user.id)
     .single();
 
-  const profile = profileRaw as { organization_id: string } | null;
+  const profile = profileRaw as { role: string; organization_id: string } | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
-  const orgId = profile.organization_id;
+  const orgId   = profile.organization_id;
+  const role    = profile.role;
+  const canEdit = ['owner', 'analyst'].includes(role);
 
-  const [orgResult, objectsResult, relationsResult] = await Promise.all([
+  const [orgResult, objectsResult, relationsResult, risksResult] = await Promise.all([
     admin.from('organizations')
       .select('name, short_name, trust_score')
       .eq('id', orgId)
@@ -43,6 +45,10 @@ export default async function GraphPage() {
     admin.from('relations')
       .select('id, source_object_id, target_object_id, relation_type')
       .eq('organization_id', orgId),
+    admin.from('risks')
+      .select('object_risks(object_id)')
+      .eq('organization_id', orgId)
+      .in('status', ['open', 'in_progress']),
   ]);
 
   const orgRaw = orgResult.data as {
@@ -51,6 +57,14 @@ export default async function GraphPage() {
 
   const orgName  = orgRaw?.short_name ?? orgRaw?.name ?? '';
   const orgScore = orgRaw?.trust_score ?? 70;
+
+  // ── Risk counts per object ────────────────────────────────────────────────
+  const riskCounts: Record<string, number> = {};
+  for (const risk of (risksResult.data ?? []) as Array<{ object_risks: { object_id: string }[] | null }>) {
+    for (const link of risk.object_risks ?? []) {
+      riskCounts[link.object_id] = (riskCounts[link.object_id] ?? 0) + 1;
+    }
+  }
 
   // ── Nodes ─────────────────────────────────────────────────────────────────
   const objectNodes: GraphNode[] = ((objectsResult.data ?? []) as Array<{
@@ -80,7 +94,6 @@ export default async function GraphPage() {
   // ── Links ─────────────────────────────────────────────────────────────────
   const objectIds = new Set(objectNodes.map(n => n.id));
 
-  // Org → each object (structural backbone)
   const orgLinks: RawLink[] = objectNodes.map(n => ({
     id:            `org-${n.id}`,
     source:        orgId,
@@ -88,7 +101,6 @@ export default async function GraphPage() {
     relation_type: 'belongs_to',
   }));
 
-  // Object ↔ object relations from DB
   const objLinks: RawLink[] = ((relationsResult.data ?? []) as Array<{
     id: string; source_object_id: string; target_object_id: string; relation_type: string;
   }>)
@@ -107,6 +119,9 @@ export default async function GraphPage() {
       nodes={nodes}
       links={links}
       orgName={orgName}
+      orgTrustScore={orgScore}
+      riskCounts={riskCounts}
+      canEdit={canEdit}
     />
   );
 }
