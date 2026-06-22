@@ -1,0 +1,158 @@
+.cfg-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 760px;
+}
+
+.cfg-readonly-note {
+  padding: 12px 16px;
+  background: rgba(45,212,191,.08);
+  border: 1px solid rgba(45,212,191,.22);
+  border-radius: var(--r);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.cfg-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Factor rows ─────────────────────────────────────────────────────────── */
+
+.cfg-factors {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 8px;
+}
+
+.cfg-factor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-1);
+}
+
+.cfg-factor:last-child { border-bottom: none; }
+
+.cfg-factor-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.cfg-factor-label { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.cfg-factor-desc  { font-size: 11.5px; color: var(--text-mute); }
+
+.cfg-factor-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cfg-slider { flex: 1; }
+
+.cfg-factor-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cfg-num-input {
+  width: 58px;
+  padding: 7px 10px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-align: right;
+  appearance: textfield;
+  -moz-appearance: textfield;
+  transition: border-color .14s;
+}
+
+.cfg-num-input::-webkit-inner-spin-button,
+.cfg-num-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.cfg-num-input:focus {
+  outline: none;
+  border-color: var(--teal-line);
+}
+
+.cfg-num-input:disabled { opacity: .55; cursor: not-allowed; }
+
+.cfg-pct-sign { font-size: 13px; color: var(--text-mute); font-weight: 600; }
+
+/* ── Sum indicator ───────────────────────────────────────────────────────── */
+
+.cfg-sum {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border-1);
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
+}
+
+.cfg-sum-label { font-size: 12px; font-weight: 600; color: var(--text-mute); }
+
+.cfg-sum-val {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cfg-sum-val.ok  { color: var(--teal); }
+.cfg-sum-val.err { color: var(--crit); }
+
+.cfg-sum-icon { font-size: 13px; }
+
+/* ── Feedback messages ───────────────────────────────────────────────────── */
+
+.cfg-error {
+  margin: 0 24px 4px;
+  padding: 10px 14px;
+  background: rgba(240,86,109,.1);
+  border: 1px solid rgba(240,86,109,.3);
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  color: var(--crit);
+}
+
+.cfg-saved {
+  margin: 0 24px 4px;
+  padding: 10px 14px;
+  background: rgba(45,212,191,.1);
+  border: 1px solid rgba(45,212,191,.3);
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  color: var(--teal);
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────────── */
+
+.cfg-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-1);
+}
+
+/* ── Info grid ───────────────────────────────────────────────────────────── */
+
+.cfg-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 680px) {
+  .cfg-info-grid { grid-template-columns: 1fr; }
+}
