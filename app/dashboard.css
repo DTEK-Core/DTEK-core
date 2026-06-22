@@ -1,0 +1,103 @@
+/* Dashboard — design/src/screens.css */
+
+/* ── Hero section ─────────────────────────────────────────── */
+.dash-hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 18px; margin-bottom: 18px; }
+@media (max-width: 1080px) { .dash-hero { grid-template-columns: 1fr; } }
+
+.hero-trust {
+  display: flex; align-items: center; gap: 26px; padding: 26px 28px;
+  background: radial-gradient(120% 140% at 0% 0%, rgba(45,212,191,.06), transparent 60%), var(--surface);
+  border: 1px solid var(--border-subtle); border-radius: var(--r-lg);
+}
+.hero-trust-ring { flex-shrink: 0; }
+.hero-trust-info { flex: 1; min-width: 0; }
+.hero-trust-label { font-size: 12px; color: var(--text-mute); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+.hero-trust-band { display: flex; align-items: center; gap: 12px; margin: 8px 0 12px; }
+.hero-trust-note { font-size: 13px; color: var(--text-dim); line-height: 1.6; max-width: 380px; }
+.hero-trust-cta { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+/* ── KPI cards ────────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.kpi {
+  display: flex; flex-direction: column; gap: 10px; padding: 18px;
+  background: var(--surface); border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg); text-align: left; transition: all .15s;
+}
+.kpi:hover { border-color: var(--border-1); transform: translateY(-2px); }
+.kpi-top { display: flex; align-items: center; justify-content: space-between; }
+.kpi-label { font-size: 12px; color: var(--text-mute); font-weight: 600; }
+.kpi-ico { color: var(--text-mute); }
+.kpi-val { font-size: 30px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-family: var(--mono); }
+.kpi-unit { font-size: 16px; color: var(--text-mute); margin-left: 2px; font-family: var(--mono); }
+.kpi-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; min-height: 28px; }
+
+/* ── Sparkline ────────────────────────────────────────────── */
+.sparkline { display: block; }
+
+/* ── Trust distribution ───────────────────────────────────── */
+.dist-list { display: flex; flex-direction: column; gap: 13px; }
+.dist-row { display: grid; grid-template-columns: 1.4fr 1.4fr auto; align-items: center; gap: 12px; }
+.dist-meta { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.dist-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+.dist-band { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.dist-range { font-size: 11px; color: var(--text-mute); font-family: var(--mono); white-space: nowrap; }
+.dist-bar-wrap { height: 8px; background: rgba(255,255,255,.05); border-radius: 20px; overflow: hidden; }
+.dist-bar { height: 100%; border-radius: 20px; transition: width .9s cubic-bezier(.2,.8,.2,1); }
+.dist-count { font-size: 13px; font-weight: 700; text-align: right; min-width: 36px; font-family: var(--mono); }
+
+/* ── Top risky objects mini-table ─────────────────────────── */
+.mini-table { display: flex; flex-direction: column; }
+.mini-row {
+  display: grid; grid-template-columns: auto 1fr auto auto auto;
+  align-items: center; gap: 14px; padding: 11px 8px;
+  border-radius: var(--r-sm); transition: background .12s; text-align: left;
+}
+.mini-row:hover { background: rgba(255,255,255,.03); }
+.mini-row + .mini-row { border-top: 1px solid var(--border-subtle); }
+.mini-type { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: var(--surface-2); color: var(--text-dim); flex-shrink: 0; }
+.mini-name { display: flex; flex-direction: column; min-width: 0; }
+.mini-name-main { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-name-sub { font-size: 11px; color: var(--text-mute); font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-arrow { color: var(--text-mute); flex-shrink: 0; }
+
+/* ── Event feed ───────────────────────────────────────────── */
+.feed { display: flex; flex-direction: column; }
+.feed-item { display: grid; grid-template-columns: auto auto 1fr; gap: 12px; padding: 11px 4px; }
+.feed-item + .feed-item { border-top: 1px solid var(--border-subtle); }
+.feed-time { font-size: 11px; color: var(--text-mute); padding-top: 1px; font-family: var(--mono); white-space: nowrap; }
+.feed-rail { width: 3px; border-radius: 3px; align-self: stretch; }
+.feed-crit   { background: var(--crit); }
+.feed-orange { background: var(--orange); }
+.feed-info   { background: var(--info); }
+.feed-teal   { background: var(--teal); }
+.feed-body { display: flex; flex-direction: column; gap: 3px; }
+.feed-text { font-size: 13px; line-height: 1.45; }
+.feed-obj { font-size: 11px; color: var(--text-mute); text-align: left; width: fit-content; font-family: var(--mono); }
+.feed-obj:hover { color: var(--teal); }
+
+/* ── Trend chart ──────────────────────────────────────────── */
+.trend { position: relative; }
+.trend-svg { width: 100%; height: 190px; }
+.trend-axis {
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: absolute; right: 0; top: 0; height: 190px;
+  padding: 22px 0; font-size: 10px; color: var(--text-mute);
+  pointer-events: none; font-family: var(--mono);
+}
+
+/* ── Live indicators ──────────────────────────────────────── */
+.live-pill { display: flex; align-items: center; gap: 8px; padding: 7px 13px; background: var(--surface); border: 1px solid var(--border-1); border-radius: 20px; font-size: 12px; color: var(--text-dim); font-weight: 600; }
+.live-mini { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--teal); font-family: var(--mono); }
+
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-mute); flex-shrink: 0; }
+.status-dot.teal { background: var(--teal); }
+.status-dot.pulse { animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.82); }
+}
+
+/* ── Empty states ─────────────────────────────────────────── */
+.dash-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 80px 24px; text-align: center; }
+.dash-empty-title { font-size: 18px; font-weight: 700; }
+.dash-empty-sub { font-size: 14px; color: var(--text-dim); max-width: 360px; line-height: 1.6; }

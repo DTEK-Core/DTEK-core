@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { recalculateObjectTrust } from '@/lib/trust/engine';
+import { recalculateObjectTrust, recalculateAllOrgObjects } from '@/lib/trust/engine';
 
 // ── Auth helper ────────────────────────────────────────────────────────────────
 
@@ -59,5 +59,29 @@ export async function triggerRecalculate(objectId: string) {
 
   revalidatePath(`/objects/${objectId}`);
   revalidatePath(`/objects/${objectId}/passport`);
+  return { success: true };
+}
+
+export async function triggerRecalculateAll() {
+  const ctx = await getAuthCtx();
+  if (!ctx) redirect('/login');
+
+  const { userId, orgId, role } = ctx;
+
+  if (!['owner', 'analyst'].includes(role)) {
+    return { error: 'Только владелец или аналитик может запустить полную переоценку' };
+  }
+
+  try {
+    await recalculateAllOrgObjects(orgId, {
+      reason:    'recalculated',
+      changedBy: `user:${userId}`,
+    });
+  } catch {
+    return { error: 'Не удалось выполнить переоценку. Попробуйте ещё раз.' };
+  }
+
+  revalidatePath('/dashboard');
+  revalidatePath('/objects');
   return { success: true };
 }
