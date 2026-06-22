@@ -1,0 +1,107 @@
+.graph-screen {
+  max-width: 1480px;
+  height: calc(100% - 0px);
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 18px;
+  flex: 1;
+  min-height: 560px;
+}
+
+@media (max-width: 1080px) {
+  .graph-layout { grid-template-columns: 1fr; }
+}
+
+.graph-stage {
+  position: relative;
+  background: radial-gradient(120% 120% at 50% 40%, rgba(45,212,191,.04), transparent 55%), var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  height: calc(100vh - 220px);
+  min-height: 540px;
+}
+
+.graph-stage canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.graph-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  font-size: 11px;
+  color: var(--text-mute);
+  background: rgba(8,11,16,.7);
+  padding: 5px 11px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.graph-legend {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(8,11,16,.72);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.graph-legend-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-mute);
+  margin-bottom: 8px;
+}
+
+.graph-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.graph-type-filter {
+  display: flex;
+  gap: 3px;
+  background: var(--surface);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r-sm);
+  padding: 3px;
+  flex-wrap: wrap;
+}
+
+.gtf {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mute);
+  transition: all .12s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.gtf:hover { color: var(--text-dim); }
+
+.gtf.active {
+  background: var(--teal-soft);
+  color: var(--teal);
+}
