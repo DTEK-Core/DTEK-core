@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { recalculateObjectTrust } from '@/lib/trust/engine';
+import { CreateRiskSchema, UpdateRiskSchema, UpdateRiskStatusSchema } from '@/lib/validation/schemas';
 
 // ── Auth helper ────────────────────────────────────────────────────────────────
 
@@ -57,13 +58,29 @@ export async function createRisk(formData: FormData) {
     return { error: 'Только владелец или аналитик может создавать риски' };
   }
 
-  const title = str(formData, 'title');
-  if (!title) return { error: 'Введите название риска' };
-
+  const cvssRaw = num(formData, 'cvss_score');
   const slaDaysRaw = str(formData, 'sla_days');
-  const slaDays = slaDaysRaw ? parseInt(slaDaysRaw, 10) : null;
-  const due_date = slaDays
-    ? new Date(Date.now() + slaDays * 86400000).toISOString()
+  const slaDaysNum = slaDaysRaw ? parseInt(slaDaysRaw, 10) : null;
+
+  const parsed = CreateRiskSchema.safeParse({
+    title:       str(formData, 'title'),
+    description: str(formData, 'description'),
+    category:    str(formData, 'category') ?? 'other',
+    severity:    str(formData, 'severity') ?? 'medium',
+    probability: str(formData, 'probability') || null,
+    cvss_score:  cvssRaw,
+    impact:      str(formData, 'impact'),
+    sla_days:    slaDaysNum,
+    object_id:   str(formData, 'object_id') || null,
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
+
+  const { sla_days, object_id, ...riskFields } = parsed.data;
+  const due_date = sla_days
+    ? new Date(Date.now() + sla_days * 86400000).toISOString()
     : null;
 
   const { data: risk, error } = await admin
@@ -71,31 +88,24 @@ export async function createRisk(formData: FormData) {
     .insert({
       organization_id: orgId,
       author_id:       userId,
-      title,
-      description: str(formData, 'description'),
-      category:    str(formData, 'category') ?? 'other',
-      severity:    str(formData, 'severity') ?? 'medium',
-      probability: str(formData, 'probability'),
-      cvss_score:  num(formData, 'cvss_score'),
-      impact:      str(formData, 'impact'),
-      sla_days:    slaDays,
+      ...riskFields,
+      sla_days,
       due_date,
     } as never)
     .select('id')
     .single();
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось создать риск. Попробуйте ещё раз.' };
 
-  const objectId = str(formData, 'object_id');
-  if (objectId && risk) {
+  if (object_id && risk) {
     await admin.from('object_risks').insert({
       risk_id:   (risk as { id: string }).id,
-      object_id: objectId,
+      object_id,
       linked_by: userId,
     } as never);
-    try { await recalculateObjectTrust(objectId, orgId); } catch { /* non-blocking */ }
-    revalidatePath(`/objects/${objectId}`);
-    revalidatePath(`/objects/${objectId}/passport`);
+    try { await recalculateObjectTrust(object_id, orgId); } catch { /* non-blocking */ }
+    revalidatePath(`/objects/${object_id}`);
+    revalidatePath(`/objects/${object_id}/passport`);
   }
 
   revalidatePath('/risks');
@@ -112,24 +122,27 @@ export async function updateRisk(id: string, formData: FormData) {
     return { error: 'Недостаточно прав' };
   }
 
-  const title = str(formData, 'title');
-  if (!title) return { error: 'Введите название риска' };
+  const parsed = UpdateRiskSchema.safeParse({
+    title:       str(formData, 'title'),
+    description: str(formData, 'description'),
+    category:    str(formData, 'category') || null,
+    severity:    str(formData, 'severity') || null,
+    probability: str(formData, 'probability') || null,
+    cvss_score:  num(formData, 'cvss_score'),
+    impact:      str(formData, 'impact'),
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
 
   const { error } = await admin
     .from('risks')
-    .update({
-      title,
-      description: str(formData, 'description'),
-      category:    str(formData, 'category'),
-      severity:    str(formData, 'severity'),
-      probability: str(formData, 'probability'),
-      cvss_score:  num(formData, 'cvss_score'),
-      impact:      str(formData, 'impact'),
-    } as never)
+    .update(parsed.data as never)
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось обновить риск. Попробуйте ещё раз.' };
 
   const { data: links } = await admin
     .from('object_risks')
@@ -155,7 +168,6 @@ export async function deleteRisk(id: string) {
     return { error: 'Только владелец или аналитик может удалять риски' };
   }
 
-  // Collect affected objects before delete (FK cascade removes object_risks)
   const { data: links } = await admin
     .from('object_risks')
     .select('object_id')
@@ -168,7 +180,7 @@ export async function deleteRisk(id: string) {
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось удалить риск. Попробуйте ещё раз.' };
 
   for (const link of affectedObjects) {
     try { await recalculateObjectTrust(link.object_id, orgId); } catch { /* non-blocking */ }
@@ -186,8 +198,14 @@ export async function updateRiskStatus(id: string, status: string) {
 
   const { orgId, admin } = ctx;
 
-  const updates: Record<string, unknown> = { status };
-  if (status === 'mitigated' || status === 'closed') {
+  const parsedStatus = UpdateRiskStatusSchema.safeParse({ status });
+  if (!parsedStatus.success) {
+    return { error: parsedStatus.error.issues[0]?.message ?? 'Недопустимый статус' };
+  }
+
+  const validStatus = parsedStatus.data.status;
+  const updates: Record<string, unknown> = { status: validStatus };
+  if (validStatus === 'mitigated' || validStatus === 'closed') {
     updates.resolved_at = new Date().toISOString();
   }
 
@@ -197,7 +215,7 @@ export async function updateRiskStatus(id: string, status: string) {
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось обновить статус риска. Попробуйте ещё раз.' };
 
   const { data: links } = await admin
     .from('object_risks')
@@ -223,7 +241,6 @@ export async function linkRiskToObject(riskId: string, objectId: string) {
     return { error: 'Недостаточно прав' };
   }
 
-  // Verify risk belongs to org
   const { data: risk } = await admin
     .from('risks')
     .select('id')
@@ -233,7 +250,6 @@ export async function linkRiskToObject(riskId: string, objectId: string) {
 
   if (!risk) return { error: 'Риск не найден' };
 
-  // Verify object belongs to org
   const { data: obj } = await admin
     .from('objects')
     .select('id')
@@ -251,8 +267,9 @@ export async function linkRiskToObject(riskId: string, objectId: string) {
       linked_by: userId,
     } as never);
 
-  // Treat duplicate key as success
-  if (error && !error.code?.includes('23505')) return { error: error.message };
+  if (error && !error.code?.includes('23505')) {
+    return { error: 'Не удалось привязать риск к объекту. Попробуйте ещё раз.' };
+  }
 
   try { await recalculateObjectTrust(objectId, orgId); } catch { /* non-blocking */ }
   revalidatePath(`/objects/${objectId}`);

@@ -26,7 +26,6 @@ const SIZES = [
 ];
 
 interface Props {
-  orgId: string;
   name: string;
   inn: string | null;
   industry: string | null;
@@ -35,7 +34,7 @@ interface Props {
   isOwner: boolean;
 }
 
-export function OrgTab({ orgId, name: initialName, inn: initialInn, industry: initialIndustry, region: initialRegion, size: initialSize, isOwner }: Props) {
+export function OrgTab({ name: initialName, inn: initialInn, industry: initialIndustry, region: initialRegion, size: initialSize, isOwner }: Props) {
   const [name, setName] = useState(initialName);
   const [inn, setInn] = useState(initialInn ?? '');
   const [industry, setIndustry] = useState(initialIndustry ?? '');
@@ -49,7 +48,7 @@ export function OrgTab({ orgId, name: initialName, inn: initialInn, industry: in
     if (!isOwner) return;
     setError(null);
     startTransition(async () => {
-      const result = await updateOrganization(orgId, { name, inn: inn || null, industry: industry || null, region: region || null, size: size || null });
+      const result = await updateOrganization({ name, inn: inn || null, industry: industry || null, region: region || null, size: size || null });
       if (result.error) {
         setError(result.error);
       } else {

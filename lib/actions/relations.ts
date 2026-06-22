@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { CreateRelationSchema } from '@/lib/validation/schemas';
 
 async function getAuthCtx() {
   const supabase = await createClient();
@@ -36,7 +37,12 @@ export async function createRelation(
     return { error: 'Недостаточно прав для создания связи' };
   }
 
-  if (sourceObjectId === targetObjectId) {
+  const parsed = CreateRelationSchema.safeParse({ sourceObjectId, targetObjectId, relationType });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
+
+  if (parsed.data.sourceObjectId === parsed.data.targetObjectId) {
     return { error: 'Объект не может ссылаться на самого себя' };
   }
 
@@ -47,7 +53,7 @@ export async function createRelation(
     .from('objects')
     .select('*', { count: 'exact', head: true })
     .eq('organization_id', ctx.orgId)
-    .in('id', [sourceObjectId, targetObjectId]);
+    .in('id', [parsed.data.sourceObjectId, parsed.data.targetObjectId]);
 
   if (count !== 2) {
     return { error: 'Один или оба объекта не найдены в организации' };
@@ -55,9 +61,9 @@ export async function createRelation(
 
   const { error } = await admin.from('relations').insert({
     organization_id:  ctx.orgId,
-    source_object_id: sourceObjectId,
-    target_object_id: targetObjectId,
-    relation_type:    relationType,
+    source_object_id: parsed.data.sourceObjectId,
+    target_object_id: parsed.data.targetObjectId,
+    relation_type:    parsed.data.relationType,
   } as never);
 
   if (error) {

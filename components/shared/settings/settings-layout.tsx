@@ -62,7 +62,6 @@ export function SettingsLayout({ profile, org, isOwner }: Props) {
         )}
         {tab === 'org' && (
           <OrgTab
-            orgId={org.id}
             name={org.name}
             inn={org.inn}
             industry={org.industry}

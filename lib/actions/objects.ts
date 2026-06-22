@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { recalculateObjectTrust } from '@/lib/trust/engine';
+import { CreateObjectSchema, UpdateObjectSchema } from '@/lib/validation/schemas';
 
 const INFRA_TYPES = ['server', 'workstation', 'laptop', 'network', 'ot'];
 
@@ -55,34 +56,43 @@ export async function createObject(formData: FormData) {
     return { error: 'Недостаточно прав' };
   }
 
-  const type = str(formData, 'type') ?? '';
-  if (!type) return { error: 'Выберите тип объекта' };
+  const parsed = CreateObjectSchema.safeParse({
+    name:        str(formData, 'name'),
+    type:        str(formData, 'type'),
+    criticality: str(formData, 'criticality') ?? 'medium',
+    description: str(formData, 'description'),
+    ip_address:  str(formData, 'ip_address'),
+    os_platform: str(formData, 'os_platform'),
+    segment:     str(formData, 'segment'),
+    exposure:    str(formData, 'exposure') || null,
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
+
+  const { name, type, criticality, description, ip_address, os_platform, segment, exposure } = parsed.data;
 
   if (role === 'admin' && !INFRA_TYPES.includes(type)) {
     return { error: 'Администратор может создавать только инфраструктурные объекты (сервер, рабочая станция, ноутбук, сетевое оборудование, АСУ ТП)' };
   }
 
-  const name = str(formData, 'name');
-  if (!name) return { error: 'Введите название объекта' };
-
-  const criticality = str(formData, 'criticality') ?? 'medium';
-
   const { error } = await admin.from('objects').insert({
     organization_id: orgId,
-    owner_id: userId,
+    owner_id:        userId,
     name,
     type,
-    description: str(formData, 'description'),
+    description,
     criticality,
-    ip_address: str(formData, 'ip_address'),
-    os_platform: str(formData, 'os_platform'),
-    segment: str(formData, 'segment'),
-    exposure: str(formData, 'exposure'),
+    ip_address,
+    os_platform,
+    segment,
+    exposure,
     trust_score: INITIAL_SCORE[criticality] ?? 75,
     trust_level: INITIAL_LEVEL[criticality] ?? 'good',
   } as never);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось создать объект. Попробуйте ещё раз.' };
 
   revalidatePath('/objects');
   return { success: true };
@@ -98,25 +108,37 @@ export async function updateObject(id: string, formData: FormData) {
     return { error: 'Недостаточно прав' };
   }
 
-  const name = str(formData, 'name');
-  if (!name) return { error: 'Введите название объекта' };
+  const parsed = UpdateObjectSchema.safeParse({
+    name:        str(formData, 'name'),
+    type:        str(formData, 'type') || null,
+    criticality: str(formData, 'criticality') || null,
+    description: str(formData, 'description'),
+    ip_address:  str(formData, 'ip_address'),
+    os_platform: str(formData, 'os_platform'),
+    segment:     str(formData, 'segment'),
+    exposure:    str(formData, 'exposure') || null,
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
 
   const { error } = await admin
     .from('objects')
     .update({
-      name,
-      type: str(formData, 'type'),
-      description: str(formData, 'description'),
-      criticality: str(formData, 'criticality') ?? 'medium',
-      ip_address: str(formData, 'ip_address'),
-      os_platform: str(formData, 'os_platform'),
-      segment: str(formData, 'segment'),
-      exposure: str(formData, 'exposure'),
+      name:        parsed.data.name,
+      type:        parsed.data.type,
+      description: parsed.data.description,
+      criticality: parsed.data.criticality ?? 'medium',
+      ip_address:  parsed.data.ip_address,
+      os_platform: parsed.data.os_platform,
+      segment:     parsed.data.segment,
+      exposure:    parsed.data.exposure,
     } as never)
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось обновить объект. Попробуйте ещё раз.' };
 
   try { await recalculateObjectTrust(id, orgId); } catch { /* non-blocking */ }
 
@@ -142,7 +164,7 @@ export async function deleteObject(id: string) {
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось удалить объект. Попробуйте ещё раз.' };
 
   revalidatePath('/objects');
   return { success: true };
@@ -164,7 +186,7 @@ export async function archiveObject(id: string) {
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось архивировать объект. Попробуйте ещё раз.' };
 
   revalidatePath('/objects');
   revalidatePath(`/objects/${id}`);

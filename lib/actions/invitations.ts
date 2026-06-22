@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { InviteSchema } from '@/lib/validation/schemas';
 import { createServiceClient } from '@/lib/supabase/service';
 
 interface CallerProfile {
@@ -44,22 +45,27 @@ export async function sendInvitation(
   if (!caller?.organization_id) return { error: 'Нет активной организации' };
   if (caller.role !== 'owner') return { error: 'Только владелец может отправлять приглашения' };
 
+  const parsed = InviteSchema.safeParse({ email, role });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
+
   const supabase = await createClient();
 
   const { data: invRaw, error } = await supabase
     .from('invitations')
     .insert({
-      email,
-      role,
+      email:           parsed.data.email,
+      role:            parsed.data.role,
       organization_id: caller.organization_id,
-      invited_by: caller.id,
+      invited_by:      caller.id,
     } as never)
     .select('token')
     .single();
 
   if (error) {
     if (error.code === '23505') return { error: 'Приглашение для этого email уже отправлено' };
-    return { error: error.message };
+    return { error: 'Не удалось отправить приглашение. Попробуйте ещё раз.' };
   }
 
   const inv = invRaw as unknown as { token: string } | null;
@@ -84,7 +90,7 @@ export async function revokeInvitation(invitationId: string): Promise<{ error?: 
     .eq('organization_id', caller.organization_id)
     .eq('status', 'pending');
 
-  if (error) return { error: error.message };
+  if (error) return { error: 'Не удалось отозвать приглашение. Попробуйте ещё раз.' };
 
   revalidatePath('/users');
   return {};

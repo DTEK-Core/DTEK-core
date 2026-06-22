@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { recalculateAllOrgObjects } from '@/lib/trust/engine';
 import type { FactorWeights } from '@/lib/trust/calculate';
+import { FactorWeightsSchema } from '@/lib/validation/schemas';
 
 export async function saveFactorWeights(
   weights: FactorWeights,
@@ -28,30 +29,23 @@ export async function saveFactorWeights(
 
   const orgId = data.organization_id;
 
-  // Server-side validation (mirror client-side checks)
-  const vals = [
-    weights.vuln_weight, weights.config_weight, weights.access_weight,
-    weights.network_weight, weights.compliance_weight, weights.incident_weight,
-  ];
-  if (vals.some(v => !Number.isInteger(v) || v < 0 || v > 100)) {
-    return { error: 'Каждый вес должен быть целым числом от 0 до 100' };
-  }
-  const sum = vals.reduce((a, b) => a + b, 0);
-  if (sum !== 100) {
-    return { error: `Сумма весов должна быть равна 100 (сейчас: ${sum})` };
+  const parsed = FactorWeightsSchema.safeParse(weights);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные весов' };
   }
 
-  // Upsert (handles both new orgs without a row and existing configs)
+  const w = parsed.data;
+
   const { error } = await admin
     .from('trust_factor_config')
     .upsert({
       organization_id:   orgId,
-      vuln_weight:       weights.vuln_weight,
-      config_weight:     weights.config_weight,
-      access_weight:     weights.access_weight,
-      network_weight:    weights.network_weight,
-      compliance_weight: weights.compliance_weight,
-      incident_weight:   weights.incident_weight,
+      vuln_weight:       w.vuln_weight,
+      config_weight:     w.config_weight,
+      access_weight:     w.access_weight,
+      network_weight:    w.network_weight,
+      compliance_weight: w.compliance_weight,
+      incident_weight:   w.incident_weight,
     } as never, { onConflict: 'organization_id' });
 
   if (error) {
