@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { recalculateObjectTrust } from '@/lib/trust/engine';
 
 const INFRA_TYPES = ['server', 'workstation', 'laptop', 'network', 'ot'];
 
@@ -117,8 +118,11 @@ export async function updateObject(id: string, formData: FormData) {
 
   if (error) return { error: error.message };
 
+  try { await recalculateObjectTrust(id, orgId); } catch { /* non-blocking */ }
+
   revalidatePath('/objects');
   revalidatePath(`/objects/${id}`);
+  revalidatePath(`/objects/${id}/passport`);
   return { success: true };
 }
 

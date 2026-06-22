@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { recalculateObjectTrust } from '@/lib/trust/engine';
 
 // ── Auth helper ────────────────────────────────────────────────────────────────
 
@@ -92,6 +93,9 @@ export async function createRisk(formData: FormData) {
       object_id: objectId,
       linked_by: userId,
     } as never);
+    try { await recalculateObjectTrust(objectId, orgId); } catch { /* non-blocking */ }
+    revalidatePath(`/objects/${objectId}`);
+    revalidatePath(`/objects/${objectId}/passport`);
   }
 
   revalidatePath('/risks');
@@ -127,6 +131,16 @@ export async function updateRisk(id: string, formData: FormData) {
 
   if (error) return { error: error.message };
 
+  const { data: links } = await admin
+    .from('object_risks')
+    .select('object_id')
+    .eq('risk_id', id);
+  for (const link of (links ?? []) as { object_id: string }[]) {
+    try { await recalculateObjectTrust(link.object_id, orgId); } catch { /* non-blocking */ }
+    revalidatePath(`/objects/${link.object_id}`);
+    revalidatePath(`/objects/${link.object_id}/passport`);
+  }
+
   revalidatePath('/risks');
   return { success: true };
 }
@@ -141,6 +155,13 @@ export async function deleteRisk(id: string) {
     return { error: 'Только владелец или аналитик может удалять риски' };
   }
 
+  // Collect affected objects before delete (FK cascade removes object_risks)
+  const { data: links } = await admin
+    .from('object_risks')
+    .select('object_id')
+    .eq('risk_id', id);
+  const affectedObjects = (links ?? []) as { object_id: string }[];
+
   const { error } = await admin
     .from('risks')
     .delete()
@@ -148,6 +169,12 @@ export async function deleteRisk(id: string) {
     .eq('organization_id', orgId);
 
   if (error) return { error: error.message };
+
+  for (const link of affectedObjects) {
+    try { await recalculateObjectTrust(link.object_id, orgId); } catch { /* non-blocking */ }
+    revalidatePath(`/objects/${link.object_id}`);
+    revalidatePath(`/objects/${link.object_id}/passport`);
+  }
 
   revalidatePath('/risks');
   return { success: true };
@@ -171,6 +198,16 @@ export async function updateRiskStatus(id: string, status: string) {
     .eq('organization_id', orgId);
 
   if (error) return { error: error.message };
+
+  const { data: links } = await admin
+    .from('object_risks')
+    .select('object_id')
+    .eq('risk_id', id);
+  for (const link of (links ?? []) as { object_id: string }[]) {
+    try { await recalculateObjectTrust(link.object_id, orgId); } catch { /* non-blocking */ }
+    revalidatePath(`/objects/${link.object_id}`);
+    revalidatePath(`/objects/${link.object_id}/passport`);
+  }
 
   revalidatePath('/risks');
   return { success: true };
@@ -217,6 +254,9 @@ export async function linkRiskToObject(riskId: string, objectId: string) {
   // Treat duplicate key as success
   if (error && !error.code?.includes('23505')) return { error: error.message };
 
+  try { await recalculateObjectTrust(objectId, orgId); } catch { /* non-blocking */ }
+  revalidatePath(`/objects/${objectId}`);
+  revalidatePath(`/objects/${objectId}/passport`);
   revalidatePath('/risks');
   return { success: true };
 }
