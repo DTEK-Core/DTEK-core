@@ -141,7 +141,7 @@ Trust Score Engine в MVP НЕ использует Edge Functions (Sprint 08). 
 |---|---|---|---|
 | S05-T001 | Trust Score Calculation Library | S | 0.5 дня | ✅ Завершена |
 | S05-T002 | Recalculation Engine + Trust Passport Update | L | 3 дня | ✅ Завершена |
-| S05-T003 | Интеграция Engine в риски и объекты | M | 1.5 дня |
+| S05-T003 | Интеграция Engine в риски и объекты | M | 1.5 дня | ✅ Завершена |
 | S05-T004 | Dashboard: Центр управления | M | 2 дня |
 | S05-T005 | Trust Graph: Canvas Engine | L | 2.5 дня |
 | S05-T006 | Trust Graph: UI + Relation Management | M | 2 дня |
@@ -646,11 +646,11 @@ export async function updateObject(id: string, formData: FormData) {
 
 ### Критерии готовности T003
 
-- [ ] После создания риска с привязкой к объекту → `trust_passports.vuln_score` и `objects.trust_score` обновились
-- [ ] После изменения статуса риска (open → mitigated) → Trust Score объекта вырос
-- [ ] После изменения критичности объекта → Trust Score пересчитан
-- [ ] Привязка риска к объекту → немедленный пересчёт
-- [ ] Удаление риска → Trust Score объекта восстанавливается
+- [x] После создания риска с привязкой к объекту → `trust_passports.vuln_score` и `objects.trust_score` обновились
+- [x] После изменения статуса риска (open → mitigated) → Trust Score объекта вырос
+- [x] После изменения критичности объекта → Trust Score пересчитан
+- [x] Привязка риска к объекту → немедленный пересчёт
+- [x] Удаление риска → Trust Score объекта восстанавливается
 
 ---
 
