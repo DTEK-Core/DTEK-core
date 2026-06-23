@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Logo } from '@/components/shared/logo';
 import { Icon } from '@/components/shared/icon';
 import { acceptInvitation } from '@/lib/actions/invitations';
@@ -42,10 +43,10 @@ export function AcceptInviteForm({ token, email, role, orgName }: Props) {
 
   return (
     <div className="auth-form">
-      <a href="/" className="auth-logo-wrap" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28, textDecoration: 'none' }}>
+      <Link href="/" className="auth-logo-wrap" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28, textDecoration: 'none' }}>
         <Logo size={32} />
         <span className="brand-name">DTEK<span className="brand-core">Core</span></span>
-      </a>
+      </Link>
 
       <h1 className="auth-title">Принять приглашение</h1>
       <p className="auth-sub">

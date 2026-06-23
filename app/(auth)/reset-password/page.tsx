@@ -7,10 +7,11 @@ export const metadata: Metadata = {
 
 // Supabase PKCE recovery flow passes ?code= as a query param.
 // We forward it to the Client Component which exchanges it for a session.
-export default function ResetPasswordPage({
+export default async function ResetPasswordPage({
   searchParams,
 }: {
-  searchParams: { code?: string };
+  searchParams: Promise<{ code?: string }>;
 }) {
-  return <ResetPasswordForm code={searchParams.code} />;
+  const { code } = await searchParams;
+  return <ResetPasswordForm code={code} />;
 }

@@ -35,14 +35,15 @@ function InviteError({ message }: { message: string }) {
 export default async function InvitePage({
   params,
 }: {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }) {
+  const { token } = await params;
   const service = createServiceClient();
 
   const { data: invRaw } = await service
     .from('invitations')
     .select('email, role, organization_id, status, expires_at')
-    .eq('token', params.token)
+    .eq('token', token)
     .single();
 
   const invitation = invRaw as unknown as InvitationRow | null;
@@ -65,7 +66,7 @@ export default async function InvitePage({
 
   return (
     <AcceptInviteForm
-      token={params.token}
+      token={token}
       email={invitation.email}
       role={invitation.role}
       orgName={org?.name ?? ''}

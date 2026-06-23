@@ -69,8 +69,9 @@ interface RiskLinkRaw {
 export default async function PassportPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const supabase = await createClient();
   const {
     data: { user },
@@ -103,7 +104,7 @@ export default async function PassportPage({
         open_risk_count, connection_count, calculated_at
       )
     `)
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('organization_id', orgId)
     .single();
 
@@ -145,7 +146,7 @@ export default async function PassportPage({
   const { data: riskLinksData } = await admin
     .from('object_risks')
     .select('risks(id, title, severity, cvss_score, due_date)')
-    .eq('object_id', params.id);
+    .eq('object_id', id);
 
   const riskLinks = (riskLinksData as unknown as RiskLinkRaw[] | null) ?? [];
   const risks: PassportRisk[] = riskLinks
@@ -178,7 +179,7 @@ export default async function PassportPage({
   const { data: deltaRaw } = await admin
     .from('trust_score_history')
     .select('new_score')
-    .eq('object_id', params.id)
+    .eq('object_id', id)
     .eq('organization_id', orgId)
     .gte('created_at', thirtyDaysAgo)
     .order('created_at', { ascending: true })

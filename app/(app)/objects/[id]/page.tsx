@@ -102,8 +102,9 @@ interface HistoryEntryRaw {
 export default async function ObjectDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const supabase = await createClient();
   const {
     data: { user },
@@ -141,7 +142,7 @@ export default async function ObjectDetailPage({
         connection_count, completeness_pct, calculated_at
       )
     `)
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('organization_id', orgId)
     .single();
 
@@ -192,7 +193,7 @@ export default async function ObjectDetailPage({
   const { data: riskLinksData } = await admin
     .from('object_risks')
     .select('risks(id, title, severity, status, category, cvss_score, due_date)')
-    .eq('object_id', params.id);
+    .eq('object_id', id);
 
   const riskLinks = (riskLinksData as unknown as RiskLinkRaw[] | null) ?? [];
   const risks: RiskItem[] = riskLinks
@@ -216,13 +217,13 @@ export default async function ObjectDetailPage({
   const { data: relLinksData } = await admin
     .from('relations')
     .select('source_object_id, target_object_id')
-    .or(`source_object_id.eq.${params.id},target_object_id.eq.${params.id}`)
+    .or(`source_object_id.eq.${id},target_object_id.eq.${id}`)
     .eq('organization_id', orgId);
 
   const relLinks = (relLinksData as unknown as RelLinkRaw[] | null) ?? [];
   const relatedIdSet = new Set(
     relLinks.flatMap(r => [r.source_object_id, r.target_object_id])
-            .filter(id => id !== params.id),
+            .filter(rid => rid !== id),
   );
   const relatedIds = Array.from(relatedIdSet);
 
@@ -248,7 +249,7 @@ export default async function ObjectDetailPage({
   const { data: historyRaw } = await admin
     .from('trust_score_history')
     .select('id, old_score, new_score, reason, changed_by, created_at')
-    .eq('object_id', params.id)
+    .eq('object_id', id)
     .eq('organization_id', orgId)
     .order('created_at', { ascending: false })
     .limit(20);
