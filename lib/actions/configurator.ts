@@ -7,6 +7,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { recalculateAllOrgObjects } from '@/lib/trust/engine';
 import type { FactorWeights } from '@/lib/trust/calculate';
 import { FactorWeightsSchema } from '@/lib/validation/schemas';
+import { createSecurityEvent } from '@/lib/security/audit';
 
 export async function saveFactorWeights(
   weights: FactorWeights,
@@ -28,6 +29,13 @@ export async function saveFactorWeights(
   }
 
   const orgId = data.organization_id;
+
+  // Fetch current weights for audit before/after metadata
+  const { data: oldConfigRaw } = await admin
+    .from('trust_factor_config')
+    .select('vuln_weight, config_weight, access_weight, network_weight, compliance_weight, incident_weight')
+    .eq('organization_id', orgId)
+    .single() as unknown as { data: Record<string, number> | null };
 
   const parsed = FactorWeightsSchema.safeParse(weights);
   if (!parsed.success) {
@@ -51,6 +59,15 @@ export async function saveFactorWeights(
   if (error) {
     return { error: 'Не удалось сохранить настройки. Попробуйте ещё раз.' };
   }
+
+  createSecurityEvent({
+    organizationId: orgId,
+    actorId:        user.id,
+    actorEmail:     user.email ?? undefined,
+    eventType:      'config.weights_changed',
+    targetType:     'config',
+    metadata:       { before: oldConfigRaw ?? null, after: w },
+  });
 
   // Non-blocking recalculation of all org objects
   try {

@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { UpdateProfileSchema, UpdateOrgSchema } from '@/lib/validation/schemas';
+import { createSecurityEvent } from '@/lib/security/audit';
 
 export async function updateProfile(formData: FormData): Promise<{ error?: string }> {
   const supabase = await createClient();
@@ -77,6 +78,20 @@ export async function updateOrganization(
     .eq('id', profileRaw.organization_id);
 
   if (error) return { error: 'Не удалось обновить данные организации. Попробуйте ещё раз.' };
+
+  createSecurityEvent({
+    organizationId: profileRaw.organization_id,
+    actorId:        user.id,
+    actorEmail:     user.email,
+    eventType:      'org.updated',
+    targetType:     'organization',
+    targetId:       profileRaw.organization_id,
+    metadata:       {
+      changedFields: Object.keys(parsed.data).filter(k =>
+        parsed.data[k as keyof typeof parsed.data] !== undefined,
+      ),
+    },
+  });
 
   revalidatePath('/settings');
   return {};

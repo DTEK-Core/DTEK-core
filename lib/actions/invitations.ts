@@ -5,9 +5,11 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { InviteSchema } from '@/lib/validation/schemas';
 import { createServiceClient } from '@/lib/supabase/service';
+import { createSecurityEvent } from '@/lib/security/audit';
 
 interface CallerProfile {
   id: string;
+  email: string | null;
   role: string | null;
   organization_id: string | null;
 }
@@ -23,18 +25,18 @@ interface InvitationRow {
 
 async function getCallerProfile(): Promise<CallerProfile | null> {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
   const { data } = await supabase
     .from('profiles')
-    .select('id, role, organization_id')
+    .select('id, email, role, organization_id')
     .eq('id', user.id)
     .single();
 
-  return data as unknown as CallerProfile | null;
+  const profile = data as unknown as CallerProfile | null;
+  if (!profile) return null;
+  return { ...profile, email: user.email ?? profile.email ?? null };
 }
 
 export async function sendInvitation(
@@ -72,6 +74,15 @@ export async function sendInvitation(
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
   console.log(`[INVITE] ${email} → ${appUrl}/invite/${inv?.token}`);
 
+  createSecurityEvent({
+    organizationId: caller.organization_id,
+    actorId:        caller.id,
+    actorEmail:     caller.email ?? undefined,
+    eventType:      'invitation.sent',
+    targetType:     'invitation',
+    metadata:       { email: parsed.data.email, role: parsed.data.role },
+  });
+
   revalidatePath('/users');
   return {};
 }
@@ -83,6 +94,15 @@ export async function revokeInvitation(invitationId: string): Promise<{ error?: 
 
   const service = createServiceClient();
 
+  const { data: invRaw } = await service
+    .from('invitations')
+    .select('email')
+    .eq('id', invitationId)
+    .eq('organization_id', caller.organization_id)
+    .single();
+
+  const inv = invRaw as unknown as { email: string } | null;
+
   const { error } = await service
     .from('invitations')
     .update({ status: 'expired' } as never)
@@ -91,6 +111,16 @@ export async function revokeInvitation(invitationId: string): Promise<{ error?: 
     .eq('status', 'pending');
 
   if (error) return { error: 'Не удалось отозвать приглашение. Попробуйте ещё раз.' };
+
+  createSecurityEvent({
+    organizationId: caller.organization_id,
+    actorId:        caller.id,
+    actorEmail:     caller.email ?? undefined,
+    eventType:      'invitation.cancelled',
+    targetType:     'invitation',
+    targetId:       invitationId,
+    metadata:       { email: inv?.email },
+  });
 
   revalidatePath('/users');
   return {};
@@ -153,6 +183,16 @@ export async function acceptInvitation(
     .from('invitations')
     .update({ status: 'accepted' } as never)
     .eq('id', inv.id);
+
+  createSecurityEvent({
+    organizationId: inv.organization_id,
+    actorId:        userId,
+    actorEmail:     inv.email,
+    eventType:      'invitation.accepted',
+    targetType:     'invitation',
+    targetId:       inv.id,
+    metadata:       { email: inv.email, role: inv.role },
+  });
 
   redirect('/dashboard');
 }
