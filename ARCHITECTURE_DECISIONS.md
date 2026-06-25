@@ -11,7 +11,7 @@
 
 Architecture Decision Records (ADR) — это журнал ключевых архитектурных и продуктовых решений, принятых до начала разработки. Каждое решение зафиксировано с контекстом, обоснованием и последствиями.
 
-Документ устраняет расхождения, выявленные в ходе аудита проектной документации (PROJECT_ANALYSIS.md).
+Документ устраняет расхождения, выявленные в ходе аудита проектной документации (перенесён в `docs/archive/PROJECT_ANALYSIS.md`).
 
 Решения в данном документе имеют приоритет над более ранними документами в случае конфликта.
 
@@ -33,7 +33,7 @@ Architecture Decision Records (ADR) — это журнал ключевых а�
 
 **Статус:** Утверждён
 **Дата:** 08.06.2026
-**Затрагивает документы:** `Trust_Score_Model.md` → заменяется на `Trust_Score_Model_v2.md`
+**Затрагивает документы:** `Trust_Score_Model.md` → заменяется на `docs/architecture/Trust_Score_Model_v2.md`
 
 ### Контекст
 
@@ -93,7 +93,7 @@ Trust Score = Σ (factor_score_i × weight_i) / 100
 
 ### Последствия
 
-- Документ `Trust_Score_Model.md` считается устаревшим. Актуальная версия — `Trust_Score_Model_v2.md`.
+- Документ `Trust_Score_Model.md` считается устаревшим (перемещён в `docs/archive/`). Актуальная версия — `docs/architecture/Trust_Score_Model_v2.md`.
 - База данных должна хранить шесть факторных оценок для каждого паспорта доверия.
 - Таблица `trust_factor_config` хранит настраиваемые веса на уровне организации.
 - При отсутствии данных по фактору используется нейтральное значение 70.
@@ -104,7 +104,7 @@ Trust Score = Σ (factor_score_i × weight_i) / 100
 
 **Статус:** Утверждён
 **Дата:** 08.06.2026
-**Затрагивает документы:** `PRD_Configurator.md` → заменяется на `Configurator_Concept_Final.md`
+**Затрагивает документы:** `PRD_Configurator.md` → заменяется на `docs/architecture/Configurator_Concept_Final.md`
 
 ### Контекст
 
@@ -153,7 +153,7 @@ Trust Score = Σ (factor_score_i × weight_i) / 100
 
 ### Последствия
 
-- Документ `PRD_Configurator.md` считается устаревшим. Актуальная версия — `Configurator_Concept_Final.md`.
+- Документ `PRD_Configurator.md` считается устаревшим (перемещён в `docs/archive/`). Актуальная версия — `docs/architecture/Configurator_Concept_Final.md`.
 - Мастер и панель настроек — разные компоненты с разным UX.
 - Таблица `trust_factor_config` хранит веса факторов для каждой организации.
 
@@ -248,7 +248,7 @@ Trust Score = Σ (factor_score_i × weight_i) / 100
 ```
 Пользователь
     ↓ HTTPS
-Vercel (Next.js 14, Edge Runtime)
+Vercel (Next.js 15, Edge Runtime)
     ↓ Supabase Client / REST / Realtime
 Supabase Cloud
     ├── PostgreSQL 15 (данные + RLS)
@@ -304,8 +304,8 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 
 ### Последствия
 
-- Документ `Database_Design.md` считается устаревшим
-- Актуальная схема — `Database_Design_Full.md`
+- Документ `Database_Design.md` считается устаревшим (перемещён в `docs/archive/`)
+- Актуальная схема — `docs/architecture/Database_Design_Full.md`
 - Все миграции Supabase создаются на основе данного документа
 - Любое добавление поля требует обновления документа и создания новой миграции
 

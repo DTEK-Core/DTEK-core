@@ -663,4 +663,4 @@ PostgreSQL DB Triggers на таблицах `objects`, `risks`, `object_risks`,
 
 ---
 
-*Документ создан на основе: `tasks/EPIC_BACKLOG.md`, `docs/User_Stories.md`, `ARCHITECTURE_DECISIONS.md`, `docs/Database_Design_Full.md`*
+*Документ создан на основе: `tasks/EPIC_BACKLOG.md`, `docs/product/User_Stories.md`, `ARCHITECTURE_DECISIONS.md`, `docs/architecture/Database_Design_Full.md`*

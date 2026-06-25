@@ -38,10 +38,10 @@
 
 **Связанные документы:**
 - `ARCHITECTURE_DECISIONS.md` — архитектурные решения (ADR-001 — ADR-005)
-- `docs/User_Stories.md` — 46 пользовательских историй с Acceptance Criteria
-- `docs/Trust_Score_Model_v2.md` — модель расчёта Trust Score
-- `docs/Configurator_Concept_Final.md` — концепция Конфигуратора
-- `docs/Database_Design_Full.md` — полная схема БД
+- `docs/product/User_Stories.md` — 46 пользовательских историй с Acceptance Criteria
+- `docs/architecture/Trust_Score_Model_v2.md` — модель расчёта Trust Score
+- `docs/architecture/Configurator_Concept_Final.md` — концепция Конфигуратора
+- `docs/architecture/Database_Design_Full.md` — полная схема БД
 
 ---
 
@@ -744,4 +744,4 @@ Dashboard — первый экран, который видит пользов�
 
 ---
 
-*Документ создан на основе: `ARCHITECTURE_DECISIONS.md`, `docs/User_Stories.md`, `docs/Trust_Score_Model_v2.md`, `docs/Configurator_Concept_Final.md`, `docs/Database_Design_Full.md`, `docs/04 Architecture/MVP_Scope.md`, `.claude/workflow.md`*
+*Документ создан на основе: `ARCHITECTURE_DECISIONS.md`, `docs/product/User_Stories.md`, `docs/architecture/Trust_Score_Model_v2.md`, `docs/architecture/Configurator_Concept_Final.md`, `docs/architecture/Database_Design_Full.md`, `docs/product/MVP_Scope.md`, `.claude/workflow.md`*

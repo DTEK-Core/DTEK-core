@@ -25,7 +25,7 @@
 
 | Слой | Технология | Версия |
 |---|---|---|
-| Фронтенд | Next.js (App Router) | 14.x |
+| Фронтенд | Next.js (App Router) | 15.x |
 | Язык | TypeScript (strict mode) | 5.x |
 | Стили | Tailwind CSS | 3.x |
 | Компоненты | Shadcn/UI (new-york, zinc) | latest |
@@ -46,13 +46,17 @@
 │   ├── ui/                 — компоненты Shadcn/UI (не редактировать вручную)
 │   └── shared/             — переиспользуемые компоненты проекта
 ├── lib/
-│   ├── supabase/           — client.ts (браузер) и server.ts (сервер)
-│   └── utils/              — cn() и вспомогательные функции
+│   ├── actions/            — Server Actions (createObject, createRisk, saveFactorWeights...)
+│   ├── supabase/           — client.ts, server.ts, admin.ts, service.ts
+│   ├── trust/              — calculate.ts, engine.ts (Trust Score логика)
+│   ├── security/           — audit.ts (журнал безопасности)
+│   ├── validation/         — schemas.ts (Zod-схемы валидации)
+│   └── utils/              — cn(), dates.ts, design-tokens.ts
 ├── types/
 │   └── database.ts         — TypeScript-типы схемы БД (регенерировать после миграций)
 ├── supabase/
 │   ├── config.toml         — project_id = "ehqpijmbtavfacqogtoe", PG 15
-│   ├── migrations/         — 001–014 SQL-миграции (применены на Cloud)
+│   ├── migrations/         — 001–017 SQL-миграции (применены на Cloud)
 │   └── functions/          — Edge Functions (Sprint 08+)
 ├── design/                 — утверждённый дизайн-прототип (HTML + JSX + скриншоты)
 ├── docs/                   — вся проектная документация
@@ -74,11 +78,11 @@
 ### ADR-001 — Модель Trust Score
 **Решение:** взвешенная 6-факторная формула `Σ(factor_score × weight) / 100`.  
 Веса по умолчанию: vuln 22%, config 18%, access 18%, network 14%, compliance 16%, incident 12%.  
-Документ-источник: `docs/Trust_Score_Model_v2.md` (заменяет устаревший `Trust_Score_Model.md`).
+Документ-источник: `docs/architecture/Trust_Score_Model_v2.md` (заменяет устаревший `docs/archive/Trust_Score_Model.md`).
 
 ### ADR-002 — Конфигуратор MVP
 **Решение:** две фазы. Фаза 1 — онбординговый мастер (wizard при создании орг). Фаза 2 — редактор весов факторов (MVP). Коннекторы и редактор правил — вне MVP.  
-Документ-источник: `docs/Configurator_Concept_Final.md` (заменяет `PRD_Configurator.md`).
+Документ-источник: `docs/architecture/Configurator_Concept_Final.md` (заменяет `docs/archive/PRD_Configurator.md`).
 
 ### ADR-003 — Роли пользователей
 **Решение:** 4 роли — `owner` / `analyst` / `admin` / `viewer`.  
@@ -91,7 +95,7 @@ On-premise (Enterprise Runtime) запланирован на v2.0.
 
 ### ADR-005 — Полная схема БД
 **Решение:** 10 таблиц с типами PostgreSQL, CHECK-ограничениями, индексами и RLS-политиками.  
-Документ-источник: `docs/Database_Design_Full.md` (заменяет устаревший `Database_Design.md`).
+Документ-источник: `docs/architecture/Database_Design_Full.md` (заменяет устаревший `docs/archive/Database_Design.md`).
 
 ---
 
@@ -159,10 +163,12 @@ npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/data
 | Документ | Назначение |
 |---|---|
 | [`ARCHITECTURE_DECISIONS.md`](ARCHITECTURE_DECISIONS.md) | 5 ADR — приоритетный источник истины |
-| [`docs/Database_Design_Full.md`](docs/Database_Design_Full.md) | Полная схема БД: 10 таблиц, типы, индексы, RLS |
-| [`docs/Trust_Score_Model_v2.md`](docs/Trust_Score_Model_v2.md) | Формула и расчёт Trust Score (актуальная версия) |
-| [`docs/Configurator_Concept_Final.md`](docs/Configurator_Concept_Final.md) | Концепция Конфигуратора MVP (актуальная версия) |
-| [`docs/User_Stories.md`](docs/User_Stories.md) | Пользовательские истории по всем эпикам |
+| [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) | Навигационный индекс всей документации |
+| [`docs/architecture/Database_Design_Full.md`](docs/architecture/Database_Design_Full.md) | Полная схема БД: 10 таблиц, типы, индексы, RLS |
+| [`docs/architecture/Trust_Score_Model_v2.md`](docs/architecture/Trust_Score_Model_v2.md) | Формула и расчёт Trust Score (актуальная версия) |
+| [`docs/architecture/Configurator_Concept_Final.md`](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора MVP (актуальная версия) |
+| [`docs/product/User_Stories.md`](docs/product/User_Stories.md) | Пользовательские истории по всем эпикам |
+| [`docs/security/SECURITY_OVERVIEW.md`](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности платформы |
 | [`tasks/EPIC_BACKLOG.md`](tasks/EPIC_BACKLOG.md) | Полный список эпиков и задач |
 | [`tasks/FEATURE_BACKLOG.md`](tasks/FEATURE_BACKLOG.md) | Детальный беклог фич |
 | [`tasks/MVP_RELEASE_PLAN.md`](tasks/MVP_RELEASE_PLAN.md) | План релиза MVP по спринтам |

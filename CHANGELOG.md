@@ -5,6 +5,68 @@
 
 ---
 
+## [v0.7.0] — 2026-06-25
+
+### Sprint 07 — QA & Platform Testing
+
+#### Исправлено
+
+- **Configurator UX** — кнопка «Сохранить» работала только с суммой = 100%, но не давала пользователю понять почему заблокирована
+  - Добавлена жёлтая подсказка с конкретным советом: «Уменьшите веса ещё на N%» / «Добавьте ещё N%»
+  - Добавлен `title` tooltip на disabled-кнопку
+  - Реализован двухкликовый confirm при сбросе весов (per spec `Configurator_Concept_Final.md §6`)
+  - Добавлен CSS-класс `btn-danger` для кнопки подтверждения сброса
+
+- **Документация TC-CFG-RBAC01** — ошибочно указывало «Только owner изменяет веса»
+  - Исправлено: `Configurator_Concept_Final.md §4.1` — Аналитик ИБ **тоже** может изменять веса
+
+- **RBAC_TESTING_GUIDE.md** — матрица ошибочно указывала admin=✅ для создания/удаления связей в графе
+  - Исправлено: `lib/actions/relations.ts` разрешает только `owner` и `analyst` (ADR-003 подтверждает)
+
+#### Добавлено
+
+- `docs/testing/TEST_PLAN_SPRINT_05_07.md` — 58 тест-кейсов по 12 функциональным блокам
+- `docs/testing/MANUAL_TESTING_GUIDE_S07.md` — 20-шаговое руководство ручного тестирования
+- `docs/testing/RBAC_TESTING_GUIDE.md` — методология RBAC-тестирования с 16 тест-кейсами
+- `docs/development/CONFIGURATOR_GUIDE.md` — пользовательское руководство по Конфигуратору
+- `tasks/SPRINT_07.md` — документация QA-спринта
+
+---
+
+## [v0.6.0] — 2026-06-23
+
+### Sprint 06 — Security Hardening
+
+#### Добавлено
+
+- **Next.js 15 upgrade** (S06-T006) — обновление с 14.x до 15.x, исправлены breaking changes (params/searchParams как Promise<>)
+- **Security Headers** (S06-T004) — CSP, X-Frame-Options, X-Content-Type-Options, Permissions-Policy, Referrer-Policy через `next.config.mjs`
+- **Rate Limiting** (S06-T005) — IP-based: 10 req/60s для `/join`, 60 req/60s для `/api/*`, payload > 100 KB → 413
+- **Zod Input Validation** (S06-T001) — `lib/validation/schemas.ts` покрывает все Server Actions
+- **RLS Hardening** (S06-T001) — migration `016_rls_hardening.sql`: ужесточение политик для всех таблиц
+- **RBAC Fixes** (S06-T003) — исправлены ошибки разграничения прав: admin не может менять роль owner
+- **Security Audit Log** (S06-T007) — migration `017_security_events.sql`, `lib/security/audit.ts`, UI в `/settings` → «Журнал аудита»
+- Зависимости: `zod@3.24` (v4 API), обновлены `@supabase/*`, устранены npm audit предупреждения
+
+---
+
+## [v0.5.0] — 2026-06-22
+
+### Sprint 05 — Trust Score Engine, Dashboard, Trust Graph, Configurator
+
+#### Добавлено
+
+- **Trust Score Engine** (S05-T001, T002, T003) — `lib/trust/calculate.ts`, `lib/trust/engine.ts`
+  - Формула ADR-001: `Σ(factor_score × weight) / 100`, 6 факторов
+  - Массовый пересчёт при изменении рисков, критичности объекта, весов
+  - Автоматическая запись в `trust_score_history`
+- **Dashboard** (`/dashboard`, S05-T004) — Trust Ring организации, KPI-карточки, топ-5 рисковых объектов, лента событий, Realtime обновления
+- **Trust Graph** (`/graph`, S05-T005, T006) — D3-based граф: узлы-объекты с цветом по уровню доверия, drag-n-drop, управление связями (6 типов), боковая панель с деталями узла
+- **Конфигуратор** (`/configurator`, S05-T007) — редактор весов 6 факторов, слайдеры + числовые поля, сохранение с массовым пересчётом, сумма весов = 100%
+- Server Actions: `recalculateTrustScores`, `saveFactorWeights`, `createRelation`, `deleteRelation`
+
+---
+
 ## [v0.4.0] — 2026-06-21
 
 ### Sprint 04 — Testing, Bug Fixing & Stabilization
@@ -103,7 +165,10 @@
 
 ---
 
-[v0.4.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.3.0...develop
+[v0.7.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.6.0...develop
+[v0.6.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.5.0...v0.6.0
+[v0.5.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.4.0...v0.5.0
+[v0.4.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/DTEK-Core/DTEK-core/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/DTEK-Core/DTEK-core/releases/tag/v0.1.0
