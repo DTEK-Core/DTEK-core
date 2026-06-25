@@ -33,21 +33,33 @@ export function WeightsEditor({ weights: initial, canEdit }: WeightsEditorProps)
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingReset, setPendingReset] = useState(false);
 
   const sum = FACTORS.reduce((acc, f) => acc + weights[f.key], 0);
   const sumOk = sum === 100;
+  const diff = sum - 100;
 
   function setWeight(key: keyof FactorWeights, raw: string | number) {
     const val = Math.max(0, Math.min(100, typeof raw === 'string' ? (parseInt(raw) || 0) : raw));
     setWeights(prev => ({ ...prev, [key]: val }));
     setSaved(false);
     setError(null);
+    setPendingReset(false);
   }
 
-  function handleReset() {
-    setWeights(DEFAULT_WEIGHTS);
-    setSaved(false);
-    setError(null);
+  function handleResetClick() {
+    if (!pendingReset) {
+      setPendingReset(true);
+    } else {
+      setWeights(DEFAULT_WEIGHTS);
+      setSaved(false);
+      setError(null);
+      setPendingReset(false);
+    }
+  }
+
+  function handleResetCancel() {
+    setPendingReset(false);
   }
 
   function handleSave() {
@@ -132,6 +144,14 @@ export function WeightsEditor({ weights: initial, canEdit }: WeightsEditorProps)
           </span>
         </div>
 
+        {!sumOk && (
+          <div className="cfg-sum-hint">
+            {diff > 0
+              ? `Уменьшите веса ещё на ${diff}%, чтобы сумма стала 100%`
+              : `Добавьте ещё ${-diff}% к любому из факторов`}
+          </div>
+        )}
+
         {error && (
           <div className="cfg-error">{error}</div>
         )}
@@ -143,17 +163,38 @@ export function WeightsEditor({ weights: initial, canEdit }: WeightsEditorProps)
 
         {canEdit && (
           <div className="cfg-actions">
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={handleReset}
-              disabled={isPending}
-            >
-              Сбросить по умолчанию
-            </button>
+            {pendingReset ? (
+              <>
+                <span className="cfg-reset-confirm-label">Сбросить все веса к значениям по умолчанию?</span>
+                <button
+                  className="btn btn-ghost btn-sm"
+                  onClick={handleResetCancel}
+                  disabled={isPending}
+                >
+                  Отмена
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={handleResetClick}
+                  disabled={isPending}
+                >
+                  Подтвердить сброс
+                </button>
+              </>
+            ) : (
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={handleResetClick}
+                disabled={isPending}
+              >
+                Сбросить по умолчанию
+              </button>
+            )}
             <button
               className="btn btn-primary btn-sm"
               onClick={handleSave}
               disabled={!sumOk || isPending}
+              title={!sumOk ? `Сумма весов должна быть 100%. Сейчас: ${sum}%` : undefined}
             >
               {isPending ? 'Пересчёт…' : 'Сохранить и пересчитать'}
             </button>

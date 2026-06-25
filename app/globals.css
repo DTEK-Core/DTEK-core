@@ -712,6 +712,15 @@ kbd {
   color: var(--text);
   border-color: var(--border-2);
 }
+.btn-danger {
+  background: rgba(240,86,109,.15);
+  border: 1px solid rgba(240,86,109,.4);
+  color: var(--crit);
+}
+.btn-danger:hover {
+  background: rgba(240,86,109,.25);
+  border-color: rgba(240,86,109,.6);
+}
 
 /* ============================================================
    Карточки

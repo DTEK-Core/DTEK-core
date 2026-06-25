@@ -113,6 +113,26 @@
 
 .cfg-sum-icon { font-size: 13px; }
 
+/* ── Sum hint (shown when sum ≠ 100) ─────────────────────────────────────── */
+
+.cfg-sum-hint {
+  margin: 0 24px 0;
+  padding: 8px 14px;
+  background: rgba(240,180,0,.08);
+  border: 1px solid rgba(240,180,0,.25);
+  border-radius: var(--r-sm);
+  font-size: 12.5px;
+  color: #f0b400;
+}
+
+/* ── Reset confirmation label ────────────────────────────────────────────── */
+
+.cfg-reset-confirm-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-right: auto;
+}
+
 /* ── Feedback messages ───────────────────────────────────────────────────── */
 
 .cfg-error {
