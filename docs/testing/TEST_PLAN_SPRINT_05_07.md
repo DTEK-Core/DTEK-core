@@ -263,7 +263,7 @@
 | TC-CFG-P03 | Сброс к умолчаниям (vuln=22%, config=18% ...) | P | ⬜ |
 | TC-CFG-N01 | Сумма ≠ 100% → ошибка валидации | N | ⬜ |
 | TC-CFG-N02 | Отрицательный вес → Zod ошибка | N | ⬜ |
-| TC-CFG-RBAC01 | Только owner сохраняет веса | RBAC | ⬜ |
+| TC-CFG-RBAC01 | Owner и Analyst сохраняют веса; Admin/Viewer — нет | RBAC | ⬜ |
 | TC-CFG-UX01 | Индикатор суммы весов в реальном времени | UX | ⬜ |
 
 ### TC-CFG-P02 — Сохранение весов + Audit Log
