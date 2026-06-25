@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const supabaseHost = SUPABASE_URL ? new URL(SUPABASE_URL).hostname : '*.supabase.co';
+let supabaseHost = '*.supabase.co';
+try {
+  if (SUPABASE_URL) supabaseHost = new URL(SUPABASE_URL).hostname;
+} catch {
+  // Fallback keeps the build alive if NEXT_PUBLIC_SUPABASE_URL is malformed.
+}
 
 const securityHeaders = [
   { key: 'X-Frame-Options', value: 'DENY' },
@@ -14,7 +19,7 @@ const securityHeaders = [
   ...(process.env.NODE_ENV === 'production'
     ? [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' }]
     : []),
-  // 'unsafe-inline' / 'unsafe-eval' required by Next.js 14 App Router + Tailwind.
+  // 'unsafe-inline' / 'unsafe-eval' required by Next.js 15 App Router + Tailwind.
   // Nonce-based CSP planned for Sprint 09 (Security Assessment).
   {
     key: 'Content-Security-Policy',
