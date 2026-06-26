@@ -97,11 +97,35 @@
 
 ---
 
+## docs/user/ — Руководства для пользователей
+
+> Документация для конечных пользователей платформы: аналитиков ИБ, CISO, администраторов.
+
+| Документ | Назначение |
+|---|---|
+| [USER_GUIDE.md](user/USER_GUIDE.md) | Полное руководство пользователя: что такое DTEK Core, начало работы |
+| [PLATFORM_WORKFLOW.md](user/PLATFORM_WORKFLOW.md) | Рабочий процесс платформы: жизненный цикл от объекта до аналитики |
+| [TRUST_SCORE_GUIDE.md](user/TRUST_SCORE_GUIDE.md) | Подробное руководство по Trust Score: модель, факторы, примеры расчётов |
+| [OBJECT_MODEL_GUIDE.md](user/OBJECT_MODEL_GUIDE.md) | Модель объектов: типы, атрибуты, цифровая модель инфраструктуры |
+| [RISK_REGISTRY_GUIDE.md](user/RISK_REGISTRY_GUIDE.md) | Реестр рисков: жизненный цикл, статусы, SLA, CVSS, влияние на Trust Score |
+| [CONFIGURATOR_GUIDE.md](user/CONFIGURATOR_GUIDE.md) | Конфигуратор: веса факторов, отраслевые профили, эффект изменений |
+| [FAQ.md](user/FAQ.md) | 41 ответ на часто задаваемые вопросы |
+
+---
+
 ## docs/development/ — Руководства для разработчиков
 
 | Документ | Назначение |
 |---|---|
 | [CONFIGURATOR_GUIDE.md](development/CONFIGURATOR_GUIDE.md) | Пользовательское руководство по Конфигуратору |
+
+---
+
+## docs/product/ — Продуктовые документы и аналитика
+
+| Документ | Назначение |
+|---|---|
+| [SPRINT08_ANALYSIS.md](product/SPRINT08_ANALYSIS.md) | Анализ продукта Sprint 08: сильные стороны, Mini Sprint, коммерческий потенциал, рекомендации |
 
 ---
 
@@ -129,6 +153,7 @@
 | [tasks/SPRINT_05.md](tasks/SPRINT_05.md) | Sprint 05: Trust Score Engine, Dashboard, Graph, Configurator ✅ |
 | [tasks/SPRINT_06.md](tasks/SPRINT_06.md) | Sprint 06: Security Hardening ✅ |
 | [tasks/SPRINT_07.md](tasks/SPRINT_07.md) | Sprint 07: QA & Platform Testing ✅ |
+| [tasks/SPRINT_08.md](tasks/SPRINT_08.md) | Sprint 08: Product Review & UX Refinement 🔍 |
 
 ---
 
@@ -151,4 +176,4 @@
 
 ---
 
-*Последнее обновление: 25.06.2026 | Sprint 07 завершён | Версия платформы: v0.7.0*
+*Последнее обновление: 26.06.2026 | Sprint 08 Product Review | Версия платформы: v0.7.0*
