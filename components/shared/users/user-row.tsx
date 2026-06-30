@@ -159,10 +159,7 @@ export function UserRow({ member, currentUserId, currentUserRole }: Props) {
         </span>
 
         {/* Активность + actions */}
-        <span
-          className="ut-cell ut-c ot-dim mono"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}
-        >
+        <span className="ut-cell ut-c ot-dim mono">
           {relativeTime(member.last_seen_at)}
 
           {canManage && (
