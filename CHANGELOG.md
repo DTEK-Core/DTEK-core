@@ -5,6 +5,16 @@
 
 ---
 
+## [v0.8.0] — 2026-06-30 (Sprint 08 — UX Refinement)
+
+### Sprint 08 — UX Refinement & Platform Polish
+
+#### Изменено
+
+- **Sidebar** (S08-T001) — раздел «Настройки» перемещён из группы «Управление» в footer-зону боковой панели, над блоком профиля пользователя. Соответствует дизайн-прототипу `design/src/shell.jsx`. Active-state и иконка сохранены.
+
+---
+
 ## [v0.7.0] — 2026-06-25
 
 ### Sprint 07 — QA & Platform Testing

@@ -26,7 +26,6 @@ const NAV_GROUPS = [
     items: [
       { href: '/users', icon: 'users', label: 'Пользователи' },
       { href: '/configurator', icon: 'config', label: 'Конфигуратор' },
-      { href: '/settings', icon: 'settings', label: 'Настройки' },
     ],
   },
 ];
@@ -95,6 +94,15 @@ export function AppSidebar({ displayName, email, orgName }: AppSidebarProps) {
       </nav>
 
       <div className="sidebar-foot">
+        <Link
+          href="/settings"
+          className={`nav-item${pathname.startsWith('/settings') ? ' active' : ''}`}
+        >
+          <Icon name="settings" size={18} />
+          <span className="nav-label">Настройки</span>
+          {pathname.startsWith('/settings') && <span className="nav-active-bar" />}
+        </Link>
+
         <div className="user-menu">
           <div className="user-menu-avatar">{getInitials(displayName || email)}</div>
           <div className="user-menu-info">
