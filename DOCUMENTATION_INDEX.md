@@ -154,6 +154,7 @@
 | [tasks/SPRINT_06.md](tasks/SPRINT_06.md) | Sprint 06: Security Hardening ✅ |
 | [tasks/SPRINT_07.md](tasks/SPRINT_07.md) | Sprint 07: QA & Platform Testing ✅ |
 | [tasks/SPRINT_08.md](tasks/SPRINT_08.md) | Sprint 08: Product Review & UX Refinement 🔍 |
+| [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08: Implementation — UX Refinement & Platform Polish 🔜 |
 
 ---
 
@@ -176,4 +177,4 @@
 
 ---
 
-*Последнее обновление: 26.06.2026 | Sprint 08 Product Review | Версия платформы: v0.7.0*
+*Последнее обновление: 30.06.2026 | Sprint 08 Implementation Plan | Версия платформы: v0.7.0*
