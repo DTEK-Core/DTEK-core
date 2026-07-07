@@ -1,19 +1,40 @@
 'use client';
 
-const EVENT_LABELS: Record<string, string> = {
-  'role.changed':           'Изменение роли',
-  'user.blocked':           'Блокировка пользователя',
-  'user.removed':           'Удаление пользователя',
-  'invitation.sent':        'Отправка приглашения',
-  'invitation.accepted':    'Принятие приглашения',
-  'invitation.cancelled':   'Отмена приглашения',
-  'org.updated':            'Обновление данных организации',
-  'config.weights_changed': 'Изменение весов Trust Score',
-  'object.created':         'Создание объекта',
-  'object.deleted':         'Удаление объекта',
-  'risk.created':           'Создание риска',
-  'risk.deleted':           'Удаление риска',
+import { useMemo, useState } from 'react';
+import { Icon } from '@/components/shared/icon';
+
+type EventCategory = 'all' | 'access' | 'config' | 'user' | 'system';
+
+interface EventConfig {
+  label: string;
+  icon: string;
+  category: Exclude<EventCategory, 'all'>;
+}
+
+const EVENT_CONFIG: Record<string, EventConfig> = {
+  'role.changed':           { label: 'Изменение роли', icon: 'users', category: 'access' },
+  'user.blocked':           { label: 'Блокировка', icon: 'shield', category: 'access' },
+  'user.removed':           { label: 'Удаление пользователя', icon: 'x', category: 'access' },
+  'invitation.sent':        { label: 'Приглашение отправлено', icon: 'users', category: 'user' },
+  'invitation.accepted':    { label: 'Вход по приглашению', icon: 'check', category: 'user' },
+  'invitation.cancelled':   { label: 'Приглашение отозвано', icon: 'x', category: 'user' },
+  'org.updated':            { label: 'Данные организации', icon: 'building', category: 'system' },
+  'config.weights_changed': { label: 'Веса Trust Score', icon: 'config', category: 'config' },
+  'object.created':         { label: 'Объект создан', icon: 'objects', category: 'system' },
+  'object.deleted':         { label: 'Объект удалён', icon: 'objects', category: 'system' },
+  'risk.created':           { label: 'Риск добавлен', icon: 'risk', category: 'config' },
+  'risk.deleted':           { label: 'Риск удалён', icon: 'risk', category: 'config' },
 };
+
+const CATEGORY_LABELS: Record<EventCategory, string> = {
+  all:    'Все',
+  access: 'Доступ',
+  config: 'Конфиг',
+  user:   'Пользователи',
+  system: 'Система',
+};
+
+const FILTERS: EventCategory[] = ['all', 'access', 'config', 'user', 'system'];
 
 export interface SecurityEventRow {
   id: string;
@@ -32,20 +53,34 @@ function formatDate(iso: string): string {
   });
 }
 
+function getEventConfig(eventType: string): EventConfig {
+  return EVENT_CONFIG[eventType] ?? {
+    label:    eventType,
+    icon:     'shield',
+    category: 'system',
+  };
+}
+
+function formatMetaValue(value: unknown): string {
+  if (typeof value === 'string' && value.trim()) return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return '—';
+}
+
 function formatMeta(row: SecurityEventRow): string {
   const m = row.metadata;
   if (!m) return '—';
   if (row.event_type === 'role.changed') {
-    return `${m.fromRole ?? '?'} → ${m.toRole ?? '?'}`;
+    return `${formatMetaValue(m.fromRole)} → ${formatMetaValue(m.toRole)}`;
   }
   if (row.event_type === 'invitation.sent' || row.event_type === 'invitation.accepted') {
-    return `${m.email ?? ''} (${m.role ?? ''})`;
+    return `${formatMetaValue(m.email)} · ${formatMetaValue(m.role)}`;
   }
   if (row.event_type === 'invitation.cancelled') {
-    return String(m.email ?? row.target_id ?? '—');
+    return formatMetaValue(m.email ?? row.target_id);
   }
   if (row.event_type === 'user.blocked' || row.event_type === 'user.removed') {
-    return String(m.targetEmail ?? row.target_id ?? '—');
+    return formatMetaValue(m.targetEmail ?? row.target_id);
   }
   if (row.event_type === 'config.weights_changed') {
     return 'веса обновлены';
@@ -57,60 +92,113 @@ function formatMeta(row: SecurityEventRow): string {
   return '—';
 }
 
+function getInitials(email: string | null): string {
+  if (!email) return 'SYS';
+  const [name] = email.split('@');
+  const parts = name.split(/[._-]/).filter(Boolean);
+  const initials = parts.length > 1
+    ? parts.slice(0, 2).map(part => part[0]).join('')
+    : name.slice(0, 2);
+
+  return initials.toUpperCase();
+}
+
 interface Props {
   events: SecurityEventRow[];
 }
 
 export function SecurityLog({ events }: Props) {
+  const [filter, setFilter] = useState<EventCategory>('all');
+  const categoryCounts = useMemo(() => {
+    return events.reduce<Record<EventCategory, number>>((acc, event) => {
+      const category = getEventConfig(event.event_type).category;
+      acc.all += 1;
+      acc[category] += 1;
+      return acc;
+    }, { all: 0, access: 0, config: 0, user: 0, system: 0 });
+  }, [events]);
+
+  const visibleEvents = filter === 'all'
+    ? events
+    : events.filter(event => getEventConfig(event.event_type).category === filter);
+
   return (
-    <div className="card">
-      <div className="card-head">
-        <span className="card-title">Журнал аудита</span>
-        <span className="card-sub">{events.length} событий (последние 100)</span>
+    <div className="card slog-card">
+      <div className="slog-head">
+        <div>
+          <span className="card-title">Журнал аудита</span>
+          <span className="slog-sub">
+            {events.length} событий · последние 100 записей
+          </span>
+        </div>
+        <div className="slog-filters" aria-label="Фильтр событий аудита">
+          {FILTERS.map(item => (
+            <button
+              key={item}
+              type="button"
+              className={`slog-filter${filter === item ? ' active' : ''}`}
+              onClick={() => setFilter(item)}
+            >
+              {CATEGORY_LABELS[item]}
+              <span className="slog-filter-count">{categoryCounts[item]}</span>
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="card-body" style={{ padding: 0 }}>
+
+      <div className="slog-body">
         {events.length === 0 ? (
-          <p style={{ padding: '24px', color: 'var(--muted)', textAlign: 'center' }}>
-            Событий пока нет
-          </p>
+          <div className="slog-empty">
+            <Icon name="shield" size={22} />
+            <span>Событий пока нет</span>
+          </div>
+        ) : visibleEvents.length === 0 ? (
+          <div className="slog-empty">
+            <Icon name="filter" size={22} />
+            <span>Нет событий в выбранной категории</span>
+          </div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  <th style={thStyle}>Дата и время</th>
-                  <th style={thStyle}>Событие</th>
-                  <th style={thStyle}>Кто</th>
-                  <th style={thStyle}>Детали</th>
-                </tr>
-              </thead>
-              <tbody>
-                {events.map((ev) => (
-                  <tr key={ev.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td style={tdStyle}>{formatDate(ev.created_at)}</td>
-                    <td style={tdStyle}>{EVENT_LABELS[ev.event_type] ?? ev.event_type}</td>
-                    <td style={{ ...tdStyle, color: 'var(--muted)' }}>{ev.actor_email ?? '—'}</td>
-                    <td style={{ ...tdStyle, color: 'var(--muted)' }}>{formatMeta(ev)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="slog-list">
+            {visibleEvents.map((event) => {
+              const config = getEventConfig(event.event_type);
+              return (
+                <article
+                  key={event.id}
+                  className={`slog-item slog-${config.category}`}
+                >
+                  <div className="slog-icon">
+                    <Icon name={config.icon} size={17} />
+                  </div>
+
+                  <div className="slog-main">
+                    <div className="slog-row-top">
+                      <div className="slog-event-title">{config.label}</div>
+                      <time className="slog-time" dateTime={event.created_at}>
+                        {formatDate(event.created_at)}
+                      </time>
+                    </div>
+
+                    <div className="slog-meta-row">
+                      <div className="slog-actor">
+                        <span className="slog-avatar">{getInitials(event.actor_email)}</span>
+                        <span className="slog-actor-email">{event.actor_email ?? 'system'}</span>
+                      </div>
+                      <span className={`slog-badge slog-badge-${config.category}`}>
+                        {CATEGORY_LABELS[config.category]}
+                      </span>
+                    </div>
+
+                    <div className="slog-details">
+                      <span className="slog-detail-label">Детали</span>
+                      <span>{formatMeta(event)}</span>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </div>
     </div>
   );
 }
-
-const thStyle: React.CSSProperties = {
-  padding: '10px 16px',
-  textAlign: 'left',
-  fontWeight: 500,
-  color: 'var(--muted)',
-  whiteSpace: 'nowrap',
-};
-
-const tdStyle: React.CSSProperties = {
-  padding: '10px 16px',
-  verticalAlign: 'top',
-};
