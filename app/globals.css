@@ -309,21 +309,37 @@
   display: flex;
   align-items: center;
   gap: 11px;
+  width: 100%;
+  min-height: 38px;
   padding: 9px 10px;
+  border: 1px solid transparent;
   border-radius: var(--r-sm);
   color: var(--text-dim);
   font-size: 13.5px;
   font-weight: 600;
   transition: all 0.14s;
   white-space: nowrap;
+  cursor: pointer;
+  text-align: left;
+  user-select: none;
 }
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
   color: var(--text);
+  transform: translateX(2px);
+}
+.nav-item:focus-visible {
+  outline: 2px solid var(--teal-line);
+  outline-offset: 2px;
 }
 .nav-item.active {
   background: var(--teal-soft);
+  border-color: var(--teal-line);
   color: var(--teal);
+}
+.nav-item-button {
+  appearance: none;
 }
 .nav-item.active svg {
   color: var(--teal);
@@ -2027,15 +2043,30 @@ select.set-input {
 .snav {
   text-align: left;
   padding: 10px 14px;
+  min-height: 40px;
+  border: 1px solid transparent;
   border-radius: var(--r-sm);
   font-size: 13.5px;
   font-weight: 600;
   color: var(--text-dim);
   transition: all 0.12s;
   width: 100%;
+  cursor: pointer;
 }
-.snav:hover { background: rgba(255, 255, 255, 0.04); color: var(--text); }
-.snav.active { background: var(--teal-soft); color: var(--teal); }
+.snav:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+.snav:focus-visible {
+  outline: 2px solid var(--teal-line);
+  outline-offset: 2px;
+}
+.snav.active {
+  background: var(--teal-soft);
+  border-color: var(--teal-line);
+  color: var(--teal);
+}
 
 /* ── Security audit log ── */
 .slog-card { overflow: hidden; }

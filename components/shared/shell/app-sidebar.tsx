@@ -111,7 +111,7 @@ export function AppSidebar({ displayName, email, orgName }: AppSidebarProps) {
           </div>
         </div>
         <form action={logout}>
-          <button type="submit" className="nav-item" style={{ width: '100%' }}>
+          <button type="submit" className="nav-item nav-item-button">
             <Icon name="logout" size={18} />
             <span className="nav-label">Выйти</span>
           </button>
