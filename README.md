@@ -93,7 +93,13 @@ NEXT_PUBLIC_SUPABASE_URL=       # Supabase Project URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Supabase anon key (безопасен для клиента)
 SUPABASE_SERVICE_ROLE_KEY=      # Service Role — только сервер, НИКОГДА не коммитить!
 NEXT_PUBLIC_APP_URL=            # http://localhost:3000 / https://your-domain.com
+SUPABASE_FETCH_TIMEOUT_MS=4000  # опционально: fail-fast таймаут запросов к Supabase
 ```
+
+Если страницы долго открываются, появляются `getaddrinfo ENOTFOUND`,
+`AuthRetryableFetchError` или `fetch failed`, сначала проверьте DNS, доступность
+Supabase project ref и `.env.local` по runbook:
+[docs/development/TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md).
 
 ### Команды разработки
 

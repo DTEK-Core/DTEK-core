@@ -51,6 +51,7 @@ Vercel Dashboard → Project → Settings → Environment Variables.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ Production + Preview + Development | Публичный ключ (безопасен для клиента) |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ Production + Preview | Ключ обхода RLS — только сервер |
 | `NEXT_PUBLIC_APP_URL` | ✅ Production + Preview + Development | URL приложения |
+| `SUPABASE_FETCH_TIMEOUT_MS` | опционально | Fail-fast таймаут запросов к Supabase, по умолчанию `4000` |
 
 > **Отсутствие любой из переменных в Preview** — причина "error deploying to the preview environment".
 > Vercel создаёт Preview-деплой при каждом `git push`. Если env vars не настроены для Preview,
@@ -76,6 +77,10 @@ GitHub Repository → Settings → Secrets and variables → Actions:
 cp .env.example .env.local
 # Заполнить значениями из Supabase Dashboard
 ```
+
+При локальных ошибках `getaddrinfo ENOTFOUND`, `AuthRetryableFetchError` или
+`fetch failed` сначала проверьте DNS и `.env.local` по инструкции:
+[docs/development/TROUBLESHOOTING.md](../development/TROUBLESHOOTING.md).
 
 ---
 

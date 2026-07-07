@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import { isSupabaseConnectionError } from '@/lib/supabase/config';
 
 // ── Rate limiting ─────────────────────────────────────────────────────────────
 // In-memory store — acceptable for single-instance MVP.
@@ -87,7 +88,27 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const { supabaseResponse, user, organizationId } = await updateSession(request);
+  let session;
+  try {
+    session = await updateSession(request);
+  } catch (error) {
+    if (isSupabaseConnectionError(error)) {
+      console.error('[supabase] connection unavailable in middleware:', error);
+
+      if (isAuthPath(pathname) || isOnboardingCreatePath(pathname)) {
+        return NextResponse.next();
+      }
+
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      url.searchParams.set('error', 'supabase_unavailable');
+      return NextResponse.redirect(url);
+    }
+
+    throw error;
+  }
+
+  const { supabaseResponse, user, organizationId } = session;
 
   // Unauthenticated user on protected route → login
   if (!user && !isAuthPath(pathname)) {

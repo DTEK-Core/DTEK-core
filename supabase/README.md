@@ -7,6 +7,17 @@
 
 ---
 
+## Local Connection Checklist
+
+- `NEXT_PUBLIC_SUPABASE_URL` должен указывать на `https://ehqpijmbtavfacqogtoe.supabase.co`.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` берётся из Supabase Dashboard → Settings → API.
+- `SUPABASE_SERVICE_ROLE_KEY` используется только на сервере и не коммитится.
+- `SUPABASE_FETCH_TIMEOUT_MS` можно оставить по умолчанию `4000`.
+- Если домен Supabase не резолвится или приложение показывает `fetch failed`,
+  используйте [docs/development/TROUBLESHOOTING.md](../docs/development/TROUBLESHOOTING.md).
+
+---
+
 ## Migrations
 
 | File | Description |

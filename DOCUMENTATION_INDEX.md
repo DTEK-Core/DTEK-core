@@ -118,6 +118,7 @@
 | Документ | Назначение |
 |---|---|
 | [CONFIGURATOR_GUIDE.md](development/CONFIGURATOR_GUIDE.md) | Пользовательское руководство по Конфигуратору |
+| [TROUBLESHOOTING.md](development/TROUBLESHOOTING.md) | Диагностика и восстановление локального окружения: Supabase, DNS, env, middleware |
 
 ---
 
