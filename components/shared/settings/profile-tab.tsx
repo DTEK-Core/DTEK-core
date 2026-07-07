@@ -57,7 +57,10 @@ export function ProfileTab({ fullName: initialName, email, team: initialTeam, ro
       </div>
       <div className="card-body">
         <div className="set-profile">
-          <span className="set-avatar">{initials}</span>
+          <div className="set-avatar-wrap" title="Загрузка фото профиля — скоро">
+            <span className="set-avatar">{initials}</span>
+            <span className="set-avatar-hint">Скоро</span>
+          </div>
           <div className="set-profile-info">
             <div className="set-profile-name">{fullName || initialName}</div>
             <div className="set-profile-role mono">
@@ -87,11 +90,11 @@ export function ProfileTab({ fullName: initialName, email, team: initialTeam, ro
                 type="email"
                 value={email}
                 readOnly
-                style={{ opacity: 0.6, cursor: 'default' }}
+                aria-readonly="true"
                 title="Email нельзя изменить без процедуры верификации"
               />
             </div>
-            <div className="set-field" style={{ gridColumn: 'span 2' }}>
+            <div className="set-field set-field-wide">
               <label className="set-field-label">Должность / Команда</label>
               <input
                 className="set-input"
@@ -104,9 +107,9 @@ export function ProfileTab({ fullName: initialName, email, team: initialTeam, ro
             </div>
           </div>
 
-          {error && <p className="ob-error" style={{ marginTop: 14 }}>{error}</p>}
+          {error && <p className="ob-error set-error">{error}</p>}
 
-          <div style={{ marginTop: 20 }}>
+          <div className="set-actions">
             <button type="submit" className="btn btn-primary" disabled={isPending}>
               {isPending ? 'Сохранение…' : 'Сохранить изменения'}
             </button>

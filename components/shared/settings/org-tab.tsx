@@ -64,28 +64,27 @@ export function OrgTab({ name: initialName, inn: initialInn, industry: initialIn
       <div className="card-head">
         <span className="card-title">Организация</span>
         {!isOwner && (
-          <span style={{ fontSize: 12, color: 'var(--text-mute)' }}>Редактирование доступно только владельцу</span>
+          <span className="set-card-note">Редактирование доступно только владельцу</span>
         )}
       </div>
       <div className="card-body">
         <form onSubmit={handleSubmit}>
           <div className="set-fields">
-            <div className="set-field" style={{ gridColumn: 'span 2' }}>
+            <div className="set-field set-field-wide">
               <label className="set-field-label">Наименование</label>
               <input
-                className="set-input"
+                className={`set-input${ro ? ' set-input-readonly' : ''}`}
                 type="text"
                 required
                 readOnly={ro}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                style={ro ? { opacity: 0.6, cursor: 'default' } : undefined}
               />
             </div>
             <div className="set-field">
               <label className="set-field-label">ИНН</label>
               <input
-                className="set-input"
+                className={`set-input${ro ? ' set-input-readonly' : ''}`}
                 type="text"
                 readOnly={ro}
                 value={inn}
@@ -93,29 +92,26 @@ export function OrgTab({ name: initialName, inn: initialInn, industry: initialIn
                 placeholder="1234567890"
                 pattern="[0-9]{10}|[0-9]{12}"
                 title="10 или 12 цифр"
-                style={ro ? { opacity: 0.6, cursor: 'default' } : undefined}
               />
             </div>
             <div className="set-field">
               <label className="set-field-label">Регион</label>
               <input
-                className="set-input"
+                className={`set-input${ro ? ' set-input-readonly' : ''}`}
                 type="text"
                 readOnly={ro}
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
                 placeholder="Москва"
-                style={ro ? { opacity: 0.6, cursor: 'default' } : undefined}
               />
             </div>
             <div className="set-field">
               <label className="set-field-label">Отрасль</label>
               <select
-                className="set-input"
+                className={`set-input${ro ? ' set-input-readonly' : ''}`}
                 disabled={ro}
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-                style={ro ? { opacity: 0.6, cursor: 'default' } : undefined}
               >
                 {INDUSTRIES.map((i) => (
                   <option key={i.value} value={i.value}>{i.label}</option>
@@ -125,11 +121,10 @@ export function OrgTab({ name: initialName, inn: initialInn, industry: initialIn
             <div className="set-field">
               <label className="set-field-label">Размер организации</label>
               <select
-                className="set-input"
+                className={`set-input${ro ? ' set-input-readonly' : ''}`}
                 disabled={ro}
                 value={size}
                 onChange={(e) => setSize(e.target.value)}
-                style={ro ? { opacity: 0.6, cursor: 'default' } : undefined}
               >
                 {SIZES.map((s) => (
                   <option key={s.value} value={s.value}>{s.label}</option>
@@ -138,10 +133,10 @@ export function OrgTab({ name: initialName, inn: initialInn, industry: initialIn
             </div>
           </div>
 
-          {error && <p className="ob-error" style={{ marginTop: 14 }}>{error}</p>}
+          {error && <p className="ob-error set-error">{error}</p>}
 
           {isOwner && (
-            <div style={{ marginTop: 20 }}>
+            <div className="set-actions">
               <button type="submit" className="btn btn-primary" disabled={isPending}>
                 {isPending ? 'Сохранение…' : 'Сохранить изменения'}
               </button>

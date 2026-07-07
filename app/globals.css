@@ -801,6 +801,9 @@ kbd {
   flex-direction: column;
   gap: 7px;
 }
+.set-field-wide {
+  grid-column: span 2;
+}
 .set-field:nth-child(odd):last-child {
   grid-column: span 2;
 }
@@ -825,12 +828,36 @@ kbd {
   outline: none;
   border-color: var(--teal-line);
 }
+.set-input:read-only,
+.set-input:disabled,
+.set-input-readonly {
+  opacity: 0.62;
+  cursor: default;
+}
 select.set-input {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235d6b7c' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   padding-right: 36px;
   cursor: pointer;
+}
+select.set-input:disabled {
+  cursor: default;
+}
+
+.set-card-note {
+  font-size: 12px;
+  color: var(--text-mute);
+}
+
+.set-error {
+  margin-top: 14px;
+}
+
+.set-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 
 /* ── Onboarding pages ── */
@@ -2314,6 +2341,37 @@ select.set-input {
 .set-profile-info { flex: 1; }
 .set-profile-name { font-size: 16px; font-weight: 700; }
 .set-profile-role { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+
+.set-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+  cursor: not-allowed;
+}
+
+.set-avatar-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px dashed var(--teal-line);
+  border-radius: 999px;
+  opacity: .78;
+}
+
+.set-avatar-hint {
+  position: absolute;
+  right: -8px;
+  bottom: -4px;
+  z-index: 1;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border-1);
+  background: var(--surface-2);
+  color: var(--text-mute);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
 
 /* ── Toggles ── */
 .toggles { display: flex; flex-direction: column; }

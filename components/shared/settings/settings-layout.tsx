@@ -51,6 +51,7 @@ export function SettingsLayout({ profile, org, isOwner, role, auditLogs }: Props
             type="button"
             className={`snav${tab === t.id ? ' active' : ''}`}
             onClick={() => setTab(t.id)}
+            aria-current={tab === t.id ? 'page' : undefined}
           >
             {t.label}
           </button>
