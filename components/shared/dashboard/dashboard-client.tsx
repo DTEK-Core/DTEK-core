@@ -160,43 +160,45 @@ export function DashboardClient({ org, kpi, topRisky, distribution, history, eve
         </div>
       </div>
 
-      {/* ── Main grid ── */}
+      {/* ── Main layout ── */}
       <div className="dash-grid">
         {/* Trend chart */}
-        <div className="card span-7">
+        <section className="card dash-chart-row">
           <div className="card-head">
             <span className="card-title">Динамика индекса доверия</span>
           </div>
           <div className="card-body">
             <TrustTrendChart data={history} />
           </div>
-        </div>
+        </section>
 
-        {/* Distribution */}
-        <div className="card span-5">
-          <div className="card-head">
-            <span className="card-title">Распределение по уровню доверия</span>
-          </div>
-          <div className="card-body">
-            <TrustDistribution distribution={distribution} />
-          </div>
-        </div>
+        <div className="dash-mid-row">
+          {/* Distribution */}
+          <section className="card dash-dist-card">
+            <div className="card-head">
+              <span className="card-title">Распределение по уровню доверия</span>
+            </div>
+            <div className="card-body">
+              <TrustDistribution distribution={distribution} />
+            </div>
+          </section>
 
-        {/* Top risky objects */}
-        <div className="card span-7">
-          <div className="card-head">
-            <span className="card-title">Объекты с наименьшим доверием</span>
-            <Link href="/objects" className="card-link">
-              Все объекты <Icon name="chevR" size={13} />
-            </Link>
-          </div>
-          <div className="card-body" style={{ paddingTop: 8, paddingBottom: 8 }}>
-            <TopRiskyObjects objects={topRisky} />
-          </div>
+          {/* Top risky objects */}
+          <section className="card dash-risky-card">
+            <div className="card-head">
+              <span className="card-title">Объекты с наименьшим доверием</span>
+              <Link href="/objects" className="card-link">
+                Все объекты <Icon name="chevR" size={13} />
+              </Link>
+            </div>
+            <div className="card-body" style={{ paddingTop: 8, paddingBottom: 8 }}>
+              <TopRiskyObjects objects={topRisky} />
+            </div>
+          </section>
         </div>
 
         {/* Event feed */}
-        <div className="card span-5">
+        <section className="card dash-feed-row">
           <div className="card-head">
             <span className="card-title">Лента событий</span>
             <div className="live-mini">
@@ -204,10 +206,10 @@ export function DashboardClient({ org, kpi, topRisky, distribution, history, eve
               live
             </div>
           </div>
-          <div className="card-body" style={{ paddingTop: 8, paddingBottom: 8 }}>
+          <div className="card-body dash-feed-body">
             <EventFeed events={events} />
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

@@ -107,7 +107,7 @@ export default async function DashboardPage() {
       .select('new_score, created_at')
       .eq('organization_id', orgId)
       .order('created_at', { ascending: true })
-      .limit(30),
+      .limit(180),
 
     // 5. Event feed
     admin.from('trust_score_history')
