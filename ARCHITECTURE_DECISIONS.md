@@ -26,6 +26,7 @@ Architecture Decision Records (ADR) — это журнал ключевых а�
 | ADR-003 | Структура ролей пользователей | Утверждён |
 | ADR-004 | Облачная архитектура MVP | Утверждён |
 | ADR-005 | Полнота схемы базы данных | Утверждён |
+| ADR-006 | Продуктовая граница Market MVP | Утверждён |
 
 ---
 
@@ -249,14 +250,11 @@ Trust Score = Σ (factor_score_i × weight_i) / 100
 Пользователь
     ↓ HTTPS
 Vercel (Next.js 15, Edge Runtime)
-    ↓ Supabase Client / REST / Realtime
+    ↓ Server Actions / Supabase Client
 Supabase Cloud
     ├── PostgreSQL 15 (данные + RLS)
     ├── Auth (JWT, Email+Password)
-    ├── Edge Functions (бизнес-логика)
-    └── Storage (файлы, PDF-экспорт)
-    ↓ HTTP
-Claude API (Anthropic) — зарезервировано, не в MVP v1
+    └── REST API / Realtime capabilities
 ```
 
 On-premise развертывание (Enterprise Runtime) — запланировано на версию 2.0.
@@ -275,7 +273,8 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 
 - Все переменные окружения разделены: dev / staging / production
 - Суpabase проект создаётся с регионом EU (ближайший к РФ), при возможности — с российским размещением
-- На v2 планируется self-hosted Supabase для on-premise заказчиков
+- Edge Functions, Storage и AI API не являются обязательной частью MVP; они подключаются только под подтверждённые Post-MVP задачи
+- На v2 планируется self-hosted Supabase или альтернативная private-cloud архитектура для enterprise-заказчиков
 - Данная архитектура фиксируется в `System_Architecture.md` как единственная для MVP
 
 ---
@@ -308,6 +307,66 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 - Актуальная схема — `docs/architecture/Database_Design_Full.md`
 - Все миграции Supabase создаются на основе данного документа
 - Любое добавление поля требует обновления документа и создания новой миграции
+
+---
+
+## ADR-006 — Продуктовая граница Market MVP
+
+**Статус:** Утверждён  
+**Дата:** 08.07.2026  
+**Затрагивает документы:** `docs/product/PRODUCT_STRATEGY.md`, `docs/roadmap/ROADMAP.md`, `docs/roadmap/SPRINT_ROADMAP.md`
+
+### Контекст
+
+После Sprint 08 функциональный MVP реализован и визуально отполирован. Следующий риск проекта — распыление: можно начать строить SIEM, EDR, DLP, сканер, CMDB, GRC, marketplace, коннекторы и enterprise runtime одновременно.
+
+Для коммерческого MVP это опасно. Рынку нужно сначала доказать, что DTEK Core решает конкретную управленческую боль CISO: видеть доверие к активам, понимать причины риска и получать отчёт для принятия решений.
+
+### Решение
+
+**DTEK Core позиционируется как Digital Trust & Cyber Risk Management Platform.**
+
+Платформа является управленческим слоем над активами, рисками, связями и доверительным состоянием организации.
+
+В Market MVP входят:
+
+- демо-данные и демонстрационный сценарий;
+- CSV import объектов и рисков;
+- PDF/CSV export;
+- executive report;
+- explainability Trust Score;
+- risk impact hints;
+- workflow риска;
+- pilot readiness.
+
+В Market MVP не входят:
+
+- SIEM/SOAR;
+- EDR/XDR;
+- DLP;
+- собственный агент;
+- heavy GRC;
+- marketplace;
+- множество коннекторов;
+- кастомные роли;
+- on-prem runtime.
+
+### Обоснование
+
+1. **Продуктовая ценность DTEK Core — в интерпретации и приоритизации, а не в сборе всех сигналов.**
+
+2. **Первые пилоты требуют загрузки данных и отчётов сильнее, чем интеграций.** Без import/export/reporting продукт сложно показать на реальных данных.
+
+3. **Коннекторы должны следовать за рынком.** Первый connector prototype выбирается только после интервью и пилотов.
+
+4. **TrustOps — стратегический термин, не первичный sales-message.** Для первых клиентов использовать понятное позиционирование: “цифровые паспорта доверия, Trust Score и карта рисков активов для CISO”.
+
+### Последствия
+
+- Roadmap после Sprint 08 перестраивается вокруг Market MVP.
+- Sprint 09 не должен начинать новый крупный функционал без упаковки продукта и демо-данных.
+- Интеграции переносятся после подтверждения пилотных сценариев.
+- Любая задача, не приближающая продукт к демонстрации, import/export, explainability или пилоту, считается Post-MVP кандидатом.
 
 ---
 

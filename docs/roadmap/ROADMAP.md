@@ -1,0 +1,170 @@
+# ROADMAP.md — DTEK Core
+
+`Статус: актуальный`  
+`Дата: 08.07.2026`  
+`Основа: Strategic Product & Market Analysis + Sprint 08`
+
+---
+
+## 1. Roadmap Logic
+
+Sprint 01–08 создали функциональный и визуально отполированный MVP.
+
+Следующий этап — не расширение ради расширения, а переход к Market MVP:
+
+1. Упаковать продукт для демонстрации.
+2. Дать быстрый способ загрузить реальные данные.
+3. Дать отчёты, которые CISO может показать руководству.
+4. Сделать Trust Score объяснимым.
+5. Подготовить продукт к первым пилотам.
+
+---
+
+## 2. Текущее Состояние
+
+| Область | Статус |
+|---|---|
+| Auth / Organizations / Users | Реализовано |
+| Objects | Реализовано |
+| Trust Passport | Реализовано |
+| Trust Score Engine | Реализовано |
+| Risk Registry | Реализовано |
+| Trust Graph | Реализовано |
+| Dashboard | Реализовано |
+| Configurator | Реализовано |
+| RBAC/RLS/Security Audit | Реализовано на MVP-уровне |
+| UX polish | Sprint 08 завершён |
+| Demo data | Требуется |
+| Import/export | Требуется |
+| Reports | Требуется |
+| Explainability | Требуется |
+| Pilot readiness | Требуется |
+
+---
+
+## 3. Roadmap Phases
+
+### Phase A — Functional MVP
+
+Статус: завершено.
+
+Включает Sprint 01–08:
+
+- техническая основа;
+- auth;
+- организации;
+- пользователи;
+- объекты;
+- риски;
+- Trust Score;
+- Trust Graph;
+- Dashboard;
+- Configurator;
+- безопасность;
+- UX polish.
+
+### Phase B — Market MVP
+
+Статус: следующий этап.
+
+Фокус:
+
+- demo seed data;
+- product story;
+- CSV import;
+- CSV/PDF export;
+- executive reporting;
+- Trust Score explainability;
+- risk impact;
+- pilot runbook;
+- email invitation hardening.
+
+### Phase C — Pilot MVP
+
+Статус: после Market MVP.
+
+Фокус:
+
+- работа с 1–3 пилотными организациями;
+- evidence/comments по рискам;
+- стабильность окружения;
+- базовый мониторинг;
+- backup/runbook;
+- улучшение UX по реальным данным;
+- первый API или выбранный connector prototype.
+
+### Phase D — Post-MVP Integrations
+
+Статус: после подтверждения пилотов.
+
+Возможные направления:
+
+- VM/scanner import;
+- CMDB import;
+- AD/LDAP;
+- SIEM event import;
+- Jira/ServiceDesk;
+- webhook/API.
+
+### Phase E — Enterprise Readiness
+
+Статус: v2+.
+
+Возможные направления:
+
+- SSO/SAML;
+- 2FA/TOTP;
+- on-prem / private cloud;
+- advanced audit retention;
+- WAF/advanced monitoring;
+- role customization;
+- procurement/security pack;
+- regulatory alignment.
+
+---
+
+## 4. Что Переносится В Post-MVP
+
+| Функция | Причина |
+|---|---|
+| Собственный агент | Высокая сложность, не нужен для проверки гипотезы |
+| Полноценный SIEM/SOAR | Не соответствует продуктовой границе |
+| Много коннекторов | Сначала нужны интервью и пилоты |
+| Marketplace | Нет подтверждённой потребности |
+| Enterprise Runtime | Требует отдельной архитектуры и продаж |
+| Кастомные роли | Затрагивает RLS/RBAC и не критично для MVP |
+| Rule Engine | Сложная бизнес-логика, нужна после explainability |
+
+---
+
+## 5. Обязательные Функции До Первых Пилотов
+
+| Блок | Результат |
+|---|---|
+| Demo Data | Продукт можно показать без пустых экранов |
+| CSV Import | Клиент может загрузить реальные объекты и риски |
+| Reports | CISO получает материал для руководства |
+| Explainability | Пользователь понимает, почему Trust Score именно такой |
+| Risk Impact | Видно, какие риски дают максимальный эффект при закрытии |
+| Workflow | У риска есть ответственный, срок, evidence и комментарии |
+| Stability | Нет зависаний при проблемах Supabase/DNS |
+
+---
+
+## 6. Milestones
+
+| Milestone | Критерий готовности |
+|---|---|
+| Demo Ready | Есть демо-организация, сценарий показа и стабильный путь демонстрации |
+| Interview Ready | Есть one-pager, ICP, вопросы для CISO, продуктовая история |
+| Market MVP Ready | Import/export/reporting/explainability готовы для ручного пилота |
+| Pilot Ready | Продукт можно дать 1–3 компаниям на 2–4 недели |
+| Integration Ready | Понятно, какой первый коннектор нужен по результатам пилотов |
+
+---
+
+## 7. Главный Принцип
+
+Каждая следующая задача должна приближать DTEK Core к первому реальному пилоту.
+
+Если задача не помогает показать ценность CISO, загрузить данные, объяснить Trust Score или получить отчёт — она, скорее всего, Post-MVP.

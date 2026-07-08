@@ -9,10 +9,43 @@
 
 ### Sprint 08 — UX Refinement & Platform Polish
 
+#### Добавлено
+
+- **Configurator presets** (S08-T004) — отраслевые профили весов Trust Score и новая иконка Конфигуратора.
+- **Loading states** (S08-T007) — skeleton-экраны для основных защищённых маршрутов.
+- **Users Role Info Card** (S08-T009) — карточка с описанием прав ролей на странице пользователей.
+- **Invitation link UX** (S08-T003) — после создания приглашения UI показывает ссылку, email и роль; активное повторное приглашение возвращает существующую ссылку.
+
 #### Изменено
 
 - **Sidebar** (S08-T001) — раздел «Настройки» перемещён из группы «Управление» в footer-зону боковой панели, над блоком профиля пользователя. Соответствует дизайн-прототипу `design/src/shell.jsx`. Active-state и иконка сохранены.
 - **Users table** (S08-T002) — устранено визуальное смещение колонок таблицы участников: разделены стили `.uth-c`/`.ut-c`; последняя колонка body теперь flex-контейнер полной ширины (ранее сужалась через `justify-self: end`); добавлен `min-width: 0` на все ячейки; text-overflow ellipsis для длинных имён и email; удалён дублирующий inline-style из `user-row.tsx`.
+- **Audit Log** (S08-T005) — визуальная модернизация журнала аудита: категории событий, фильтры, иконки и отображение инициатора.
+- **Dashboard** (S08-T006) — реструктурирован layout Центра управления.
+- **Navigation affordance** — вся область названия вкладки стала функциональной ссылкой.
+- **Settings profile controls** (S08-T008) — полировка кнопок и профиля.
+
+### Strategic Consolidation — 2026-07-08
+
+#### Добавлено
+
+- `AI_DEVELOPMENT_GUIDE.md` — актуальный инженерный регламент для AI-разработки.
+- `docs/product/PRODUCT_STRATEGY.md` — стратегическое позиционирование DTEK Core как Digital Trust & Cyber Risk Management Platform.
+- `docs/roadmap/ROADMAP.md` — roadmap от Functional MVP к Market MVP.
+- `docs/roadmap/SPRINT_ROADMAP.md` — единый план будущих спринтов без создания Sprint 09.
+- `docs/architecture/TECHNICAL_DEBT.md` — реестр технического долга и архитектурных рисков.
+
+#### Изменено
+
+- `README.md`, `DOCUMENTATION_INDEX.md`, `Vision.md`, `Product_Concept.md`, `MVP_Scope.md`, `System_Architecture.md` приведены к новой стратегии и фактической архитектуре.
+- `ARCHITECTURE_DECISIONS.md` дополнен ADR-006 о продуктовой границе Market MVP.
+- `tasks/MVP_RELEASE_PLAN.md` дополнен Market MVP Foundation вместо узкого Post-MVP export-only этапа.
+- `docs/security/SECURITY_OVERVIEW.md` исправляет описание роли `admin` в соответствии с ADR-003.
+
+#### Удалено / Архивировано
+
+- `docs/development/CONFIGURATOR_GUIDE.md` удалён как дубль пользовательского guide.
+- `docs/product/SPRINT08_ANALYSIS.md` перенесён в `docs/archive/SPRINT08_ANALYSIS.md` как исторический pre-review анализ.
 
 ---
 

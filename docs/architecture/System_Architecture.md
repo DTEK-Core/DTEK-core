@@ -1,94 +1,141 @@
-# System Architecture
+# System_Architecture.md — DTEK Core
 
-## Назначение
+`Статус: актуальный`  
+`Дата: 08.07.2026`  
+`ADR: ADR-004`
 
-Документ описывает общую архитектуру платформы DTEK Core MVP.
+---
 
-# Архитектурные принципы
+## 1. Назначение
 
-1. Простота реализации.
-2. Минимальная инфраструктура.
-3. Максимальная совместимость с AI-разработкой.
-4. Возможность масштабирования.
-5. Cloud First подход.
+Документ описывает фактическую архитектуру DTEK Core MVP.
 
-# Общая схема
+DTEK Core построен как cloud-first SaaS на Next.js и Supabase. Архитектура оптимизирована для быстрого MVP, безопасной multi-tenant модели и дальнейшего перехода к Market MVP.
 
-`Пользователь -> Next.js Frontend -> Supabase -> PostgreSQL -> Claude API`
+---
 
-# Frontend
+## 2. High-Level Architecture
 
-## Технологии
+```text
+Browser
+  -> Next.js App Router on Vercel
+  -> Server Components / Server Actions
+  -> Supabase Auth + Postgres
+  -> RLS/RBAC policies
+```
 
-- `Next.js`
-- `React`
-- `TypeScript`
-- `Tailwind CSS`
-- `Shadcn/UI`
-- `React Flow`
+---
 
-# Backend
+## 3. Frontend
 
-## Технологии
+| Область | Решение |
+|---|---|
+| Framework | Next.js App Router 15.x |
+| UI | React 18 |
+| Styling | Tailwind CSS + global CSS modules |
+| Components | Shadcn/UI + `components/shared/*` |
+| Rendering | Server Components by default |
+| Client components | Только для интерактивных элементов |
 
-- `Supabase`
-- `Edge Functions`
+---
 
-# База данных
+## 4. Backend
 
-## Технология
+| Область | Решение |
+|---|---|
+| Backend layer | Next.js Server Actions |
+| BaaS | Supabase Cloud |
+| Database | PostgreSQL 15 |
+| Auth | Supabase Auth |
+| Authorization | Server-side RBAC + PostgreSQL RLS |
+| Audit | `security_events` table + helpers |
 
-- `PostgreSQL`
+Edge Functions и Supabase Storage не являются обязательной частью текущего MVP. Они могут быть добавлены в Post-MVP при появлении подтверждённой задачи.
 
-# Хранилище файлов
+---
 
-## Технология
+## 5. Data Model
 
-- `Supabase Storage`
+Ключевые таблицы:
 
-# Авторизация
+- `profiles`
+- `organizations`
+- `objects`
+- `trust_passports`
+- `trust_factor_config`
+- `risks`
+- `object_risks`
+- `relations`
+- `trust_score_history`
+- `invitations`
+- `security_events`
 
-## Технология
+Полная схема: [Database_Design_Full.md](Database_Design_Full.md).
 
-- `Supabase Auth`
+---
 
-# AI слой
+## 6. Trust Score Engine
 
-## Технология
+Trust Score рассчитывается в TypeScript:
 
-- `Claude API`
+- `lib/trust/calculate.ts` — чистые функции;
+- `lib/trust/engine.ts` — чтение/запись результатов;
+- Server Actions вызывают пересчёт после изменений объектов, рисков и конфигурации.
 
-# Основные модули системы
+Модель: [Trust_Score_Model_v2.md](Trust_Score_Model_v2.md).
 
-1. Authentication
-2. Organizations
-3. Users
-4. Objects
-5. Trust Passports
-6. Trust Score
-7. Trust Graph
-8. Risk Registry
-9. Configurator
+---
 
-# Инфраструктура
+## 7. Security Architecture
 
-## Разработка
+Основные уровни:
 
-- `GitHub`
-- `GitHub Projects`
-- `Claude Code`
-- `Obsidian`
-- `Miro`
+1. Supabase Auth.
+2. Middleware route protection.
+3. Server Action authorization.
+4. PostgreSQL RLS.
+5. Zod validation.
+6. Security headers.
+7. Rate limiting.
+8. Security Audit Log.
 
-## Продакшн
+Подробнее: [../security/SECURITY_OVERVIEW.md](../security/SECURITY_OVERVIEW.md).
 
-- `Vercel`
-- `Supabase Cloud`
+---
 
-# Будущее развитие
+## 8. Known Architecture Trade-Offs
 
-**После MVP допускается внедрение:**
-- `Neo4j`
-- `Runtime Platform`
-- `Marketplace`
-- `Enterprise Edition`
+| Решение | Почему принято | Когда пересмотреть |
+|---|---|---|
+| Supabase Cloud | Быстрый MVP, Auth + Postgres + RLS | Enterprise/on-prem |
+| Server Actions | Простая архитектура без отдельного API | При необходимости публичного API |
+| Синхронный Trust Score пересчёт | Достаточно для MVP-объёмов | 500+ объектов или долгие операции |
+| Cloud-only | Быстрая разработка и деплой | Enterprise customers |
+| In-memory rate limiting | Простота для MVP | Multi-instance production |
+
+Технический долг: [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md).
+
+---
+
+## 9. Non-Goals MVP
+
+- Graph database.
+- Agent runtime.
+- On-prem runtime.
+- Event streaming.
+- Heavy connector framework.
+- AI/ML scoring.
+- Custom RBAC roles.
+
+---
+
+## 10. Future Evolution
+
+Последовательность развития:
+
+1. Market MVP.
+2. Pilot readiness.
+3. Первый подтверждённый connector prototype.
+4. API/webhooks.
+5. Enterprise security features.
+6. On-prem/private cloud only after commercial validation.

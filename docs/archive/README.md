@@ -18,3 +18,4 @@
 | `Development_Rules.md` | `.claude/engineering_rules.md` | Правила разработки перенесены в .claude/ |
 | `Версия концепции 1.0.md` | `docs/product/Product_Concept.md` | Первоначальная концепция, заменена актуальной |
 | `PROJECT_ANALYSIS.md` | `ARCHITECTURE_DECISIONS.md` | Анализ расхождений — все устранены в ADR |
+| `SPRINT08_ANALYSIS.md` | `docs/product/PRODUCT_STRATEGY.md` + `docs/roadmap/ROADMAP.md` | Pre-review анализ v0.7.0 стал историческим после стратегической консолидации |

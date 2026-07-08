@@ -1,194 +1,176 @@
 # DTEK Core
 
-**Digital Trust Management Platform (DTMP)**
+**Digital Trust & Cyber Risk Management Platform**
 
-Платформа создаёт цифровую модель доверия организации как слой над существующими инструментами безопасности (SIEM, DLP, EDR). Помогает CISO и аналитикам ИБ понять реальный уровень киберзащищённости через единый показатель — Trust Score.
+DTEK Core — B2B SaaS-платформа управления цифровым доверием активов. Она помогает CISO, аналитикам ИБ и IT-администраторам видеть, каким объектам организации можно доверять, какие риски снижают доверие и какие действия важнее выполнить первыми.
 
-## Ключевые сущности
-
-- **Trust Passport** — цифровой паспорт каждого объекта инфраструктуры
-- **Trust Score** — взвешенная 6-факторная оценка доверия (0–100)
-- **Trust Graph** — граф зависимостей между объектами
-- **Risk Registry** — реестр рисков с привязкой к объектам
-
-## Технологический стек
-
-| Слой | Технология | Версия |
-|---|---|---|
-| Frontend | Next.js (App Router) | 15.x |
-| Язык | TypeScript (strict) | 5.x |
-| Стили | Tailwind CSS + CSS-модули | 3.x |
-| Компоненты | Shadcn/UI (new-york, zinc) | latest |
-| Backend / БД | Supabase (PostgreSQL 15 + Auth) | Cloud |
-| Деплой | Vercel | Cloud |
-
-**Шрифты:** Manrope + JetBrains Mono · **Тема:** только тёмная · **Фон:** `#07090d` · **Акцент:** `#2dd4bf`
+Платформа не заменяет SIEM, EDR, DLP, VM, CMDB или GRC. DTEK Core работает как управленческий слой поверх существующих процессов и инструментов безопасности.
 
 ---
 
-## Текущее состояние
+## Продуктовое Ядро
 
-**v0.7.0 — MVP функционально завершён (25.06.2026)**
-
-Спринты 01–07 выполнены. Все маршруты реализованы и работают с реальными данными. Платформа прошла QA-тестирование (Sprint 07).
-
-### Реализованные маршруты
-
-| Страница | Маршрут | Sprint |
-|---|---|---|
-| Лендинг | `/` | Sprint 02 |
-| Вход | `/login` | Sprint 01 |
-| Регистрация | `/register` | Sprint 01 |
-| Сброс пароля | `/forgot-password`, `/reset-password` | Sprint 01 |
-| Принятие приглашения | `/invite/[token]` | Sprint 02 |
-| Создание организации | `/onboarding/create` | Sprint 02 |
-| Онбординг wizard | `/onboarding/wizard` | Sprint 02 |
-| Пользователи и роли | `/users` | Sprint 02 |
-| Настройки | `/settings` | Sprint 02 |
-| Список объектов | `/objects` | Sprint 03 |
-| Детали объекта | `/objects/[id]` | Sprint 03 |
-| Trust Passport | `/objects/[id]/passport` | Sprint 03 |
-| Реестр рисков | `/risks` | Sprint 03 |
-| Центр управления | `/dashboard` | Sprint 05 |
-| Trust Graph | `/graph` | Sprint 05 |
-| Конфигуратор | `/configurator` | Sprint 05 |
-
-### История спринтов
-
-| Sprint | Название | Дата | Версия |
-|---|---|---|---|
-| Sprint 01 | Foundation & Authentication | 09–13.06.2026 | v0.1.0 |
-| Sprint 02 | Organization Management & Platform Setup | 13–15.06.2026 | v0.2.0 |
-| Sprint 03 | Digital Asset Management & Trust Risk Registry | 16–20.06.2026 | v0.3.0 |
-| Sprint 04 | Testing, Bug Fixing & Stabilization | 21.06.2026 | v0.4.0 |
-| Sprint 05 | Trust Score Engine, Dashboard, Trust Graph, Configurator | 22.06.2026 | v0.5.0 |
-| Sprint 06 | Security Hardening (next@15, RLS, RBAC, Rate Limiting, Audit) | 23.06.2026 | v0.6.0 |
-| Sprint 07 | QA & Platform Testing | 23–25.06.2026 | v0.7.0 |
-
-### Следующие шаги
-
-| Sprint | Название | Содержание |
-|---|---|---|
-| Sprint 08 | UX Polish | Финальная полировка UI, edge cases |
-| Sprint 09 | Security Sprint | ФСТЭК, Secure SDLC, SAST в CI, penetration testing |
-| Sprint 10 | MVP Release | Production-деплой, экспорт PDF/CSV |
+| Сущность | Назначение |
+|---|---|
+| **Trust Passport** | Цифровой паспорт доверия каждого объекта |
+| **Trust Score** | 6-факторная оценка доверия объекта от 0 до 100 |
+| **Trust Graph** | Граф связей и зависимостей между объектами |
+| **Risk Registry** | Реестр рисков с привязкой к объектам и влиянием на Trust Score |
+| **Configurator** | Настройка весов Trust Score под отрасль и организацию |
+| **Dashboard** | Управленческий обзор доверия, рисков и событий организации |
 
 ---
 
-## Быстрый старт
+## Текущий Статус
+
+**v0.8.0 — Sprint 08 завершён, проект готов к Market MVP консолидации.**
+
+Функциональный MVP реализован и отполирован для первой демонстрации. Следующий этап — не новый UI-функционал, а Market MVP: демо-данные, импорт/экспорт, отчёты, объяснимость Trust Score и пилотный сценарий для первых пользователей.
+
+### Реализованные Маршруты
+
+| Страница | Маршрут |
+|---|---|
+| Лендинг | `/` |
+| Вход / регистрация | `/login`, `/register` |
+| Сброс пароля | `/forgot-password`, `/reset-password` |
+| Принятие приглашения | `/invite/[token]` |
+| Создание организации | `/onboarding/create` |
+| Онбординг wizard | `/onboarding/wizard` |
+| Центр управления | `/dashboard` |
+| Объекты | `/objects`, `/objects/[id]` |
+| Trust Passport | `/objects/[id]/passport` |
+| Реестр рисков | `/risks` |
+| Trust Graph | `/graph` |
+| Конфигуратор | `/configurator` |
+| Пользователи и роли | `/users` |
+| Настройки и аудит | `/settings` |
+
+---
+
+## Стек
+
+| Слой | Технология |
+|---|---|
+| Frontend | Next.js App Router 15.x |
+| UI | React 18, Tailwind CSS, Shadcn/UI |
+| Язык | TypeScript strict mode |
+| Backend / BaaS | Supabase Cloud |
+| База данных | PostgreSQL 15 |
+| Auth | Supabase Auth |
+| Security | PostgreSQL RLS + RBAC + Server Actions |
+| Deploy | Vercel |
+
+---
+
+## Быстрый Старт
 
 ```bash
 git clone https://github.com/DTEK-Core/DTEK-core.git
 cd DTEK-core
 npm install
 cp .env.example .env.local
-# Заполнить .env.local значениями из Supabase Dashboard
-npm run dev          # http://localhost:3000
+npm run dev
 ```
 
-### Переменные окружения
+Локальный адрес:
 
-```
-NEXT_PUBLIC_SUPABASE_URL=       # Supabase Project URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Supabase anon key (безопасен для клиента)
-SUPABASE_SERVICE_ROLE_KEY=      # Service Role — только сервер, НИКОГДА не коммитить!
-NEXT_PUBLIC_APP_URL=            # http://localhost:3000 / https://your-domain.com
-SUPABASE_FETCH_TIMEOUT_MS=4000  # опционально: fail-fast таймаут запросов к Supabase
+```text
+http://localhost:3000
 ```
 
-Если страницы долго открываются, появляются `getaddrinfo ENOTFOUND`,
-`AuthRetryableFetchError` или `fetch failed`, сначала проверьте DNS, доступность
-Supabase project ref и `.env.local` по runbook:
-[docs/development/TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md).
-
-### Команды разработки
+Обязательные переменные:
 
 ```bash
-npm run dev          # локальный сервер http://localhost:3000
-npm run type-check   # TypeScript проверка (0 ошибок)
-npm run lint         # ESLint (0 предупреждений)
-npm run build        # production сборка
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_APP_URL=
+SUPABASE_FETCH_TIMEOUT_MS=4000
+```
+
+Если Supabase недоступен, см. [docs/development/TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md).
+
+---
+
+## Команды
+
+```bash
+npm run dev
+npm run type-check
+npm run lint
+npm run build
 ```
 
 ---
 
-## Архитектура
+## Структура
 
-```
-app/                    — Next.js 15 App Router (page.tsx, layout.tsx)
-├── (app)/              — защищённые маршруты (middleware: org required)
-│   ├── dashboard/      — Центр управления: KPI, Trust Ring, Event Feed
-│   ├── graph/          — Trust Graph: интерактивный граф связей
-│   ├── configurator/   — Редактор весов факторов Trust Score
-│   ├── objects/        — Список объектов + детали + Trust Passport
-│   ├── risks/          — Реестр рисков + Risk Drawer
-│   ├── users/          — Управление командой и ролями
-│   └── settings/       — Настройки организации, профиль, аудит
-├── (auth)/             — публичные страницы (login, register, invite, reset)
-└── page.tsx            — лендинг
-
-components/
-├── ui/                 — Shadcn/UI (не редактировать напрямую)
-└── shared/             — проектные компоненты
-
-lib/
-├── actions/            — Server Actions (createObject, createRisk, saveFactorWeights...)
-├── supabase/           — client.ts, server.ts, admin.ts, service.ts
-├── trust/              — calculate.ts, engine.ts (Trust Score logic)
-├── security/           — audit.ts (security event logging)
-├── validation/         — schemas.ts (Zod schemas)
-└── utils/              — cn(), dates.ts, design-tokens.ts
-
-supabase/
-├── migrations/         — 001–017 SQL-миграции (применены на Supabase Cloud)
-└── functions/          — Edge Functions (Sprint 08+)
-
-types/
-└── database.ts         — TypeScript-типы схемы БД (auto-generated)
+```text
+app/                 Next.js App Router routes
+components/ui/       Shadcn/UI components
+components/shared/   Project components
+lib/actions/         Server Actions
+lib/supabase/        Supabase clients and config
+lib/trust/           Trust Score calculation engine
+lib/security/        Audit/security helpers
+lib/validation/      Zod schemas
+types/               TypeScript DB types
+supabase/migrations/ PostgreSQL schema and RLS
+design/              Approved visual prototype
+docs/                Product, architecture, security, user docs
+tasks/               Backlog and sprint history
 ```
 
-**Supabase project ref:** `ehqpijmbtavfacqogtoe` (EU West, Frankfurt)
+---
+
+## Основные Документы
+
+| Документ | Назначение |
+|---|---|
+| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Навигация по всей документации |
+| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
+| [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
+| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План будущих спринтов без создания Sprint 09 |
+| [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
+| [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности |
+| [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
+| [AGENTS.md](AGENTS.md) | Постоянный контекст Codex/AI-агента |
+
+---
+
+## Roadmap
+
+Текущий фокус:
+
+1. Market MVP packaging.
+2. Demo data и пилотный сценарий.
+3. CSV import/export.
+4. PDF/Executive reporting.
+5. Trust Score explainability.
+6. Risk workflow и evidence.
+7. Pilot readiness.
+
+Интеграции, SSO, on-prem, расширенный GRC, агенты и marketplace остаются Post-MVP/Enterprise.
 
 ---
 
 ## Безопасность
 
-- **4 роли RBAC** с проверкой на сервере (owner / analyst / admin / viewer)
-- **RLS** на всех 10 таблицах — изоляция данных организаций
-- **Security Headers** — CSP, X-Frame-Options, X-Content-Type-Options
-- **Rate Limiting** — IP: 60 req/60s (API), 10 req/60s (invite)
-- **Zod-валидация** всех входящих данных
-- **Audit Log** — журнал безопасности (`/settings` → «Журнал аудита»)
+DTEK Core хранит чувствительную информацию об инфраструктуре и рисках, поэтому безопасность является частью архитектуры:
 
-Подробнее: [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md)
+- RBAC: `owner`, `analyst`, `admin`, `viewer`
+- RLS на таблицах Supabase
+- Server Action authorization
+- Zod validation
+- Security headers
+- Rate limiting
+- Security Audit Log
+- no secrets in repository
 
----
-
-## Ветковая модель
-
-```
-main     ← продакшн; только через PR из develop после CI
-  └── develop ← основная рабочая ветка (прямые коммиты)
-```
-
-CI пайплайн: `lint` → `type-check` → `build` (Node.js 20)
+Подробнее: [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md).
 
 ---
 
-## Документация
-
-| Документ | Назначение |
-|---|---|
-| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Полный навигационный индекс документации |
-| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR-001–005 — приоритетный источник истины |
-| [docs/architecture/Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Полная схема БД: 10 таблиц, RLS, индексы |
-| [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула и расчёт Trust Score |
-| [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора MVP |
-| [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности платформы |
-| [docs/testing/RBAC_TESTING_GUIDE.md](docs/testing/RBAC_TESTING_GUIDE.md) | Руководство тестирования ролей |
-| [tasks/MVP_RELEASE_PLAN.md](tasks/MVP_RELEASE_PLAN.md) | План MVP по релизам и спринтам |
-| [CHANGELOG.md](CHANGELOG.md) | История изменений по версиям |
-
----
-
-`DTEK Core` · Digital Trust Management Platform · **v0.7.0** · MVP функционально завершён
+`DTEK Core` · Digital Trust & Cyber Risk Management Platform · **v0.8.0**
