@@ -56,7 +56,7 @@
 | Документ | Назначение |
 |---|---|
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Обновлённая дорожная карта от Sprint 08 к Market MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план будущих спринтов без создания Sprint 09 |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план Sprint 09–15 до коммерческого MVP |
 | [tasks/MVP_RELEASE_PLAN.md](tasks/MVP_RELEASE_PLAN.md) | Исторический release plan R0–R6, дополнен новым Market MVP направлением |
 | [tasks/EPIC_BACKLOG.md](tasks/EPIC_BACKLOG.md) | Epic backlog MVP |
 | [tasks/FEATURE_BACKLOG.md](tasks/FEATURE_BACKLOG.md) | Feature backlog MVP |
@@ -138,6 +138,13 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_07.md](tasks/SPRINT_07.md) | Завершён, документ содержит исторические pending-чеклисты |
 | [tasks/SPRINT_08.md](tasks/SPRINT_08.md) | Product Review, исторический источник обратной связи |
 | [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08 Implementation, завершён функционально |
+| [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging |
+| [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export |
+| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Import & Data Onboarding |
+| [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Trust Explainability |
+| [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Risk Workflow |
+| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Pilot Readiness |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: First Connector Prototype |
 
 ---
 

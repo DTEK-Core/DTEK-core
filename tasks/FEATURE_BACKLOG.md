@@ -115,6 +115,49 @@
 
 ---
 
+## Market MVP Feature Backlog После Sprint 08
+
+Этот раздел дополняет исходный MVP backlog и соответствует Sprint 09–15.
+
+| ID | Sprint | Feature | Приоритет | Размер |
+|---|---|---|---|---|
+| M-001 | S09 | Demo Narrative | P1 | M |
+| M-002 | S09 | Demo Dataset Specification | P1 | M |
+| M-003 | S09 | Demo Seed Plan | P1 | M |
+| M-004 | S09 | ICP & Interview Script | P1 | S |
+| M-005 | S09 | Product One-Pager | P1 | S |
+| M-006 | S09 | Pilot Offer | P1 | S |
+| M-010 | S10 | Trust Passport PDF Export | P1 | L |
+| M-011 | S10 | Risk Registry CSV Export | P1 | M |
+| M-012 | S10 | Executive Organization Report | P1 | L |
+| M-013 | S10 | Report RBAC & Audit | P1 | M |
+| M-020 | S11 | Objects CSV Import | P1 | L |
+| M-021 | S11 | Risks CSV Import | P1 | L |
+| M-022 | S11 | Import Preview & Validation | P1 | M |
+| M-023 | S11 | Import Templates | P1 | S |
+| M-030 | S12 | Trust Score Top Drivers | P1 | M |
+| M-031 | S12 | Factor Reason Cards | P1 | M |
+| M-032 | S12 | Risk Impact Hint | P1 | M |
+| M-033 | S12 | Score Delta Explanation | P2 | M |
+| M-040 | S13 | Risk Owner & Assignment | P1 | M |
+| M-041 | S13 | Due Date & SLA Warnings | P1 | M |
+| M-042 | S13 | Risk Comments | P1 | M |
+| M-043 | S13 | Evidence MVP | P1 | M |
+| M-044 | S13 | Risk Activity Timeline | P2 | M |
+| M-050 | S14 | Pilot Readiness Checklist | P1 | S |
+| M-051 | S14 | Environment Health Check | P1 | M |
+| M-052 | S14 | Invitation Delivery Finalization | P1 | M |
+| M-053 | S14 | Smoke Test Automation Baseline | P1 | M |
+| M-054 | S14 | Backup & Restore Runbook | P1 | S |
+| M-055 | S14 | Pilot Metrics & Feedback Loop | P1 | S |
+| M-060 | S15 | Connector Selection Report | P1 | S |
+| M-061 | S15 | Connector Architecture Decision | P1 | M |
+| M-062 | S15 | Data Mapping Specification | P1 | M |
+| M-063 | S15 | Connector Prototype Implementation | P1 | L |
+| M-064 | S15 | Connector Security Review | P1 | M |
+
+---
+
 ## 3. Epic 1 — Foundation
 
 | ID | Feature | Приоритет | Размер | Зависит от |

@@ -132,7 +132,7 @@ tasks/               Backlog and sprint history
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План будущих спринтов без создания Sprint 09 |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
 | [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности |
 | [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
@@ -144,15 +144,17 @@ tasks/               Backlog and sprint history
 
 Текущий фокус:
 
-1. Market MVP packaging.
-2. Demo data и пилотный сценарий.
-3. CSV import/export.
-4. PDF/Executive reporting.
-5. Trust Score explainability.
-6. Risk workflow и evidence.
-7. Pilot readiness.
+1. Sprint 09 — Market MVP Packaging.
+2. Sprint 10 — Reporting & Export.
+3. Sprint 11 — Import & Data Onboarding.
+4. Sprint 12 — Trust Explainability.
+5. Sprint 13 — Risk Workflow.
+6. Sprint 14 — Pilot Readiness.
+7. Sprint 15 — First Connector Prototype.
 
 Интеграции, SSO, on-prem, расширенный GRC, агенты и marketplace остаются Post-MVP/Enterprise.
+
+Полный план: [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md).
 
 ---
 

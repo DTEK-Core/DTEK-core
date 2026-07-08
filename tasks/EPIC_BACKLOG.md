@@ -62,6 +62,20 @@
 | 11 | Configurator | US-090–091 | Epic 3, 8 | — | 3–4 |
 | | **Итого MVP** | **46 историй** | | | **41–55 дней** |
 
+### Market MVP Epics После Sprint 08
+
+| # | Epic | Sprint | Цель |
+|---|---|---|---|
+| 12 | Market MVP Packaging | Sprint 09 | Упаковать продукт для demo/interview |
+| 13 | Reporting & Export | Sprint 10 | Дать CISO отчёты и экспорт |
+| 14 | Import & Data Onboarding | Sprint 11 | Загрузить реальные данные без интеграций |
+| 15 | Trust Explainability | Sprint 12 | Объяснить Trust Score и impact рисков |
+| 16 | Risk Workflow | Sprint 13 | Превратить риски в рабочий процесс |
+| 17 | Pilot Readiness | Sprint 14 | Подготовить продукт к 1–3 пилотам |
+| 18 | First Connector Prototype | Sprint 15 | Реализовать первый подтверждённый источник данных |
+
+Эти Epic не заменяют исходные Epic 1–11. Они являются следующим слоем после Functional MVP и описаны в `docs/roadmap/SPRINT_ROADMAP.md`.
+
 ---
 
 ## 3. Граф зависимостей

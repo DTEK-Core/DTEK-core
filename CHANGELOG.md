@@ -34,6 +34,7 @@
 - `docs/roadmap/ROADMAP.md` — roadmap от Functional MVP к Market MVP.
 - `docs/roadmap/SPRINT_ROADMAP.md` — единый план будущих спринтов без создания Sprint 09.
 - `docs/architecture/TECHNICAL_DEBT.md` — реестр технического долга и архитектурных рисков.
+- `tasks/SPRINT_09.md`–`tasks/SPRINT_15.md` — полный комплект Sprint-документов до коммерческого MVP и первого connector prototype.
 
 #### Изменено
 

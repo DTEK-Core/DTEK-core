@@ -157,13 +157,33 @@ Sprint 01–08 создали функциональный и визуально
 |---|---|
 | Demo Ready | Есть демо-организация, сценарий показа и стабильный путь демонстрации |
 | Interview Ready | Есть one-pager, ICP, вопросы для CISO, продуктовая история |
+| Reporting Ready | Есть PDF/CSV export и executive report |
+| Data Onboarding Ready | Есть CSV import объектов и рисков |
+| Explainability Ready | Trust Score объясняется через факторы, причины и impact рисков |
+| Risk Workflow Ready | Риски имеют владельцев, сроки, evidence/comments и историю |
 | Market MVP Ready | Import/export/reporting/explainability готовы для ручного пилота |
 | Pilot Ready | Продукт можно дать 1–3 компаниям на 2–4 недели |
 | Integration Ready | Понятно, какой первый коннектор нужен по результатам пилотов |
 
 ---
 
-## 7. Главный Принцип
+## 7. Sprint Roadmap
+
+Полный комплект Sprint-документов после Sprint 08 создан в `tasks/`:
+
+| Sprint | Документ | Roadmap phase |
+|---|---|---|
+| Sprint 09 | `tasks/SPRINT_09.md` | Market MVP Packaging |
+| Sprint 10 | `tasks/SPRINT_10.md` | Reporting & Export |
+| Sprint 11 | `tasks/SPRINT_11.md` | Import & Data Onboarding |
+| Sprint 12 | `tasks/SPRINT_12.md` | Trust Explainability |
+| Sprint 13 | `tasks/SPRINT_13.md` | Risk Workflow |
+| Sprint 14 | `tasks/SPRINT_14.md` | Pilot Readiness |
+| Sprint 15 | `tasks/SPRINT_15.md` | First Connector Prototype |
+
+---
+
+## 8. Главный Принцип
 
 Каждая следующая задача должна приближать DTEK Core к первому реальному пилоту.
 
