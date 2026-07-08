@@ -44,8 +44,10 @@ export function UsersPageClient({ members, currentUserId, currentUserRole }: Pro
         </button>
       </div>
 
+      <RolesInfoCard />
+
       <div className="users-layout">
-        <div className="card span-8" style={{ padding: 0 }}>
+        <div className="card span-12 users-table-card">
           <UsersTable
             members={members}
             currentUserId={currentUserId}
@@ -53,7 +55,6 @@ export function UsersPageClient({ members, currentUserId, currentUserRole }: Pro
             onInvite={canInvite ? () => setInviteOpen(true) : undefined}
           />
         </div>
-        <RolesInfoCard />
       </div>
 
       <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} />
