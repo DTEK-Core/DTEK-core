@@ -23,6 +23,14 @@ interface InvitationRow {
   expires_at: string;
 }
 
+type SendInvitationResult = {
+  error?: string;
+  inviteUrl?: string;
+  email?: string;
+  role?: string;
+  status?: 'created' | 'existing' | 'expired';
+};
+
 async function getCallerProfile(): Promise<CallerProfile | null> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -39,10 +47,17 @@ async function getCallerProfile(): Promise<CallerProfile | null> {
   return { ...profile, email: user.email ?? profile.email ?? null };
 }
 
+function buildInviteUrl(token: string): string | null {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, '');
+  if (!appUrl) return null;
+  return `${appUrl}/invite/${token}`;
+}
+
 export async function sendInvitation(
   email: string,
   role: string,
-): Promise<{ error?: string }> {
+  createNewExpired = false,
+): Promise<SendInvitationResult> {
   const caller = await getCallerProfile();
   if (!caller?.organization_id) return { error: 'Нет активной организации' };
   if (caller.role !== 'owner') return { error: 'Только владелец может отправлять приглашения' };
@@ -53,11 +68,49 @@ export async function sendInvitation(
   }
 
   const supabase = await createClient();
+  const normalizedEmail = parsed.data.email.toLowerCase();
+
+  const { data: existingRaw } = await supabase
+    .from('invitations')
+    .select('token, email, role, status, expires_at')
+    .eq('organization_id', caller.organization_id)
+    .eq('email', normalizedEmail)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const existing = existingRaw as unknown as (
+    { token: string; email: string; role: string; status: string; expires_at: string } | null
+  );
+
+  if (existing?.status === 'pending') {
+    const expired = new Date(existing.expires_at) < new Date();
+
+    if (!expired) {
+      const inviteUrl = buildInviteUrl(existing.token);
+      if (!inviteUrl) return { error: 'NEXT_PUBLIC_APP_URL не настроен' };
+
+      return {
+        inviteUrl,
+        email: existing.email,
+        role: existing.role,
+        status: 'existing',
+      };
+    }
+
+    if (!createNewExpired) {
+      return {
+        email: existing.email,
+        role: existing.role,
+        status: 'expired',
+      };
+    }
+  }
 
   const { data: invRaw, error } = await supabase
     .from('invitations')
     .insert({
-      email:           parsed.data.email,
+      email:           normalizedEmail,
       role:            parsed.data.role,
       organization_id: caller.organization_id,
       invited_by:      caller.id,
@@ -71,8 +124,12 @@ export async function sendInvitation(
   }
 
   const inv = invRaw as unknown as { token: string } | null;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
-  console.log(`[INVITE] ${email} → ${appUrl}/invite/${inv?.token}`);
+  if (!inv?.token) return { error: 'Не удалось создать ссылку приглашения' };
+
+  const inviteUrl = buildInviteUrl(inv.token);
+  if (!inviteUrl) return { error: 'NEXT_PUBLIC_APP_URL не настроен' };
+
+  console.log(`[INVITE] ${normalizedEmail} → ${inviteUrl}`);
 
   createSecurityEvent({
     organizationId: caller.organization_id,
@@ -80,11 +137,16 @@ export async function sendInvitation(
     actorEmail:     caller.email ?? undefined,
     eventType:      'invitation.sent',
     targetType:     'invitation',
-    metadata:       { email: parsed.data.email, role: parsed.data.role },
+    metadata:       { email: normalizedEmail, role: parsed.data.role },
   });
 
   revalidatePath('/users');
-  return {};
+  return {
+    inviteUrl,
+    email: normalizedEmail,
+    role: parsed.data.role,
+    status: 'created',
+  };
 }
 
 export async function revokeInvitation(invitationId: string): Promise<{ error?: string }> {
