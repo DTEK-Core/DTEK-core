@@ -64,7 +64,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 | ID | Задача | Приоритет | Оценка | Зависимости | Статус |
 |---|---|---|---|---|---|
 | S09-T001 | Demo Narrative: сценарий демонстрации DTEK Core | P1 | M | — | ✅ |
-| S09-T002 | Demo Dataset Specification | P1 | M | T001 | 📋 |
+| S09-T002 | Demo Dataset Specification | P1 | M | T001 | ✅ |
 | S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 | 📋 |
 | S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 | 📋 |
 | S09-T005 | Product One-Pager для CISO | P1 | S | T001 | 📋 |
@@ -112,6 +112,8 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 **Ожидаемый результат:** спецификация данных для seed/import в Sprint 09 или Sprint 11.
 
+**Артефакт:** `docs/product/DEMO_DATASET_SPEC.md`
+
 ### S09-T003 — Demo Seed Plan
 
 **Описание:** определить способ наполнения demo org без нарушения архитектуры: seed script, SQL, admin-only action или documented manual import.
@@ -153,7 +155,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 ## 8. Definition Of Done
 
 - [x] Есть demo narrative.
-- [ ] Есть demo dataset specification.
+- [x] Есть demo dataset specification.
 - [ ] Есть ICP и interview script.
 - [ ] Есть product one-pager.
 - [ ] Есть pilot offer.

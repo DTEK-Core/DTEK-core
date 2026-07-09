@@ -40,6 +40,7 @@
 |---|---|
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Источник истины по стратегии, ICP, позиционированию и Market MVP |
 | [docs/product/DEMO_NARRATIVE.md](docs/product/DEMO_NARRATIVE.md) | Сценарий демонстрации DTEK Core для CISO и первых интервью |
+| [docs/product/DEMO_DATASET_SPEC.md](docs/product/DEMO_DATASET_SPEC.md) | Спецификация demo dataset для демонстрационной организации Sprint 09 |
 | [docs/product/Vision.md](docs/product/Vision.md) | Видение и долгосрочная цель |
 | [docs/product/Product_Concept.md](docs/product/Product_Concept.md) | Концепция продукта и ключевые сущности |
 | [docs/product/MVP_Scope.md](docs/product/MVP_Scope.md) | Границы текущего MVP и Market MVP |
