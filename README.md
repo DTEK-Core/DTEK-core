@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.8.0 — Sprint 08 завершён, проект готов к Market MVP консолидации.**
+**v0.8.0 — Sprint 09 активен: Market MVP Packaging.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Следующий этап — не новый UI-функционал, а Market MVP: демо-данные, импорт/экспорт, отчёты, объяснимость Trust Score и пилотный сценарий для первых пользователей.
+Функциональный MVP реализован и отполирован для первой демонстрации. Текущий этап — упаковка Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и подготовка 14-дневного pilot offer для первых пользователей.
 
 ### Реализованные Маршруты
 
@@ -131,6 +131,7 @@ tasks/               Backlog and sprint history
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Навигация по всей документации |
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
+| [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
 | [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
@@ -175,4 +176,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Digital Trust & Cyber Risk Management Platform · **v0.8.0**
+`DTEK Core` · Digital Trust & Cyber Risk Management Platform · **v0.8.0 / Sprint 09**

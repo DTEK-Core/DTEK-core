@@ -44,6 +44,7 @@
 | [docs/product/DEMO_SEED_PLAN.md](docs/product/DEMO_SEED_PLAN.md) | План безопасного ручного наполнения demo organization без миграций и seed-скриптов |
 | [docs/product/ICP_INTERVIEW_SCRIPT.md](docs/product/ICP_INTERVIEW_SCRIPT.md) | ICP и сценарий discovery-интервью для российского рынка ИБ |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO: проблема, решение, ценность и pilot offer |
+| [docs/product/COPY_ALIGNMENT.md](docs/product/COPY_ALIGNMENT.md) | Выравнивание landing/README copy с Market MVP стратегией |
 | [docs/product/Vision.md](docs/product/Vision.md) | Видение и долгосрочная цель |
 | [docs/product/Product_Concept.md](docs/product/Product_Concept.md) | Концепция продукта и ключевые сущности |
 | [docs/product/MVP_Scope.md](docs/product/MVP_Scope.md) | Границы текущего MVP и Market MVP |

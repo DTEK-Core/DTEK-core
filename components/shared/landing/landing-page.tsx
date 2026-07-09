@@ -60,15 +60,15 @@ function CountUp({ end, suffix = '', sep = false, dur = 1100 }: CountUpProps) {
 const FEATURES: [string, string, string, string][] = [
   ['passport', '01', 'Паспорт доверия',  'Цифровой паспорт каждого объекта: уровень доверия, риски, связи и история в едином артефакте.'],
   ['pulse',    '02', 'Оценка доверия',   'Прозрачная формула: факторы × веса. Видно, что снижает доверие и как именно его поднять.'],
-  ['graph',    '03', 'Граф доверия',     'Живая модель связей. Видно, как риск одного актива распространяется на всю организацию.'],
-  ['config',   '04', 'Конфигуратор',     'Веса, коннекторы и правила оценки настраиваются под вашу модель угроз.'],
+  ['graph',    '03', 'Граф доверия',     'Карта зависимостей. Видно, как риск одного актива влияет на критичные системы и команды.'],
+  ['config',   '04', 'Конфигуратор',     'Отраслевые веса Trust Score адаптируют модель доверия под промышленность, ИТ или сервисную организацию.'],
 ];
 
 const STATS = [
-  { end: 1248, sep: true, label: 'объектов в демо-модели' },
+  { end: 200, sep: true, label: 'активов в 14-дневном пилоте' },
   { end: 6,              label: 'факторов оценки доверия' },
-  { end: 5,              label: 'уровней доверия' },
-  { end: 74,             label: 'индекс доверия организации' },
+  { end: 4,              label: 'ключевых модуля платформы' },
+  { end: 10,             label: 'приоритетных рисков для CISO' },
 ] as const;
 
 export function LandingPage() {
@@ -114,28 +114,28 @@ export function LandingPage() {
         <div className="lp-hero-text">
           <div className="lp-eyebrow" style={{ '--i': 0 } as React.CSSProperties}>
             <span className="lp-eyebrow-mark mono">DTMP</span>
-            <span className="lp-eyebrow-text">Операционная система цифрового доверия</span>
+            <span className="lp-eyebrow-text">Digital Trust &amp; Cyber Risk Management</span>
           </div>
           <h1 className="lp-title">
             <span className="lp-line" style={{ '--i': 1 } as React.CSSProperties}>
-              <span>Цифровая модель</span>
+              <span>Цифровое доверие</span>
             </span>
             <span className="lp-line" style={{ '--i': 2 } as React.CSSProperties}>
-              <span>доверия вашей</span>
+              <span>и киберриски</span>
             </span>
             <span className="lp-line" style={{ '--i': 3 } as React.CSSProperties}>
-              <span>организации</span>
+              <span>активов</span>
             </span>
           </h1>
           <p className="lp-lead" style={{ '--i': 4 } as React.CSSProperties}>
-            DTEK Core строит живой цифровой двойник инфраструктуры. Каждый объект получает
-            <span className="hl"> паспорт доверия</span>, прозрачную оценку и место в графе
-            связей — вы управляете не списком активов, а доверием всей организации.
+            DTEK Core связывает активы, риски, <span className="hl">Trust Score</span> и
+            зависимости в единую управленческую картину для CISO — чтобы быстро понять,
+            где доверие ниже нормы и что исправлять первым.
           </p>
           <div className="lp-cta" style={{ '--i': 5 } as React.CSSProperties}>
             <Link href="/register" className="btn btn-primary btn-lg">
               <Icon name="shield" size={17} />
-              Начать работу
+              Запросить пилот
             </Link>
             <Link href="/dashboard" className="btn btn-line btn-lg">
               <Icon name="eye" size={17} />
@@ -144,9 +144,10 @@ export function LandingPage() {
           </div>
           <div className="lp-cat" style={{ '--i': 6 } as React.CSSProperties}>
             <span className="lp-cat-x mono">не&nbsp;SIEM</span>
-            <span className="lp-cat-x mono">не&nbsp;DLP</span>
-            <span className="lp-cat-x mono">не&nbsp;сканер</span>
-            <span className="lp-cat-eq mono">платформа управления доверием</span>
+            <span className="lp-cat-x mono">не&nbsp;EDR</span>
+            <span className="lp-cat-x mono">не&nbsp;CMDB</span>
+            <span className="lp-cat-x mono">не&nbsp;GRC</span>
+            <span className="lp-cat-eq mono">trust/risk layer</span>
           </div>
         </div>
 
@@ -159,7 +160,7 @@ export function LandingPage() {
       <section className="lp-features">
         <div className="lp-sec-head" data-reveal>
           <span className="lp-sec-kicker mono">ЧЕТЫРЕ ОПОРЫ ПЛАТФОРМЫ</span>
-          <h2 className="lp-sec-title">Доверие как управляемый объект</h2>
+          <h2 className="lp-sec-title">От активов к executive insight</h2>
         </div>
         <div className="lp-feature-grid">
           {FEATURES.map(([icon, num, title, text], i) => (
@@ -206,7 +207,7 @@ export function LandingPage() {
           <Logo size={22} />
           <span className="brand-name">DTEK<span className="brand-core">Core</span></span>
         </div>
-        <span className="lp-foot-copy mono">© 2026 DTEK Core · Digital Trust Management Platform</span>
+        <span className="lp-foot-copy mono">© 2026 DTEK Core · Digital Trust &amp; Cyber Risk Management Platform</span>
       </footer>
     </div>
   );
