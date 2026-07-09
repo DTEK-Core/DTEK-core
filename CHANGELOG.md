@@ -14,6 +14,7 @@
 - `docs/product/DEMO_NARRATIVE.md` — сценарий демонстрации DTEK Core для CISO и первых интервью (S09-T001).
 - `docs/product/DEMO_DATASET_SPEC.md` — спецификация демонстрационной организации, объектов, рисков, ролей и связей для Market MVP demo (S09-T002).
 - `docs/product/DEMO_SEED_PLAN.md` — безопасный план ручного наполнения demo organization через существующий UI без миграций и seed-скриптов (S09-T003).
+- `docs/product/ICP_INTERVIEW_SCRIPT.md` — ICP, discovery-вопросы, expected signals и scoring rubric для интервью с CISO и ИБ-интеграторами (S09-T004).
 
 ### Sprint 08 — UX Refinement & Platform Polish
 

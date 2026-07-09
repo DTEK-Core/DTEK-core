@@ -42,6 +42,7 @@
 | [docs/product/DEMO_NARRATIVE.md](docs/product/DEMO_NARRATIVE.md) | Сценарий демонстрации DTEK Core для CISO и первых интервью |
 | [docs/product/DEMO_DATASET_SPEC.md](docs/product/DEMO_DATASET_SPEC.md) | Спецификация demo dataset для демонстрационной организации Sprint 09 |
 | [docs/product/DEMO_SEED_PLAN.md](docs/product/DEMO_SEED_PLAN.md) | План безопасного ручного наполнения demo organization без миграций и seed-скриптов |
+| [docs/product/ICP_INTERVIEW_SCRIPT.md](docs/product/ICP_INTERVIEW_SCRIPT.md) | ICP и сценарий discovery-интервью для российского рынка ИБ |
 | [docs/product/Vision.md](docs/product/Vision.md) | Видение и долгосрочная цель |
 | [docs/product/Product_Concept.md](docs/product/Product_Concept.md) | Концепция продукта и ключевые сущности |
 | [docs/product/MVP_Scope.md](docs/product/MVP_Scope.md) | Границы текущего MVP и Market MVP |

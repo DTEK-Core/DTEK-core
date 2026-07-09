@@ -66,7 +66,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 | S09-T001 | Demo Narrative: сценарий демонстрации DTEK Core | P1 | M | — | ✅ |
 | S09-T002 | Demo Dataset Specification | P1 | M | T001 | ✅ |
 | S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 | ✅ |
-| S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 | 📋 |
+| S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 | ✅ |
 | S09-T005 | Product One-Pager для CISO | P1 | S | T001 | 📋 |
 | S09-T006 | Landing/Product Copy Alignment | P2 | S | T005 | 📋 |
 | S09-T007 | Pilot Offer: 14-дневный сценарий оценки доверия | P1 | S | T004, T005 | 📋 |
@@ -128,6 +128,8 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 **Ожидаемый результат:** 10–15 вопросов, критерии отбора компаний, expected signals.
 
+**Артефакт:** `docs/product/ICP_INTERVIEW_SCRIPT.md`
+
 ### S09-T005 — Product One-Pager
 
 **Описание:** описать DTEK Core на одном листе: проблема, решение, value proposition, 14-дневный pilot offer.
@@ -159,7 +161,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 - [x] Есть demo narrative.
 - [x] Есть demo dataset specification.
 - [x] Есть demo seed plan.
-- [ ] Есть ICP и interview script.
+- [x] Есть ICP и interview script.
 - [ ] Есть product one-pager.
 - [ ] Есть pilot offer.
 - [ ] Roadmap и документация синхронизированы.
