@@ -20,7 +20,7 @@ const securityHeaders = [
     ? [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' }]
     : []),
   // 'unsafe-inline' / 'unsafe-eval' required by Next.js 15 App Router + Tailwind.
-  // Nonce-based CSP planned for Sprint 09 (Security Assessment).
+  // Nonce-based CSP is tracked as post-Market-MVP security hardening.
   {
     key: 'Content-Security-Policy',
     value: [

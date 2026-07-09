@@ -129,8 +129,6 @@ export async function sendInvitation(
   const inviteUrl = buildInviteUrl(inv.token);
   if (!inviteUrl) return { error: 'NEXT_PUBLIC_APP_URL не настроен' };
 
-  console.log(`[INVITE] ${normalizedEmail} → ${inviteUrl}`);
-
   createSecurityEvent({
     organizationId: caller.organization_id,
     actorId:        caller.id,

@@ -15,7 +15,7 @@
 | `Trust_Score_Model.md` | `docs/architecture/Trust_Score_Model_v2.md` | ADR-001: устаревшая формула (аддитивная вместо взвешенной) |
 | `PRD_Configurator.md` | `docs/architecture/Configurator_Concept_Final.md` | ADR-002: неправильная концепция (wizard only вместо постоянного редактора) |
 | `PRD.md` | `docs/product/PRD_Core_Modules.md` + `docs/product/User_Stories.md` | Устаревший PRD, заменён актуальными документами |
-| `Development_Rules.md` | `.claude/engineering_rules.md` | Правила разработки перенесены в .claude/ |
+| `Development_Rules.md` | `AI_DEVELOPMENT_GUIDE.md` + `AGENTS.md` | Legacy-правила перенесены в актуальный AI workflow |
 | `Версия концепции 1.0.md` | `docs/product/Product_Concept.md` | Первоначальная концепция, заменена актуальной |
 | `PROJECT_ANALYSIS.md` | `ARCHITECTURE_DECISIONS.md` | Анализ расхождений — все устранены в ADR |
 | `SPRINT08_ANALYSIS.md` | `docs/product/PRODUCT_STRATEGY.md` + `docs/roadmap/ROADMAP.md` | Pre-review анализ v0.7.0 стал историческим после стратегической консолидации |

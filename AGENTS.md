@@ -36,12 +36,14 @@
 * **Sprint 05** — Trust Score Engine, Trust Graph, Dashboard, Configurator;
 * **Sprint 06** — Security Hardening, RBAC/RLS аудит, подготовка security-документации;
 * **Sprint 07** — комплексное тестирование реализованной платформы.
+* **Sprint 08** — Product Review, UX/UI refinement, командные пожелания и аккуратные улучшения существующего интерфейса.
+* **Sprint 09** — Market MVP Packaging: demo narrative, demo dataset, seed plan, ICP/interview script, product one-pager, landing copy alignment, pilot offer и documentation sync.
 
 Текущий этап:
 
-* **Sprint 08** — Product Review, UX/UI refinement, командные пожелания и аккуратные улучшения существующего интерфейса.
+* **Sprint 10** — Reporting & Export.
 
-Sprint 08 не является переписыванием дизайна. Нужно сохранить существующую концепцию и внести только утверждённые улучшения.
+Sprint 10 должен развивать Market MVP без изменения продуктовой границы: отчёты и экспорт для CISO поверх уже реализованных Trust Passport, Trust Score, Trust Graph и Risk Registry.
 
 ---
 
@@ -175,9 +177,9 @@ Sprint 08 не является переписыванием дизайна. Н�
 * улучшать микроанимации;
 * делать интерфейс более профессиональным.
 
-Главное правило Sprint 08:
+Главное правило после Sprint 09:
 
-**Сохранить текущую платформу, но сделать её визуально аккуратнее и удобнее.**
+**Не расширять продукт в сторону SIEM/EDR/DLP/CMDB/GRC без подтверждённой Market MVP необходимости. Следующий приоритет — отчёты, импорт, explainability и pilot readiness.**
 
 ---
 

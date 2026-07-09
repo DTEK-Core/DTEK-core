@@ -60,11 +60,6 @@ export async function completeOnboarding(data: OnboardingData) {
           invited_by: user.id,
         })) as never,
       );
-      // Log invite links to console — SMTP configured in Sprint 08
-      console.log(
-        '[Onboarding] Invitations created for:',
-        validInvites.map((i) => i.email).join(', '),
-      );
     }
   }
 
