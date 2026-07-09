@@ -2,7 +2,7 @@
 
 `Статус: актуальный`  
 `Дата: 08.07.2026`  
-`ADR: ADR-004`
+`ADR: ADR-004, ADR-007`
 
 ---
 
@@ -10,7 +10,7 @@
 
 Документ описывает фактическую архитектуру DTEK Core MVP.
 
-DTEK Core построен как cloud-first SaaS на Next.js и Supabase. Архитектура оптимизирована для быстрого MVP, безопасной multi-tenant модели и дальнейшего перехода к Market MVP.
+DTEK Core построен как cloud-first SaaS на Next.js и Supabase. Архитектура оптимизирована для быстрого MVP, безопасной multi-tenant модели и дальнейшего перехода к Evidence-first Trust Platform.
 
 ---
 
@@ -23,6 +23,20 @@ Browser
   -> Supabase Auth + Postgres
   -> RLS/RBAC policies
 ```
+
+Целевая Evidence-first архитектура добавляет слой автоматического наполнения:
+
+```text
+External sources / CSV / Connectors
+  -> Evidence Layer
+  -> Normalization Engine
+  -> Identity Resolution + Confidence Engine
+  -> Discovery Inbox
+  -> Objects / Relations / Risks
+  -> Trust Passport / Trust Score / Trust Graph
+```
+
+Подробно: [Evidence_First_Architecture.md](Evidence_First_Architecture.md).
 
 ---
 
@@ -52,6 +66,8 @@ Browser
 
 Edge Functions и Supabase Storage не являются обязательной частью текущего MVP. Они могут быть добавлены в Post-MVP при появлении подтверждённой задачи.
 
+Connector runtime, background sync и evidence storage проектируются как следующий архитектурный слой. До отдельной миграции они не являются частью текущей схемы БД.
+
 ---
 
 ## 5. Data Model
@@ -71,6 +87,8 @@ Edge Functions и Supabase Storage не являются обязательно�
 - `security_events`
 
 Полная схема: [Database_Design_Full.md](Database_Design_Full.md).
+
+Будущие Evidence-first таблицы должны проектироваться отдельно и обязательно включать `organization_id`, RLS, source metadata, confidence, timestamps и audit trail.
 
 ---
 
@@ -112,6 +130,7 @@ Trust Score рассчитывается в TypeScript:
 | Синхронный Trust Score пересчёт | Достаточно для MVP-объёмов | 500+ объектов или долгие операции |
 | Cloud-only | Быстрая разработка и деплой | Enterprise customers |
 | In-memory rate limiting | Простота для MVP | Multi-instance production |
+| Manual-first data model | Быстрое подтверждение UX и Trust Score | Evidence-first import/connectors |
 
 Технический долг: [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md).
 
@@ -123,7 +142,7 @@ Trust Score рассчитывается в TypeScript:
 - Agent runtime.
 - On-prem runtime.
 - Event streaming.
-- Heavy connector framework.
+- Heavy connector framework до Sprint 15 foundation.
 - AI/ML scoring.
 - Custom RBAC roles.
 
@@ -135,7 +154,9 @@ Trust Score рассчитывается в TypeScript:
 
 1. Market MVP.
 2. Pilot readiness.
-3. Первый подтверждённый connector prototype.
-4. API/webhooks.
-5. Enterprise security features.
-6. On-prem/private cloud only after commercial validation.
+3. Evidence import as first ingestion path.
+4. Connector Framework Foundation.
+5. First connector prototypes based on pilot evidence.
+6. API/webhooks.
+7. Enterprise security features.
+8. On-prem/private cloud only after commercial validation.

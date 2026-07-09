@@ -62,17 +62,28 @@
 | 11 | Configurator | US-090–091 | Epic 3, 8 | — | 3–4 |
 | | **Итого MVP** | **46 историй** | | | **41–55 дней** |
 
-### Market MVP Epics После Sprint 08
+### Evidence-first Market MVP Epics После Sprint 08
 
 | # | Epic | Sprint | Цель |
 |---|---|---|---|
 | 12 | Market MVP Packaging | Sprint 09 | Упаковать продукт для demo/interview |
 | 13 | Reporting & Export | Sprint 10 | Дать CISO отчёты и экспорт |
-| 14 | Import & Data Onboarding | Sprint 11 | Загрузить реальные данные без интеграций |
-| 15 | Trust Explainability | Sprint 12 | Объяснить Trust Score и impact рисков |
-| 16 | Risk Workflow | Sprint 13 | Превратить риски в рабочий процесс |
+| 14 | Evidence Import & Data Onboarding | Sprint 11 | Загрузить реальные данные как первый evidence ingestion path |
+| 15 | Evidence-backed Trust Explainability | Sprint 12 | Объяснить Trust Score, impact рисков и источники данных |
+| 16 | Evidence-aware Risk Workflow | Sprint 13 | Превратить ручные, импортированные и auto-candidate риски в рабочий процесс |
 | 17 | Pilot Readiness | Sprint 14 | Подготовить продукт к 1–3 пилотам |
-| 18 | First Connector Prototype | Sprint 15 | Реализовать первый подтверждённый источник данных |
+| 18 | Connector Framework Foundation | Sprint 15 | Спроектировать Discovery, Evidence, Identity Resolution и Connector Framework |
+
+### Новые Evidence-first Epic
+
+| # | Epic | Назначение |
+|---|---|---|
+| 19 | Discovery Layer | Обнаружение объектов из import/connectors и создание candidates |
+| 20 | Evidence Layer | Хранение цифровых доказательств, source, confidence и history |
+| 21 | Normalization & Identity Resolution | Нормализация источников, deduplication и merge logic |
+| 22 | Discovery Inbox | Подтверждение, отклонение и объединение найденных объектов |
+| 23 | Auto Risk Mapper | Создание risk candidates на основе evidence |
+| 24 | Drift Detection | Отслеживание изменений инфраструктуры и их влияния на Trust Score |
 
 Эти Epic не заменяют исходные Epic 1–11. Они являются следующим слоем после Functional MVP и описаны в `docs/roadmap/SPRINT_ROADMAP.md`.
 

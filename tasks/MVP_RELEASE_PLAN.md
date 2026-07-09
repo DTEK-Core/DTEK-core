@@ -3,9 +3,9 @@
 `Проект: DTEK Core`
 `Версия: 1.0`
 `Дата: 09.06.2026`
-`Статус: Исторический план Functional MVP; дополнен Market MVP направлением 08.07.2026`
+`Статус: Исторический план Functional MVP; дополнен Evidence-first Market MVP направлением 09.07.2026`
 
-> Sprint 01–08 закрыли функциональный MVP и UX-полировку. Дальнейшее развитие описано в `docs/roadmap/ROADMAP.md` и `docs/roadmap/SPRINT_ROADMAP.md`.
+> Sprint 01–08 закрыли функциональный MVP и UX-полировку. Sprint 09 подготовил продукт к демонстрации. После ADR-007 дальнейшее развитие идёт как Evidence-first Trust Platform и описано в `docs/roadmap/ROADMAP.md` и `docs/roadmap/SPRINT_ROADMAP.md`.
 
 ---
 
@@ -51,7 +51,7 @@
 | **R3** | Визуальная модель | F-041–045 | 5–7 | Интерактивный граф доверия с отношениями между объектами |
 | **R4** | Движок доверия | F-027, F-033, F-036–040 | 7–9 | Trust Score рассчитывается автоматически, платформа живёт |
 | **R5** | MVP Complete | F-046–053 | 6–8 | Dashboard + Конфигуратор, полный MVP готов к демонстрации |
-| **R6** | Market MVP Foundation | F-028, F-035 + market-фичи | 8–15 | Экспорт, импорт, отчёты, explainability и подготовка к пилотам |
+| **R6** | Evidence-first Market MVP Foundation | F-028, F-035 + market-фичи | 8–15 | Экспорт, evidence import, отчёты, explainability и подготовка к пилотам |
 | | **Итого MVP (R0–R5)** | **51 фича** | **44–60 дней** | |
 
 ---

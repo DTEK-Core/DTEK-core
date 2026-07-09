@@ -11,12 +11,14 @@
 
 1. [README.md](README.md) — что такое продукт и как запустить проект.
 2. [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) — утверждённые ADR.
-3. [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) — новая стратегия и позиционирование.
-4. [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) — дальнейшее развитие.
-5. [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) — будущая последовательность спринтов.
-6. [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) — техническая архитектура MVP.
-7. [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) — модель безопасности.
-8. [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md) — правила работы AI/разработчиков.
+3. [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) — стратегия и позиционирование.
+4. [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) — Evidence-first концепция после ADR-007.
+5. [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) — дальнейшее развитие.
+6. [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) — будущая последовательность спринтов.
+7. [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) — техническая архитектура MVP.
+8. [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) — Discovery, Connector и Evidence layers.
+9. [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) — модель безопасности.
+10. [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md) — правила работы AI/разработчиков.
 
 ---
 
@@ -39,6 +41,7 @@
 | Документ | Назначение |
 |---|---|
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Источник истины по стратегии, ICP, позиционированию и Market MVP |
+| [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Новая Evidence-first стратегия: автоматическое наполнение, evidence, Discovery Inbox и Connector Framework |
 | [docs/product/DEMO_NARRATIVE.md](docs/product/DEMO_NARRATIVE.md) | Сценарий демонстрации DTEK Core для CISO и первых интервью |
 | [docs/product/DEMO_DATASET_SPEC.md](docs/product/DEMO_DATASET_SPEC.md) | Спецификация demo dataset для демонстрационной организации Sprint 09 |
 | [docs/product/DEMO_SEED_PLAN.md](docs/product/DEMO_SEED_PLAN.md) | План безопасного ручного наполнения demo organization без миграций и seed-скриптов |
@@ -63,8 +66,8 @@
 
 | Документ | Назначение |
 |---|---|
-| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Обновлённая дорожная карта от Sprint 08 к Market MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план Sprint 09–15 до коммерческого MVP |
+| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Evidence-first дорожная карта от Sprint 09 к Market/Pilot MVP |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план Sprint 09–15 с учётом ADR-007 |
 | [tasks/MVP_RELEASE_PLAN.md](tasks/MVP_RELEASE_PLAN.md) | Исторический release plan R0–R6, дополнен новым Market MVP направлением |
 | [tasks/EPIC_BACKLOG.md](tasks/EPIC_BACKLOG.md) | Epic backlog MVP |
 | [tasks/FEATURE_BACKLOG.md](tasks/FEATURE_BACKLOG.md) | Feature backlog MVP |
@@ -76,6 +79,7 @@
 | Документ | Назначение |
 |---|---|
 | [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) | Архитектура Next.js + Supabase Cloud |
+| [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery Layer, Connector Framework, Evidence Layer и автоматического наполнения |
 | [docs/architecture/Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Полная схема БД, индексы, RLS |
 | [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула Trust Score |
 | [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора |
@@ -148,11 +152,11 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08 Implementation, завершён функционально |
 | [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging, завершён |
 | [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export |
-| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Import & Data Onboarding |
-| [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Trust Explainability |
-| [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Risk Workflow |
+| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding |
+| [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Evidence-backed Trust Explainability |
+| [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Evidence-aware Risk Workflow |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Pilot Readiness |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: First Connector Prototype |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Connector Framework Foundation |
 
 ---
 

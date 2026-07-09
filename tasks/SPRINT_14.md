@@ -3,7 +3,7 @@
 `Проект: DTEK Core`  
 `Спринт: 14`  
 `Тип: Pilot MVP Stabilization`  
-`Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md`  
+`Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
 `Статус: 📋 Запланирован`
 
 ---
@@ -12,7 +12,7 @@
 
 Подготовить DTEK Core к 1–3 пилотным внедрениям на 2–4 недели.
 
-Sprint 14 закрывает эксплуатационные, стабильностные и onboarding-риски перед передачей продукта первым внешним пользователям.
+Sprint 14 закрывает эксплуатационные, стабильностные и onboarding-риски перед передачей продукта первым внешним пользователям, а также собирает evidence о том, какие источники данных нужны для Connector Framework.
 
 ---
 
@@ -21,8 +21,8 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | Параметр | Значение |
 |---|---|
 | Фаза | Pilot MVP |
-| Предыдущий Sprint | Sprint 13 — Risk Workflow |
-| Следующий Sprint | Sprint 15 — First Connector Prototype |
+| Предыдущий Sprint | Sprint 13 — Evidence-aware Risk Workflow |
+| Следующий Sprint | Sprint 15 — Connector Framework Foundation |
 | Milestone | Pilot Ready |
 
 ---
@@ -44,6 +44,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 - backup/restore checklist;
 - monitoring/error handling plan;
 - pilot success metrics.
+- connector/source discovery checklist for pilots.
 
 ### Не входит
 
@@ -66,7 +67,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 |
-| S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 |
+| S14-T007 | Pilot Metrics, Source Inventory & Feedback Loop | P1 | S | T001 |
 | S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 |
 
 ---
@@ -131,11 +132,11 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 
 **Ожидаемый результат:** команда видит падения Server Actions, build/deploy failures и Supabase outages.
 
-### S14-T007 — Pilot Metrics & Feedback Loop
+### S14-T007 — Pilot Metrics, Source Inventory & Feedback Loop
 
-**Описание:** определить метрики успешности пилота.
+**Описание:** определить метрики успешности пилота и собрать inventory источников клиента: AD/LDAP, Zabbix, MaxPatrol VM, Kaspersky, Wazuh, UserGate, SIEM, VMware/Proxmox/Kubernetes/cloud.
 
-**Ожидаемый результат:** пилот измеряется через usage, data completeness, reports, feedback и willingness to pay.
+**Ожидаемый результат:** пилот измеряется через usage, data completeness, reports, feedback, willingness to pay и connector demand.
 
 ### S14-T008 — Pilot Documentation Pack
 
@@ -153,7 +154,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 - [ ] Smoke test baseline есть.
 - [ ] Backup/restore описан.
 - [ ] Monitoring plan описан.
-- [ ] Pilot metrics определены.
+- [ ] Pilot metrics и source inventory определены.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.
@@ -168,4 +169,3 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | Email provider добавит лишнюю сложность | Средняя | Среднее | Manual invite link оставить fallback |
 | Smoke tests потребуют много инфраструктуры | Средняя | Среднее | Начать с минимального baseline |
 | Пилот начнётся без метрик | Средняя | Высокое | Утвердить metrics до старта |
-

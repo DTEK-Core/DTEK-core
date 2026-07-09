@@ -62,7 +62,7 @@
 
 ## 4. Product Boundary
 
-DTEK Core — это слой управления цифровым доверием и киберрисками активов.
+DTEK Core — это Evidence-first Trust Intelligence Platform: слой управления цифровым доверием и киберрисками активов на основе цифровых доказательств.
 
 Платформа не является и не должна становиться в рамках MVP:
 
@@ -81,9 +81,12 @@ Market MVP должен доказать ценность через:
 - Trust Graph;
 - Risk Registry;
 - отчёты;
-- импорт/экспорт;
+- импорт/экспорт как первый evidence ingestion path;
 - объяснимость оценки;
 - пилотный сценарий для CISO.
+- foundation Connector Framework после pilot readiness.
+
+После ADR-007 автоматическое наполнение является стратегическим направлением. При этом любые интеграции должны развиваться через Evidence Layer, Discovery Inbox, RLS/RBAC и audit trail, а не через ad hoc импорт прямо в бизнес-таблицы.
 
 ---
 

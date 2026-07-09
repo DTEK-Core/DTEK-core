@@ -1,9 +1,9 @@
-# SPRINT 11 — Import & Data Onboarding
+# SPRINT 11 — Evidence Import & Data Onboarding
 
 `Проект: DTEK Core`  
 `Спринт: 11`  
 `Тип: Market MVP Feature Sprint`  
-`Основа: Sprint 10, PRODUCT_STRATEGY.md, ROADMAP.md`  
+`Основа: Sprint 10, PRODUCT_STRATEGY.md, ROADMAP.md, ADR-007`  
 `Статус: 📋 Запланирован`
 
 ---
@@ -12,7 +12,7 @@
 
 Убрать главный барьер пилотов: ручное заполнение объектов и рисков.
 
-Sprint 11 должен позволить загрузить 50–200 активов и 20–100 рисков из CSV без миграций, коннекторов и изменения архитектуры.
+Sprint 11 должен позволить загрузить 50–200 активов и 20–100 рисков из CSV/XLSX как первый evidence ingestion path без полноценного Connector Framework и без ломки текущей архитектуры.
 
 ---
 
@@ -22,14 +22,14 @@ Sprint 11 должен позволить загрузить 50–200 актив
 |---|---|
 | Фаза | Market MVP |
 | Предыдущий Sprint | Sprint 10 — Reporting & Export |
-| Следующий Sprint | Sprint 12 — Trust Explainability |
-| Milestone | Data Onboarding Ready |
+| Следующий Sprint | Sprint 12 — Evidence-backed Trust Explainability |
+| Milestone | Evidence Onboarding Ready |
 
 ---
 
 ## 3. Бизнес-Ценность
 
-Первые пользователи почти всегда имеют исходные данные в Excel/CSV. CSV import позволяет провести пилот без интеграций и доказать ценность продукта на реальных данных клиента.
+Первые пользователи почти всегда имеют исходные данные в Excel/CSV. CSV/XLSX import позволяет провести пилот без тяжёлых интеграций и одновременно закладывает будущую модель Evidence Layer: у импортированных данных появляется источник, дата загрузки и понятное происхождение.
 
 ---
 
@@ -37,11 +37,12 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 ### Входит
 
-- CSV import объектов;
-- CSV import рисков;
+- CSV/XLSX import объектов;
+- CSV/XLSX import рисков;
 - validation preview;
 - import error report;
 - sample templates;
+- source metadata для импортированных данных;
 - безопасный rollback/partial success подход.
 
 ### Не входит
@@ -49,7 +50,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - прямые коннекторы к SIEM/VM/CMDB;
 - background queue;
 - сложный ETL;
-- auto-discovery активов;
+- auto-discovery активов через коннекторы;
 - drag-and-drop spreadsheet editor.
 
 ---
@@ -58,10 +59,10 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 | ID | Задача | Приоритет | Оценка | Зависимости |
 |---|---|---|---|---|
-| S11-T001 | CSV Schema Specification | P1 | S | S09, S10 |
-| S11-T002 | Objects CSV Import | P1 | L | T001 |
-| S11-T003 | Risks CSV Import | P1 | L | T001 |
-| S11-T004 | Import Preview & Validation Errors | P1 | M | T002, T003 |
+| S11-T001 | Evidence Import Schema Specification | P1 | M | S09, S10 |
+| S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 |
+| S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 |
+| S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 |
 | S11-T005 | Import Templates | P1 | S | T001 |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 |
@@ -73,7 +74,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 ```text
 День 1
-  S11-T001 CSV Schema Specification
+  S11-T001 Evidence Import Schema Specification
   S11-T005 Import Templates
 
 День 2–3
@@ -93,29 +94,29 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 ## 7. Детализация Задач
 
-### S11-T001 — CSV Schema Specification
+### S11-T001 — Evidence Import Schema Specification
 
-**Описание:** определить обязательные и опциональные колонки для объектов и рисков.
+**Описание:** определить обязательные и опциональные колонки для объектов и рисков, а также минимальные source metadata поля.
 
-**Ожидаемый результат:** зафиксирован CSV contract без изменения схемы БД.
+**Ожидаемый результат:** зафиксирован import contract без изменения схемы БД и с совместимостью с будущим Evidence Layer.
 
-### S11-T002 — Objects CSV Import
+### S11-T002 — Objects CSV/XLSX Import
 
 **Описание:** реализовать загрузку объектов с server-side validation и RBAC.
 
 **Ожидаемый результат:** owner/analyst/admin в рамках ADR-003 могут импортировать разрешённые объекты.
 
-### S11-T003 — Risks CSV Import
+### S11-T003 — Risks CSV/XLSX Import
 
 **Описание:** реализовать загрузку рисков и опциональную привязку к объектам по внешнему ключу/имени.
 
 **Ожидаемый результат:** риски создаются с категориями, severity, status, due date и связями.
 
-### S11-T004 — Import Preview & Validation Errors
+### S11-T004 — Import Preview, Validation & Source Metadata
 
-**Описание:** перед созданием показать количество валидных строк и ошибки.
+**Описание:** перед созданием показать количество валидных строк, ошибки и источник импортируемых данных.
 
-**Ожидаемый результат:** пользователь видит, что будет импортировано, и может исправить CSV.
+**Ожидаемый результат:** пользователь видит, что будет импортировано, откуда пришли данные, и может исправить файл.
 
 ### S11-T005 — Import Templates
 
@@ -145,9 +146,10 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 ## 8. Definition Of Done
 
-- [ ] Objects CSV import работает.
-- [ ] Risks CSV import работает.
+- [ ] Objects CSV/XLSX import работает.
+- [ ] Risks CSV/XLSX import работает.
 - [ ] Есть preview и ошибки валидации.
+- [ ] У импортированных данных есть source context.
 - [ ] Есть шаблоны CSV.
 - [ ] Audit events фиксируются.
 - [ ] Trust Score пересчитывается после импорта.
@@ -165,4 +167,3 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | CSV формат станет слишком сложным | Средняя | Среднее | Минимальный обязательный набор колонок |
 | Импорт создаст дубли | Средняя | Среднее | external_id/name matching strategy |
 | Ошибка импорта нарушит tenant isolation | Низкая | Критическое | Server-side org checks + RLS |
-

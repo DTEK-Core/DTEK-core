@@ -1,16 +1,16 @@
-# SPRINT 12 — Trust Explainability
+# SPRINT 12 — Evidence-backed Trust Explainability
 
 `Проект: DTEK Core`  
 `Спринт: 12`  
 `Тип: Market MVP Feature Sprint`  
-`Основа: Sprint 11, Trust_Score_Model_v2.md, ADR-001`  
+`Основа: Sprint 11, Trust_Score_Model_v2.md, ADR-001, ADR-007`  
 `Статус: 📋 Запланирован`
 
 ---
 
 ## 1. Цель Спринта
 
-Сделать Trust Score объяснимым для CISO и аналитика ИБ.
+Сделать Trust Score объяснимым для CISO и аналитика ИБ через факторы, риски, историю изменений и source/evidence context.
 
 Пользователь должен понимать не только число, но и причины:
 
@@ -18,6 +18,7 @@
 Почему Score такой?
 Какие факторы давят сильнее всего?
 Какие риски исправить первыми?
+Какие источники подтверждают данные?
 Что изменится после закрытия риска?
 ```
 
@@ -28,15 +29,15 @@
 | Параметр | Значение |
 |---|---|
 | Фаза | Market MVP |
-| Предыдущий Sprint | Sprint 11 — Import & Data Onboarding |
-| Следующий Sprint | Sprint 13 — Risk Workflow |
-| Milestone | Explainability Ready |
+| Предыдущий Sprint | Sprint 11 — Evidence Import & Data Onboarding |
+| Следующий Sprint | Sprint 13 — Evidence-aware Risk Workflow |
+| Milestone | Evidence-backed Explainability Ready |
 
 ---
 
 ## 3. Бизнес-Ценность
 
-Trust Score без объяснения может восприниматься как произвольная оценка. Explainability превращает Trust Score в управленческий инструмент и повышает доверие к платформе.
+Trust Score без объяснения может восприниматься как произвольная оценка. Evidence-backed explainability превращает Trust Score в управленческий инструмент: пользователь видит не только число, но и происхождение данных.
 
 ---
 
@@ -48,6 +49,7 @@ Trust Score без объяснения может восприниматься 
 - factor reason cards;
 - risk impact hint;
 - score delta explanation;
+- source/evidence context;
 - user-facing explanation copy.
 
 ### Не входит
@@ -64,11 +66,11 @@ Trust Score без объяснения может восприниматься 
 
 | ID | Задача | Приоритет | Оценка | Зависимости |
 |---|---|---|---|---|
-| S12-T001 | Explainability Model Specification | P1 | M | S11 |
+| S12-T001 | Evidence-backed Explainability Model Specification | P1 | M | S11 |
 | S12-T002 | Top Score Drivers for Object Passport | P1 | M | T001 |
-| S12-T003 | Factor Reason Cards | P1 | M | T001 |
+| S12-T003 | Factor Reason Cards With Sources | P1 | M | T001 |
 | S12-T004 | Risk Impact Hint | P1 | M | T001 |
-| S12-T005 | Score Delta Explanation | P2 | M | T001 |
+| S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 |
 | S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 |
 | S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 |
 | S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 |
@@ -99,9 +101,9 @@ Trust Score без объяснения может восприниматься 
 
 ## 7. Детализация Задач
 
-### S12-T001 — Explainability Model Specification
+### S12-T001 — Evidence-backed Explainability Model Specification
 
-**Описание:** определить, какие причины Trust Score показываются пользователю и как они рассчитываются из существующих данных.
+**Описание:** определить, какие причины Trust Score показываются пользователю и как они рассчитываются из существующих данных, import source и будущих evidence records.
 
 **Ожидаемый результат:** спецификация explainability без изменения ADR-001.
 
@@ -111,9 +113,9 @@ Trust Score без объяснения может восприниматься 
 
 **Ожидаемый результат:** пользователь видит 3–5 ключевых факторов влияния.
 
-### S12-T003 — Factor Reason Cards
+### S12-T003 — Factor Reason Cards With Sources
 
-**Описание:** для каждого фактора показать понятное объяснение: base, penalties, бонусы, связанные риски.
+**Описание:** для каждого фактора показать понятное объяснение: base, penalties, бонусы, связанные риски и источники данных.
 
 **Ожидаемый результат:** факторная оценка становится прозрачной.
 
@@ -123,11 +125,11 @@ Trust Score без объяснения может восприниматься 
 
 **Ожидаемый результат:** в Risk Drawer/Passport видно “закрытие риска может дать +N к Trust Score”.
 
-### S12-T005 — Score Delta Explanation
+### S12-T005 — Score Delta Explanation With Evidence Timeline
 
 **Описание:** объяснить последнее изменение Trust Score по истории.
 
-**Ожидаемый результат:** пользователь понимает, почему Score изменился с прошлого расчёта.
+**Ожидаемый результат:** пользователь понимает, почему Score изменился с прошлого расчёта и какие source/evidence это вызвали.
 
 ### S12-T006 — Dashboard Explainability Summary
 
@@ -153,6 +155,7 @@ Trust Score без объяснения может восприниматься 
 
 - [ ] Trust Score имеет объяснение на уровне объекта.
 - [ ] Факторы имеют reason cards.
+- [ ] В объяснении есть source/evidence context там, где он доступен.
 - [ ] Risk impact показывается пользователю.
 - [ ] Dashboard показывает summary причин.
 - [ ] Формула Trust Score не изменена.
@@ -170,4 +173,3 @@ Trust Score без объяснения может восприниматься 
 | Explainability начнёт спорить с формулой | Средняя | Высокое | Опираемся только на `lib/trust/calculate.ts` |
 | UI станет перегруженным | Средняя | Среднее | Показывать top drivers, детали раскрывать |
 | Пользователь примет impact как гарантию | Средняя | Среднее | Писать “ориентировочно” |
-

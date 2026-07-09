@@ -2,22 +2,22 @@
 
 `Статус: актуальный`  
 `Дата: 09.07.2026`  
-`Назначение: единый план разработки после Sprint 08 до коммерческого MVP`
+`Назначение: единый план разработки после Sprint 08 до Evidence-first коммерческого MVP`
 
 ---
 
 ## 1. Логика Sprint Roadmap
 
-Sprint 01–08 закрыли Functional MVP и UX refinement. Дальнейшая разработка идёт не по принципу “добавить больше функций”, а по пути коммерческого MVP:
+Sprint 01–08 закрыли Functional MVP и UX refinement. Sprint 09 упаковал продукт для демонстрации. После ADR-007 дальнейшая разработка идёт по пути Evidence-first коммерческого MVP:
 
 ```text
 Demo Ready
   -> Reporting Ready
-  -> Data Onboarding Ready
-  -> Explainability Ready
-  -> Risk Workflow Ready
+  -> Evidence Onboarding Ready
+  -> Evidence-backed Explainability Ready
+  -> Evidence-aware Risk Workflow Ready
   -> Pilot Ready
-  -> Integration Ready
+  -> Connector Foundation Ready
 ```
 
 ---
@@ -61,11 +61,11 @@ Demo Ready
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
 | Sprint 10 | [tasks/SPRINT_10.md](../../tasks/SPRINT_10.md) | Reporting Ready | Дать CISO PDF/CSV/export artefacts и executive report |
-| Sprint 11 | [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) | Data Onboarding Ready | Загрузить реальные объекты и риски через CSV |
-| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Explainability Ready | Объяснить Trust Score и impact рисков |
-| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Risk Workflow Ready | Сделать Risk Registry рабочим процессом |
+| Sprint 11 | [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) | Evidence Onboarding Ready | Загрузить реальные данные через CSV/XLSX как первый evidence ingestion |
+| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Evidence-backed Explainability Ready | Объяснить Trust Score, impact рисков и источники данных |
+| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Evidence-aware Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported/auto-candidate risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Pilot Ready | Подготовить продукт к 1–3 пилотам |
-| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Integration Ready | Реализовать первый подтверждённый connector prototype |
+| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox |
 
 ---
 
@@ -75,16 +75,16 @@ Demo Ready
 Sprint 08 UX Refinement
     -> Sprint 09 Market MVP Packaging
         -> Sprint 10 Reporting & Export
-            -> Sprint 11 Import & Data Onboarding
-                -> Sprint 12 Trust Explainability
-                    -> Sprint 13 Risk Workflow
+            -> Sprint 11 Evidence Import & Data Onboarding
+                -> Sprint 12 Evidence-backed Trust Explainability
+                    -> Sprint 13 Evidence-aware Risk Workflow
                         -> Sprint 14 Pilot Readiness
-                            -> Sprint 15 First Connector Prototype
+                            -> Sprint 15 Connector Framework Foundation
 ```
 
 Sprint 10 и Sprint 11 могут частично готовиться параллельно после Sprint 09, но Sprint 12 зависит от устойчивой модели данных и импортированных рисков.
 
-Sprint 15 условный: он начинается только после пилотного feedback или подтверждённого рыночного сигнала.
+Sprint 15 уже не является случайным одиночным коннектором. Он создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам.
 
 ---
 
@@ -93,12 +93,12 @@ Sprint 15 условный: он начинается только после п
 Коммерческий MVP считается спланированным до состояния:
 
 - продукт можно показать CISO без пустых экранов;
-- данные можно загрузить без интеграций;
+- данные можно загрузить без интеграций как первый evidence ingestion path;
 - отчёты можно передать руководству;
 - Trust Score объясним;
 - риски имеют workflow;
 - пилот можно запустить и измерить;
-- первый коннектор выбирается по evidence, а не заранее.
+- Connector Framework спроектирован до первой тяжёлой интеграции.
 
 Enterprise-функции (`SSO`, `on-prem`, `custom roles`, `marketplace`, агент) остаются за пределами этой Sprint Roadmap.
 

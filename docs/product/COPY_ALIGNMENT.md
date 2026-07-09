@@ -24,7 +24,7 @@
 
 DTEK Core описывается как:
 
-> Digital Trust & Cyber Risk Management Platform.
+> Evidence-first Trust Intelligence Platform.
 
 В публичном copy не использовать формулировки, которые могут создать ожидание тяжёлой enterprise-платформы, SIEM, сканера, CMDB, GRC или интеграционного хаба.
 

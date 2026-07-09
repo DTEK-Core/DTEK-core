@@ -115,9 +115,9 @@
 
 ---
 
-## Market MVP Feature Backlog После Sprint 08
+## Evidence-first Market MVP Feature Backlog После Sprint 08
 
-Этот раздел дополняет исходный MVP backlog и соответствует Sprint 09–15.
+Этот раздел дополняет исходный MVP backlog и соответствует Sprint 09–15 после ADR-007.
 
 | ID | Sprint | Feature | Приоритет | Размер |
 |---|---|---|---|---|
@@ -131,18 +131,19 @@
 | M-011 | S10 | Risk Registry CSV Export | P1 | M |
 | M-012 | S10 | Executive Organization Report | P1 | L |
 | M-013 | S10 | Report RBAC & Audit | P1 | M |
-| M-020 | S11 | Objects CSV Import | P1 | L |
-| M-021 | S11 | Risks CSV Import | P1 | L |
-| M-022 | S11 | Import Preview & Validation | P1 | M |
-| M-023 | S11 | Import Templates | P1 | S |
-| M-030 | S12 | Trust Score Top Drivers | P1 | M |
-| M-031 | S12 | Factor Reason Cards | P1 | M |
+| M-020 | S11 | Evidence Import Schema Specification | P1 | M |
+| M-021 | S11 | Objects CSV/XLSX Import | P1 | L |
+| M-022 | S11 | Risks CSV/XLSX Import | P1 | L |
+| M-023 | S11 | Import Preview, Validation & Source Metadata | P1 | M |
+| M-024 | S11 | Import Templates | P1 | S |
+| M-030 | S12 | Evidence-backed Trust Score Top Drivers | P1 | M |
+| M-031 | S12 | Factor Reason Cards With Sources | P1 | M |
 | M-032 | S12 | Risk Impact Hint | P1 | M |
-| M-033 | S12 | Score Delta Explanation | P2 | M |
+| M-033 | S12 | Score Delta Explanation With Evidence Timeline | P2 | M |
 | M-040 | S13 | Risk Owner & Assignment | P1 | M |
 | M-041 | S13 | Due Date & SLA Warnings | P1 | M |
 | M-042 | S13 | Risk Comments | P1 | M |
-| M-043 | S13 | Evidence MVP | P1 | M |
+| M-043 | S13 | Manual/Imported/Auto Risk Evidence UI | P1 | M |
 | M-044 | S13 | Risk Activity Timeline | P2 | M |
 | M-050 | S14 | Pilot Readiness Checklist | P1 | S |
 | M-051 | S14 | Environment Health Check | P1 | M |
@@ -150,11 +151,12 @@
 | M-053 | S14 | Smoke Test Automation Baseline | P1 | M |
 | M-054 | S14 | Backup & Restore Runbook | P1 | S |
 | M-055 | S14 | Pilot Metrics & Feedback Loop | P1 | S |
-| M-060 | S15 | Connector Selection Report | P1 | S |
-| M-061 | S15 | Connector Architecture Decision | P1 | M |
-| M-062 | S15 | Data Mapping Specification | P1 | M |
-| M-063 | S15 | Connector Prototype Implementation | P1 | L |
-| M-064 | S15 | Connector Security Review | P1 | M |
+| M-060 | S15 | Connector Framework Architecture Decision | P1 | M |
+| M-061 | S15 | Evidence Layer Data Model Specification | P1 | L |
+| M-062 | S15 | Normalization & Identity Resolution Specification | P1 | M |
+| M-063 | S15 | Discovery Inbox UX Specification | P1 | M |
+| M-064 | S15 | Connector Shortlist & First-source Selection Report | P1 | S |
+| M-065 | S15 | Connector Security Model | P1 | M |
 
 ---
 

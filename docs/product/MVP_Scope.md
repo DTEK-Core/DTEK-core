@@ -13,13 +13,15 @@
 
 ```text
 Создать организацию
--> добавить объекты
--> зарегистрировать риски
+-> добавить или импортировать объекты
+-> зарегистрировать или импортировать риски
 -> увидеть Trust Passport
 -> получить Trust Score
 -> увидеть Trust Graph
 -> принять управленческое решение
 ```
+
+После ADR-007 целевой путь расширяется: пользователь подключает источники или загружает выгрузки, DTEK Core создаёт evidence-backed цифровую модель, а аналитик подтверждает и корректирует её.
 
 ---
 
@@ -54,16 +56,18 @@ Market MVP нужен для первых внешних демонстраци�
 
 - demo seed data;
 - demo scenario;
-- CSV import объектов;
-- CSV import рисков;
+- CSV/XLSX import объектов как первый evidence ingestion path;
+- CSV/XLSX import рисков;
 - PDF Trust Passport export;
 - CSV Risk Registry export;
 - executive organization report;
 - Trust Score explainability;
 - risk impact hints;
 - workflow риска: owner, due date, comments, evidence;
+- source/evidence context в explainability;
 - стабильный invite flow;
 - pilot runbook.
+- Connector Framework Foundation.
 
 ---
 
@@ -77,7 +81,7 @@ Market MVP нужен для первых внешних демонстраци�
 - on-prem runtime;
 - кастомные роли;
 - SSO/SAML;
-- много внешних коннекторов;
+- много внешних коннекторов одновременно;
 - ML/AI scoring.
 
 ---
@@ -89,8 +93,9 @@ Market MVP нужен для первых внешних демонстраци�
 | Demo readiness | Продукт можно показать без ручной подготовки БД |
 | Data onboarding | 50–200 активов можно загрузить без ручного ввода |
 | Reporting | CISO получает отчёт для руководства |
-| Explainability | Пользователь понимает причину Trust Score |
+| Explainability | Пользователь понимает причину Trust Score и происхождение данных |
 | Pilot readiness | Продукт можно дать 1–3 организациям на 2–4 недели |
+| Connector foundation | Понятно, какие источники подключать первыми и как делать это безопасно |
 | Product validation | Есть подтверждение интереса и willingness to pilot |
 
 ---
@@ -106,3 +111,4 @@ Market MVP нужен для первых внешних демонстраци�
 - Количество экспортированных отчётов.
 - Time to first value.
 - Доля объектов с заполненным Trust Passport.
+- Доля объектов с source/evidence context.

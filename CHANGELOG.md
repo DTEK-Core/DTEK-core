@@ -5,6 +5,25 @@
 
 ---
 
+## Strategic Shift — 2026-07-09
+
+### Evidence-first Trust Platform
+
+#### Добавлено
+
+- `docs/product/EVIDENCE_FIRST_STRATEGY.md` — новая продуктовая концепция DTEK Core как Evidence-first Trust Intelligence Platform.
+- `docs/architecture/Evidence_First_Architecture.md` — целевая архитектура Discovery Layer, Connector Framework, Evidence Layer, Normalization, Identity Resolution, Confidence Engine, Discovery Inbox, Drift Detection и Auto Risk Mapper.
+- ADR-007 в `ARCHITECTURE_DECISIONS.md` — архитектурное решение о переходе от manual-first MVP к evidence-first развитию.
+
+#### Изменено
+
+- README, AGENTS, Product Strategy, Vision, Product Concept, Roadmap и Sprint Roadmap синхронизированы с новой концепцией.
+- Sprint 11–15 перестроены вокруг Evidence Import, evidence-backed explainability, evidence-aware risk workflow, pilot source inventory и Connector Framework Foundation.
+- Trust Passport, Trust Score, Trust Graph и Risk Registry описаны как evidence-backed модели.
+- Backlog и User Stories дополнены Evidence-first Epic: Discovery Layer, Evidence Layer, Identity Resolution, Discovery Inbox, Auto Risk Mapper и Drift Detection.
+
+---
+
 ## [v0.8.0] — 2026-06-30 (Sprint 08 — UX Refinement)
 
 ### Sprint 09 — Market MVP Packaging

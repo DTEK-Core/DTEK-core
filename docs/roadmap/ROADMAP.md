@@ -2,21 +2,22 @@
 
 `Статус: актуальный`  
 `Дата: 09.07.2026`  
-`Основа: Strategic Product & Market Analysis + Sprint 08`
+`Основа: Strategic Product & Market Analysis + Sprint 08 + ADR-007`
 
 ---
 
 ## 1. Roadmap Logic
 
-Sprint 01–08 создали функциональный и визуально отполированный MVP.
+Sprint 01–08 создали функциональный и визуально отполированный MVP. Sprint 09 упаковал продукт для демонстрации и первых интервью.
 
-Следующий этап — не расширение ради расширения, а переход к Market MVP:
+После ADR-007 следующий этап — не расширение ради расширения, а переход к Evidence-first Market MVP:
 
 1. Упаковать продукт для демонстрации.
-2. Дать быстрый способ загрузить реальные данные.
+2. Дать быстрый способ загрузить реальные данные как первый evidence ingestion path.
 3. Дать отчёты, которые CISO может показать руководству.
-4. Сделать Trust Score объяснимым.
+4. Сделать Trust Score объяснимым через факторы, риски и evidence/source context.
 5. Подготовить продукт к первым пилотам.
+6. Спроектировать foundation Connector Framework.
 
 ---
 
@@ -35,11 +36,12 @@ Sprint 01–08 создали функциональный и визуально
 | RBAC/RLS/Security Audit | Реализовано на MVP-уровне |
 | UX polish | Sprint 08 завершён |
 | Demo data | Спецификация и manual seed plan готовы |
-| Import/export | Требуется |
+| Import/export | Требуется; import трактуется как evidence ingestion |
 | Reports | Требуется |
-| Explainability | Требуется |
+| Explainability | Требуется; должна учитывать source/evidence |
 | Pilot narrative | Готов |
 | Pilot readiness | Требуется |
+| Evidence-first architecture | ADR-007 принят; требуется реализация слоями |
 
 ---
 
@@ -66,16 +68,16 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку; Sprint 10–14 закрывают reporting, data onboarding, explainability, workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку; Sprint 10–14 закрывают reporting, evidence import/data onboarding, explainability, workflow и pilot readiness.
 
 Фокус:
 
 - demo seed data;
 - product story;
-- CSV import;
+- CSV/XLSX import as first evidence ingestion;
 - CSV/PDF export;
 - executive reporting;
-- Trust Score explainability;
+- Trust Score explainability with source/evidence context;
 - risk impact;
 - pilot runbook;
 - email invitation hardening.
@@ -94,18 +96,23 @@ Sprint 01–08 создали функциональный и визуально
 - улучшение UX по реальным данным;
 - первый API или выбранный connector prototype.
 
-### Phase D — Post-MVP Integrations
+### Phase D — Evidence-first Integrations
 
 Статус: после подтверждения пилотов.
 
 Возможные направления:
 
-- VM/scanner import;
-- CMDB import;
-- AD/LDAP;
-- SIEM event import;
-- Jira/ServiceDesk;
-- webhook/API.
+- Connector Framework Foundation;
+- Discovery Layer;
+- Evidence Layer;
+- Identity Resolution;
+- Discovery Inbox;
+- AD/LDAP/FreeIPA;
+- Zabbix;
+- MaxPatrol VM;
+- Wazuh/Kaspersky Security Center;
+- UserGate/firewall exports;
+- VMware/Proxmox/Kubernetes/cloud APIs.
 
 ### Phase E — Enterprise Readiness
 
@@ -130,7 +137,7 @@ Sprint 01–08 создали функциональный и визуально
 |---|---|
 | Собственный агент | Высокая сложность, не нужен для проверки гипотезы |
 | Полноценный SIEM/SOAR | Не соответствует продуктовой границе |
-| Много коннекторов | Сначала нужны интервью и пилоты |
+| Много коннекторов одновременно | Сначала нужен Connector Framework Foundation и пилотные сигналы |
 | Marketplace | Нет подтверждённой потребности |
 | Enterprise Runtime | Требует отдельной архитектуры и продаж |
 | Кастомные роли | Затрагивает RLS/RBAC и не критично для MVP |
@@ -160,11 +167,12 @@ Sprint 01–08 создали функциональный и визуально
 | Interview Ready | Есть one-pager, ICP, вопросы для CISO, продуктовая история и pilot offer |
 | Reporting Ready | Есть PDF/CSV export и executive report |
 | Data Onboarding Ready | Есть CSV import объектов и рисков |
-| Explainability Ready | Trust Score объясняется через факторы, причины и impact рисков |
+| Evidence Onboarding Ready | CSV/XLSX import создаёт source-aware данные и готовит Evidence Layer |
+| Explainability Ready | Trust Score объясняется через факторы, причины, impact рисков и source/evidence context |
 | Risk Workflow Ready | Риски имеют владельцев, сроки, evidence/comments и историю |
 | Market MVP Ready | Import/export/reporting/explainability готовы для ручного пилота |
 | Pilot Ready | Продукт можно дать 1–3 компаниям на 2–4 недели |
-| Integration Ready | Понятно, какой первый коннектор нужен по результатам пилотов |
+| Connector Foundation Ready | Спроектированы Connector Framework, Evidence Layer, Discovery Inbox и shortlist первых источников |
 
 ---
 
@@ -176,11 +184,11 @@ Sprint 01–08 создали функциональный и визуально
 |---|---|---|
 | Sprint 09 | `tasks/SPRINT_09.md` | Market MVP Packaging |
 | Sprint 10 | `tasks/SPRINT_10.md` | Reporting & Export |
-| Sprint 11 | `tasks/SPRINT_11.md` | Import & Data Onboarding |
-| Sprint 12 | `tasks/SPRINT_12.md` | Trust Explainability |
-| Sprint 13 | `tasks/SPRINT_13.md` | Risk Workflow |
+| Sprint 11 | `tasks/SPRINT_11.md` | Evidence Import & Data Onboarding |
+| Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability |
+| Sprint 13 | `tasks/SPRINT_13.md` | Evidence-aware Risk Workflow |
 | Sprint 14 | `tasks/SPRINT_14.md` | Pilot Readiness |
-| Sprint 15 | `tasks/SPRINT_15.md` | First Connector Prototype |
+| Sprint 15 | `tasks/SPRINT_15.md` | Connector Framework Foundation |
 
 ---
 
@@ -188,4 +196,4 @@ Sprint 01–08 создали функциональный и визуально
 
 Каждая следующая задача должна приближать DTEK Core к первому реальному пилоту.
 
-Если задача не помогает показать ценность CISO, загрузить данные, объяснить Trust Score или получить отчёт — она, скорее всего, Post-MVP.
+Если задача не помогает показать ценность CISO, загрузить данные, объяснить Trust Score, получить отчёт или приблизить Evidence-first foundation — она, скорее всего, Post-MVP.

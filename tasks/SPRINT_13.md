@@ -1,18 +1,18 @@
-# SPRINT 13 — Risk Workflow
+# SPRINT 13 — Evidence-aware Risk Workflow
 
 `Проект: DTEK Core`  
 `Спринт: 13`  
 `Тип: Market MVP Feature Sprint`  
-`Основа: Sprint 12, Risk_Model.md, PRODUCT_STRATEGY.md`  
+`Основа: Sprint 12, Risk_Model.md, PRODUCT_STRATEGY.md, ADR-007`  
 `Статус: 📋 Запланирован`
 
 ---
 
 ## 1. Цель Спринта
 
-Превратить Risk Registry из реестра записей в рабочий процесс управления рисками.
+Превратить Risk Registry из реестра записей в рабочий процесс управления ручными, импортированными и автоматически предложенными рисками.
 
-Риск должен иметь ответственного, срок, evidence, комментарии и понятную историю действий.
+Риск должен иметь ответственного, срок, evidence/source context, комментарии и понятную историю действий.
 
 ---
 
@@ -21,15 +21,15 @@
 | Параметр | Значение |
 |---|---|
 | Фаза | Market MVP / Pilot MVP |
-| Предыдущий Sprint | Sprint 12 — Trust Explainability |
+| Предыдущий Sprint | Sprint 12 — Evidence-backed Trust Explainability |
 | Следующий Sprint | Sprint 14 — Pilot Readiness |
-| Milestone | Risk Workflow Ready |
+| Milestone | Evidence-aware Risk Workflow Ready |
 
 ---
 
 ## 3. Бизнес-Ценность
 
-Для пилота недостаточно показать риск. Клиент должен назначить ответственного, вести работу, прикладывать доказательства и видеть просрочки. Это делает DTEK Core операционным инструментом, а не витриной.
+Для пилота недостаточно показать риск. Клиент должен назначить ответственного, вести работу, прикладывать доказательства, понимать происхождение риска и видеть просрочки. Это делает DTEK Core операционным инструментом, а не витриной.
 
 ---
 
@@ -41,7 +41,7 @@
 - due date UX;
 - SLA warnings;
 - comments;
-- evidence strategy;
+- manual/imported/auto risk evidence strategy;
 - risk activity history;
 - audit events.
 
@@ -63,7 +63,7 @@
 | S13-T002 | Risk Owner & Assignment UX | P1 | M | T001 |
 | S13-T003 | Due Date & SLA Warnings | P1 | M | T001 |
 | S13-T004 | Risk Comments | P1 | M | T001 |
-| S13-T005 | Evidence Strategy & MVP Evidence UI | P1 | M | T001 |
+| S13-T005 | Evidence Strategy & Manual/Imported/Auto Risk UI | P1 | M | T001 |
 | S13-T006 | Risk Activity Timeline | P2 | M | T002–T005 |
 | S13-T007 | Audit Events For Risk Workflow | P1 | S | T002–T006 |
 | S13-T008 | Risk Workflow Documentation & QA | P1 | S | T001–T007 |
@@ -118,11 +118,11 @@
 
 **Ожидаемый результат:** команда может фиксировать ход устранения риска.
 
-### S13-T005 — Evidence Strategy & MVP Evidence UI
+### S13-T005 — Evidence Strategy & Manual/Imported/Auto Risk UI
 
-**Описание:** определить безопасный MVP-подход к evidence: ссылки, текстовые доказательства или Storage.
+**Описание:** определить безопасный MVP-подход к evidence и происхождению риска: manual, imported, auto candidate, confirmed auto risk.
 
-**Ожидаемый результат:** evidence реализован без преждевременной тяжёлой файловой архитектуры или с минимальной Storage-архитектурой при необходимости.
+**Ожидаемый результат:** риск показывает происхождение и evidence без преждевременной тяжёлой файловой архитектуры или с минимальной Storage-архитектурой при необходимости.
 
 ### S13-T006 — Risk Activity Timeline
 
@@ -149,7 +149,7 @@
 - [ ] Риск имеет владельца.
 - [ ] SLA/due date видны и подсвечиваются.
 - [ ] Есть комментарии или зафиксированное MVP-решение.
-- [ ] Evidence MVP реализован или задокументирован как ограничение.
+- [ ] Evidence/source context реализован или задокументирован как ограничение.
 - [ ] Activity timeline отражает ключевые события.
 - [ ] Audit events работают.
 - [ ] Документация обновлена.
@@ -166,4 +166,3 @@
 | Evidence потребует Supabase Storage | Средняя | Среднее | Сначала определить MVP evidence strategy |
 | Workflow станет task manager | Средняя | Среднее | Не заменять Jira/ServiceDesk |
 | Новая таблица без RLS | Низкая | Критическое | Любая миграция только с RLS |
-

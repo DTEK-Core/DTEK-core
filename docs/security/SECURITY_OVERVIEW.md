@@ -8,7 +8,7 @@
 
 ## Обзор безопасности платформы
 
-DTEK Core — платформа управления цифровым доверием организации. Поскольку платформа хранит чувствительные данные об инфраструктуре, уязвимостях и инцидентах безопасности, безопасность является неотъемлемым требованием, а не дополнительной опцией.
+DTEK Core — Evidence-first Trust Intelligence Platform. Поскольку платформа хранит чувствительные данные об инфраструктуре, уязвимостях, источниках данных и инцидентах безопасности, безопасность является неотъемлемым требованием, а не дополнительной опцией.
 
 ---
 
@@ -51,6 +51,17 @@ Row Level Security в PostgreSQL (Supabase) гарантирует:
 - Обход через прямые запросы к Supabase API невозможен
 - Каждая таблица имеет собственные RLS-политики
 - `SUPABASE_SERVICE_ROLE_KEY` используется только в Server Actions, никогда на клиенте
+
+### Уровень 5 — Evidence / Connector Security
+
+ADR-007 добавляет будущие источники данных и коннекторы. Для них обязательны:
+
+- secrets только server-side;
+- `organization_id` и RLS для всех evidence/source tables;
+- audit events для import/sync/connect/disconnect;
+- safe error handling без раскрытия tokens/passwords;
+- idempotent sync;
+- отдельный security review до первого production connector.
 
 ---
 
@@ -107,5 +118,6 @@ Row Level Security в PostgreSQL (Supabase) гарантирует:
 - 2FA (TOTP)
 - Audit Log расширение (экспорт, фильтры, retention)
 - Secure SDLC в CI/CD
+- Connector security model для Sprint 15
 
 *Подробнее: [SECURE_SDLC.md](SECURE_SDLC.md)*

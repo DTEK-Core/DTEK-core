@@ -1,18 +1,18 @@
-# SPRINT 15 — First Connector Prototype
+# SPRINT 15 — Connector Framework Foundation
 
 `Проект: DTEK Core`  
 `Спринт: 15`  
-`Тип: Post-Market MVP Integration Sprint`  
-`Основа: Sprint 14, ADR-006, pilot feedback`  
-`Статус: 📋 Условно запланирован`
+`Тип: Evidence-first Architecture Sprint`  
+`Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
+`Статус: 📋 Запланирован`
 
 ---
 
 ## 1. Цель Спринта
 
-Реализовать первый внешний источник данных только после подтверждения его ценности интервью или пилотами.
+Создать архитектурную и продуктовую основу для автоматического наполнения DTEK Core без превращения платформы в SIEM, EDR, VM-сканер или CMDB.
 
-Sprint 15 не выбирает коннектор заранее. Он фиксирует процесс и архитектурные ограничения первого connector prototype.
+Sprint 15 не должен реализовывать много коннекторов сразу. Его задача — подготовить безопасный Connector Framework, Evidence Layer, Normalization, Identity Resolution и Discovery Inbox, чтобы первый коннектор появился на правильной архитектуре.
 
 ---
 
@@ -20,16 +20,16 @@ Sprint 15 не выбирает коннектор заранее. Он фикс
 
 | Параметр | Значение |
 |---|---|
-| Фаза | Post-Market MVP / Integration Ready |
+| Фаза | Evidence-first MVP / Connector Foundation |
 | Предыдущий Sprint | Sprint 14 — Pilot Readiness |
-| Следующий этап | Commercial MVP iteration или Enterprise Discovery |
-| Milestone | Integration Ready |
+| Следующий этап | First connector prototype / Commercial MVP iteration на базе Connector Framework |
+| Milestone | Connector Foundation Ready |
 
 ---
 
 ## 3. Бизнес-Ценность
 
-Первые интеграции должны снижать ручной труд и повышать ценность Trust Score. Неверно выбранный коннектор потратит время и усложнит архитектуру без пользы рынку.
+Первые пилоты покажут, какие источники реально есть у клиентов. Sprint 15 превращает этот feedback в архитектуру автоматического наполнения: DTEK Core сможет принимать данные из AD, Zabbix, MaxPatrol VM, Wazuh, Kaspersky, UserGate и других источников без хаотичных интеграций.
 
 ---
 
@@ -37,34 +37,43 @@ Sprint 15 не выбирает коннектор заранее. Он фикс
 
 ### Входит
 
-- connector selection based on evidence;
-- integration architecture decision;
-- один prototype connector;
-- import mapping;
-- audit and error handling;
-- documentation.
+- Connector Framework architecture;
+- Evidence Layer data model specification;
+- Normalization rules;
+- Identity Resolution strategy;
+- Confidence model;
+- Discovery Inbox UX specification;
+- connector security model;
+- shortlist первых источников для РФ.
 
 ### Не входит
 
-- connector marketplace;
-- несколько коннекторов одновременно;
-- агент на инфраструктуру клиента;
+- marketplace коннекторов;
+- несколько production-коннекторов;
+- endpoint agent;
 - realtime ingestion;
 - SIEM replacement;
-- broad ETL platform.
+- vulnerability scanner;
+- heavy ETL platform.
 
 ---
 
-## 5. Возможные Кандидаты
+## 5. Приоритетные Источники
 
-Выбирается один:
+Shortlist для первых connector candidates:
 
-- VM/scanner CSV/API import;
-- CMDB import;
-- AD/LDAP identity import;
-- SIEM event import;
-- Jira/ServiceDesk export;
-- lightweight webhook/API.
+1. CSV/XLSX structured import.
+2. Active Directory / LDAP / FreeIPA.
+3. Zabbix.
+4. MaxPatrol VM.
+5. Kaspersky Security Center.
+6. Wazuh.
+7. UserGate / firewall export.
+8. OpenSearch / ELK.
+9. VMware / Proxmox.
+10. Kubernetes / cloud APIs.
+
+Первым production/prototype connector становится источник, подтверждённый pilot feedback.
 
 ---
 
@@ -72,14 +81,14 @@ Sprint 15 не выбирает коннектор заранее. Он фикс
 
 | ID | Задача | Приоритет | Оценка | Зависимости |
 |---|---|---|---|---|
-| S15-T001 | Connector Selection Report | P1 | S | S14 + pilot feedback |
-| S15-T002 | Connector Architecture Decision | P1 | M | T001 |
-| S15-T003 | Data Mapping Specification | P1 | M | T001, T002 |
-| S15-T004 | Connector Prototype Implementation | P1 | L | T002, T003 |
-| S15-T005 | Connector Error Handling & Audit | P1 | M | T004 |
-| S15-T006 | Connector Security Review | P1 | M | T004 |
-| S15-T007 | Connector Documentation | P1 | S | T004–T006 |
-| S15-T008 | Connector Pilot Test | P1 | M | T004–T007 |
+| S15-T001 | Connector Framework Architecture Decision | P1 | M | S14 + ADR-007 |
+| S15-T002 | Evidence Layer Data Model Specification | P1 | L | T001 |
+| S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 |
+| S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 |
+| S15-T005 | Connector Security Model | P1 | M | T001–T004 |
+| S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback |
+| S15-T007 | First Connector Candidate Decision | P1 | S | T006 |
+| S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 |
 
 ---
 
@@ -87,83 +96,85 @@ Sprint 15 не выбирает коннектор заранее. Он фикс
 
 ```text
 День 1
-  S15-T001 Connector Selection Report
-  S15-T002 Architecture Decision
+  S15-T001 Connector Framework Architecture Decision
+  S15-T006 Russian Market Connector Shortlist
 
 День 2
-  S15-T003 Data Mapping Specification
+  S15-T002 Evidence Layer Data Model Specification
 
-День 3–5
-  S15-T004 Prototype Implementation
-  S15-T005 Error Handling & Audit
+День 3
+  S15-T003 Normalization & Identity Resolution Specification
+  S15-T004 Confidence Engine & Discovery Inbox Specification
 
-День 6
-  S15-T006 Security Review
-  S15-T007 Documentation
-  S15-T008 Pilot Test
+День 4
+  S15-T005 Connector Security Model
+  S15-T007 First Connector Candidate Decision
+  S15-T008 Documentation Sync
 ```
 
 ---
 
 ## 8. Детализация Задач
 
-### S15-T001 — Connector Selection Report
+### S15-T001 — Connector Framework Architecture Decision
 
-**Описание:** на основе интервью и пилотов выбрать один источник данных.
+**Описание:** определить единый контракт коннектора: source type, auth, sync mode, mapping, status, errors, audit events, tenant isolation.
 
-**Ожидаемый результат:** есть обоснование, почему выбран именно этот коннектор.
+**Ожидаемый результат:** ADR/architecture document описывает, как подключать источники без хаотичных интеграций.
 
-### S15-T002 — Connector Architecture Decision
+### S15-T002 — Evidence Layer Data Model Specification
 
-**Описание:** определить способ подключения без нарушения архитектуры.
+**Описание:** спроектировать таблицы/типы для raw evidence, normalized evidence, source metadata, confidence, last_seen_at и relation to objects/risks/factors.
 
-**Ожидаемый результат:** documented decision: CSV/API/webhook/manual sync, auth, storage of secrets, schedule.
+**Ожидаемый результат:** готова спецификация будущей миграции с RLS и audit requirements.
 
-### S15-T003 — Data Mapping Specification
+### S15-T003 — Normalization & Identity Resolution Specification
 
-**Описание:** сопоставить поля внешнего источника с объектами, рисками, факторами Trust Score.
+**Описание:** определить правила нормализации и сопоставления объектов из разных источников.
 
-**Ожидаемый результат:** mapping spec и правила обработки неизвестных значений.
+**Ожидаемый результат:** есть стратегия deduplication: hostname/FQDN/IP/MAC/agent id/cloud id/manual external id.
 
-### S15-T004 — Connector Prototype Implementation
+### S15-T004 — Confidence Engine & Discovery Inbox Specification
 
-**Описание:** реализовать минимальный рабочий prototype.
+**Описание:** определить шкалу confidence и UX очереди неподтверждённых объектов, связей и рисков.
 
-**Ожидаемый результат:** данные попадают в DTEK Core и участвуют в Trust Score/рисках согласно mapping.
+**Ожидаемый результат:** пользователь может подтверждать, объединять, отклонять и архивировать candidates.
 
-### S15-T005 — Connector Error Handling & Audit
+### S15-T005 — Connector Security Model
 
-**Описание:** обработать ошибки импорта и логировать connector events.
+**Описание:** описать хранение секретов, RBAC, RLS, audit events, safe error handling и tenant isolation для коннекторов.
 
-**Ожидаемый результат:** пользователь видит статус синхронизации, ошибки не раскрывают секреты.
+**Ожидаемый результат:** connector foundation не создаёт риск утечки инфраструктурных данных.
 
-### S15-T006 — Connector Security Review
+### S15-T006 — Russian Market Connector Shortlist
 
-**Описание:** проверить secrets, RBAC, RLS, tenant isolation и safe failure.
+**Описание:** на основе пилотов и ICP подтвердить приоритеты источников для российского рынка.
 
-**Ожидаемый результат:** security checklist пройден до пилотного использования.
+**Ожидаемый результат:** shortlist ранжирован по коммерческой ценности и сложности.
 
-### S15-T007 — Connector Documentation
+### S15-T007 — First Connector Candidate Decision
 
-**Описание:** описать настройку и ограничения connector prototype.
+**Описание:** выбрать первый connector prototype или принять решение продолжить через CSV/XLSX evidence import.
 
-**Ожидаемый результат:** dev/user docs обновлены.
+**Ожидаемый результат:** следующий Sprint получает конкретный источник и обоснование.
 
-### S15-T008 — Connector Pilot Test
+### S15-T008 — Connector Foundation Documentation Sync
 
-**Описание:** проверить prototype на демо или пилотных данных.
+**Описание:** синхронизировать architecture, product, roadmap, user/dev docs.
 
-**Ожидаемый результат:** есть вывод: масштабировать, доработать или отказаться.
+**Ожидаемый результат:** документация не противоречит ADR-007 и готова к первой интеграционной задаче.
 
 ---
 
 ## 9. Definition Of Done
 
-- [ ] Коннектор выбран на основе evidence.
-- [ ] Архитектурное решение зафиксировано.
-- [ ] Mapping описан.
-- [ ] Prototype работает на тестовых данных.
-- [ ] RBAC/RLS/security review выполнен.
+- [ ] Connector Framework architecture зафиксирована.
+- [ ] Evidence Layer data model specification готова.
+- [ ] Normalization и Identity Resolution описаны.
+- [ ] Confidence Engine и Discovery Inbox описаны.
+- [ ] Connector security model готова.
+- [ ] Российский connector shortlist утверждён.
+- [ ] Первый connector candidate выбран или явно отложен.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.
@@ -175,7 +186,7 @@ Sprint 15 не выбирает коннектор заранее. Он фикс
 
 | Риск | Вероятность | Влияние | Митигирование |
 |---|---|---|---|
-| Коннектор выбран без рыночного сигнала | Средняя | Высокое | Sprint 15 начинается только после pilot feedback |
-| Интеграция усложнит архитектуру | Средняя | Высокое | Один prototype, без connector framework |
-| Секреты попадут в клиент | Низкая | Критическое | Secrets только server-side |
-
+| Connector Framework станет слишком тяжёлым | Средняя | Высокое | Foundation только под первые 1–2 источника |
+| Коннектор выбран без рыночного сигнала | Средняя | Высокое | Использовать pilot source inventory |
+| Evidence Layer нарушит tenant isolation | Низкая | Критическое | RLS, org_id, audit и security review до миграции |
+| Пользователь потеряет контроль над моделью | Средняя | Среднее | Discovery Inbox и manual override обязательны |

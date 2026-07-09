@@ -3,7 +3,7 @@
 `Проект: DTEK Core`  
 `Спринт: 10`  
 `Тип: Market MVP Feature Sprint`  
-`Основа: Sprint 09, ROADMAP.md, MVP_RELEASE_PLAN.md R6`  
+`Основа: Sprint 09, ROADMAP.md, MVP_RELEASE_PLAN.md R6, ADR-007`  
 `Статус: 📋 Запланирован`
 
 ---
@@ -11,6 +11,8 @@
 ## 1. Цель Спринта
 
 Дать CISO и аналитикам ИБ экспортируемые артефакты: Trust Passport PDF, Risk Registry CSV и executive report по организации.
+
+Отчёты должны быть совместимы с Evidence-first концепцией: если у данных есть источник или evidence, отчёт должен уметь показать это без изменения текущей бизнес-логики.
 
 ---
 
@@ -20,7 +22,7 @@
 |---|---|
 | Фаза | Market MVP |
 | Предыдущий Sprint | Sprint 09 — Market MVP Packaging |
-| Следующий Sprint | Sprint 11 — Import & Data Onboarding |
+| Следующий Sprint | Sprint 11 — Evidence Import & Data Onboarding |
 | Milestone | Reporting Ready |
 
 ---
@@ -39,6 +41,7 @@
 - CSV export Risk Registry;
 - executive organization report;
 - report metadata;
+- source/evidence placeholders in report structure;
 - user documentation.
 
 ### Не входит
@@ -100,7 +103,7 @@
 
 **Описание:** добавить экспорт паспорта доверия объекта в PDF.
 
-**Ожидаемый результат:** PDF содержит реквизиты объекта, Trust Score, факторную разбивку, риски, дату генерации и branding DTEK Core.
+**Ожидаемый результат:** PDF содержит реквизиты объекта, Trust Score, факторную разбивку, риски, дату генерации, source/evidence section placeholder и branding DTEK Core.
 
 ### S10-T003 — Risk Registry CSV Export
 
@@ -112,7 +115,7 @@
 
 **Описание:** создать управленческий отчёт по организации для CISO.
 
-**Ожидаемый результат:** отчёт включает org Trust Score, топ рисковых объектов, распределение доверия, критические риски и summary.
+**Ожидаемый результат:** отчёт включает org Trust Score, топ рисковых объектов, распределение доверия, критические риски, source coverage placeholder и summary.
 
 ### S10-T005 — Report Access Control & Audit Events
 
@@ -160,4 +163,3 @@
 | PDF generation окажется сложнее оценки | Средняя | Высокое | Начать с минимального PDF без report designer |
 | Отчёт раскроет данные другой организации | Низкая | Критическое | RLS + RBAC + server-side checks |
 | CSV сломается на кириллице | Средняя | Среднее | UTF-8 BOM, smoke tests |
-

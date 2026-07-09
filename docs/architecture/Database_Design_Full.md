@@ -838,3 +838,31 @@ $$ LANGUAGE plpgsql;
 | `managed_by` | Управляется |
 | `owns` | Владеет |
 | `interacts_with` | Взаимодействует |
+
+---
+
+## 8. Evidence-first Расширение
+
+ADR-007 вводит целевую Evidence-first архитектуру, но текущая схема БД не должна изменяться без отдельной миграции.
+
+Будущие таблицы для Discovery Layer, Connector Framework и Evidence Layer должны проектироваться отдельно и включать:
+
+- `organization_id` для multi-tenant isolation;
+- RLS-политики на каждую таблицу;
+- source metadata;
+- confidence;
+- `collected_at` / `last_seen_at`;
+- связь с objects, relations, risks и Trust Score factors;
+- audit trail для import/sync действий;
+- safe handling секретов коннекторов только server-side.
+
+Потенциальные сущности будущей схемы:
+
+- `data_sources`;
+- `source_credentials` или безопасная ссылка на секреты;
+- `evidence_records`;
+- `normalized_evidence`;
+- `discovery_candidates`;
+- `object_source_coverage`;
+- `auto_risk_candidates`;
+- `connector_sync_runs`.

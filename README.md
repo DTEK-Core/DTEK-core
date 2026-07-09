@@ -1,10 +1,10 @@
 # DTEK Core
 
-**Digital Trust & Cyber Risk Management Platform**
+**Evidence-first Trust Intelligence Platform**
 
-DTEK Core — B2B SaaS-платформа управления цифровым доверием активов. Она помогает CISO, аналитикам ИБ и IT-администраторам видеть, каким объектам организации можно доверять, какие риски снижают доверие и какие действия важнее выполнить первыми.
+DTEK Core — B2B SaaS-платформа управления цифровым доверием активов. Она собирает цифровые доказательства из инфраструктуры организации, строит цифровую модель доверия и помогает CISO, аналитикам ИБ и IT-администраторам видеть, каким объектам можно доверять, какие риски снижают доверие и какие действия важнее выполнить первыми.
 
-Платформа не заменяет SIEM, EDR, DLP, VM, CMDB или GRC. DTEK Core работает как управленческий слой поверх существующих процессов и инструментов безопасности.
+Платформа не заменяет SIEM, EDR, DLP, VM, CMDB или GRC. DTEK Core работает как Trust Intelligence layer поверх существующих процессов, выгрузок и инструментов безопасности.
 
 ---
 
@@ -12,10 +12,10 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 | Сущность | Назначение |
 |---|---|
-| **Trust Passport** | Цифровой паспорт доверия каждого объекта |
-| **Trust Score** | 6-факторная оценка доверия объекта от 0 до 100 |
-| **Trust Graph** | Граф связей и зависимостей между объектами |
-| **Risk Registry** | Реестр рисков с привязкой к объектам и влиянием на Trust Score |
+| **Trust Passport** | Evidence-backed цифровой паспорт доверия каждого объекта |
+| **Trust Score** | 6-факторная оценка доверия объекта от 0 до 100 на основе рисков, атрибутов и evidence |
+| **Trust Graph** | Граф связей и зависимостей между объектами, ручной в текущем MVP и автоматизируемый в следующих версиях |
+| **Risk Registry** | Реестр ручных, импортированных и автоматически предложенных рисков с влиянием на Trust Score |
 | **Configurator** | Настройка весов Trust Score под отрасль и организацию |
 | **Dashboard** | Управленческий обзор доверия, рисков и событий организации |
 
@@ -25,7 +25,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 **v0.8.0 — Sprint 09 завершён: Demo Ready + Interview Ready.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. Следующий фокус — Sprint 10: Reporting & Export.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. После ADR-007 продукт развивается как Evidence-first Trust Platform. Следующий фокус — Sprint 10: Reporting & Export.
 
 ### Реализованные Маршруты
 
@@ -131,6 +131,8 @@ tasks/               Backlog and sprint history
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Навигация по всей документации |
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
+| [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Evidence-first стратегия и новая роль автоматического наполнения |
+| [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery, Connector и Evidence layers |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
@@ -148,13 +150,13 @@ tasks/               Backlog and sprint history
 Следующий фокус:
 
 1. Sprint 10 — Reporting & Export.
-2. Sprint 11 — Import & Data Onboarding.
-3. Sprint 12 — Trust Explainability.
-4. Sprint 13 — Risk Workflow.
+2. Sprint 11 — Evidence Import & Data Onboarding.
+3. Sprint 12 — Evidence-backed Trust Explainability.
+4. Sprint 13 — Evidence-aware Risk Workflow.
 5. Sprint 14 — Pilot Readiness.
-6. Sprint 15 — First Connector Prototype.
+6. Sprint 15 — Connector Framework Foundation.
 
-Интеграции, SSO, on-prem, расширенный GRC, агенты и marketplace остаются Post-MVP/Enterprise.
+Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 
 Полный план: [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md).
 
@@ -177,4 +179,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Digital Trust & Cyber Risk Management Platform · **v0.8.0 / Sprint 09**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.8.0 / Sprint 09**

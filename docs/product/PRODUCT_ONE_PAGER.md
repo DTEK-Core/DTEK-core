@@ -140,7 +140,7 @@ DTEK Core не заменяет существующие средства защ
 
 Позиционирование:
 
-> Digital Trust & Cyber Risk Management Platform.
+> Evidence-first Trust Intelligence Platform.
 
 ---
 

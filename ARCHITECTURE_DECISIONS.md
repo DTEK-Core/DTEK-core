@@ -27,6 +27,7 @@ Architecture Decision Records (ADR) — это журнал ключевых а�
 | ADR-004 | Облачная архитектура MVP | Утверждён |
 | ADR-005 | Полнота схемы базы данных | Утверждён |
 | ADR-006 | Продуктовая граница Market MVP | Утверждён |
+| ADR-007 | Evidence-first Trust Platform | Утверждён |
 
 ---
 
@@ -324,7 +325,7 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 
 ### Решение
 
-**DTEK Core позиционируется как Digital Trust & Cyber Risk Management Platform.**
+**DTEK Core позиционируется как Evidence-first Trust Intelligence Platform.**
 
 Платформа является управленческим слоем над активами, рисками, связями и доверительным состоянием организации.
 
@@ -367,6 +368,88 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 - Sprint 09 не должен начинать новый крупный функционал без упаковки продукта и демо-данных.
 - Интеграции переносятся после подтверждения пилотных сценариев.
 - Любая задача, не приближающая продукт к демонстрации, import/export, explainability или пилоту, считается Post-MVP кандидатом.
+
+---
+
+## ADR-007 — Evidence-first Trust Platform
+
+**Статус:** Утверждён  
+**Дата:** 09.07.2026  
+**Затрагивает документы:** `docs/product/EVIDENCE_FIRST_STRATEGY.md`, `docs/architecture/Evidence_First_Architecture.md`, `docs/roadmap/ROADMAP.md`, `docs/roadmap/SPRINT_ROADMAP.md`
+
+### Контекст
+
+Functional MVP DTEK Core реализовал ручную модель работы:
+
+- пользователь создаёт объекты;
+- пользователь создаёт связи;
+- пользователь регистрирует риски;
+- Trust Score и Trust Passport строятся на данных внутри платформы.
+
+Эта модель достаточна для демонстрации и раннего Market MVP, но коммерчески ограничивает продукт: при полном ручном наполнении DTEK Core может восприниматься как красивая security-CMDB.
+
+Изначальная ценность продукта сильнее: DTEK Core должен помогать CISO понять доверие к инфраструктуре на основе существующих цифровых доказательств из AD, monitoring, vulnerability management, SIEM, endpoint/security tooling, cloud и других источников.
+
+### Решение
+
+**DTEK Core развивается как Evidence-first Trust Platform / Trust Intelligence Platform.**
+
+Пользователь не должен вручную строить всю инфраструктурную модель. Он подключает источники данных или загружает выгрузки, а платформа:
+
+- обнаруживает инфраструктуру;
+- сохраняет цифровые доказательства;
+- нормализует данные;
+- объединяет дубли;
+- оценивает уверенность автоматического вывода;
+- показывает неподтверждённые объекты в Discovery Inbox;
+- строит Trust Passport;
+- обновляет Trust Graph;
+- рассчитывает Trust Score;
+- формирует Risk Registry;
+- отслеживает drift инфраструктуры.
+
+Ручное создание объектов, связей и рисков сохраняется как fallback, экспертная корректировка и способ добавить бизнес-контекст.
+
+### Новые Архитектурные Слои
+
+В целевую архитектуру добавляются:
+
+- Discovery Layer;
+- Connector Framework;
+- Evidence Layer;
+- Normalization Engine;
+- Identity Resolution;
+- Confidence Engine;
+- Discovery Inbox;
+- Drift Detection;
+- Auto Risk Mapper;
+- Source Coverage;
+- Evidence Timeline.
+
+Подробная спецификация: `docs/architecture/Evidence_First_Architecture.md`.
+
+### Обоснование
+
+1. **Современные security-платформы не требуют полного ручного заполнения.** CAASM, ASM/EASM, Exposure Management, CSPM/CNAPP и VM-платформы строят ценность через discovery, aggregation, normalization и prioritization.
+
+2. **Trust Score становится сильнее, когда опирается на evidence.** Пользователь должен видеть не только оценку, но и источники, которые её подтверждают.
+
+3. **Trust Graph должен постепенно стать автоматически построенной цифровой моделью.** Ручные связи остаются, но не должны быть единственным способом построения графа.
+
+4. **Российский рынок требует интеграций с существующей инфраструктурой.** Наиболее вероятные источники: CSV/XLSX, AD/LDAP/FreeIPA, Zabbix, MaxPatrol VM, Kaspersky Security Center, Wazuh, UserGate, OpenSearch/ELK, VMware, Proxmox, Kubernetes и cloud APIs.
+
+5. **ADR-006 остаётся в силе.** DTEK Core не становится SIEM, EDR, VM-сканером или CMDB. Он становится слоем доверительной интерпретации поверх этих источников.
+
+### Последствия
+
+- Product Strategy обновляется на Trust Intelligence Platform.
+- Roadmap после Sprint 09 перестраивается вокруг Evidence-first evolution.
+- Sprint 11 CSV import трактуется как первый evidence ingestion path, а не просто bulk create.
+- Sprint 12 explainability должна показывать evidence/source context.
+- Sprint 13 risk workflow должен учитывать manual risks, imported risks и auto risk candidates.
+- Sprint 15 становится Connector Framework Foundation, а не случайным одиночным коннектором.
+- Будущие миграции БД должны проектироваться с `organization_id`, RLS, source metadata, confidence и audit trail.
+- Полный connector runtime реализуется только поэтапно, после Market/Pilot MVP подтверждения.
 
 ---
 

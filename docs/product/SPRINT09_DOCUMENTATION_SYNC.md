@@ -78,7 +78,7 @@ Demo Ready + Interview Ready
 
 ## 5. Documentation Consistency Notes
 
-- DTEK Core позиционируется как Digital Trust & Cyber Risk Management Platform.
+- DTEK Core позиционируется как Evidence-first Trust Intelligence Platform после ADR-007.
 - Публичный copy не обещает SIEM, EDR, DLP, CMDB, GRC, on-prem или enterprise integrations в рамках Market MVP.
 - Demo data в Sprint 09 описана и спланирована, но не автоматизирована через seed script.
 - CSV import остаётся scope Sprint 11.
