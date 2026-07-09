@@ -80,6 +80,7 @@
 |---|---|
 | [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) | Архитектура Next.js + Supabase Cloud |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery Layer, Connector Framework, Evidence Layer и автоматического наполнения |
+| [docs/architecture/Reporting_Architecture.md](docs/architecture/Reporting_Architecture.md) | Архитектура отчётов и экспорта Sprint 10 |
 | [docs/architecture/Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Полная схема БД, индексы, RLS |
 | [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула Trust Score |
 | [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора |

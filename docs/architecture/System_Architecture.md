@@ -68,6 +68,8 @@ Edge Functions и Supabase Storage не являются обязательно�
 
 Connector runtime, background sync и evidence storage проектируются как следующий архитектурный слой. До отдельной миграции они не являются частью текущей схемы БД.
 
+Reporting Sprint 10 использует Next.js Server Components, route handlers и server-side report modules. Подробно: [Reporting_Architecture.md](Reporting_Architecture.md).
+
 ---
 
 ## 5. Data Model

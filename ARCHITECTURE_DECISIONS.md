@@ -28,6 +28,7 @@ Architecture Decision Records (ADR) — это журнал ключевых а�
 | ADR-005 | Полнота схемы базы данных | Утверждён |
 | ADR-006 | Продуктовая граница Market MVP | Утверждён |
 | ADR-007 | Evidence-first Trust Platform | Утверждён |
+| ADR-008 | Reporting Architecture | Утверждён |
 
 ---
 
@@ -450,6 +451,57 @@ Functional MVP DTEK Core реализовал ручную модель рабо
 - Sprint 15 становится Connector Framework Foundation, а не случайным одиночным коннектором.
 - Будущие миграции БД должны проектироваться с `organization_id`, RLS, source metadata, confidence и audit trail.
 - Полный connector runtime реализуется только поэтапно, после Market/Pilot MVP подтверждения.
+
+---
+
+## ADR-008 — Reporting Architecture
+
+**Статус:** Утверждён  
+**Дата:** 09.07.2026  
+**Sprint:** S10-T001  
+**Затрагивает документы:** `docs/architecture/Reporting_Architecture.md`, `tasks/SPRINT_10.md`, `docs/roadmap/ROADMAP.md`
+
+### Контекст
+
+Sprint 10 должен дать CISO экспортируемые артефакты:
+
+- Trust Passport PDF;
+- Risk Registry CSV;
+- Executive Organization Report.
+
+В текущем стеке нет PDF-библиотеки, headless browser runtime или report designer. Добавление тяжёлой зависимости до проверки Market MVP увеличивает риск деплоя и усложняет поддержку.
+
+### Решение
+
+**Reporting Sprint 10 строится через server-side report modules, защищённые report pages и route handlers.**
+
+- Trust Passport PDF и Executive Report реализуются как print-optimized HTML reports, которые пользователь сохраняет в PDF через browser print/save as PDF.
+- Risk Registry CSV реализуется через Next.js route handler с `Content-Disposition: attachment`.
+- Данные загружаются только server-side.
+- RBAC и RLS обязательны для каждого отчёта.
+- Export/open actions логируются в Security Audit Log.
+- Evidence/source placeholders добавляются в структуру отчётов, но не требуют Evidence Layer tables в Sprint 10.
+
+Подробное решение: `docs/architecture/Reporting_Architecture.md`.
+
+### Обоснование
+
+1. **Не меняет стек.** Решение использует Next.js App Router, Server Components, route handlers и текущие Supabase clients.
+
+2. **Минимизирует риск Sprint 10.** Нет Puppeteer/Playwright runtime, внешнего report service или новой layout-системы.
+
+3. **Достаточно для Market MVP.** CISO получает printable/exportable артефакты для пилота и демонстрации.
+
+4. **Сохраняет security-first модель.** Отчёты защищаются тем же middleware, RBAC/RLS и audit trail.
+
+5. **Совместимо с ADR-007.** Отчёты могут показывать source/evidence context позже без пересборки архитектуры.
+
+### Последствия
+
+- В Sprint 10 не добавляются PDF/BI/report dependencies.
+- Первый PDF UX может зависеть от browser print-to-PDF.
+- Если пилоты потребуют server-generated binary PDF, потребуется отдельное решение и сравнение вариантов.
+- Bulk export доступен не всем ролям: viewer и admin не получают Risk Registry CSV / Executive Report export в Market MVP.
 
 ---
 

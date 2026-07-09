@@ -56,16 +56,16 @@
 
 ## 5. Задачи Спринта
 
-| ID | Задача | Приоритет | Оценка | Зависимости |
-|---|---|---|---|---|
-| S10-T001 | Reporting Architecture Decision | P1 | S | S09 |
-| S10-T002 | Trust Passport PDF Export | P1 | L | T001 |
-| S10-T003 | Risk Registry CSV Export | P1 | M | T001 |
-| S10-T004 | Executive Organization Report | P1 | L | T001 |
-| S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 |
-| S10-T006 | Report Empty/Error States | P2 | S | T002–T004 |
-| S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 |
-| S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 |
+| ID | Задача | Приоритет | Оценка | Зависимости | Статус |
+|---|---|---|---|---|---|
+| S10-T001 | Reporting Architecture Decision | P1 | S | S09 | ✅ Завершено |
+| S10-T002 | Trust Passport PDF Export | P1 | L | T001 | 📋 Запланировано |
+| S10-T003 | Risk Registry CSV Export | P1 | M | T001 | 📋 Запланировано |
+| S10-T004 | Executive Organization Report | P1 | L | T001 | 📋 Запланировано |
+| S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | 📋 Запланировано |
+| S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | 📋 Запланировано |
+| S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | 📋 Запланировано |
+| S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 | 📋 Запланировано |
 
 ---
 
@@ -98,6 +98,8 @@
 **Описание:** выбрать реализацию отчётов без смены стека: server route, Server Action, HTML-to-PDF или библиотека генерации.
 
 **Ожидаемый результат:** зафиксирован способ генерации PDF/CSV, ограничения и безопасность.
+
+**Решение:** ADR-008. PDF/report artefacts Sprint 10 реализуются как protected print-optimized HTML report pages с browser print/save as PDF. CSV экспорт реализуется через protected Next.js route handler с server-side RBAC, UTF-8 BOM, safe CSV serialization, `Content-Disposition` и audit event. Новые PDF/BI зависимости в S10-T001 не добавляются.
 
 ### S10-T002 — Trust Passport PDF Export
 

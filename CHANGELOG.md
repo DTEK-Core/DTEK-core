@@ -24,6 +24,22 @@
 
 ---
 
+## Sprint 10 — Reporting & Export
+
+### S10-T001 — Reporting Architecture Decision
+
+#### Добавлено
+
+- `docs/architecture/Reporting_Architecture.md` — архитектура отчётов Sprint 10: print-optimized HTML reports, CSV route handlers, RBAC, audit events и Evidence-first compatibility.
+- ADR-008 в `ARCHITECTURE_DECISIONS.md` — решение не добавлять тяжёлые PDF/BI зависимости в S10-T001.
+
+#### Изменено
+
+- `tasks/SPRINT_10.md` отмечает S10-T001 как завершённую и фиксирует выбранный подход к PDF/CSV.
+- `DOCUMENTATION_INDEX.md` и `System_Architecture.md` дополнены ссылками на Reporting Architecture.
+
+---
+
 ## [v0.8.0] — 2026-06-30 (Sprint 08 — UX Refinement)
 
 ### Sprint 09 — Market MVP Packaging
