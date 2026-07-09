@@ -65,7 +65,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 |---|---|---|---|---|---|
 | S09-T001 | Demo Narrative: сценарий демонстрации DTEK Core | P1 | M | — | ✅ |
 | S09-T002 | Demo Dataset Specification | P1 | M | T001 | ✅ |
-| S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 | 📋 |
+| S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 | ✅ |
 | S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 | 📋 |
 | S09-T005 | Product One-Pager для CISO | P1 | S | T001 | 📋 |
 | S09-T006 | Landing/Product Copy Alignment | P2 | S | T005 | 📋 |
@@ -120,6 +120,8 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 **Ожидаемый результат:** выбранный безопасный способ создания demo data и список необходимых таблиц.
 
+**Артефакт:** `docs/product/DEMO_SEED_PLAN.md`
+
 ### S09-T004 — ICP & Interview Script
 
 **Описание:** подготовить профиль первого клиента и вопросы для интервью с CISO/ИБ-интеграторами.
@@ -156,6 +158,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 - [x] Есть demo narrative.
 - [x] Есть demo dataset specification.
+- [x] Есть demo seed plan.
 - [ ] Есть ICP и interview script.
 - [ ] Есть product one-pager.
 - [ ] Есть pilot offer.
