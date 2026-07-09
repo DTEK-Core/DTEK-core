@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`
+`Дата: 09.07.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -46,6 +46,7 @@
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO: проблема, решение, ценность и pilot offer |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer: входные данные, план, результаты и success criteria |
 | [docs/product/COPY_ALIGNMENT.md](docs/product/COPY_ALIGNMENT.md) | Выравнивание landing/README copy с Market MVP стратегией |
+| [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Финальная синхронизация документации Sprint 09 |
 | [docs/product/Vision.md](docs/product/Vision.md) | Видение и долгосрочная цель |
 | [docs/product/Product_Concept.md](docs/product/Product_Concept.md) | Концепция продукта и ключевые сущности |
 | [docs/product/MVP_Scope.md](docs/product/MVP_Scope.md) | Границы текущего MVP и Market MVP |
@@ -145,7 +146,7 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_07.md](tasks/SPRINT_07.md) | Завершён, документ содержит исторические pending-чеклисты |
 | [tasks/SPRINT_08.md](tasks/SPRINT_08.md) | Product Review, исторический источник обратной связи |
 | [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08 Implementation, завершён функционально |
-| [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging |
+| [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging, завершён |
 | [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export |
 | [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Import & Data Onboarding |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Trust Explainability |

@@ -18,10 +18,12 @@
 - `docs/product/PRODUCT_ONE_PAGER.md` — one-pager DTEK Core для CISO с проблемой, решением, value proposition и 14-дневным pilot offer (S09-T005).
 - `docs/product/COPY_ALIGNMENT.md` — перечень правок landing/README copy под Market MVP стратегию (S09-T006).
 - `docs/product/PILOT_OFFER.md` — 14-дневный сценарий пилота для CISO с входными данными, планом, deliverables, success criteria и security boundary (S09-T007).
+- `docs/product/SPRINT09_DOCUMENTATION_SYNC.md` — финальная синхронизация README, roadmap, documentation index и user docs после Sprint 09 (S09-T008).
 
 #### Изменено
 
 - **Landing/Product Copy Alignment** (S09-T006) — лендинг и README приведены к позиционированию Digital Trust & Cyber Risk Management без обещаний SIEM/EDR/CMDB/GRC или ранних интеграций.
+- **Sprint 09 Documentation Sync** (S09-T008) — Sprint 09 отмечен как завершённый, Roadmap/README/User Guide синхронизированы со статусом Demo Ready + Interview Ready.
 
 ### Sprint 08 — UX Refinement & Platform Polish
 

@@ -1,7 +1,7 @@
 # ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`  
+`Дата: 09.07.2026`  
 `Основа: Strategic Product & Market Analysis + Sprint 08`
 
 ---
@@ -34,10 +34,11 @@ Sprint 01–08 создали функциональный и визуально
 | Configurator | Реализовано |
 | RBAC/RLS/Security Audit | Реализовано на MVP-уровне |
 | UX polish | Sprint 08 завершён |
-| Demo data | Требуется |
+| Demo data | Спецификация и manual seed plan готовы |
 | Import/export | Требуется |
 | Reports | Требуется |
 | Explainability | Требуется |
+| Pilot narrative | Готов |
 | Pilot readiness | Требуется |
 
 ---
@@ -65,7 +66,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: следующий этап.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку; Sprint 10–14 закрывают reporting, data onboarding, explainability, workflow и pilot readiness.
 
 Фокус:
 
@@ -155,8 +156,8 @@ Sprint 01–08 создали функциональный и визуально
 
 | Milestone | Критерий готовности |
 |---|---|
-| Demo Ready | Есть демо-организация, сценарий показа и стабильный путь демонстрации |
-| Interview Ready | Есть one-pager, ICP, вопросы для CISO, продуктовая история |
+| Demo Ready | Есть demo narrative, demo dataset specification и безопасный seed plan |
+| Interview Ready | Есть one-pager, ICP, вопросы для CISO, продуктовая история и pilot offer |
 | Reporting Ready | Есть PDF/CSV export и executive report |
 | Data Onboarding Ready | Есть CSV import объектов и рисков |
 | Explainability Ready | Trust Score объясняется через факторы, причины и impact рисков |

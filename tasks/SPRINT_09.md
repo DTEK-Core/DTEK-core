@@ -4,7 +4,7 @@
 `Спринт: 09`  
 `Тип: Market MVP Preparation`  
 `Основа: ADR-006, PRODUCT_STRATEGY.md, ROADMAP.md`  
-`Статус: 🔜 Активный`
+`Статус: ✅ Завершён`
 
 ---
 
@@ -70,7 +70,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 | S09-T005 | Product One-Pager для CISO | P1 | S | T001 | ✅ |
 | S09-T006 | Landing/Product Copy Alignment | P2 | S | T005 | ✅ |
 | S09-T007 | Pilot Offer: 14-дневный сценарий оценки доверия | P1 | S | T004, T005 | ✅ |
-| S09-T008 | Sprint 09 Documentation Sync | P1 | S | T001–T007 | 📋 |
+| S09-T008 | Sprint 09 Documentation Sync | P1 | S | T001–T007 | ✅ |
 
 ---
 
@@ -160,6 +160,8 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 **Ожидаемый результат:** документация отражает demo-ready и interview-ready состояние.
 
+**Артефакт:** `docs/product/SPRINT09_DOCUMENTATION_SYNC.md`
+
 ---
 
 ## 8. Definition Of Done
@@ -171,10 +173,10 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 - [x] Есть product one-pager.
 - [x] Landing/README copy aligned.
 - [x] Есть pilot offer.
-- [ ] Roadmap и документация синхронизированы.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] Roadmap и документация синхронизированы.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
 
 ---
 

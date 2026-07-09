@@ -1,7 +1,7 @@
 # SPRINT_ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`  
+`Дата: 09.07.2026`  
 `Назначение: единый план разработки после Sprint 08 до коммерческого MVP`
 
 ---
@@ -52,6 +52,7 @@ Demo Ready
 | Sprint 06 | [tasks/SPRINT_06.md](../../tasks/SPRINT_06.md) | Security hardening, RBAC/RLS audit, security docs |
 | Sprint 07 | [tasks/SPRINT_07.md](../../tasks/SPRINT_07.md) | QA and platform testing |
 | Sprint 08 | [tasks/SPRINT_08_IMPLEMENTATION.md](../../tasks/SPRINT_08_IMPLEMENTATION.md) | UX refinement, loading states, invite link, role info, settings polish |
+| Sprint 09 | [tasks/SPRINT_09.md](../../tasks/SPRINT_09.md) | Market MVP packaging: demo narrative, dataset, seed plan, ICP, one-pager, pilot offer |
 
 ---
 
@@ -59,7 +60,6 @@ Demo Ready
 
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
-| Sprint 09 | [tasks/SPRINT_09.md](../../tasks/SPRINT_09.md) | Demo Ready + Interview Ready | Упаковать MVP для внешних демонстраций и интервью |
 | Sprint 10 | [tasks/SPRINT_10.md](../../tasks/SPRINT_10.md) | Reporting Ready | Дать CISO PDF/CSV/export artefacts и executive report |
 | Sprint 11 | [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) | Data Onboarding Ready | Загрузить реальные объекты и риски через CSV |
 | Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Explainability Ready | Объяснить Trust Score и impact рисков |

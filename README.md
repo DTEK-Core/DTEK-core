@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.8.0 — Sprint 09 активен: Market MVP Packaging.**
+**v0.8.0 — Sprint 09 завершён: Demo Ready + Interview Ready.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Текущий этап — упаковка Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. Следующий фокус — Sprint 10: Reporting & Export.
 
 ### Реализованные Маршруты
 
@@ -133,6 +133,7 @@ tasks/               Backlog and sprint history
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
+| [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
 | [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
@@ -144,15 +145,14 @@ tasks/               Backlog and sprint history
 
 ## Roadmap
 
-Текущий фокус:
+Следующий фокус:
 
-1. Sprint 09 — Market MVP Packaging.
-2. Sprint 10 — Reporting & Export.
-3. Sprint 11 — Import & Data Onboarding.
-4. Sprint 12 — Trust Explainability.
-5. Sprint 13 — Risk Workflow.
-6. Sprint 14 — Pilot Readiness.
-7. Sprint 15 — First Connector Prototype.
+1. Sprint 10 — Reporting & Export.
+2. Sprint 11 — Import & Data Onboarding.
+3. Sprint 12 — Trust Explainability.
+4. Sprint 13 — Risk Workflow.
+5. Sprint 14 — Pilot Readiness.
+6. Sprint 15 — First Connector Prototype.
 
 Интеграции, SSO, on-prem, расширенный GRC, агенты и marketplace остаются Post-MVP/Enterprise.
 
