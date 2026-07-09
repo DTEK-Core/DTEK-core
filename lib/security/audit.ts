@@ -13,7 +13,11 @@ export type SecurityEventType =
   | 'object.created'
   | 'object.deleted'
   | 'risk.created'
-  | 'risk.deleted';
+  | 'risk.deleted'
+  | 'report.passport_exported'
+  | 'report.risks_csv_exported'
+  | 'report.executive_opened'
+  | 'report.executive_exported';
 
 interface SecurityEventPayload {
   organizationId: string;

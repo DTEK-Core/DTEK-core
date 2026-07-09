@@ -59,7 +59,7 @@
 | ID | Задача | Приоритет | Оценка | Зависимости | Статус |
 |---|---|---|---|---|---|
 | S10-T001 | Reporting Architecture Decision | P1 | S | S09 | ✅ Завершено |
-| S10-T002 | Trust Passport PDF Export | P1 | L | T001 | 📋 Запланировано |
+| S10-T002 | Trust Passport PDF Export | P1 | L | T001 | ✅ Завершено |
 | S10-T003 | Risk Registry CSV Export | P1 | M | T001 | 📋 Запланировано |
 | S10-T004 | Executive Organization Report | P1 | L | T001 | 📋 Запланировано |
 | S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | 📋 Запланировано |
@@ -106,6 +106,8 @@
 **Описание:** добавить экспорт паспорта доверия объекта в PDF.
 
 **Ожидаемый результат:** PDF содержит реквизиты объекта, Trust Score, факторную разбивку, риски, дату генерации, source/evidence section placeholder и branding DTEK Core.
+
+**Решение:** добавлена защищённая печатная версия `/reports/passport/{object_id}`. Страница собирает данные server-side через `lib/reports/passport-report.ts`, показывает реквизиты объекта, Trust Score, факторную разбивку, риски, дату генерации, source/evidence coverage placeholder и branding DTEK Core. Кнопка PDF в Trust Passport открывает report page в новой вкладке; сохранение PDF выполняется через browser print/save as PDF согласно ADR-008.
 
 ### S10-T003 — Risk Registry CSV Export
 

@@ -26,6 +26,21 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T002 — Trust Passport PDF Export
+
+#### Добавлено
+
+- `/reports/passport/[id]` — защищённая печатная версия Trust Passport для browser print/save as PDF.
+- `lib/reports/passport-report.ts` — server-side assembler данных паспорта, используемый обычной страницей и report page.
+- `app/report.css` — print-optimized стили для отчётов Sprint 10.
+- `components/shared/reports/report-actions.tsx` — кнопки возврата и сохранения PDF.
+
+#### Изменено
+
+- Кнопка `PDF` на странице Trust Passport теперь открывает печатный отчёт.
+- `lib/security/audit.ts` дополнен report/export event types для Sprint 10.
+- `tasks/SPRINT_10.md` отмечает S10-T002 как завершённую.
+
 ### S10-T001 — Reporting Architecture Decision
 
 #### Добавлено

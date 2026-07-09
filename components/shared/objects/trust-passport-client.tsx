@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useTransition } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
 import { Logo } from '@/components/shared/logo';
@@ -179,10 +180,16 @@ export function TrustPassportClient({
             <Icon name="link" size={14} />
             Поделиться
           </button>
-          <button className="btn btn-ghost btn-sm" disabled title="Доступно в Sprint 07">
+          <Link
+            className="btn btn-ghost btn-sm"
+            href={`/reports/passport/${object.id}`}
+            target="_blank"
+            rel="noreferrer"
+            title="Открыть печатную версию паспорта"
+          >
             <Icon name="download" size={14} />
             PDF
-          </button>
+          </Link>
           {canRecalculate ? (
             <button
               className="btn btn-line btn-sm"
