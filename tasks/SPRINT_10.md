@@ -60,7 +60,7 @@
 |---|---|---|---|---|---|
 | S10-T001 | Reporting Architecture Decision | P1 | S | S09 | ✅ Завершено |
 | S10-T002 | Trust Passport PDF Export | P1 | L | T001 | ✅ Завершено |
-| S10-T003 | Risk Registry CSV Export | P1 | M | T001 | 📋 Запланировано |
+| S10-T003 | Risk Registry CSV Export | P1 | M | T001 | ✅ Завершено |
 | S10-T004 | Executive Organization Report | P1 | L | T001 | 📋 Запланировано |
 | S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | 📋 Запланировано |
 | S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | 📋 Запланировано |
@@ -114,6 +114,8 @@
 **Описание:** экспортировать текущий набор рисков с фильтрами.
 
 **Ожидаемый результат:** CSV с полями риска, статусом, severity, linked objects, due date и owner.
+
+**Решение:** добавлен защищённый route handler `/api/reports/risks`, который формирует CSV server-side через `lib/reports/risk-csv.ts` и `lib/reports/csv.ts`. Экспорт доступен только `owner` и `analyst`, учитывает текущие фильтры UI (`q`, `severity`, `status`), использует UTF-8 BOM, safe CSV escaping, `Content-Disposition` attachment и audit event `report.risks_csv_exported`.
 
 ### S10-T004 — Executive Organization Report
 

@@ -26,6 +26,20 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T003 — Risk Registry CSV Export
+
+#### Добавлено
+
+- `/api/reports/risks` — защищённый CSV export endpoint для Risk Registry.
+- `lib/reports/csv.ts` — безопасная CSV-сериализация с UTF-8 BOM.
+- `lib/reports/risk-csv.ts` — server-side сбор, фильтрация и mapping рисков для CSV.
+
+#### Изменено
+
+- Кнопка экспорта на странице Risk Registry теперь скачивает CSV с текущими фильтрами.
+- Экспорт доступен только ролям `owner` и `analyst` согласно ADR-008.
+- `tasks/SPRINT_10.md` отмечает S10-T003 как завершённую.
+
 ### S10-T002 — Trust Passport PDF Export
 
 #### Добавлено

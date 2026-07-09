@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
 import { FilterSelect } from '@/components/shared/filter-select';
@@ -125,6 +126,7 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
   const [editRisk, setEditRisk]           = useState<EditableRisk | null>(null);
 
   const canCreate = ['owner', 'analyst'].includes(userRole);
+  const canExport = ['owner', 'analyst'].includes(userRole);
 
   const activeCount = risks.filter(r => r.status === 'open' || r.status === 'in_progress').length;
 
@@ -151,6 +153,11 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
     .sort((a, b) => (b.cvss_score ?? 0) - (a.cvss_score ?? 0));
 
   const selected = selectedId ? (risks.find(r => r.id === selectedId) ?? null) : null;
+  const exportParams = new URLSearchParams();
+  if (q.trim()) exportParams.set('q', q.trim());
+  if (sevFilter !== 'all') exportParams.set('severity', sevFilter);
+  if (statFilter !== 'all') exportParams.set('status', statFilter);
+  const exportHref = `/api/reports/risks${exportParams.size > 0 ? `?${exportParams.toString()}` : ''}`;
 
   return (
     <div className="screen">
@@ -163,10 +170,17 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
           </p>
         </div>
         <div className="screen-head-actions">
-          <button className="btn btn-ghost btn-sm" disabled title="Доступно позже">
-            <Icon name="download" size={14} />
-            Экспорт
-          </button>
+          {canExport ? (
+            <Link className="btn btn-ghost btn-sm" href={exportHref}>
+              <Icon name="download" size={14} />
+              CSV
+            </Link>
+          ) : (
+            <button className="btn btn-ghost btn-sm" disabled title="Экспорт доступен владельцу и аналитику ИБ">
+              <Icon name="download" size={14} />
+              CSV
+            </button>
+          )}
           {canCreate && (
             <button
               className="btn btn-primary btn-sm"
