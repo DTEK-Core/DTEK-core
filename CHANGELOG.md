@@ -7,6 +7,12 @@
 
 ## [v0.8.0] — 2026-06-30 (Sprint 08 — UX Refinement)
 
+### Sprint 09 — Market MVP Packaging
+
+#### Добавлено
+
+- `docs/product/DEMO_NARRATIVE.md` — сценарий демонстрации DTEK Core для CISO и первых интервью (S09-T001).
+
 ### Sprint 08 — UX Refinement & Platform Polish
 
 #### Добавлено

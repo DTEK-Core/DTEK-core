@@ -4,7 +4,7 @@
 `Спринт: 09`  
 `Тип: Market MVP Preparation`  
 `Основа: ADR-006, PRODUCT_STRATEGY.md, ROADMAP.md`  
-`Статус: 📋 Запланирован`
+`Статус: 🔜 Активный`
 
 ---
 
@@ -61,16 +61,16 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 ## 5. Задачи Спринта
 
-| ID | Задача | Приоритет | Оценка | Зависимости |
-|---|---|---|---|---|
-| S09-T001 | Demo Narrative: сценарий демонстрации DTEK Core | P1 | M | — |
-| S09-T002 | Demo Dataset Specification | P1 | M | T001 |
-| S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 |
-| S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 |
-| S09-T005 | Product One-Pager для CISO | P1 | S | T001 |
-| S09-T006 | Landing/Product Copy Alignment | P2 | S | T005 |
-| S09-T007 | Pilot Offer: 14-дневный сценарий оценки доверия | P1 | S | T004, T005 |
-| S09-T008 | Sprint 09 Documentation Sync | P1 | S | T001–T007 |
+| ID | Задача | Приоритет | Оценка | Зависимости | Статус |
+|---|---|---|---|---|---|
+| S09-T001 | Demo Narrative: сценарий демонстрации DTEK Core | P1 | M | — | ✅ |
+| S09-T002 | Demo Dataset Specification | P1 | M | T001 | 📋 |
+| S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 | 📋 |
+| S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 | 📋 |
+| S09-T005 | Product One-Pager для CISO | P1 | S | T001 | 📋 |
+| S09-T006 | Landing/Product Copy Alignment | P2 | S | T005 | 📋 |
+| S09-T007 | Pilot Offer: 14-дневный сценарий оценки доверия | P1 | S | T004, T005 | 📋 |
+| S09-T008 | Sprint 09 Documentation Sync | P1 | S | T001–T007 | 📋 |
 
 ---
 
@@ -103,6 +103,8 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 **Описание:** описать последовательный сценарий показа продукта от входа в демо-организацию до вывода executive insight.
 
 **Ожидаемый результат:** документированный сценарий 10–15 минут, показывающий Dashboard, Objects, Trust Passport, Risks, Graph, Configurator и Users.
+
+**Артефакт:** `docs/product/DEMO_NARRATIVE.md`
 
 ### S09-T002 — Demo Dataset Specification
 
@@ -150,7 +152,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 ## 8. Definition Of Done
 
-- [ ] Есть demo narrative.
+- [x] Есть demo narrative.
 - [ ] Есть demo dataset specification.
 - [ ] Есть ICP и interview script.
 - [ ] Есть product one-pager.
@@ -169,4 +171,3 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 | Demo dataset станет слишком искусственным | Средняя | Среднее | Использовать реальные типы активов и рисков из ICP |
 | One-pager будет слишком техническим | Средняя | Высокое | Писать для CISO, не для разработчика |
 | Попытка начать интеграции раньше времени | Низкая | Высокое | Следовать ADR-006 |
-
