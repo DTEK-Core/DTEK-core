@@ -17,6 +17,7 @@
 - `docs/product/ICP_INTERVIEW_SCRIPT.md` — ICP, discovery-вопросы, expected signals и scoring rubric для интервью с CISO и ИБ-интеграторами (S09-T004).
 - `docs/product/PRODUCT_ONE_PAGER.md` — one-pager DTEK Core для CISO с проблемой, решением, value proposition и 14-дневным pilot offer (S09-T005).
 - `docs/product/COPY_ALIGNMENT.md` — перечень правок landing/README copy под Market MVP стратегию (S09-T006).
+- `docs/product/PILOT_OFFER.md` — 14-дневный сценарий пилота для CISO с входными данными, планом, deliverables, success criteria и security boundary (S09-T007).
 
 #### Изменено
 

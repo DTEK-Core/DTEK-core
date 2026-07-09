@@ -25,7 +25,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 **v0.8.0 — Sprint 09 активен: Market MVP Packaging.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Текущий этап — упаковка Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и подготовка 14-дневного pilot offer для первых пользователей.
+Функциональный MVP реализован и отполирован для первой демонстрации. Текущий этап — упаковка Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей.
 
 ### Реализованные Маршруты
 
@@ -132,6 +132,7 @@ tasks/               Backlog and sprint history
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
+| [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
 | [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
