@@ -67,7 +67,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 | S09-T002 | Demo Dataset Specification | P1 | M | T001 | ✅ |
 | S09-T003 | Demo Seed Plan: данные организации, объектов, рисков и графа | P1 | M | T002 | ✅ |
 | S09-T004 | ICP & Interview Script для российского рынка ИБ | P1 | S | T001 | ✅ |
-| S09-T005 | Product One-Pager для CISO | P1 | S | T001 | 📋 |
+| S09-T005 | Product One-Pager для CISO | P1 | S | T001 | ✅ |
 | S09-T006 | Landing/Product Copy Alignment | P2 | S | T005 | 📋 |
 | S09-T007 | Pilot Offer: 14-дневный сценарий оценки доверия | P1 | S | T004, T005 | 📋 |
 | S09-T008 | Sprint 09 Documentation Sync | P1 | S | T001–T007 | 📋 |
@@ -136,6 +136,8 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 
 **Ожидаемый результат:** документ для отправки потенциальным пользователям.
 
+**Артефакт:** `docs/product/PRODUCT_ONE_PAGER.md`
+
 ### S09-T006 — Landing/Product Copy Alignment
 
 **Описание:** сверить текст лендинга и README с новой стратегией Digital Trust & Cyber Risk Management.
@@ -162,7 +164,7 @@ Sprint 09 не добавляет тяжёлую продуктовую функ
 - [x] Есть demo dataset specification.
 - [x] Есть demo seed plan.
 - [x] Есть ICP и interview script.
-- [ ] Есть product one-pager.
+- [x] Есть product one-pager.
 - [ ] Есть pilot offer.
 - [ ] Roadmap и документация синхронизированы.
 - [ ] `npm run type-check` проходит.
