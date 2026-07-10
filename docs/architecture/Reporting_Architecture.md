@@ -103,6 +103,7 @@ lib/
 | `lib/reports/executive-report.ts` | Server-side data assembler for organization report |
 | `lib/reports/risk-csv.ts` | Query + mapping for Risk Registry CSV |
 | `lib/reports/csv.ts` | Safe CSV serialization |
+| `lib/actions/reports.ts` | Audit action for browser print/save as PDF flows |
 | `app/(app)/reports/*` | Protected printable report pages |
 | `app/api/reports/risks/route.ts` | CSV download endpoint |
 
@@ -190,6 +191,12 @@ Minimum metadata:
 ```
 
 Audit failure must not block the export, but it must be visible in server logs.
+
+S10-T005 implementation note:
+
+- `lib/reports/access.ts` contains the central report RBAC matrix.
+- Printable report buttons call a Server Action before `window.print()` to record export intent.
+- `createSecurityEvent()` catches audit write failures internally and logs them server-side.
 
 ---
 

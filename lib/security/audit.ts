@@ -36,17 +36,21 @@ export async function createSecurityEvent(payload: SecurityEventPayload): Promis
              ?? hdrs.get('x-real-ip')
              ?? null;
 
-  // Fire-and-forget: audit failure must never block the main operation
-  admin.from('security_events').insert({
-    organization_id: payload.organizationId,
-    actor_id:        payload.actorId,
-    actor_email:     payload.actorEmail ?? null,
-    event_type:      payload.eventType,
-    target_type:     payload.targetType ?? null,
-    target_id:       payload.targetId   ?? null,
-    metadata:        payload.metadata   ?? null,
-    ip_address:      ip,
-  } as never).then(({ error }) => {
+  try {
+    const { error } = await admin.from('security_events').insert({
+      organization_id: payload.organizationId,
+      actor_id:        payload.actorId,
+      actor_email:     payload.actorEmail ?? null,
+      event_type:      payload.eventType,
+      target_type:     payload.targetType ?? null,
+      target_id:       payload.targetId   ?? null,
+      metadata:        payload.metadata   ?? null,
+      ip_address:      ip,
+    } as never);
+
     if (error) console.error('[audit]', payload.eventType, error.message);
-  });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'unknown error';
+    console.error('[audit]', payload.eventType, message);
+  }
 }

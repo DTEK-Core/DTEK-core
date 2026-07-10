@@ -1,17 +1,11 @@
-import { notFound, redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { notFound } from 'next/navigation';
 import { TRUST_FACTORS } from '@/lib/design-tokens';
+import { getReportAccessContext } from '@/lib/reports/access';
 import type {
   PassportData,
   PassportObject,
   PassportRisk,
 } from '@/components/shared/objects/trust-passport-client';
-
-interface ProfileRaw {
-  role: string;
-  organization_id: string | null;
-}
 
 interface OrgRaw {
   name: string;
@@ -144,25 +138,9 @@ function buildSourceCoverage(object: PassportObject, risks: PassportRisk[]) {
 }
 
 export async function getPassportReportData(objectId: string): Promise<PassportReportData> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as ProfileRaw | null;
-  if (!profile?.organization_id) redirect('/onboarding/create');
-
-  const orgId = profile.organization_id;
+  const { admin, user, orgId, role } = await getReportAccessContext('passport', {
+    onDenied: 'notFound',
+  });
 
   const { data: objData } = await admin
     .from('objects')
@@ -266,7 +244,7 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     orgId,
     userId: user.id,
     userEmail: user.email,
-    role: profile.role,
+    role,
     delta30,
     factors: buildFactors(passport),
     generatedAt: new Date().toISOString(),

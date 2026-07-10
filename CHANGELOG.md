@@ -26,6 +26,21 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T005 — Report Access Control & Audit Events
+
+#### Добавлено
+
+- `lib/reports/access.ts` — единая RBAC-матрица отчётов согласно ADR-008.
+- `lib/actions/reports.ts` — Server Action для audit-событий printable report export перед browser print/save as PDF.
+
+#### Изменено
+
+- Trust Passport, Risk CSV и Executive Report используют общий report access helper.
+- Printable reports фиксируют `report.passport_exported` и `report.executive_exported` по кнопке сохранения PDF.
+- `createSecurityEvent()` теперь ожидает попытку записи audit event и безопасно логирует ошибки без падения основного сценария.
+- Audit Log отображает report-события человекочитаемыми названиями.
+- `tasks/SPRINT_10.md` отмечает S10-T005 как завершённую.
+
 ### S10-T004 — Executive Organization Report
 
 #### Добавлено

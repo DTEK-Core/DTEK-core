@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import { getTrustBand, OBJECT_TYPES } from '@/lib/design-tokens';
 import { fmtDateLong, fmtDateShort } from '@/lib/utils/dates';
-import { createSecurityEvent } from '@/lib/security/audit';
 import { getPassportReportData } from '@/lib/reports/passport-report';
 import { Logo } from '@/components/shared/logo';
 import { PassportReportActions } from '@/components/shared/reports/report-actions';
@@ -50,21 +49,6 @@ export default async function PassportReportPage({
   const { id } = await params;
   const report = await getPassportReportData(id);
   const band = getTrustBand(report.passport.trust_score);
-
-  await createSecurityEvent({
-    organizationId: report.orgId,
-    actorId: report.userId,
-    actorEmail: report.userEmail,
-    eventType: 'report.passport_exported',
-    targetType: 'object',
-    targetId: report.object.id,
-    metadata: {
-      reportType: 'passport',
-      format: 'print_html',
-      trustScore: report.passport.trust_score,
-      riskCount: report.risks.length,
-    },
-  });
 
   return (
     <main className="report-shell">

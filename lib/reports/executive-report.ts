@@ -1,9 +1,7 @@
-import { notFound, redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { notFound } from 'next/navigation';
 import { TRUST_FACTORS, TRUST_BANDS, getTrustBand } from '@/lib/design-tokens';
+import { getReportAccessContext } from '@/lib/reports/access';
 
-const ALLOWED_EXECUTIVE_REPORT_ROLES = ['owner', 'analyst'];
 const ACTIVE_RISK_STATUSES = ['open', 'in_progress'];
 
 const SEVERITY_WEIGHT: Record<string, number> = {
@@ -19,11 +17,6 @@ const CRITICALITY_WEIGHT: Record<string, number> = {
   medium:   2,
   low:      1,
 };
-
-interface ProfileRaw {
-  role: string;
-  organization_id: string | null;
-}
 
 interface OrgRaw {
   id: string;
@@ -315,29 +308,9 @@ function buildSourceCoverage(report: {
 }
 
 export async function getExecutiveReportData(): Promise<ExecutiveReportData> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as ProfileRaw | null;
-  if (!profile?.organization_id) redirect('/onboarding/create');
-
-  if (!ALLOWED_EXECUTIVE_REPORT_ROLES.includes(profile.role)) {
-    notFound();
-  }
-
-  const orgId = profile.organization_id;
+  const { admin, user, orgId, role } = await getReportAccessContext('executive', {
+    onDenied: 'notFound',
+  });
 
   const [orgResult, objectsResult, risksResult] = await Promise.all([
     admin
@@ -423,7 +396,7 @@ export async function getExecutiveReportData(): Promise<ExecutiveReportData> {
     },
     userId: user.id,
     userEmail: user.email,
-    role: profile.role,
+    role,
     generatedAt: new Date().toISOString(),
     summary: buildSummary({
       trustScore,

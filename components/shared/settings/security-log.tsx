@@ -24,6 +24,10 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
   'object.deleted':         { label: 'Объект удалён', icon: 'objects', category: 'system' },
   'risk.created':           { label: 'Риск добавлен', icon: 'risk', category: 'config' },
   'risk.deleted':           { label: 'Риск удалён', icon: 'risk', category: 'config' },
+  'report.passport_exported': { label: 'Trust Passport PDF', icon: 'download', category: 'system' },
+  'report.risks_csv_exported': { label: 'Risk Registry CSV', icon: 'download', category: 'system' },
+  'report.executive_opened':   { label: 'Executive report открыт', icon: 'doc', category: 'system' },
+  'report.executive_exported': { label: 'Executive report PDF', icon: 'download', category: 'system' },
 };
 
 const CATEGORY_LABELS: Record<EventCategory, string> = {
@@ -88,6 +92,15 @@ function formatMeta(row: SecurityEventRow): string {
   if (row.event_type === 'org.updated') {
     const fields = m.changedFields;
     return Array.isArray(fields) ? fields.join(', ') : '—';
+  }
+  if (row.event_type.startsWith('report.')) {
+    const parts = [
+      formatMetaValue(m.reportType),
+      formatMetaValue(m.format),
+      m.rowCount !== undefined ? `${formatMetaValue(m.rowCount)} строк` : null,
+      m.trigger !== undefined ? formatMetaValue(m.trigger) : null,
+    ].filter((item): item is string => Boolean(item));
+    return parts.length > 0 ? parts.join(' · ') : formatMetaValue(row.target_id);
   }
   return '—';
 }

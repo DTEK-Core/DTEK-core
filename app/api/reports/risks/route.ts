@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSecurityEvent } from '@/lib/security/audit';
+import { ReportForbiddenError } from '@/lib/reports/access';
 import { getRiskCsvExport } from '@/lib/reports/risk-csv';
 
 export async function GET(request: Request) {
@@ -31,7 +32,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    if (error instanceof Error && error.message === 'REPORT_FORBIDDEN') {
+    if (error instanceof ReportForbiddenError) {
       return NextResponse.json(
         { error: 'Недостаточно прав для экспорта реестра рисков' },
         { status: 403 },

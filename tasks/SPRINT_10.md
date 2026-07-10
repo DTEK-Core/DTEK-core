@@ -62,7 +62,7 @@
 | S10-T002 | Trust Passport PDF Export | P1 | L | T001 | ✅ Завершено |
 | S10-T003 | Risk Registry CSV Export | P1 | M | T001 | ✅ Завершено |
 | S10-T004 | Executive Organization Report | P1 | L | T001 | ✅ Завершено |
-| S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | 📋 Запланировано |
+| S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | ✅ Завершено |
 | S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | 📋 Запланировано |
 | S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | 📋 Запланировано |
 | S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 | 📋 Запланировано |
@@ -130,6 +130,8 @@
 **Описание:** проверить RBAC и логировать экспорт чувствительных отчётов.
 
 **Ожидаемый результат:** export доступен только разрешённым ролям; события фиксируются в audit log.
+
+**Решение:** добавлен общий report RBAC helper `lib/reports/access.ts` с матрицей ADR-008: Trust Passport доступен ролям организации, Risk CSV и Executive Report доступны только `owner`/`analyst`. Risk CSV route возвращает 403 при запрете. Printable reports логируют export через Server Action `lib/actions/reports.ts` перед browser print/save as PDF: `report.passport_exported` и `report.executive_exported`. Открытие Executive Report продолжает логироваться как `report.executive_opened`, Risk CSV — как `report.risks_csv_exported`. Audit helper теперь ожидает попытку записи и безопасно логирует ошибки без блокировки пользовательского сценария.
 
 ### S10-T006 — Report Empty/Error States
 

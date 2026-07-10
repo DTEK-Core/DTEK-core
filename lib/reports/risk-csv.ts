@@ -1,9 +1,6 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getReportAccessContext } from '@/lib/reports/access';
 import { serializeCsv, withUtf8Bom, type CsvColumn } from '@/lib/reports/csv';
 
-const ALLOWED_EXPORT_ROLES = ['owner', 'analyst'];
 const ALLOWED_SEVERITIES = ['low', 'medium', 'high', 'critical'];
 const ALLOWED_STATUSES = ['open', 'in_progress', 'accepted', 'mitigated', 'closed'];
 
@@ -41,11 +38,6 @@ const PROBABILITY_LABELS: Record<string, string> = {
   medium: 'Средняя',
   low: 'Низкая',
 };
-
-interface ProfileRaw {
-  role: string;
-  organization_id: string | null;
-}
 
 interface ProfileLinkRaw {
   full_name: string;
@@ -222,27 +214,7 @@ const RISK_CSV_COLUMNS: CsvColumn<RiskCsvRow>[] = [
 ];
 
 export async function getRiskCsvExport(searchParams: URLSearchParams): Promise<RiskCsvExport> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as ProfileRaw | null;
-  if (!profile?.organization_id) redirect('/onboarding/create');
-
-  if (!ALLOWED_EXPORT_ROLES.includes(profile.role)) {
-    throw new Error('REPORT_FORBIDDEN');
-  }
+  const { admin, user, orgId } = await getReportAccessContext('riskCsv');
 
   const filters: RiskCsvExport['filters'] = {
     q: normalizeQuery(searchParams.get('q')),
@@ -259,7 +231,7 @@ export async function getRiskCsvExport(searchParams: URLSearchParams): Promise<R
       author:profiles!author_id(full_name),
       object_risks(objects(id, name))
     `)
-    .eq('organization_id', profile.organization_id)
+    .eq('organization_id', orgId)
     .order('created_at', { ascending: false });
 
   const rows = filterRisks(
@@ -271,7 +243,7 @@ export async function getRiskCsvExport(searchParams: URLSearchParams): Promise<R
     csv: withUtf8Bom(serializeCsv(rows, RISK_CSV_COLUMNS)),
     filename: `dtek-core-risk-registry-${formatDateForFilename(new Date())}.csv`,
     rowCount: rows.length,
-    orgId: profile.organization_id,
+    orgId,
     userId: user.id,
     userEmail: user.email,
     filters,
