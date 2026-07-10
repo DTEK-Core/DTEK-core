@@ -21,3 +21,18 @@ export function PassportReportActions({ objectId }: PassportReportActionsProps) 
     </div>
   );
 }
+
+export function ExecutiveReportActions() {
+  return (
+    <div className="report-actions no-print">
+      <Link href="/dashboard" className="btn btn-ghost btn-sm">
+        <Icon name="chevL" size={14} />
+        Назад к Dashboard
+      </Link>
+      <button type="button" className="btn btn-primary btn-sm" onClick={() => window.print()}>
+        <Icon name="download" size={14} />
+        Сохранить PDF
+      </button>
+    </div>
+  );
+}

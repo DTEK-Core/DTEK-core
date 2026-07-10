@@ -61,7 +61,7 @@
 | S10-T001 | Reporting Architecture Decision | P1 | S | S09 | ✅ Завершено |
 | S10-T002 | Trust Passport PDF Export | P1 | L | T001 | ✅ Завершено |
 | S10-T003 | Risk Registry CSV Export | P1 | M | T001 | ✅ Завершено |
-| S10-T004 | Executive Organization Report | P1 | L | T001 | 📋 Запланировано |
+| S10-T004 | Executive Organization Report | P1 | L | T001 | ✅ Завершено |
 | S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | 📋 Запланировано |
 | S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | 📋 Запланировано |
 | S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | 📋 Запланировано |
@@ -122,6 +122,8 @@
 **Описание:** создать управленческий отчёт по организации для CISO.
 
 **Ожидаемый результат:** отчёт включает org Trust Score, топ рисковых объектов, распределение доверия, критические риски, source coverage placeholder и summary.
+
+**Решение:** добавлена защищённая печатная версия `/reports/executive` для owner/analyst. Отчёт собирается server-side через `lib/reports/executive-report.ts`, использует organization_id из профиля пользователя, показывает org Trust Score, KPI, executive summary, распределение доверия, факторный профиль, топ рисковых объектов, критические риски и source/evidence coverage placeholder. В Dashboard добавлена точка входа для разрешённых ролей; открытие отчёта фиксируется audit event `report.executive_opened`.
 
 ### S10-T005 — Report Access Control & Audit Events
 

@@ -186,6 +186,7 @@ export default async function DashboardPage() {
       history={history}
       events={events}
       canRecalc={canRecalc}
+      canOpenExecutiveReport={canRecalc}
     />
   );
 }

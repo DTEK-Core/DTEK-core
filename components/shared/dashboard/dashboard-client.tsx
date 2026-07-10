@@ -31,9 +31,19 @@ export interface DashboardProps {
   history: HistoryPoint[];
   events: EventItem[];
   canRecalc: boolean;
+  canOpenExecutiveReport: boolean;
 }
 
-export function DashboardClient({ org, kpi, topRisky, distribution, history, events, canRecalc }: DashboardProps) {
+export function DashboardClient({
+  org,
+  kpi,
+  topRisky,
+  distribution,
+  history,
+  events,
+  canRecalc,
+  canOpenExecutiveReport,
+}: DashboardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -80,6 +90,12 @@ export function DashboardClient({ org, kpi, topRisky, distribution, history, eve
           <p className="screen-sub">Цифровая модель · {orgName} · обновляется в реальном времени</p>
         </div>
         <div className="screen-head-actions">
+          {canOpenExecutiveReport && (
+            <Link href="/reports/executive" className="btn btn-line btn-sm">
+              <Icon name="download" size={14} />
+              Отчёт CISO
+            </Link>
+          )}
           {canRecalc && (
             <button
               className="btn btn-ghost btn-sm"

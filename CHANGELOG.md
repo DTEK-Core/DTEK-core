@@ -26,6 +26,19 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T004 — Executive Organization Report
+
+#### Добавлено
+
+- `/reports/executive` — защищённая печатная версия executive organization report для CISO-сценария.
+- `lib/reports/executive-report.ts` — server-side сбор управленческой сводки организации: Trust Score, KPI, distribution, factor averages, top risky objects, critical risks и source/evidence coverage.
+
+#### Изменено
+
+- Dashboard получил точку входа в executive report для ролей `owner` и `analyst`.
+- Открытие executive report логируется audit event `report.executive_opened`.
+- `tasks/SPRINT_10.md` отмечает S10-T004 как завершённую.
+
 ### S10-T003 — Risk Registry CSV Export
 
 #### Добавлено
