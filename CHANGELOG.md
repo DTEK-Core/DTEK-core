@@ -26,6 +26,20 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T006 — Report Empty/Error States
+
+#### Добавлено
+
+- Report-specific `not-found` и `error` screens для `/reports/*`.
+- `components/shared/reports/report-state.tsx` — общий UI-блок для empty/error состояний отчётов.
+- Report layout для общего подключения print/report CSS в специальных состояниях маршрута.
+
+#### Изменено
+
+- Executive Report теперь явно показывает состояние пустой цифровой модели вместо пустых графиков и дефолтной факторной аналитики.
+- Risk CSV endpoint возвращает безопасное сообщение об ошибке без внутренних деталей при сбое генерации.
+- `tasks/SPRINT_10.md` отмечает S10-T006 как завершённую.
+
 ### S10-T005 — Report Access Control & Audit Events
 
 #### Добавлено

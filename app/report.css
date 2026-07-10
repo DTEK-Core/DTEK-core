@@ -272,6 +272,49 @@
   font-size: 13px;
 }
 
+.report-state {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  padding: 48px 28px;
+  text-align: center;
+}
+
+.report-state-icon {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  color: var(--teal);
+  border: 1px solid var(--border-1);
+  border-radius: 50%;
+  background: var(--teal-soft);
+}
+
+.report-state h1 {
+  max-width: 620px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.report-state p {
+  max-width: 620px;
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.report-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
 .report-source-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -540,6 +583,7 @@
   .report-factor-foot,
   .report-section-head span,
   .report-empty,
+  .report-state p,
   .report-source p,
   .executive-summary-item p,
   .executive-bar-top span,
@@ -554,6 +598,7 @@
   .report-stat strong,
   .report-field strong,
   .report-section h2,
+  .report-state h1,
   .report-factor-top strong,
   .report-risk strong {
     color: #111827 !important;

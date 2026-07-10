@@ -3,6 +3,14 @@ import { createSecurityEvent } from '@/lib/security/audit';
 import { ReportForbiddenError } from '@/lib/reports/access';
 import { getRiskCsvExport } from '@/lib/reports/risk-csv';
 
+function isNextRedirect(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'digest' in error
+    && typeof (error as { digest?: unknown }).digest === 'string'
+    && (error as { digest: string }).digest.startsWith('NEXT_REDIRECT');
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -39,6 +47,14 @@ export async function GET(request: Request) {
       );
     }
 
-    throw error;
+    if (isNextRedirect(error)) throw error;
+
+    const message = error instanceof Error ? error.message : 'unknown error';
+    console.error('[reports:risks_csv]', message);
+
+    return NextResponse.json(
+      { error: 'Не удалось сформировать CSV-отчёт. Попробуйте повторить экспорт позже.' },
+      { status: 500 },
+    );
   }
 }

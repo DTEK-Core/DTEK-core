@@ -198,6 +198,13 @@ S10-T005 implementation note:
 - Printable report buttons call a Server Action before `window.print()` to record export intent.
 - `createSecurityEvent()` catches audit write failures internally and logs them server-side.
 
+S10-T006 implementation note:
+
+- `/reports/*` has report-specific `not-found` and `error` screens.
+- Printable report pages use a shared `ReportState` component for safe empty/error states.
+- Executive Report renders an explicit empty digital model state when there are no active objects.
+- CSV export returns safe user-facing JSON errors for generation failures without exposing internals.
+
 ---
 
 ## 8. Security Requirements

@@ -6,6 +6,7 @@ import { createSecurityEvent } from '@/lib/security/audit';
 import { getExecutiveReportData } from '@/lib/reports/executive-report';
 import { Logo } from '@/components/shared/logo';
 import { ExecutiveReportActions } from '@/components/shared/reports/report-actions';
+import { ReportState } from '@/components/shared/reports/report-state';
 import '@/app/report.css';
 
 export const metadata: Metadata = {
@@ -106,115 +107,129 @@ export default async function ExecutiveReportPage() {
           </div>
         </section>
 
-        <section className="report-two-col executive-two-col">
-          <div className="report-section compact">
-            <h2>Распределение доверия</h2>
-            <div className="executive-distribution">
-              {report.distribution.map((item) => {
-                const percent = report.kpi.activeObjects > 0
-                  ? Math.round((item.count / report.kpi.activeObjects) * 100)
-                  : 0;
-                return (
-                  <div className="executive-bar-row" key={item.key}>
-                    <div className="executive-bar-top">
-                      <strong>{item.label}</strong>
-                      <span>{item.count} · {percent}%</span>
-                    </div>
-                    <div className="executive-bar">
-                      <span style={{ width: `${percent}%`, background: item.color }} />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="report-section compact">
-            <h2>Факторный профиль</h2>
-            <div className="executive-factor-list">
-              {report.factorAverages.map((factor) => {
-                const factorBand = getTrustBand(factor.score);
-                return (
-                  <div className="report-factor" key={factor.key}>
-                    <div className="report-factor-top">
-                      <strong>{factor.label}</strong>
-                      <span>{factor.score}/100</span>
-                    </div>
-                    <div className="report-factor-bar">
-                      <span style={{ width: `${factor.score}%`, background: factorBand.color }} />
-                    </div>
-                    <div className="report-factor-foot">
-                      <span>Вес {factor.weight}%</span>
-                      <span>{factorBand.label}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="report-section">
-          <div className="report-section-head">
-            <h2>Топ рисковых объектов</h2>
-            <span>низкое доверие + открытые риски + критичность</span>
-          </div>
-          {report.topRiskyObjects.length > 0 ? (
-            <div className="executive-table">
-              <div className="executive-table-head">
-                <span>Объект</span>
-                <span>Тип</span>
-                <span>Критичность</span>
-                <span>Риски</span>
-                <span>Trust</span>
-              </div>
-              {report.topRiskyObjects.map((object) => {
-                const objectBand = getTrustBand(object.trustScore);
-                return (
-                  <div className="executive-table-row" key={object.id}>
-                    <strong>{object.name}</strong>
-                    <span>{typeLabel(object.type)}</span>
-                    <span>{criticalityLabel(object.criticality)}</span>
-                    <span>
-                      {object.openRiskCount}
-                      {object.criticalRiskCount > 0 ? ` / крит. ${object.criticalRiskCount}` : ''}
-                    </span>
-                    <b style={{ color: objectBand.color }}>{object.trustScore}</b>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="report-empty">Активных объектов для ранжирования пока нет.</p>
-          )}
-        </section>
-
-        <section className="report-section">
-          <div className="report-section-head">
-            <h2>Критические риски</h2>
-            <span>открытые и в работе</span>
-          </div>
-          {report.criticalRisks.length > 0 ? (
-            <div className="report-risk-list">
-              {report.criticalRisks.map((risk) => (
-                <div className="report-risk executive-risk" key={risk.id}>
-                  <div>
-                    <strong>{risk.title}</strong>
-                    <span>
-                      ID {risk.id.slice(0, 8)}
-                      {risk.dueDate ? ` · SLA ${fmtDateShort(new Date(risk.dueDate))}` : ''}
-                      {risk.linkedObjects.length > 0 ? ` · ${risk.linkedObjects.map((object) => object.name).join(', ')}` : ''}
-                    </span>
-                  </div>
-                  <em>{severityLabel(risk.severity)} · {RISK_STATUS_LABELS[risk.status] ?? risk.status}</em>
-                  {risk.cvssScore != null && <b>{risk.cvssScore}</b>}
+        {report.kpi.activeObjects === 0 ? (
+          <section className="report-section">
+            <ReportState
+              icon="objects"
+              title="Цифровая модель пока пуста"
+              description="Executive Report будет показывать распределение доверия, факторный профиль и рисковые объекты после добавления активов в организацию."
+              primaryHref="/objects"
+              primaryLabel="К объектам"
+              secondaryHref="/dashboard"
+              secondaryLabel="К Dashboard"
+            />
+          </section>
+        ) : (
+          <>
+            <section className="report-two-col executive-two-col">
+              <div className="report-section compact">
+                <h2>Распределение доверия</h2>
+                <div className="executive-distribution">
+                  {report.distribution.map((item) => {
+                    const percent = Math.round((item.count / report.kpi.activeObjects) * 100);
+                    return (
+                      <div className="executive-bar-row" key={item.key}>
+                        <div className="executive-bar-top">
+                          <strong>{item.label}</strong>
+                          <span>{item.count} · {percent}%</span>
+                        </div>
+                        <div className="executive-bar">
+                          <span style={{ width: `${percent}%`, background: item.color }} />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="report-empty">Критических открытых рисков не обнаружено.</p>
-          )}
-        </section>
+              </div>
+
+              <div className="report-section compact">
+                <h2>Факторный профиль</h2>
+                <div className="executive-factor-list">
+                  {report.factorAverages.map((factor) => {
+                    const factorBand = getTrustBand(factor.score);
+                    return (
+                      <div className="report-factor" key={factor.key}>
+                        <div className="report-factor-top">
+                          <strong>{factor.label}</strong>
+                          <span>{factor.score}/100</span>
+                        </div>
+                        <div className="report-factor-bar">
+                          <span style={{ width: `${factor.score}%`, background: factorBand.color }} />
+                        </div>
+                        <div className="report-factor-foot">
+                          <span>Вес {factor.weight}%</span>
+                          <span>{factorBand.label}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+
+            <section className="report-section">
+              <div className="report-section-head">
+                <h2>Топ рисковых объектов</h2>
+                <span>низкое доверие + открытые риски + критичность</span>
+              </div>
+              {report.topRiskyObjects.length > 0 ? (
+                <div className="executive-table">
+                  <div className="executive-table-head">
+                    <span>Объект</span>
+                    <span>Тип</span>
+                    <span>Критичность</span>
+                    <span>Риски</span>
+                    <span>Trust</span>
+                  </div>
+                  {report.topRiskyObjects.map((object) => {
+                    const objectBand = getTrustBand(object.trustScore);
+                    return (
+                      <div className="executive-table-row" key={object.id}>
+                        <strong>{object.name}</strong>
+                        <span>{typeLabel(object.type)}</span>
+                        <span>{criticalityLabel(object.criticality)}</span>
+                        <span>
+                          {object.openRiskCount}
+                          {object.criticalRiskCount > 0 ? ` / крит. ${object.criticalRiskCount}` : ''}
+                        </span>
+                        <b style={{ color: objectBand.color }}>{object.trustScore}</b>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="report-empty">Нет объектов с открытыми рисками или сниженным доверием.</p>
+              )}
+            </section>
+
+            <section className="report-section">
+              <div className="report-section-head">
+                <h2>Критические риски</h2>
+                <span>открытые и в работе</span>
+              </div>
+              {report.criticalRisks.length > 0 ? (
+                <div className="report-risk-list">
+                  {report.criticalRisks.map((risk) => (
+                    <div className="report-risk executive-risk" key={risk.id}>
+                      <div>
+                        <strong>{risk.title}</strong>
+                        <span>
+                          ID {risk.id.slice(0, 8)}
+                          {risk.dueDate ? ` · SLA ${fmtDateShort(new Date(risk.dueDate))}` : ''}
+                          {risk.linkedObjects.length > 0 ? ` · ${risk.linkedObjects.map((object) => object.name).join(', ')}` : ''}
+                        </span>
+                      </div>
+                      <em>{severityLabel(risk.severity)} · {RISK_STATUS_LABELS[risk.status] ?? risk.status}</em>
+                      {risk.cvssScore != null && <b>{risk.cvssScore}</b>}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="report-empty">Критических открытых рисков не обнаружено.</p>
+              )}
+            </section>
+          </>
+        )}
 
         <section className="report-section">
           <div className="report-section-head">

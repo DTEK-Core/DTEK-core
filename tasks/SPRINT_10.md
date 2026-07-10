@@ -63,7 +63,7 @@
 | S10-T003 | Risk Registry CSV Export | P1 | M | T001 | ✅ Завершено |
 | S10-T004 | Executive Organization Report | P1 | L | T001 | ✅ Завершено |
 | S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | ✅ Завершено |
-| S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | 📋 Запланировано |
+| S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | ✅ Завершено |
 | S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | 📋 Запланировано |
 | S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 | 📋 Запланировано |
 
@@ -138,6 +138,8 @@
 **Описание:** обработать пустые данные, недоступный объект, ошибку генерации.
 
 **Ожидаемый результат:** пользователь получает понятное сообщение без внутренних ошибок.
+
+**Решение:** добавлены report-specific `not-found` и `error` страницы для `/reports/*`, общий компонент `ReportState` и report layout для специальных состояний. Недоступный объект/отчёт теперь показывает понятное сообщение без внутренних деталей. Executive Report при пустой цифровой модели показывает явный empty-state и не выводит распределение/факторный профиль на дефолтных значениях. Risk CSV endpoint возвращает безопасный JSON 500 при сбое генерации без раскрытия внутренних ошибок.
 
 ### S10-T007 — User Documentation
 
