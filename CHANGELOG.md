@@ -26,6 +26,18 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T007 — User Documentation
+
+#### Добавлено
+
+- `docs/user/REPORTS_AND_EXPORT_GUIDE.md` — пользовательское руководство по Trust Passport PDF, Risk Registry CSV и Executive Organization Report.
+
+#### Изменено
+
+- `USER_GUIDE.md`, `FAQ.md`, `OBJECT_MODEL_GUIDE.md` и `RISK_REGISTRY_GUIDE.md` дополнены сценариями отчётов и экспорта.
+- `DOCUMENTATION_INDEX.md` и `README.md` синхронизированы с пользовательской документацией Sprint 10.
+- `tasks/SPRINT_10.md` отмечает S10-T007 как завершённую.
+
 ### S10-T006 — Report Empty/Error States
 
 #### Добавлено

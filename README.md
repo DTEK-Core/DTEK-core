@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.8.0 — Sprint 09 завершён: Demo Ready + Interview Ready.**
+**v0.8.0+ — Sprint 10 в работе: Reporting & Export.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. После ADR-007 продукт развивается как Evidence-first Trust Platform. Следующий фокус — Sprint 10: Reporting & Export.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. Sprint 10 добавляет отчёты и экспорт: Trust Passport PDF, Risk Registry CSV и Executive Organization Report.
 
 ### Реализованные Маршруты
 
@@ -40,7 +40,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 | Центр управления | `/dashboard` |
 | Объекты | `/objects`, `/objects/[id]` |
 | Trust Passport | `/objects/[id]/passport` |
+| Trust Passport report | `/reports/passport/[id]` |
 | Реестр рисков | `/risks` |
+| Executive Report | `/reports/executive` |
 | Trust Graph | `/graph` |
 | Конфигуратор | `/configurator` |
 | Пользователи и роли | `/users` |
@@ -136,6 +138,7 @@ tasks/               Backlog and sprint history
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
+| [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Пользовательское руководство по отчётам и экспорту |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
 | [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |

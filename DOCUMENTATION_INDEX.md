@@ -116,6 +116,7 @@
 | [docs/user/OBJECT_MODEL_GUIDE.md](docs/user/OBJECT_MODEL_GUIDE.md) | Object model guide |
 | [docs/user/RISK_REGISTRY_GUIDE.md](docs/user/RISK_REGISTRY_GUIDE.md) | Risk Registry guide |
 | [docs/user/CONFIGURATOR_GUIDE.md](docs/user/CONFIGURATOR_GUIDE.md) | Configurator guide |
+| [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Reports and export guide |
 | [docs/user/FAQ.md](docs/user/FAQ.md) | FAQ |
 
 ---

@@ -64,7 +64,7 @@
 | S10-T004 | Executive Organization Report | P1 | L | T001 | ✅ Завершено |
 | S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | ✅ Завершено |
 | S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | ✅ Завершено |
-| S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | 📋 Запланировано |
+| S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | ✅ Завершено |
 | S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 | 📋 Запланировано |
 
 ---
@@ -146,6 +146,8 @@
 **Описание:** описать, какие отчёты существуют и как их использовать.
 
 **Ожидаемый результат:** обновлены user docs и FAQ.
+
+**Решение:** добавлен пользовательский guide `docs/user/REPORTS_AND_EXPORT_GUIDE.md`, описывающий Trust Passport report, Risk Registry CSV, Executive Organization Report, RBAC, audit events, empty/error states и ограничения Sprint 10. Обновлены `USER_GUIDE.md`, `FAQ.md`, `OBJECT_MODEL_GUIDE.md`, `RISK_REGISTRY_GUIDE.md`, `DOCUMENTATION_INDEX.md` и `README.md`.
 
 ### S10-T008 — Reporting Smoke Test Checklist
 
