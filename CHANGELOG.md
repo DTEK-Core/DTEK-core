@@ -26,6 +26,17 @@
 
 ## Sprint 10 — Reporting & Export
 
+### S10-T008 — Reporting Smoke Test Checklist
+
+#### Добавлено
+
+- `docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md` — ручной smoke test модуль Sprint 10 Reporting & Export.
+
+#### Изменено
+
+- `DOCUMENTATION_INDEX.md` дополнен ссылкой на Sprint 10 Reporting manual smoke test.
+- `tasks/SPRINT_10.md` отмечает S10-T008 как завершённую.
+
 ### S10-T007 — User Documentation
 
 #### Добавлено

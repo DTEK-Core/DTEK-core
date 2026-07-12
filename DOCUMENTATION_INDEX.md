@@ -133,6 +133,7 @@
 | [docs/testing/MANUAL_TESTING_GUIDE.md](docs/testing/MANUAL_TESTING_GUIDE.md) | Manual testing guide |
 | [docs/testing/MANUAL_TESTING_GUIDE_S07.md](docs/testing/MANUAL_TESTING_GUIDE_S07.md) | Sprint 07 manual testing |
 | [docs/testing/RBAC_TESTING_GUIDE.md](docs/testing/RBAC_TESTING_GUIDE.md) | RBAC testing |
+| [docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md](docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md) | Sprint 10 Reporting manual smoke test |
 | [docs/testing/BUG_REPORT_TEMPLATE.md](docs/testing/BUG_REPORT_TEMPLATE.md) | Bug report template |
 
 ---

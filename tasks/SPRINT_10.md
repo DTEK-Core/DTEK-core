@@ -65,7 +65,7 @@
 | S10-T005 | Report Access Control & Audit Events | P1 | M | T002–T004 | ✅ Завершено |
 | S10-T006 | Report Empty/Error States | P2 | S | T002–T004 | ✅ Завершено |
 | S10-T007 | User Documentation: Reports & Export | P1 | S | T002–T006 | ✅ Завершено |
-| S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 | 📋 Запланировано |
+| S10-T008 | Reporting Smoke Test Checklist | P1 | S | T002–T007 | ✅ Завершено |
 
 ---
 
@@ -154,6 +154,8 @@
 **Описание:** подготовить smoke test экспорта.
 
 **Ожидаемый результат:** чеклист проверяет PDF, CSV, RBAC, audit и mobile/desktop UI.
+
+**Решение:** добавлен документ `docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md` — ручной smoke test модуль Sprint 10 Reporting & Export. Чеклист покрывает Trust Passport report, Risk Registry CSV, Executive Organization Report, RBAC, audit events, empty/error states, mobile/desktop UI, user documentation, журнал замечаний и итоговый протокол готовности.
 
 ---
 
