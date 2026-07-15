@@ -17,6 +17,7 @@ export function ObjectImportDialog(props: ObjectImportDialogProps) {
       pickerTitle="Выберите CSV или XLSX"
       pickerNote="До 5 МБ и 500 объектов, первый лист XLSX"
       checkingText="Проверяем структуру и права доступа…"
+      reportName="objects"
       parseFile={parseObjectImportFile}
       previewImport={previewObjectImport}
       commitImport={commitObjectImport}

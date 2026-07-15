@@ -15,7 +15,11 @@ import {
   type RiskImportPreview,
   type RiskImportPreviewRow,
 } from '@/lib/import/risks';
-import type { ImportMatrix } from '@/lib/import/shared';
+import {
+  validateImportSourceDefaults,
+  type ImportMatrix,
+  type ImportSourceDefaults,
+} from '@/lib/import/shared';
 
 interface AuthContext {
   userId: string;
@@ -74,6 +78,7 @@ async function loadImportContext(ctx: AuthContext): Promise<{
 async function createPreview(
   fileName: string,
   matrix: ImportMatrix,
+  sourceDefaults: ImportSourceDefaults,
   ctx: AuthContext,
 ): Promise<{ preview?: RiskImportPreview; error?: string }> {
   if (!['owner', 'analyst'].includes(ctx.role)) return { error: 'Только владелец или аналитик может импортировать риски' };
@@ -81,18 +86,20 @@ async function createPreview(
 
   const payload = validateRiskImportPayload(fileName, matrix);
   if (!payload.success) return { error: 'Файл имеет недопустимый размер или структуру' };
+  const source = validateImportSourceDefaults(sourceDefaults);
+  if (!source.success) return { error: 'Проверьте название, тип, дату и комментарий источника' };
   const nonEmptyRows = payload.data.matrix.slice(1).filter(row => row.some(cell => cell !== null && String(cell).trim() !== ''));
   if (nonEmptyRows.length > MAX_RISK_IMPORT_ROWS) return { error: `В файле больше ${MAX_RISK_IMPORT_ROWS} строк рисков` };
 
   const context = await loadImportContext(ctx);
   if (!context) return { error: 'Не удалось проверить риски и объекты организации. Попробуйте ещё раз.' };
-  return { preview: prepareRiskImport(payload.data.fileName, payload.data.matrix, context.objects, context.existingRisks) };
+  return { preview: prepareRiskImport(payload.data.fileName, payload.data.matrix, context.objects, context.existingRisks, source.data) };
 }
 
-export async function previewRiskImport(fileName: string, matrix: ImportMatrix) {
+export async function previewRiskImport(fileName: string, matrix: ImportMatrix, sourceDefaults: ImportSourceDefaults) {
   const ctx = await getAuthContext();
   if (!ctx) redirect('/login');
-  return createPreview(fileName, matrix, ctx);
+  return createPreview(fileName, matrix, sourceDefaults, ctx);
 }
 
 function insertPayload(row: RiskImportPreviewRow, ctx: AuthContext) {
@@ -121,11 +128,12 @@ function riskKey(risk: { title: string; category: string; severity: string }): s
 export async function commitRiskImport(
   fileName: string,
   matrix: ImportMatrix,
+  sourceDefaults: ImportSourceDefaults,
 ): Promise<{ result?: RiskImportCommitResult; error?: string }> {
   const ctx = await getAuthContext();
   if (!ctx) redirect('/login');
 
-  const prepared = await createPreview(fileName, matrix, ctx);
+  const prepared = await createPreview(fileName, matrix, sourceDefaults, ctx);
   if (!prepared.preview) return { error: prepared.error ?? 'Не удалось подготовить импорт' };
   const preview = prepared.preview;
   const candidates = preview.rows.filter(row => row.risk && !row.duplicateInFile && !row.duplicateExisting && !row.issues.some(item => item.severity === 'error'));

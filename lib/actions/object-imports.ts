@@ -14,7 +14,11 @@ import {
   type ObjectImportPreview,
   type ObjectImportPreviewRow,
 } from '@/lib/import/objects';
-import type { ImportMatrix } from '@/lib/import/shared';
+import {
+  validateImportSourceDefaults,
+  type ImportMatrix,
+  type ImportSourceDefaults,
+} from '@/lib/import/shared';
 
 const INITIAL_SCORE: Record<string, number> = {
   critical: 65, high: 70, medium: 75, low: 80,
@@ -62,6 +66,7 @@ async function loadExistingObjects(ctx: AuthContext): Promise<ExistingObjectMatc
 async function createPreview(
   fileName: string,
   matrix: ImportMatrix,
+  sourceDefaults: ImportSourceDefaults,
   ctx: AuthContext,
 ): Promise<{ preview?: ObjectImportPreview; error?: string }> {
   if (!['owner', 'analyst', 'admin'].includes(ctx.role)) return { error: 'Недостаточно прав для импорта объектов' };
@@ -69,6 +74,8 @@ async function createPreview(
 
   const payload = validateObjectImportPayload(fileName, matrix);
   if (!payload.success) return { error: 'Файл имеет недопустимый размер или структуру' };
+  const source = validateImportSourceDefaults(sourceDefaults);
+  if (!source.success) return { error: 'Проверьте название, тип, дату и комментарий источника' };
 
   const nonEmptyRows = payload.data.matrix.slice(1).filter(row => row.some(cell => cell !== null && String(cell).trim() !== ''));
   if (nonEmptyRows.length > MAX_OBJECT_IMPORT_ROWS) return { error: `В файле больше ${MAX_OBJECT_IMPORT_ROWS} строк объектов` };
@@ -76,16 +83,17 @@ async function createPreview(
   const existingObjects = await loadExistingObjects(ctx);
   if (!existingObjects) return { error: 'Не удалось проверить существующие объекты. Попробуйте ещё раз.' };
 
-  return { preview: prepareObjectImport(payload.data.fileName, payload.data.matrix, ctx.role, existingObjects) };
+  return { preview: prepareObjectImport(payload.data.fileName, payload.data.matrix, ctx.role, existingObjects, source.data) };
 }
 
 export async function previewObjectImport(
   fileName: string,
   matrix: ImportMatrix,
+  sourceDefaults: ImportSourceDefaults,
 ): Promise<{ preview?: ObjectImportPreview; error?: string }> {
   const ctx = await getAuthContext();
   if (!ctx) redirect('/login');
-  return createPreview(fileName, matrix, ctx);
+  return createPreview(fileName, matrix, sourceDefaults, ctx);
 }
 
 function insertPayload(row: ObjectImportPreviewRow, ctx: AuthContext) {
@@ -109,11 +117,12 @@ function insertPayload(row: ObjectImportPreviewRow, ctx: AuthContext) {
 export async function commitObjectImport(
   fileName: string,
   matrix: ImportMatrix,
+  sourceDefaults: ImportSourceDefaults,
 ): Promise<{ result?: ObjectImportCommitResult; error?: string }> {
   const ctx = await getAuthContext();
   if (!ctx) redirect('/login');
 
-  const prepared = await createPreview(fileName, matrix, ctx);
+  const prepared = await createPreview(fileName, matrix, sourceDefaults, ctx);
   if (!prepared.preview) return { error: prepared.error ?? 'Не удалось подготовить импорт' };
 
   const preview = prepared.preview;

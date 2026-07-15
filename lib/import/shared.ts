@@ -23,7 +23,9 @@ export interface ImportPreviewSummary {
   validRows: number;
   creatableRows: number;
   errorRows: number;
+  duplicateRows: number;
   warningCount: number;
+  sourceMetadata: ImportSourcePreview;
   issues: ImportIssue[];
 }
 
@@ -35,21 +37,47 @@ export interface ImportCommitSummary {
   failures: Array<{ row: number; name: string; message: string }>;
 }
 
-const SOURCE_TYPES = [
+export const IMPORT_SOURCE_TYPES = [
   'manual_csv', 'asset_inventory', 'vulnerability_export', 'monitoring_export',
   'directory_export', 'security_tool_export', 'network_export', 'other',
 ] as const;
 
-const SOURCE_CONFIDENCE = ['high', 'medium', 'low'] as const;
+export const IMPORT_SOURCE_CONFIDENCE = ['high', 'medium', 'low'] as const;
+
+export type ImportSourceType = typeof IMPORT_SOURCE_TYPES[number];
+export type ImportSourceConfidence = typeof IMPORT_SOURCE_CONFIDENCE[number];
+
+export interface ImportSourceDefaults {
+  source_name: string | null;
+  source_type: ImportSourceType;
+  source_collected_at: string | null;
+  confidence: ImportSourceConfidence;
+  import_note: string | null;
+}
+
+export interface ImportSourcePreview extends ImportSourceDefaults {
+  source_name: string;
+  overriddenRows: number;
+}
+
+export const DEFAULT_IMPORT_SOURCE: ImportSourceDefaults = {
+  source_name: null,
+  source_type: 'manual_csv',
+  source_collected_at: null,
+  confidence: 'medium',
+  import_note: null,
+};
 
 export const SourceMetadataSchema = z.object({
   source_name: z.string().max(200, 'Название источника не должно превышать 200 символов').nullable(),
-  source_type: z.enum(SOURCE_TYPES, { message: 'Недопустимый тип источника' }),
+  source_type: z.enum(IMPORT_SOURCE_TYPES, { message: 'Недопустимый тип источника' }),
   source_record_id: z.string().max(200, 'ID записи источника не должен превышать 200 символов').nullable(),
   source_collected_at: z.string().nullable(),
-  confidence: z.enum(SOURCE_CONFIDENCE, { message: 'Недопустимый уровень уверенности' }),
+  confidence: z.enum(IMPORT_SOURCE_CONFIDENCE, { message: 'Недопустимый уровень уверенности' }),
   import_note: z.string().max(500, 'Комментарий импорта не должен превышать 500 символов').nullable(),
 });
+
+const ImportSourceDefaultsSchema = SourceMetadataSchema.omit({ source_record_id: true });
 
 const ImportPayloadSchema = z.object({
   fileName: z.string().trim().min(1).max(255),
@@ -112,6 +140,39 @@ export function normalizeImportDate(value: string | null): { value: string | nul
   }
 
   return { value: parsed.toISOString(), valid: true };
+}
+
+export function validateImportSourceDefaults(input: unknown):
+  | { success: true; data: ImportSourceDefaults }
+  | { success: false } {
+  const parsed = ImportSourceDefaultsSchema.safeParse(input);
+  if (!parsed.success) return { success: false };
+
+  const sourceDate = normalizeImportDate(cellText(parsed.data.source_collected_at));
+  if (!sourceDate.valid) return { success: false };
+
+  return {
+    success: true,
+    data: {
+      source_name: cellText(parsed.data.source_name),
+      source_type: parsed.data.source_type,
+      source_collected_at: sourceDate.value,
+      confidence: parsed.data.confidence,
+      import_note: cellText(parsed.data.import_note),
+    },
+  };
+}
+
+export function sourcePreview(
+  fileName: string,
+  source: ImportSourceDefaults,
+  overriddenRows: number,
+): ImportSourcePreview {
+  return {
+    ...source,
+    source_name: source.source_name ?? fileName,
+    overriddenRows,
+  };
 }
 
 export function issue(

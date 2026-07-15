@@ -62,7 +62,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T001 | Evidence Import Schema Specification | P1 | M | S09, S10 | ✅ Завершено |
 | S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
 | S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
-| S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | 📋 Запланировано |
+| S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | ✅ Завершено |
 | S11-T005 | Import Templates | P1 | S | T001 | 📋 Запланировано |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | 📋 Запланировано |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 | 📋 Запланировано |
@@ -124,6 +124,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Ожидаемый результат:** пользователь видит, что будет импортировано, откуда пришли данные, и может исправить файл.
 
+**Решение:** общий диалог objects/risks import дополнен file-level source metadata: названием, типом источника, уверенностью, датой сбора и комментарием. Построчные source-поля файла имеют приоритет над этими defaults, а preview явно показывает источник и количество строк с переопределениями. До commit пользователь видит total/valid/creatable/error/duplicate/warning counters, первые замечания с исходным значением и рекомендацией, а также может скачать полный UTF-8 CSV validation report. Preview не пишет данные, а commit повторно валидирует файл, source metadata, RBAC и tenant context на сервере.
+
 ### S11-T005 — Import Templates
 
 **Описание:** подготовить шаблоны CSV для объектов и рисков.
@@ -152,13 +154,13 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 ## 8. Definition Of Done
 
-- [ ] Objects CSV/XLSX import работает.
-- [ ] Risks CSV/XLSX import работает.
-- [ ] Есть preview и ошибки валидации.
-- [ ] У импортированных данных есть source context.
+- [x] Objects CSV/XLSX import работает.
+- [x] Risks CSV/XLSX import работает.
+- [x] Есть preview и ошибки валидации.
+- [x] У импортированных данных есть source context.
 - [ ] Есть шаблоны CSV.
 - [ ] Audit events фиксируются.
-- [ ] Trust Score пересчитывается после импорта.
+- [x] Trust Score пересчитывается после импорта.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.

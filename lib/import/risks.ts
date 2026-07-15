@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { CreateRiskSchema } from '@/lib/validation/schemas';
 import {
   MAX_IMPORT_ROWS,
+  DEFAULT_IMPORT_SOURCE,
   SourceMetadataSchema,
   appendSourceBlock,
   cellText,
@@ -10,12 +11,14 @@ import {
   normalizeEnum,
   normalizeHeader,
   normalizeImportDate,
+  sourcePreview,
   validateImportPayload,
   zodIssueCode,
   type ImportCommitSummary,
   type ImportIssue,
   type ImportMatrix,
   type ImportPreviewSummary,
+  type ImportSourceDefaults,
 } from '@/lib/import/shared';
 
 export const MAX_RISK_IMPORT_ROWS = MAX_IMPORT_ROWS;
@@ -79,6 +82,11 @@ const IMPORT_HEADERS = new Set([
   'owner_email', 'source_name', 'source_type', 'source_record_id',
   'source_collected_at', 'confidence', 'import_note',
 ]);
+
+const SOURCE_OVERRIDE_FIELDS = [
+  'external_id', 'source_name', 'source_type', 'source_record_id',
+  'source_collected_at', 'confidence', 'import_note',
+] as const;
 
 const CATEGORY_ALIASES: Record<string, RiskCategory> = {
   vulnerability: 'vulnerability', 'уязвимость': 'vulnerability', vuln: 'vulnerability', cve: 'vulnerability',
@@ -177,6 +185,7 @@ export function prepareRiskImport(
   matrix: ImportMatrix,
   objects: RiskImportObjectMatch[],
   existingRisks: ExistingRiskMatch[],
+  sourceDefaults: ImportSourceDefaults = DEFAULT_IMPORT_SOURCE,
 ): RiskImportPreview {
   const headerRow = matrix[0] ?? [];
   const headerIndex = new Map<string, number>();
@@ -209,6 +218,7 @@ export function prepareRiskImport(
   const existingKeys = new Set(existingRisks.map(risk => `${risk.title.toLocaleLowerCase('ru')}\u0000${risk.category}\u0000${risk.severity}`));
   const existingTitleObjects = new Set(existingRisks.flatMap(risk => risk.linkedObjectIds.map(objectId => `${risk.title.toLocaleLowerCase('ru')}\u0000${objectId}`)));
   const seenInFile = new Set<string>();
+  let sourceOverrideRows = 0;
 
   const rows: RiskImportPreviewRow[] = dataRows.map(({ row, rowNumber }) => {
     const rowIssues: ImportIssue[] = [];
@@ -216,21 +226,22 @@ export function prepareRiskImport(
       const index = headerIndex.get(field);
       return index === undefined ? null : cellText(row[index]);
     };
+    if (SOURCE_OVERRIDE_FIELDS.some(field => value(field) !== null)) sourceOverrideRows += 1;
 
     if (blockingHeader) rowIssues.push(issue(rowNumber, '_row', 'invalid_header', 'Исправьте обязательные или повторяющиеся колонки файла', 'error'));
     if (row.length > headerRow.length && row.slice(headerRow.length).some(cell => cellText(cell) !== null)) {
       rowIssues.push(issue(rowNumber, '_row', 'extra_columns', 'В строке есть значения без заголовков колонок', 'warning'));
     }
 
-    const sourceDate = normalizeImportDate(value('source_collected_at'));
+    const sourceDate = normalizeImportDate(value('source_collected_at') ?? sourceDefaults.source_collected_at);
     if (!sourceDate.valid) rowIssues.push(issue(rowNumber, 'source_collected_at', 'invalid_date', 'Дата источника не распознана', 'error', value('source_collected_at'), 'Используйте YYYY-MM-DD, ISO datetime или DD.MM.YYYY'));
     const sourceResult = SourceMetadataSchema.safeParse({
-      source_name: value('source_name'),
-      source_type: value('source_type')?.toLocaleLowerCase('ru') ?? 'manual_csv',
+      source_name: value('source_name') ?? sourceDefaults.source_name,
+      source_type: value('source_type')?.toLocaleLowerCase('ru') ?? sourceDefaults.source_type,
       source_record_id: value('source_record_id') ?? value('external_id'),
       source_collected_at: sourceDate.value,
-      confidence: value('confidence')?.toLocaleLowerCase('ru') ?? 'medium',
-      import_note: value('import_note'),
+      confidence: value('confidence')?.toLocaleLowerCase('ru') ?? sourceDefaults.confidence,
+      import_note: value('import_note') ?? sourceDefaults.import_note,
     });
     if (!sourceResult.success) {
       for (const zIssue of sourceResult.error.issues) {
@@ -325,7 +336,9 @@ export function prepareRiskImport(
     validRows,
     creatableRows,
     errorRows: rows.length - validRows,
+    duplicateRows: rows.filter(row => row.duplicateInFile || row.duplicateExisting).length,
     warningCount: allIssues.filter(item => item.severity === 'warning').length,
+    sourceMetadata: sourcePreview(fileName, sourceDefaults, sourceOverrideRows),
     issues: allIssues,
     rows,
   };

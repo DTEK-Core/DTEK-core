@@ -109,6 +109,8 @@ confidence: medium
 
 Эти поля применимы к объектам и рискам.
 
+Диалог импорта позволяет задать `source_name`, `source_type`, `source_collected_at`, `confidence` и `import_note` один раз на уровне файла. Непустые source-поля конкретной строки имеют приоритет над file-level defaults. `source_record_id` остаётся построчным идентификатором и не задаётся на уровне всего файла.
+
 | Колонка | Обязательность | Тип | Описание |
 |---|---|---|---|
 | `source_name` | optional | string, 1-200 | Человекочитаемое имя источника |
@@ -373,6 +375,17 @@ Preview должен показать:
 - возможность скачать error report.
 
 Commit доступен только после preview.
+
+### 8.1 Реализация Preview В S11-T004
+
+- objects и risks используют общий preview UI и единый source metadata contract;
+- до выбора файла пользователь задаёт file-level source metadata, при пустом `source_name` используется имя файла;
+- preview показывает total, valid, creatable, error, duplicate и warning counters;
+- source summary показывает effective source defaults и число строк с построчными переопределениями;
+- первые замечания показываются в UI вместе с исходным значением и рекомендацией;
+- полный validation report выгружается в UTF-8 CSV по контракту раздела 9;
+- значения отчёта, начинающиеся с Excel formula markers, нейтрализуются перед выгрузкой;
+- preview не изменяет БД, а commit повторяет server-side validation с теми же source defaults.
 
 ---
 

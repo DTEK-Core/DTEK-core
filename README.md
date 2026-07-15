@@ -25,7 +25,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 **v0.11.0 — Sprint 11 в работе: CSV/XLSX import объектов и рисков реализован.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступна загрузка объектов и рисков из CSV/XLSX как первый evidence ingestion path; следующий шаг — завершение общего preview, templates, audit и documentation flow.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступны загрузка объектов и рисков из CSV/XLSX, source metadata, validation preview и CSV-отчёт проверки; следующий шаг — templates, audit и documentation flow.
 
 ### Реализованные Маршруты
 

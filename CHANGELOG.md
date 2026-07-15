@@ -26,6 +26,21 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T004 — Import Preview, Validation & Source Metadata
+
+#### Добавлено
+
+- File-level source metadata для objects/risks import: название, тип, confidence, дата сбора и комментарий.
+- Расширенный preview с total, valid, creatable, error, duplicate и warning counters.
+- Source summary с effective defaults и количеством построчных переопределений.
+- Полный UTF-8 CSV validation report с исходными значениями, рекомендациями и защитой от spreadsheet formula injection.
+
+#### Изменено
+
+- Построчные source-поля имеют приоритет над metadata, заданными в диалоге импорта.
+- Preview и commit используют один source payload и повторную server-side validation.
+- `tasks/SPRINT_11.md`, README и Evidence Import Schema синхронизированы с реализацией S11-T004.
+
 ### S11-T003 — Risks CSV/XLSX Import
 
 #### Добавлено

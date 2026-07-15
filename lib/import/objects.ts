@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { CreateObjectSchema } from '@/lib/validation/schemas';
 import {
   MAX_IMPORT_ROWS,
+  DEFAULT_IMPORT_SOURCE,
   SourceMetadataSchema,
   appendSourceBlock,
   cellText,
@@ -10,12 +11,14 @@ import {
   normalizeEnum,
   normalizeHeader,
   normalizeImportDate,
+  sourcePreview,
   validateImportPayload,
   zodIssueCode,
   type ImportIssue,
   type ImportMatrix,
   type ImportPreviewSummary,
   type ImportCommitSummary,
+  type ImportSourceDefaults,
 } from '@/lib/import/shared';
 
 export const MAX_OBJECT_IMPORT_ROWS = MAX_IMPORT_ROWS;
@@ -60,6 +63,10 @@ const IMPORT_HEADERS = new Set([
 ]);
 
 const INFRA_TYPES = new Set(['server', 'workstation', 'laptop', 'network', 'ot']);
+const SOURCE_OVERRIDE_FIELDS = [
+  'external_id', 'source_name', 'source_type', 'source_record_id',
+  'source_collected_at', 'confidence', 'import_note',
+] as const;
 
 const TYPE_ALIASES: Record<string, ObjectImportRecord['type']> = {
   server: 'server', 'сервер': 'server', srv: 'server', host: 'server',
@@ -93,6 +100,7 @@ export function prepareObjectImport(
   matrix: ImportMatrix,
   role: string,
   existingObjects: ExistingObjectMatch[],
+  sourceDefaults: ImportSourceDefaults = DEFAULT_IMPORT_SOURCE,
 ): ObjectImportPreview {
   const headerRow = matrix[0] ?? [];
   const headerIndex = new Map<string, number>();
@@ -123,6 +131,7 @@ export function prepareObjectImport(
     .filter(({ row }) => !isBlankRow(row));
 
   const seenInFile = new Set<string>();
+  let sourceOverrideRows = 0;
   const existingByNameType = new Set(existingObjects.map(object => `${object.name.toLocaleLowerCase('ru')}\u0000${object.type}`));
   const existingIpCounts = new Map<string, number>();
   for (const object of existingObjects) {
@@ -135,24 +144,25 @@ export function prepareObjectImport(
       const index = headerIndex.get(field);
       return index === undefined ? null : cellText(row[index]);
     };
+    if (SOURCE_OVERRIDE_FIELDS.some(field => value(field) !== null)) sourceOverrideRows += 1;
 
     if (blockingHeader) rowIssues.push(issue(rowNumber, '_row', 'invalid_header', 'Исправьте обязательные или повторяющиеся колонки файла', 'error'));
     if (row.length > headerRow.length && row.slice(headerRow.length).some(cell => cellText(cell) !== null)) {
       rowIssues.push(issue(rowNumber, '_row', 'extra_columns', 'В строке есть значения без заголовков колонок', 'warning'));
     }
 
-    const sourceDate = normalizeImportDate(value('source_collected_at'));
+    const sourceDate = normalizeImportDate(value('source_collected_at') ?? sourceDefaults.source_collected_at);
     if (!sourceDate.valid) {
       rowIssues.push(issue(rowNumber, 'source_collected_at', 'invalid_date', 'Дата источника не распознана', 'error', value('source_collected_at'), 'Используйте YYYY-MM-DD, ISO datetime или DD.MM.YYYY'));
     }
 
     const sourceResult = SourceMetadataSchema.safeParse({
-      source_name: value('source_name'),
-      source_type: value('source_type')?.toLocaleLowerCase('ru') ?? 'manual_csv',
+      source_name: value('source_name') ?? sourceDefaults.source_name,
+      source_type: value('source_type')?.toLocaleLowerCase('ru') ?? sourceDefaults.source_type,
       source_record_id: value('source_record_id') ?? value('external_id'),
       source_collected_at: sourceDate.value,
-      confidence: value('confidence')?.toLocaleLowerCase('ru') ?? 'medium',
-      import_note: value('import_note'),
+      confidence: value('confidence')?.toLocaleLowerCase('ru') ?? sourceDefaults.confidence,
+      import_note: value('import_note') ?? sourceDefaults.import_note,
     });
     if (!sourceResult.success) {
       for (const zIssue of sourceResult.error.issues) {
@@ -221,7 +231,9 @@ export function prepareObjectImport(
     validRows,
     creatableRows,
     errorRows: rows.length - validRows,
+    duplicateRows: rows.filter(row => row.duplicateInFile || row.duplicateExisting).length,
     warningCount: allIssues.filter(item => item.severity === 'warning').length,
+    sourceMetadata: sourcePreview(fileName, sourceDefaults, sourceOverrideRows),
     issues: allIssues,
     rows,
   };
