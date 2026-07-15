@@ -18,6 +18,7 @@ export function RiskImportDialog(props: RiskImportDialogProps) {
       pickerNote="До 5 МБ и 500 рисков, первый лист XLSX"
       checkingText="Проверяем риски, объекты и права доступа…"
       reportName="risks"
+      templateHref="/templates/dtek-core-risks-import-template.csv"
       parseFile={parseRiskImportFile}
       previewImport={previewRiskImport}
       commitImport={commitRiskImport}

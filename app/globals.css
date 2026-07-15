@@ -1519,6 +1519,7 @@ select.set-input:disabled {
 .object-import-section-title { font-size: 12px; font-weight: 700; color: var(--text-dim); }
 .object-import-section-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .object-import-section-row .btn { display: inline-flex; align-items: center; gap: 6px; }
+.object-import-template-row { margin-top: 2px; }
 .object-import-issue { display: flex; align-items: flex-start; gap: 8px; padding: 9px 10px; border-radius: var(--r-sm); background: var(--bg-1); color: var(--text-dim); font-size: 11.5px; line-height: 1.45; overflow-wrap: anywhere; }
 .object-import-issue.error { border-left: 2px solid var(--crit); }
 .object-import-issue.warning { border-left: 2px solid var(--amber); }

@@ -24,6 +24,7 @@ interface DataImportDialogProps<Preview extends ImportPreviewSummary, Result ext
   pickerNote: string;
   checkingText: string;
   reportName: string;
+  templateHref: string;
   parseFile: (file: File) => Promise<ImportMatrix>;
   previewImport: (fileName: string, matrix: ImportMatrix, source: ImportSourceDefaults) => Promise<{ preview?: Preview; error?: string }>;
   commitImport: (fileName: string, matrix: ImportMatrix, source: ImportSourceDefaults) => Promise<{ result?: Result; error?: string }>;
@@ -39,6 +40,7 @@ export function DataImportDialog<Preview extends ImportPreviewSummary, Result ex
   pickerNote,
   checkingText,
   reportName,
+  templateHref,
   parseFile,
   previewImport,
   commitImport,
@@ -176,6 +178,13 @@ export function DataImportDialog<Preview extends ImportPreviewSummary, Result ex
                   />
                 </label>
               </div>
+            </div>
+            <div className="object-import-section-row object-import-template-row">
+              <div className="object-import-section-title">Файл импорта</div>
+              <a className="btn btn-ghost btn-sm" href={templateHref} download>
+                <Icon name="download" size={14} />
+                Шаблон CSV
+              </a>
             </div>
             <input
               ref={inputRef}

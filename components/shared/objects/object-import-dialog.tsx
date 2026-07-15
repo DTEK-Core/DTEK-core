@@ -18,6 +18,7 @@ export function ObjectImportDialog(props: ObjectImportDialogProps) {
       pickerNote="До 5 МБ и 500 объектов, первый лист XLSX"
       checkingText="Проверяем структуру и права доступа…"
       reportName="objects"
+      templateHref="/templates/dtek-core-objects-import-template.csv"
       parseFile={parseObjectImportFile}
       previewImport={previewObjectImport}
       commitImport={commitObjectImport}

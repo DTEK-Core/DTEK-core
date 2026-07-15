@@ -43,13 +43,15 @@ function checkRateLimit(key: string, rule: RateLimitRule): boolean {
 
 const AUTH_PATHS = ['/login', '/register', '/forgot-password', '/reset-password'];
 const PUBLIC_PATHS = ['/', '/favicon.ico'];
+const PUBLIC_PREFIXES = ['/_next', '/templates/'];
 
 function isAuthPath(pathname: string) {
   return AUTH_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'));
 }
 
 function isPublicPath(pathname: string) {
-  return PUBLIC_PATHS.some((p) => pathname === p) || pathname.startsWith('/_next');
+  return PUBLIC_PATHS.some((p) => pathname === p)
+    || PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 }
 
 function isOnboardingCreatePath(pathname: string) {

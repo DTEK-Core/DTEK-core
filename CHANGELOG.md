@@ -26,6 +26,18 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T005 — Import Templates
+
+#### Добавлено
+
+- Канонический CSV-шаблон импорта объектов с допустимой примерной строкой.
+- Канонический CSV-шаблон импорта рисков и связи с объектом.
+- Download-команда «Шаблон CSV» в общих диалогах импорта Objects и Risks.
+
+#### Изменено
+
+- `tasks/SPRINT_11.md`, README и Evidence Import Schema синхронизированы с фактическими template URL и UX S11-T005.
+
 ### S11-T004 — Import Preview, Validation & Source Metadata
 
 #### Добавлено

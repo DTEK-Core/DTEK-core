@@ -63,7 +63,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
 | S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
 | S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | ✅ Завершено |
-| S11-T005 | Import Templates | P1 | S | T001 | 📋 Запланировано |
+| S11-T005 | Import Templates | P1 | S | T001 | ✅ Завершено |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | 📋 Запланировано |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 | 📋 Запланировано |
 | S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 📋 Запланировано |
@@ -132,6 +132,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Ожидаемый результат:** пользователь может скачать/открыть пример структуры.
 
+**Решение:** добавлены два статических UTF-8 CSV-шаблона: `public/templates/dtek-core-objects-import-template.csv` и `public/templates/dtek-core-risks-import-template.csv`. Каждый шаблон использует канонические заголовки import contract, допустимые enum values, ISO-дату и одну валидную примерную строку. В общих диалогах Objects/Risks появилась download-команда «Шаблон CSV» с контекстной ссылкой на соответствующий файл. Шаблоны не содержат tenant data, формулы или секреты и доступны как безопасные public assets.
+
 ### S11-T006 — Import Audit Events
 
 **Описание:** логировать импорт чувствительных данных.
@@ -158,7 +160,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - [x] Risks CSV/XLSX import работает.
 - [x] Есть preview и ошибки валидации.
 - [x] У импортированных данных есть source context.
-- [ ] Есть шаблоны CSV.
+- [x] Есть шаблоны CSV.
 - [ ] Audit events фиксируются.
 - [x] Trust Score пересчитывается после импорта.
 - [ ] Документация обновлена.

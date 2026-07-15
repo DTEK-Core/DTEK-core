@@ -1,0 +1,2 @@
+name,type,criticality,ip_address,os_platform,segment,exposure,description,source_name,source_type,source_record_id,source_collected_at,confidence
+srv-db-01,server,critical,10.10.1.15,Astra Linux,prod-db,internal,Primary PostgreSQL server,Manual inventory,manual_csv,asset-001,2026-07-15,medium
