@@ -26,6 +26,18 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T007 — Import Documentation
+
+#### Добавлено
+
+- Полное пользовательское руководство по CSV/XLSX import объектов и рисков: роли, contract, source metadata, preview, validation report, partial success и ограничения.
+- Раздел диагностики типовых import errors в FAQ и Troubleshooting.
+
+#### Изменено
+
+- User Guide, Platform Workflow, Object Model Guide и Risk Registry Guide синхронизированы с фактическим import flow Sprint 11.
+- README, Documentation Index, Evidence Import Schema и Sprint 11 связаны с пользовательской документацией.
+
 ### S11-T006 — Import Audit Events
 
 #### Добавлено

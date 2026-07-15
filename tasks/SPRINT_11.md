@@ -65,7 +65,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | ✅ Завершено |
 | S11-T005 | Import Templates | P1 | S | T001 | ✅ Завершено |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | ✅ Завершено |
-| S11-T007 | Import Documentation | P1 | S | T001–T006 | 📋 Запланировано |
+| S11-T007 | Import Documentation | P1 | S | T001–T006 | ✅ Завершено |
 | S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 📋 Запланировано |
 
 ---
@@ -148,6 +148,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Ожидаемый результат:** обновлены user docs, FAQ и troubleshooting при необходимости.
 
+**Решение:** создано полное пользовательское руководство `docs/user/IMPORT_GUIDE.md`: RBAC, CSV/XLSX contract, шаблоны, source metadata, preview, error report, duplicate/create-only strategy, partial success, audit events и ограничения Sprint 11. Основной User Guide, Platform Workflow, Object Model, Risk Registry, FAQ и Troubleshooting синхронизированы с фактическим import flow; README, Documentation Index и техническая Evidence Import Schema связаны с новым руководством.
+
 ### S11-T008 — Data Onboarding Smoke Test
 
 **Описание:** проверить импорт 50+ объектов и 20+ рисков.
@@ -165,10 +167,10 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - [x] Есть шаблоны CSV.
 - [x] Audit events фиксируются.
 - [x] Trust Score пересчитывается после импорта.
-- [ ] Документация обновлена.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] Документация обновлена.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
 
 ---
 

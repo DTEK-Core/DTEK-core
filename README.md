@@ -25,7 +25,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 **v0.11.0 — Sprint 11 в работе: CSV/XLSX import объектов и рисков реализован.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступны загрузка объектов и рисков из CSV/XLSX, source metadata, validation preview, CSV-отчёт проверки, шаблоны и import audit events; следующий шаг — пользовательская документация и onboarding smoke test.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступны загрузка объектов и рисков из CSV/XLSX, source metadata, validation preview, CSV-отчёт проверки, шаблоны, import audit events и полный комплект пользовательской документации; следующий шаг — onboarding smoke test.
 
 ### Реализованные Маршруты
 
@@ -136,6 +136,7 @@ tasks/               Backlog and sprint history
 | [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Evidence-first стратегия и новая роль автоматического наполнения |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery, Connector и Evidence layers |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
+| [docs/user/IMPORT_GUIDE.md](docs/user/IMPORT_GUIDE.md) | Руководство по импорту, preview, source metadata и ошибкам |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
