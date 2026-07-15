@@ -61,7 +61,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 |---|---|---|---|---|---|
 | S11-T001 | Evidence Import Schema Specification | P1 | M | S09, S10 | ✅ Завершено |
 | S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
-| S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | 📋 Запланировано |
+| S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
 | S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | 📋 Запланировано |
 | S11-T005 | Import Templates | P1 | S | T001 | 📋 Запланировано |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | 📋 Запланировано |
@@ -115,6 +115,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 **Описание:** реализовать загрузку рисков и опциональную привязку к объектам по внешнему ключу/имени.
 
 **Ожидаемый результат:** риски создаются с категориями, severity, status, due date и связями.
+
+**Решение:** на странице `/risks` добавлен двухэтапный CSV/XLSX import на общей с objects import UI-основе. Server-side pipeline нормализует aliases, CVSS, SLA/due date и source context, проверяет дубли, находит объект только внутри текущей организации по точному имени или уникальному IP и создаёт `object_risks`. Риски без найденного объекта создаются без связи с warning. Доступ имеют только `owner` и `analyst`; `admin` и `viewer` блокируются на UI и в Server Action. После импорта Trust Score связанных объектов пересчитывается пакетно, а audit events остаются задачей S11-T006.
 
 ### S11-T004 — Import Preview, Validation & Source Metadata
 

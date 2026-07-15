@@ -48,6 +48,7 @@ const DEFAULT_WEIGHTS: FactorWeights = {
 export interface RecalcOptions {
   reason?:    string;
   changedBy?: string;
+  skipOrgIndex?: boolean;
 }
 
 // ── Engine functions ───────────────────────────────────────────────────────────
@@ -65,7 +66,7 @@ export async function recalculateObjectTrust(
   options:  RecalcOptions = {},
 ): Promise<void> {
   const admin = createAdminClient();
-  const { reason = 'recalculated', changedBy = 'system' } = options;
+  const { reason = 'recalculated', changedBy = 'system', skipOrgIndex = false } = options;
 
   // 1. Загрузить данные объекта
   const { data: objRaw } = await admin
@@ -153,7 +154,7 @@ export async function recalculateObjectTrust(
   }
 
   // 8. Обновить org-индекс
-  await recalculateOrgIndex(orgId);
+  if (!skipOrgIndex) await recalculateOrgIndex(orgId);
 }
 
 /**

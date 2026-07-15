@@ -1,5 +1,9 @@
-import type { ImportCell, ImportMatrix } from '@/lib/import/objects';
-import { MAX_IMPORT_FILE_SIZE, MAX_OBJECT_IMPORT_ROWS } from '@/lib/import/objects';
+import {
+  MAX_IMPORT_FILE_SIZE,
+  MAX_IMPORT_ROWS,
+  type ImportCell,
+  type ImportMatrix,
+} from '@/lib/import/shared';
 
 function isBlankRow(row: ImportMatrix[number]): boolean {
   return row.every(cell => cell === null || String(cell).trim() === '');
@@ -85,7 +89,7 @@ function serializeCell(cell: unknown): ImportCell {
   return String(cell);
 }
 
-export async function parseObjectImportFile(file: File): Promise<ImportMatrix> {
+async function parseImportFile(file: File, rowLabel: string): Promise<ImportMatrix> {
   if (file.size > MAX_IMPORT_FILE_SIZE) throw new Error('Размер файла не должен превышать 5 МБ');
 
   const extension = file.name.split('.').pop()?.toLocaleLowerCase('ru');
@@ -106,7 +110,15 @@ export async function parseObjectImportFile(file: File): Promise<ImportMatrix> {
 
   const dataRows = matrix.slice(1).filter(row => !isBlankRow(row)).length;
   if (dataRows === 0) throw new Error('Файл не содержит данных для импорта');
-  if (dataRows > MAX_OBJECT_IMPORT_ROWS) throw new Error(`В файле больше ${MAX_OBJECT_IMPORT_ROWS} строк объектов`);
+  if (dataRows > MAX_IMPORT_ROWS) throw new Error(`В файле больше ${MAX_IMPORT_ROWS} строк ${rowLabel}`);
 
   return matrix;
+}
+
+export function parseObjectImportFile(file: File): Promise<ImportMatrix> {
+  return parseImportFile(file, 'объектов');
+}
+
+export function parseRiskImportFile(file: File): Promise<ImportMatrix> {
+  return parseImportFile(file, 'рисков');
 }

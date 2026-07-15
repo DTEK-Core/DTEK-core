@@ -10,11 +10,11 @@ import {
   prepareObjectImport,
   validateObjectImportPayload,
   type ExistingObjectMatch,
-  type ImportMatrix,
   type ObjectImportCommitResult,
   type ObjectImportPreview,
   type ObjectImportPreviewRow,
 } from '@/lib/import/objects';
+import type { ImportMatrix } from '@/lib/import/shared';
 
 const INITIAL_SCORE: Record<string, number> = {
   critical: 65, high: 70, medium: 75, low: 80,

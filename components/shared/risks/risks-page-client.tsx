@@ -7,6 +7,7 @@ import { Icon } from '@/components/shared/icon';
 import { FilterSelect } from '@/components/shared/filter-select';
 import { RiskDrawer } from './risk-drawer';
 import { RiskFormDialog, type EditableRisk } from './risk-form-dialog';
+import { RiskImportDialog } from './risk-import-dialog';
 import { formatSla } from '@/lib/utils/dates';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -123,6 +124,7 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
   const [statFilter, setStat] = useState('all');
   const [selectedId, setSelectedId]       = useState<string | null>(null);
   const [showCreateDialog, setShowCreate] = useState(false);
+  const [showImportDialog, setShowImport] = useState(false);
   const [editRisk, setEditRisk]           = useState<EditableRisk | null>(null);
 
   const canCreate = ['owner', 'analyst'].includes(userRole);
@@ -182,13 +184,19 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
             </button>
           )}
           {canCreate && (
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => setShowCreate(true)}
-            >
-              <Icon name="plus" size={14} />
-              Зарегистрировать риск
-            </button>
+            <>
+              <button className="btn btn-line btn-sm" onClick={() => setShowImport(true)}>
+                <Icon name="upload" size={14} />
+                Импорт
+              </button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => setShowCreate(true)}
+              >
+                <Icon name="plus" size={14} />
+                Зарегистрировать риск
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -339,6 +347,8 @@ export function RisksPageClient({ risks, userRole, objects }: RisksPageClientPro
         onOpenChange={setShowCreate}
         objects={objects}
       />
+
+      <RiskImportDialog open={showImportDialog} onOpenChange={setShowImport} />
 
       {/* ── Edit dialog ── */}
       <RiskFormDialog

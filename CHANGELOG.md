@@ -26,6 +26,21 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T003 — Risks CSV/XLSX Import
+
+#### Добавлено
+
+- Диалог импорта рисков на `/risks` с CSV/XLSX preview и явным commit.
+- Server-side risk import pipeline: aliases, CVSS, SLA/due date, source context, duplicate detection и object matching.
+- Безопасная привязка импортированных рисков к объектам текущей организации по имени или уникальному IP.
+- Общий import UI и shared parsing/validation primitives для objects и risks import.
+
+#### Изменено
+
+- Trust Engine поддерживает отложенный пересчёт organization index для эффективного batch risk import.
+- Стили import dialog перенесены в global scope и переиспользуются страницами Objects и Risks.
+- `tasks/SPRINT_11.md`, README и Evidence Import Schema синхронизированы с реализацией S11-T003.
+
 ### S11-T002 — Objects CSV/XLSX Import
 
 #### Добавлено

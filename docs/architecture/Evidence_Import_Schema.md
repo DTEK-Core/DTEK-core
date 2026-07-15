@@ -312,6 +312,16 @@ Default: `medium`.
 | `admin` | Нет доступа к созданию рисков |
 | `viewer` | Нет доступа |
 
+### 6.7 Реализация Risks Import В S11-T003
+
+- CSV/XLSX используют общий browser file reader и общий preview/commit UI с objects import;
+- normalization, Zod validation, duplicate detection, RBAC и tenant matching выполняются повторно на server side;
+- объект для `object_risks` ищется по точному имени без учёта регистра или по уникальному IP внутри текущей организации;
+- конфликт имени и IP является error, неоднозначное или отсутствующее совпадение — warning и импорт без связи;
+- `due_date` имеет приоритет над `sla_days`; если due date отсутствует, срок рассчитывается от SLA;
+- успешные risk и relation inserts выполняются пакетами с построчным fallback;
+- Trust Score каждого уникального связанного объекта пересчитывается один раз, после чего один раз обновляется organization index.
+
 ---
 
 ## 7. Нормализация Данных
@@ -328,7 +338,7 @@ Default: `medium`.
    - `YYYY-MM-DDTHH:mm:ssZ`;
    - `DD.MM.YYYY`.
 7. `cvss_score` принимает `7.5` и `7,5`, сохраняется как number.
-8. `sla_days` принимает только положительное целое число.
+8. `sla_days` принимает положительное целое число от 1 до 36500.
 9. Неизвестные колонки не записываются в БД и отображаются как warnings.
 
 ---
