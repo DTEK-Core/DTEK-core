@@ -26,6 +26,18 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T008 — Data Onboarding Smoke Test
+
+#### Добавлено
+
+- Ручной smoke test модуль Data Onboarding с контрольным импортом 60 объектов и 25 рисков.
+- Сценарии CSV/XLSX, preview, validation report, source metadata, duplicates, partial success, RBAC, tenant isolation, audit, Trust Score, основных страниц, performance и mobile UI.
+
+#### Изменено
+
+- README, Documentation Index, Import Guide и Sprint 11 связаны с новым checklist.
+- Sprint 11 переведён в состояние готовности к ручной приёмке без преждевременного объявления runtime-проверок успешными.
+
 ### S11-T007 — Import Documentation
 
 #### Добавлено

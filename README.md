@@ -25,7 +25,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 **v0.11.0 — Sprint 11 в работе: CSV/XLSX import объектов и рисков реализован.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступны загрузка объектов и рисков из CSV/XLSX, source metadata, validation preview, CSV-отчёт проверки, шаблоны, import audit events и полный комплект пользовательской документации; следующий шаг — onboarding smoke test.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступны загрузка объектов и рисков из CSV/XLSX, source metadata, validation preview, CSV-отчёт проверки, шаблоны, import audit events и полный комплект пользовательской документации. Data Onboarding smoke checklist подготовлен; milestone ожидает ручной приёмки в тестовой организации.
 
 ### Реализованные Маршруты
 
@@ -141,6 +141,7 @@ tasks/               Backlog and sprint history
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
 | [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Пользовательское руководство по отчётам и экспорту |
+| [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Ручная приёмка Data Onboarding Sprint 11 |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
 | [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |

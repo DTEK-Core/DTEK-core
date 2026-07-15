@@ -357,6 +357,7 @@ Owner и admin видят событие, инициатора и агрегир
 - [Risk Registry Guide](RISK_REGISTRY_GUIDE.md) — модель и жизненный цикл рисков.
 - [FAQ](FAQ.md) — короткие ответы.
 - [Troubleshooting](../development/TROUBLESHOOTING.md) — диагностика проблем.
+- [Data Onboarding Smoke Test](../testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) — ручная приёмка полного import flow.
 - [Sprint 11](../../tasks/SPRINT_11.md) — scope и статус реализации.
 
 ---

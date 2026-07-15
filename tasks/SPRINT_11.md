@@ -66,7 +66,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T005 | Import Templates | P1 | S | T001 | ✅ Завершено |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | ✅ Завершено |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 | ✅ Завершено |
-| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 📋 Запланировано |
+| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 🧪 Готово к проверке |
 
 ---
 
@@ -156,6 +156,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Ожидаемый результат:** после импорта работают Dashboard, Objects, Risks, Passport и Graph.
 
+**Решение:** подготовлен `docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md` для воспроизводимой ручной приёмки Data Onboarding. Сценарий использует 62 строки объектов с ожидаемыми 60 creates и 27 строк рисков с ожидаемыми 25 creates, покрывает CSV/XLSX, preview, error report, source metadata, duplicate/create-only strategy, partial success, RBAC, tenant isolation, audit events, Trust Score, Dashboard, Objects, Passport, Risks, Graph, performance и mobile UI. Инженерные проверки выполняются автоматически; статус `PASS` и закрытие Sprint 11 требуют authenticated прогона в отдельной тестовой организации.
+
 ---
 
 ## 8. Definition Of Done
@@ -171,6 +173,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - [x] `npm run type-check` проходит.
 - [x] `npm run lint` проходит.
 - [x] `npm run build` проходит.
+- [x] Подготовлен Data Onboarding smoke checklist.
+- [ ] Ручной smoke test 60 объектов / 25 рисков пройден.
 
 ---
 
