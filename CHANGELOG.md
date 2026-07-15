@@ -26,6 +26,14 @@
 
 ## Sprint 10 — Reporting & Export
 
+### Manual Testing Follow-up — RBAC testing clarification
+
+#### Изменено
+
+- `docs/testing/RBAC_TESTING_GUIDE.md` теперь явно объясняет, что первый пользователь организации получает роль `owner`, а `admin` создаётся только через приглашение.
+- RBAC-документация синхронизирована с фактическим MVP-flow: invite-ссылки создаёт `owner`, `admin` управляет не-owner пользователями и инфраструктурными объектами.
+- Reporting smoke checklist и пользовательские guides уточняют, что тестовые роли должны находиться в одной организации и создаваться через invite-ссылки.
+
 ### S10-T008 — Reporting Smoke Test Checklist
 
 #### Добавлено

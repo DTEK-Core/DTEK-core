@@ -175,7 +175,7 @@
 | TC-USR-P05 | Удаление + Audit Log | P | ⬜ |
 | TC-USR-N01 | Нельзя изменить роль owner | N | ⬜ |
 | TC-USR-RBAC01 | Analyst/Viewer не видят кнопок управления | RBAC | ⬜ |
-| TC-USR-RBAC02 | Admin управляет analyst/viewer, но не owner | RBAC | ⬜ |
+| TC-USR-RBAC02 | Admin управляет не-owner пользователями, но не owner | RBAC | ⬜ |
 
 ---
 
@@ -189,7 +189,7 @@
 | TC-INV-N01 | Приглашение с ролью owner запрещено | N | ⬜ |
 | TC-INV-N02 | Приглашение уже существующего участника | N | ⬜ |
 | TC-INV-N03 | Переход по недействительному токену | N | ⬜ |
-| TC-INV-RBAC01 | Только owner/admin отправляют приглашения | RBAC | ⬜ |
+| TC-INV-RBAC01 | Только owner отправляет приглашения в текущем MVP | RBAC | ⬜ |
 
 ---
 
