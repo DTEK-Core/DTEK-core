@@ -26,6 +26,21 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T002 — Objects CSV/XLSX Import
+
+#### Добавлено
+
+- Диалог импорта объектов на `/objects` с поддержкой CSV и первого листа XLSX.
+- Browser file reader для CSV/XLSX и server-side import pipeline с Zod validation, enum aliases, source context и duplicate detection.
+- Server Actions для validation preview и подтверждённого create-only импорта с partial success.
+- Зависимость `read-excel-file` для безопасного чтения XLSX без spreadsheet editor или изменения БД.
+
+#### Изменено
+
+- RBAC импорта соответствует ADR-003 и import schema: `owner`/`analyst` импортируют все типы, `admin` — инфраструктурные, `viewer` не имеет доступа.
+- Лимит Server Actions увеличен до 8 МБ при сохранении import-ограничений 5 МБ, 500 строк и 40 колонок.
+- `tasks/SPRINT_11.md`, README и Evidence Import Schema синхронизированы с реализацией S11-T002.
+
 ### S11-T001 — Evidence Import Schema Specification
 
 #### Добавлено

@@ -9,6 +9,7 @@ import { TrustChip } from '@/components/shared/trust-chip';
 import { FilterSelect } from '@/components/shared/filter-select';
 import { SortCaret } from '@/components/shared/sort-caret';
 import { ObjectFormDialog } from '@/components/shared/objects/object-form-dialog';
+import { ObjectImportDialog } from '@/components/shared/objects/object-import-dialog';
 import { getTrustBand, OBJECT_TYPES, TRUST_BANDS, typeGlyph } from '@/lib/design-tokens';
 import { relativeTime } from '@/lib/utils/dates';
 
@@ -73,6 +74,7 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
 
   const canCreate = userRole === 'owner' || userRole === 'analyst' || userRole === 'admin';
   const [showAdd, setShowAdd] = useState(false);
+  const [showImport, setShowImport] = useState(false);
 
   const setSortKey = (key: SortKey) => {
     setSort(s => ({ key, dir: s.key === key && s.dir === 'asc' ? 'desc' : 'asc' }));
@@ -111,13 +113,19 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
             Экспорт
           </button>
           {canCreate && (
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => setShowAdd(true)}
-            >
-              <Icon name="plus" size={14} />
-              Добавить объект
-            </button>
+            <>
+              <button className="btn btn-line btn-sm" onClick={() => setShowImport(true)}>
+                <Icon name="upload" size={14} />
+                Импорт
+              </button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => setShowAdd(true)}
+              >
+                <Icon name="plus" size={14} />
+                Добавить объект
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -161,6 +169,7 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
         onOpenChange={setShowAdd}
         userRole={userRole}
       />
+      <ObjectImportDialog open={showImport} onOpenChange={setShowImport} />
 
       {/* Content */}
       {rows.length === 0 ? (

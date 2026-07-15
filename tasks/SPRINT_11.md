@@ -60,7 +60,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | ID | Задача | Приоритет | Оценка | Зависимости | Статус |
 |---|---|---|---|---|---|
 | S11-T001 | Evidence Import Schema Specification | P1 | M | S09, S10 | ✅ Завершено |
-| S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 | 📋 Запланировано |
+| S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
 | S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | 📋 Запланировано |
 | S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | 📋 Запланировано |
 | S11-T005 | Import Templates | P1 | S | T001 | 📋 Запланировано |
@@ -107,6 +107,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 **Описание:** реализовать загрузку объектов с server-side validation и RBAC.
 
 **Ожидаемый результат:** owner/analyst/admin в рамках ADR-003 могут импортировать разрешённые объекты.
+
+**Решение:** на странице `/objects` добавлен двухэтапный импорт CSV/XLSX: browser-side чтение файла, server-side normalization/validation preview и явный commit. Поддержаны лимиты 5 МБ / 500 строк, первый лист XLSX, enum aliases, source context, проверка дублей, create-only partial success и повторная tenant/RBAC-проверка в Server Action. `owner` и `analyst` импортируют все типы, `admin` — только инфраструктурные, `viewer` не имеет доступа. Audit events остаются задачей S11-T006.
 
 ### S11-T003 — Risks CSV/XLSX Import
 

@@ -82,6 +82,15 @@ confidence: medium
 - comma `,`;
 - semicolon `;`.
 
+### Реализация Objects Import В S11-T002
+
+- CSV разбирается локальным parser с поддержкой quoted values, UTF-8 BOM, comma и semicolon;
+- XLSX читается библиотекой `read-excel-file` из первого листа;
+- чтение файла выполняется в browser, а normalization, validation, duplicate detection, RBAC и запись — повторно на server side;
+- payload Server Actions ограничен 8 МБ, а import contract дополнительно ограничивает файл 5 МБ, 500 непустыми строками и 40 колонками;
+- потенциальные дубли не обновляются и пропускаются при commit;
+- успешные строки записываются пакетами с построчным fallback при ошибке пакета.
+
 Парсер должен определить разделитель по первой непустой строке. Если определить нельзя, используется comma.
 
 Ограничения MVP:
