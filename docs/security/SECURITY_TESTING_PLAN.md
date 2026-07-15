@@ -130,6 +130,9 @@ curl -X POST https://domain/api/test \
 | T6.3 | Блокировка пользователя | `user.blocked` |
 | T6.4 | Смена роли пользователя | `role.changed` |
 | T6.5 | Создание организации | `org.created` |
+| T6.6 | Завершённый импорт объектов | `import.objects_completed`, инициатор и агрегированные counters |
+| T6.7 | Завершённый импорт рисков | `import.risks_completed`, инициатор и link counters |
+| T6.8 | Commit не прошёл validation | `import.failed` без содержимого исходных строк |
 
 ---
 

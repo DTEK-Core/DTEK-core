@@ -17,7 +17,10 @@ export type SecurityEventType =
   | 'report.passport_exported'
   | 'report.risks_csv_exported'
   | 'report.executive_opened'
-  | 'report.executive_exported';
+  | 'report.executive_exported'
+  | 'import.objects_completed'
+  | 'import.risks_completed'
+  | 'import.failed';
 
 interface SecurityEventPayload {
   organizationId: string;
@@ -30,13 +33,13 @@ interface SecurityEventPayload {
 }
 
 export async function createSecurityEvent(payload: SecurityEventPayload): Promise<void> {
-  const admin = createAdminClient();
-  const hdrs  = await headers();
-  const ip    = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim()
-             ?? hdrs.get('x-real-ip')
-             ?? null;
-
   try {
+    const admin = createAdminClient();
+    const hdrs  = await headers();
+    const ip    = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim()
+               ?? hdrs.get('x-real-ip')
+               ?? null;
+
     const { error } = await admin.from('security_events').insert({
       organization_id: payload.organizationId,
       actor_id:        payload.actorId,

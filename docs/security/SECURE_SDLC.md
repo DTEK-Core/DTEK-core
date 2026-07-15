@@ -93,7 +93,7 @@ develop  ← основная ветка разработки
 
 **Что мониторим:**
 - `security_events` таблица: все критические события в журнале
-- Типы событий: auth.*,  config.*, invitation.*, user.*, risk.*
+- Типы событий: auth.*, config.*, invitation.*, user.*, risk.*, report.*, import.*
 - Доступно в `/settings` → «Журнал аудита» (owner, admin)
 
 **Планируется (Sprint 09+):**

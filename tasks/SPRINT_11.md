@@ -64,7 +64,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | ✅ Завершено |
 | S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | ✅ Завершено |
 | S11-T005 | Import Templates | P1 | S | T001 | ✅ Завершено |
-| S11-T006 | Import Audit Events | P1 | S | T002, T003 | 📋 Запланировано |
+| S11-T006 | Import Audit Events | P1 | S | T002, T003 | ✅ Завершено |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 | 📋 Запланировано |
 | S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 📋 Запланировано |
 
@@ -140,6 +140,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Ожидаемый результат:** audit log фиксирует импорт, количество строк и инициатора.
 
+**Решение:** `SecurityEventType` расширен событиями `import.objects_completed`, `import.risks_completed` и `import.failed`. Object/Risk commit пишет audit event через общий server-only helper после повторной validation: completed для полного или partial success, failed для отклонённого commit либо полного write failure. Metadata содержит только тип импорта, безопасное имя файла, source name/type и агрегированные total/created/skipped/failed/warning counters; для risks дополнительно сохраняются link counters. Содержимое строк, IP, описания, source record IDs и другие чувствительные поля в журнал не попадают. Инициатор фиксируется через `actor_id`, `actor_email` и существующий IP audit context; события видны owner/admin в `/settings`.
+
 ### S11-T007 — Import Documentation
 
 **Описание:** описать формат CSV, ошибки и ограничения.
@@ -161,7 +163,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - [x] Есть preview и ошибки валидации.
 - [x] У импортированных данных есть source context.
 - [x] Есть шаблоны CSV.
-- [ ] Audit events фиксируются.
+- [x] Audit events фиксируются.
 - [x] Trust Score пересчитывается после импорта.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.

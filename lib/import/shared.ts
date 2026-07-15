@@ -214,3 +214,13 @@ export function appendSourceBlock(description: string | null, source: SourceMeta
 export function isBlankRow(row: ImportCell[]): boolean {
   return row.every(cell => cellText(cell) === null);
 }
+
+export function countImportDataRows(matrix: unknown): number {
+  if (!Array.isArray(matrix)) return 0;
+  return matrix.slice(1).filter(row => (
+    Array.isArray(row)
+    && row.some(cell => (
+      typeof cell === 'string' ? cell.trim().length > 0 : cell !== null && cell !== undefined
+    ))
+  )).length;
+}

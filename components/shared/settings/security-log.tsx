@@ -28,6 +28,9 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
   'report.risks_csv_exported': { label: 'Risk Registry CSV', icon: 'download', category: 'system' },
   'report.executive_opened':   { label: 'Executive report открыт', icon: 'doc', category: 'system' },
   'report.executive_exported': { label: 'Executive report PDF', icon: 'download', category: 'system' },
+  'import.objects_completed':  { label: 'Импорт объектов', icon: 'upload', category: 'system' },
+  'import.risks_completed':    { label: 'Импорт рисков', icon: 'upload', category: 'system' },
+  'import.failed':             { label: 'Импорт не завершён', icon: 'x', category: 'system' },
 };
 
 const CATEGORY_LABELS: Record<EventCategory, string> = {
@@ -101,6 +104,22 @@ function formatMeta(row: SecurityEventRow): string {
       m.trigger !== undefined ? formatMetaValue(m.trigger) : null,
     ].filter((item): item is string => Boolean(item));
     return parts.length > 0 ? parts.join(' · ') : formatMetaValue(row.target_id);
+  }
+  if (row.event_type.startsWith('import.')) {
+    const importType = m.importType === 'objects' ? 'Объекты' : m.importType === 'risks' ? 'Риски' : 'Импорт';
+    const parts = [
+      importType,
+      typeof m.createdRows === 'number' ? `${m.createdRows} создано` : null,
+      typeof m.skippedRows === 'number' && m.skippedRows > 0 ? `${m.skippedRows} пропущено` : null,
+      typeof m.failedRows === 'number' && m.failedRows > 0 ? `${m.failedRows} ошибок` : null,
+      typeof m.warnings === 'number' && m.warnings > 0 ? `${m.warnings} предупреждений` : null,
+      row.event_type === 'import.failed'
+        ? (m.failureStage === 'write' ? 'сбой записи' : 'ошибка проверки')
+        : null,
+      typeof m.sourceName === 'string' ? m.sourceName : null,
+      typeof m.fileName === 'string' && m.fileName !== m.sourceName ? m.fileName : null,
+    ].filter((item): item is string => Boolean(item));
+    return parts.join(' · ');
   }
   return '—';
 }

@@ -470,7 +470,7 @@ Sprint 11 использует safe partial success:
 
 ## 12. Audit Events
 
-S11-T006 должен расширить `SecurityEventType` следующими событиями:
+S11-T006 расширяет `SecurityEventType` следующими событиями:
 
 | Event | Когда Создаётся |
 |---|---|
@@ -495,6 +495,18 @@ S11-T006 должен расширить `SecurityEventType` следующим�
 ```
 
 Audit events не должны содержать содержимое всего файла или чувствительные секреты.
+
+### 12.1 Реализация Audit Events В S11-T006
+
+- события создаются только server-side через существующий `createSecurityEvent` и service-role insert;
+- `import.objects_completed` и `import.risks_completed` фиксируют полный и partial success;
+- `import.failed` фиксирует validation failure и ситуацию, когда все кандидаты завершились write failure;
+- metadata ограничена безопасным именем файла, source name/type и агрегированными счётчиками;
+- для risk import дополнительно фиксируются `linkedRows`, `unlinkedRows` и `linkFailedRows`;
+- file/source strings очищаются от control characters и ограничиваются по длине, counts нормализуются;
+- содержимое строк, описания, IP, CVSS, external/source record IDs и `import_note` не журналируются;
+- audit failure не откатывает успешно созданные бизнес-данные;
+- owner/admin видят событие и email инициатора в `/settings`, RLS для `security_events` не изменяется.
 
 ---
 

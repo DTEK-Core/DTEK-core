@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { recalculateOrgIndex } from '@/lib/trust/engine';
+import { createCompletedImportAudit, createFailedImportAudit } from '@/lib/security/import-audit';
 import {
   MAX_OBJECT_IMPORT_ROWS,
   prepareObjectImport,
@@ -16,6 +17,7 @@ import {
 } from '@/lib/import/objects';
 import {
   validateImportSourceDefaults,
+  countImportDataRows,
   type ImportMatrix,
   type ImportSourceDefaults,
 } from '@/lib/import/shared';
@@ -29,6 +31,7 @@ const INITIAL_LEVEL: Record<string, string> = {
 
 interface AuthContext {
   userId: string;
+  actorEmail?: string;
   role: string;
   orgId: string;
   admin: ReturnType<typeof createAdminClient>;
@@ -49,7 +52,13 @@ async function getAuthContext(): Promise<AuthContext | null> {
   const profile = data as { role: string | null; organization_id: string | null } | null;
   if (!profile?.role || !profile.organization_id) return null;
 
-  return { userId: user.id, role: profile.role, orgId: profile.organization_id, admin };
+  return {
+    userId: user.id,
+    actorEmail: user.email,
+    role: profile.role,
+    orgId: profile.organization_id,
+    admin,
+  };
 }
 
 async function loadExistingObjects(ctx: AuthContext): Promise<ExistingObjectMatch[] | null> {
@@ -77,8 +86,9 @@ async function createPreview(
   const source = validateImportSourceDefaults(sourceDefaults);
   if (!source.success) return { error: 'Проверьте название, тип, дату и комментарий источника' };
 
-  const nonEmptyRows = payload.data.matrix.slice(1).filter(row => row.some(cell => cell !== null && String(cell).trim() !== ''));
-  if (nonEmptyRows.length > MAX_OBJECT_IMPORT_ROWS) return { error: `В файле больше ${MAX_OBJECT_IMPORT_ROWS} строк объектов` };
+  if (countImportDataRows(payload.data.matrix) > MAX_OBJECT_IMPORT_ROWS) {
+    return { error: `В файле больше ${MAX_OBJECT_IMPORT_ROWS} строк объектов` };
+  }
 
   const existingObjects = await loadExistingObjects(ctx);
   if (!existingObjects) return { error: 'Не удалось проверить существующие объекты. Попробуйте ещё раз.' };
@@ -123,7 +133,19 @@ export async function commitObjectImport(
   if (!ctx) redirect('/login');
 
   const prepared = await createPreview(fileName, matrix, sourceDefaults, ctx);
-  if (!prepared.preview) return { error: prepared.error ?? 'Не удалось подготовить импорт' };
+  if (!prepared.preview) {
+    await createFailedImportAudit({
+      organizationId: ctx.orgId,
+      actorId: ctx.userId,
+      actorEmail: ctx.actorEmail,
+      importType: 'objects',
+      fileName,
+      source: sourceDefaults,
+      failureStage: 'validation',
+      counts: { totalRows: countImportDataRows(matrix) },
+    });
+    return { error: prepared.error ?? 'Не удалось подготовить импорт' };
+  }
 
   const preview = prepared.preview;
   const candidates = preview.rows.filter(row => (
@@ -173,6 +195,39 @@ export async function commitObjectImport(
     failed: failures.length,
     failures,
   };
+
+  if (result.created === 0 && result.failed > 0) {
+    await createFailedImportAudit({
+      organizationId: ctx.orgId,
+      actorId: ctx.userId,
+      actorEmail: ctx.actorEmail,
+      importType: 'objects',
+      fileName: preview.fileName,
+      source: preview.sourceMetadata,
+      failureStage: 'write',
+      counts: {
+        totalRows: result.totalRows,
+        createdRows: result.created,
+        skippedRows: result.skipped,
+        failedRows: result.failed,
+        warnings: preview.warningCount,
+      },
+    });
+  } else {
+    await createCompletedImportAudit({
+      organizationId: ctx.orgId,
+      actorId: ctx.userId,
+      actorEmail: ctx.actorEmail,
+      importType: 'objects',
+      fileName: preview.fileName,
+      source: preview.sourceMetadata,
+      totalRows: result.totalRows,
+      createdRows: result.created,
+      skippedRows: result.skipped,
+      failedRows: result.failed,
+      warnings: preview.warningCount,
+    });
+  }
 
   return { result };
 }

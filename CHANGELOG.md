@@ -26,6 +26,20 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### S11-T006 — Import Audit Events
+
+#### Добавлено
+
+- Audit events `import.objects_completed`, `import.risks_completed` и `import.failed`.
+- Общий server-side import audit helper с sanitization file/source strings и агрегированных counters.
+- Отображение import events, результата и инициатора в журнале аудита `/settings`.
+- Security tests для успешного objects/risks import и validation failure.
+
+#### Изменено
+
+- Object/Risk commit фиксирует полный, частичный и неуспешный результат без записи raw CSV/XLSX data.
+- Sprint 11, Evidence Import Schema, README и security-документация синхронизированы с S11-T006.
+
 ### S11-T005 — Import Templates
 
 #### Добавлено
