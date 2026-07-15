@@ -37,7 +37,7 @@ Sprint 01–08 создали функциональный и визуально
 | UX polish | Sprint 08 завершён |
 | Demo data | Спецификация и manual seed plan готовы |
 | Import/export | Требуется; import трактуется как evidence ingestion |
-| Reports | Требуется |
+| Reports | Реализовано в Sprint 10 |
 | Explainability | Требуется; должна учитывать source/evidence |
 | Pilot narrative | Готов |
 | Pilot readiness | Требуется |
@@ -68,7 +68,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку; Sprint 10–14 закрывают reporting, evidence import/data onboarding, explainability, workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready. Следующий этап — Sprint 11 Evidence Import & Data Onboarding; Sprint 12–14 закрывают explainability, workflow и pilot readiness.
 
 Фокус:
 
@@ -183,8 +183,8 @@ Sprint 01–08 создали функциональный и визуально
 | Sprint | Документ | Roadmap phase |
 |---|---|---|
 | Sprint 09 | `tasks/SPRINT_09.md` | Market MVP Packaging |
-| Sprint 10 | `tasks/SPRINT_10.md` | Reporting & Export |
-| Sprint 11 | `tasks/SPRINT_11.md` | Evidence Import & Data Onboarding |
+| Sprint 10 | `tasks/SPRINT_10.md` | Reporting & Export — завершён |
+| Sprint 11 | `tasks/SPRINT_11.md` | Evidence Import & Data Onboarding — следующий |
 | Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability |
 | Sprint 13 | `tasks/SPRINT_13.md` | Evidence-aware Risk Workflow |
 | Sprint 14 | `tasks/SPRINT_14.md` | Pilot Readiness |

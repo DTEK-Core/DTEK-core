@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 09.07.2026`
+`Дата: 15.07.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -154,8 +154,8 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_08.md](tasks/SPRINT_08.md) | Product Review, исторический источник обратной связи |
 | [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08 Implementation, завершён функционально |
 | [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging, завершён |
-| [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export |
-| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding |
+| [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export, завершён |
+| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, готов к старту |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Evidence-backed Trust Explainability |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Evidence-aware Risk Workflow |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Pilot Readiness |

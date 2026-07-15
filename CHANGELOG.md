@@ -26,6 +26,15 @@
 
 ## Sprint 10 — Reporting & Export
 
+### Sprint Transition — Sprint 10 Closed, Sprint 11 Ready
+
+#### Изменено
+
+- Sprint 10 отмечен как завершённый в `tasks/SPRINT_10.md`, Roadmap и Documentation Index.
+- Sprint 11 переведён в статус готовности к старту как следующий этап Roadmap.
+- `README.md` обновлён: текущий фокус теперь Sprint 11 Evidence Import & Data Onboarding.
+- `ARCHITECTURE_DECISIONS.md`, `docs/architecture/User_Roles.md` и RBAC-документация синхронизированы с фактической MVP-моделью ролей.
+
 ### Manual Testing Follow-up — RBAC testing clarification
 
 #### Изменено

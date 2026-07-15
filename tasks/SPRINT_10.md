@@ -4,7 +4,7 @@
 `Спринт: 10`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 09, ROADMAP.md, MVP_RELEASE_PLAN.md R6, ADR-007`  
-`Статус: 📋 Запланирован`
+`Статус: ✅ Завершён`
 
 ---
 
@@ -161,14 +161,27 @@
 
 ## 8. Definition Of Done
 
-- [ ] Trust Passport экспортируется в PDF.
-- [ ] Risk Registry экспортируется в CSV.
-- [ ] Executive report доступен CISO-сценарию.
-- [ ] RBAC и audit events проверены.
-- [ ] Документация обновлена.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] Trust Passport экспортируется в PDF.
+- [x] Risk Registry экспортируется в CSV.
+- [x] Executive report доступен CISO-сценарию.
+- [x] RBAC и audit events проверены.
+- [x] Документация обновлена.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
+
+---
+
+## 10. Итог Sprint 10
+
+Sprint 10 завершён. Reporting Ready milestone достигнут:
+
+- Trust Passport доступен как защищённый print-optimized report.
+- Risk Registry экспортируется в CSV с фильтрами, RBAC и audit event.
+- Executive Organization Report доступен для CISO-сценария.
+- Empty/error states закрывают недоступные и пустые отчёты.
+- User documentation и ручной smoke test checklist обновлены.
+- Ручное тестирование Sprint 10 прошло успешно; по замечанию тестирования RBAC-документация дополнительно уточнена.
 
 ---
 

@@ -4,7 +4,7 @@
 `Спринт: 11`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 10, PRODUCT_STRATEGY.md, ROADMAP.md, ADR-007`  
-`Статус: 📋 Запланирован`
+`Статус: 🟡 Готов к старту`
 
 ---
 

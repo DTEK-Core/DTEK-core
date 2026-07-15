@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.8.0+ — Sprint 10 в работе: Reporting & Export.**
+**v0.10.0 — Sprint 10 завершён; следующий этап Sprint 11: Evidence Import & Data Onboarding.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. Sprint 10 добавляет отчёты и экспорт: Trust Passport PDF, Risk Registry CSV и Executive Organization Report.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP: demo narrative, demo dataset, product one-pager, ICP/interview script и 14-дневный pilot offer для первых пользователей. Sprint 10 завершил Reporting Ready milestone: Trust Passport report, Risk Registry CSV и Executive Organization Report. Следующий фокус — загрузка реальных данных через CSV/XLSX как первый evidence ingestion path.
 
 ### Реализованные Маршруты
 
@@ -152,12 +152,11 @@ tasks/               Backlog and sprint history
 
 Следующий фокус:
 
-1. Sprint 10 — Reporting & Export.
-2. Sprint 11 — Evidence Import & Data Onboarding.
-3. Sprint 12 — Evidence-backed Trust Explainability.
-4. Sprint 13 — Evidence-aware Risk Workflow.
-5. Sprint 14 — Pilot Readiness.
-6. Sprint 15 — Connector Framework Foundation.
+1. Sprint 11 — Evidence Import & Data Onboarding.
+2. Sprint 12 — Evidence-backed Trust Explainability.
+3. Sprint 13 — Evidence-aware Risk Workflow.
+4. Sprint 14 — Pilot Readiness.
+5. Sprint 15 — Connector Framework Foundation.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 
@@ -182,4 +181,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.8.0 / Sprint 09**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.10.0 / Sprint 11 ready**

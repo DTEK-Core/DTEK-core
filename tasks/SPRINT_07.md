@@ -525,12 +525,12 @@ npm run build        # Production build — без ошибок
 
 ---
 
-#### TC-INV-RBAC01 — Только owner/admin могут отправлять приглашения
-**Роль:** analyst, viewer  
+#### TC-INV-RBAC01 — Только owner может отправлять приглашения
+**Роль:** analyst, admin, viewer
 **Шаги:**
-1. Войти как analyst или viewer → /users
+1. Войти как analyst, admin или viewer → /users
 
-**Ожидаемый результат:** Кнопка «Пригласить» отсутствует  
+**Ожидаемый результат:** Кнопка «Пригласить» отсутствует или недоступна
 **Статус:** ⬜ PASS / FAIL
 
 ---

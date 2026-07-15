@@ -27,7 +27,8 @@
 ### Роли
 
 `Owner`
-`Security Officer`
+`Analyst`
+`Admin`
 `Viewer`
 
 ### Критерий готовности
