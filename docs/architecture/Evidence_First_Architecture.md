@@ -284,6 +284,8 @@ Evidence-first архитектура усиливает требования б
 6. Wazuh.
 7. UserGate / firewall export.
 
+Для Sprint 11 CSV/XLSX structured import является первым evidence ingestion path. Его контракт, поля, validation preview, source metadata и RBAC описаны в [Evidence_Import_Schema.md](Evidence_Import_Schema.md).
+
 ---
 
 ## 10. Non-Goals До Подтверждения Pilot MVP

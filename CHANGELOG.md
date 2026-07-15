@@ -24,6 +24,21 @@
 
 ---
 
+## Sprint 11 — Evidence Import & Data Onboarding
+
+### S11-T001 — Evidence Import Schema Specification
+
+#### Добавлено
+
+- `docs/architecture/Evidence_Import_Schema.md` — контракт CSV/XLSX импорта объектов и рисков: обязательные/опциональные колонки, source metadata, enum aliases, RBAC, validation preview, error report, duplicate/matching strategy, safe partial success, audit event contract и минимальные templates.
+
+#### Изменено
+
+- `tasks/SPRINT_11.md` отмечает S11-T001 как завершённую и добавляет колонку статуса задач Sprint 11.
+- `DOCUMENTATION_INDEX.md`, `README.md` и `Evidence_First_Architecture.md` дополнены ссылкой на import schema specification.
+
+---
+
 ## Sprint 10 — Reporting & Export
 
 ### Sprint Transition — Sprint 10 Closed, Sprint 11 Ready

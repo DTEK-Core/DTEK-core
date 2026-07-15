@@ -4,7 +4,7 @@
 `Спринт: 11`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 10, PRODUCT_STRATEGY.md, ROADMAP.md, ADR-007`  
-`Статус: 🟡 Готов к старту`
+`Статус: 🟡 В работе`
 
 ---
 
@@ -57,16 +57,16 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 ## 5. Задачи Спринта
 
-| ID | Задача | Приоритет | Оценка | Зависимости |
-|---|---|---|---|---|
-| S11-T001 | Evidence Import Schema Specification | P1 | M | S09, S10 |
-| S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 |
-| S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 |
-| S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 |
-| S11-T005 | Import Templates | P1 | S | T001 |
-| S11-T006 | Import Audit Events | P1 | S | T002, T003 |
-| S11-T007 | Import Documentation | P1 | S | T001–T006 |
-| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 |
+| ID | Задача | Приоритет | Оценка | Зависимости | Статус |
+|---|---|---|---|---|---|
+| S11-T001 | Evidence Import Schema Specification | P1 | M | S09, S10 | ✅ Завершено |
+| S11-T002 | Objects CSV/XLSX Import | P1 | L | T001 | 📋 Запланировано |
+| S11-T003 | Risks CSV/XLSX Import | P1 | L | T001 | 📋 Запланировано |
+| S11-T004 | Import Preview, Validation & Source Metadata | P1 | M | T002, T003 | 📋 Запланировано |
+| S11-T005 | Import Templates | P1 | S | T001 | 📋 Запланировано |
+| S11-T006 | Import Audit Events | P1 | S | T002, T003 | 📋 Запланировано |
+| S11-T007 | Import Documentation | P1 | S | T001–T006 | 📋 Запланировано |
+| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 📋 Запланировано |
 
 ---
 
@@ -99,6 +99,8 @@ Sprint 11 должен позволить загрузить 50–200 актив
 **Описание:** определить обязательные и опциональные колонки для объектов и рисков, а также минимальные source metadata поля.
 
 **Ожидаемый результат:** зафиксирован import contract без изменения схемы БД и с совместимостью с будущим Evidence Layer.
+
+**Решение:** добавлен документ `docs/architecture/Evidence_Import_Schema.md`. В нём зафиксированы CSV/XLSX contract для объектов и рисков, source metadata, enum aliases, RBAC, validation preview, error report, duplicate/matching strategy, safe partial success, audit event contract и минимальные CSV templates для S11-T005. Решение не требует миграций и сохраняет совместимость с будущим Evidence Layer.
 
 ### S11-T002 — Objects CSV/XLSX Import
 

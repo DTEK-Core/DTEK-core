@@ -81,6 +81,7 @@
 | [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) | Архитектура Next.js + Supabase Cloud |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery Layer, Connector Framework, Evidence Layer и автоматического наполнения |
 | [docs/architecture/Reporting_Architecture.md](docs/architecture/Reporting_Architecture.md) | Архитектура отчётов и экспорта Sprint 10 |
+| [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Полная схема БД, индексы, RLS |
 | [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула Trust Score |
 | [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора |
@@ -155,7 +156,7 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08 Implementation, завершён функционально |
 | [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging, завершён |
 | [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export, завершён |
-| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, готов к старту |
+| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, в работе |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Evidence-backed Trust Explainability |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Evidence-aware Risk Workflow |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Pilot Readiness |
