@@ -24,6 +24,7 @@ export default async function PassportPage({
       delta30={report.delta30}
       factors={report.factors}
       topDrivers={report.topDrivers}
+      factorExplanations={report.factorExplanations}
     />
   );
 }

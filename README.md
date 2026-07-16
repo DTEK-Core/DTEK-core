@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.12.0-dev — Sprint 12 active: Top Score Drivers implemented.**
+**v0.12.0-dev — Sprint 12 active: Factor Reason Cards implemented.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model и реализованы Top Score Drivers Trust Passport: пользователь видит главные положительные и отрицательные факторные вклады с актуальными весами организации.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers и раскрываемые Factor Reason Cards Trust Passport: пользователь видит base, penalties, completeness bonus, активные риски и честный source context каждого фактора.
 
 ### Реализованные Маршруты
 

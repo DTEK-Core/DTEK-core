@@ -7,6 +7,26 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T003 — Factor Reason Cards With Sources
+
+#### Добавлено
+
+- Шесть раскрываемых Factor Reason Cards в Trust Passport с base, active risk penalties, completeness bonus, clamp state и взвешенным вкладом.
+- Строгий parser последнего trailing `[Import Source]` block с безопасным manual fallback для отсутствующих или malformed metadata.
+- Source context объекта и влияющих рисков с типом, датой сбора и confidence без маркировки import metadata как полноценного evidence record.
+- Contract-тесты факторной арифметики, active/closed risk filtering, distributed penalties, clamp и source parser.
+
+#### Изменено
+
+- Trust Score Engine и explainability используют общие pure helper-функции base, penalty и completeness bonus без изменения ADR-001.
+- Passport report получает completeness и source metadata, а связанные риски дополнительно проверяет по текущей организации.
+- Sprint 12, README и Technical Debt синхронизированы с завершением S12-T003.
+
+#### Безопасность
+
+- Explainability read model строится на сервере после RBAC и tenant-проверки; клиент не получает исходные descriptions или `source_record_id`.
+- Новых привилегий, записей в БД, миграций и зависимостей нет.
+
 ### S12-T002 — Top Score Drivers
 
 #### Добавлено

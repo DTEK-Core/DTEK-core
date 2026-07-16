@@ -119,6 +119,41 @@ export function scoreToLevel(score: number): string {
   return 'critical';
 }
 
+export function getCriticalityBase(criticality: string): number {
+  return BASE[criticality] ?? NEUTRAL_FACTOR_SCORE;
+}
+
+export function isActiveRisk(risk: RiskForCalc): boolean {
+  return risk.status === 'open' || risk.status === 'in_progress';
+}
+
+export function getRiskSeverityPenalty(severity: string): number {
+  return PENALTY[severity] ?? 0;
+}
+
+export function getRiskPenaltyForFactor(
+  factorKey: string,
+  risk: RiskForCalc,
+): number {
+  if (!isActiveRisk(risk)) return 0;
+
+  const mappedFactor = CATEGORY_FACTOR[risk.category] ?? null;
+  const severityPenalty = getRiskSeverityPenalty(risk.severity);
+
+  if (mappedFactor === null) return Math.round(severityPenalty / 6);
+  return mappedFactor === factorKey ? severityPenalty : 0;
+}
+
+export function getCompletenessBonus(
+  factorKey: string,
+  completeness: number,
+): number {
+  if (factorKey !== 'compliance') return 0;
+  if (completeness >= 95) return 20;
+  if (completeness >= 80) return 10;
+  return 0;
+}
+
 /**
  * Рассчитывает процент заполненности цифрового паспорта объекта.
  * 9 полей с весами суммарно 100% (Trust_Score_Model_v2.md §4.4).
@@ -148,29 +183,11 @@ export function calcFactorScore(
   risks:        RiskForCalc[],
   completeness: number,
 ): number {
-  // Только риски в статусе open или in_progress снижают оценку
-  const activeRisks = risks.filter(
-    r => r.status === 'open' || r.status === 'in_progress',
+  const penalty = risks.reduce(
+    (sum, risk) => sum + getRiskPenaltyForFactor(factorKey, risk),
+    0,
   );
-
-  let penalty = 0;
-  for (const risk of activeRisks) {
-    const mapped = CATEGORY_FACTOR[risk.category] ?? null;
-    const p = PENALTY[risk.severity] ?? 0;
-
-    if (mapped === null) {
-      // Категория без конкретного фактора — равномерно по всем 6
-      penalty += Math.round(p / 6);
-    } else if (mapped === factorKey) {
-      penalty += p;
-    }
-  }
-
-  let bonus = 0;
-  if (factorKey === 'compliance') {
-    if (completeness >= 95)      bonus = 20;
-    else if (completeness >= 80) bonus = 10;
-  }
+  const bonus = getCompletenessBonus(factorKey, completeness);
 
   return Math.max(0, Math.min(100, base - penalty + bonus));
 }
@@ -186,7 +203,7 @@ export function calcTrustScore(
   risks:   RiskForCalc[],
   weights: FactorWeights,
 ): TrustResult {
-  const base         = BASE[obj.criticality] ?? NEUTRAL_FACTOR_SCORE;
+  const base         = getCriticalityBase(obj.criticality);
   const completeness = calcCompleteness(obj);
 
   const factors: TrustFactors = {

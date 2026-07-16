@@ -2,8 +2,11 @@ import { notFound } from 'next/navigation';
 import { TRUST_FACTORS, type TrustFactorKey } from '@/lib/design-tokens';
 import { getReportAccessContext } from '@/lib/reports/access';
 import {
+  buildFactorExplanations,
   buildScoreFactors,
   buildTopScoreDrivers,
+  type ExplainabilityRisk,
+  type FactorExplanation,
   type ScoreFactor,
 } from '@/lib/trust/explainability';
 import {
@@ -34,6 +37,7 @@ interface PassportRaw {
   network_score: number | null;
   compliance_score: number | null;
   incident_score: number | null;
+  completeness_pct: number | null;
   open_risk_count: number | null;
   connection_count: number | null;
   calculated_at: string | null;
@@ -48,14 +52,19 @@ interface ObjectRaw {
   os_platform: string | null;
   segment: string | null;
   exposure: string | null;
+  description: string | null;
   owner: OwnerRaw | OwnerRaw[] | null;
   trust_passports: PassportRaw | PassportRaw[] | null;
 }
 
 interface RiskRaw {
   id: string;
+  organization_id: string;
   title: string;
   severity: string;
+  category: string;
+  status: string;
+  description: string | null;
   cvss_score: number | null;
   due_date: string | null;
 }
@@ -89,6 +98,7 @@ export interface PassportReportData {
   delta30: number;
   factors: PassportReportFactor[];
   topDrivers: ScoreFactor[];
+  factorExplanations: FactorExplanation[];
   generatedAt: string;
   sourceCoverage: Array<{
     source: string;
@@ -154,6 +164,22 @@ function buildSourceCoverage(object: PassportObject, risks: PassportRisk[]) {
   ];
 }
 
+function hideSourceRecordIds(
+  explanations: ReadonlyArray<FactorExplanation>,
+): FactorExplanation[] {
+  return explanations.map((factor) => ({
+    ...factor,
+    risks: factor.risks.map((risk) => ({
+      ...risk,
+      source: { ...risk.source, sourceRecordId: null },
+    })),
+    sources: factor.sources.map((source) => ({
+      ...source,
+      sourceRecordId: null,
+    })),
+  }));
+}
+
 export async function getPassportReportData(objectId: string): Promise<PassportReportData> {
   const { admin, user, orgId, role } = await getReportAccessContext('passport', {
     onDenied: 'notFound',
@@ -162,13 +188,13 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   const { data: objData } = await admin
     .from('objects')
     .select(`
-      id, name, type, criticality, ip_address, os_platform, segment, exposure,
+      id, name, type, criticality, ip_address, os_platform, segment, exposure, description,
       owner:profiles!owner_id(full_name),
       trust_passports(
         trust_score, trust_level,
         vuln_score, config_score, access_score,
         network_score, compliance_score, incident_score,
-        open_risk_count, connection_count, calculated_at
+        completeness_pct, open_risk_count, connection_count, calculated_at
       )
     `)
     .eq('id', objectId)
@@ -204,6 +230,7 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     network_score:    tpRaw.network_score    ?? 70,
     compliance_score: tpRaw.compliance_score ?? 70,
     incident_score:   tpRaw.incident_score   ?? 70,
+    completeness_pct: tpRaw.completeness_pct ?? 0,
     open_risk_count:  tpRaw.open_risk_count  ?? 0,
     connection_count: tpRaw.connection_count ?? 0,
     calculated_at:    tpRaw.calculated_at    ?? null,
@@ -211,24 +238,20 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
 
   const { data: riskLinksData } = await admin
     .from('object_risks')
-    .select('risks(id, title, severity, cvss_score, due_date)')
+    .select('risks(id, organization_id, title, severity, category, status, description, cvss_score, due_date)')
     .eq('object_id', objectId);
 
   const riskLinks = (riskLinksData as unknown as RiskLinkRaw[] | null) ?? [];
-  const risks: PassportRisk[] = riskLinks
-    .map((link) => {
-      const risk = single(link.risks);
-      return risk
-        ? {
-            id:         risk.id,
-            title:      risk.title,
-            severity:   risk.severity,
-            cvss_score: risk.cvss_score,
-            due_date:   risk.due_date,
-          }
-        : null;
-    })
-    .filter((risk): risk is PassportRisk => risk !== null);
+  const linkedRisks = riskLinks
+    .map((link) => single(link.risks))
+    .filter((risk): risk is RiskRaw => risk?.organization_id === orgId);
+  const risks: PassportRisk[] = linkedRisks.map((risk) => ({
+    id:         risk.id,
+    title:      risk.title,
+    severity:   risk.severity,
+    cvss_score: risk.cvss_score,
+    due_date:   risk.due_date,
+  }));
 
   const [orgResult, weightsResult] = await Promise.all([
     admin
@@ -264,6 +287,22 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   const firstScore = (deltaRaw as unknown as { new_score: number } | null)?.new_score ?? null;
   const delta30 = firstScore !== null ? passport.trust_score - firstScore : 0;
   const factors = buildFactors(passport, weights);
+  const explanationRisks: ExplainabilityRisk[] = linkedRisks.map((risk) => ({
+    id:          risk.id,
+    title:       risk.title,
+    severity:    risk.severity,
+    category:    risk.category,
+    status:      risk.status,
+    description: risk.description,
+  }));
+  const factorExplanations = hideSourceRecordIds(
+    buildFactorExplanations(factors, {
+      criticality: raw.criticality,
+      completenessPct: passport.completeness_pct,
+      objectDescription: raw.description,
+      risks: explanationRisks,
+    }),
+  );
 
   return {
     object,
@@ -277,6 +316,7 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     delta30,
     factors,
     topDrivers: buildTopScoreDrivers(factors),
+    factorExplanations,
     generatedAt: new Date().toISOString(),
     sourceCoverage: buildSourceCoverage(object, risks),
   };

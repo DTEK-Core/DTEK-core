@@ -1,4 +1,12 @@
 import type { TrustFactorKey } from '@/lib/design-tokens';
+import {
+  getCompletenessBonus,
+  getCriticalityBase,
+  getRiskPenaltyForFactor,
+  getRiskSeverityPenalty,
+  isActiveRisk,
+  type RiskForCalc,
+} from './calculate';
 
 export const NEUTRAL_TRUST_REFERENCE = 70;
 
@@ -17,6 +25,133 @@ export interface ScoreFactor extends ScoreFactorInput {
   contribution: number;
   neutralDelta: number;
   direction: ScoreDriverDirection;
+}
+
+export type SourceConfidence = 'low' | 'medium' | 'high';
+export type SourceContextKind = 'manual' | 'import' | 'system_derived' | 'evidence';
+
+export interface SourceContext {
+  kind: SourceContextKind;
+  sourceName: string;
+  sourceType: string | null;
+  sourceRecordId: string | null;
+  collectedAt: string | null;
+  confidence: SourceConfidence | null;
+  isEvidenceRecord: boolean;
+}
+
+export interface ExplainabilityRisk extends RiskForCalc {
+  id: string;
+  title: string;
+  description: string | null;
+}
+
+export interface FactorRiskReason {
+  riskId: string;
+  title: string;
+  severity: string;
+  status: string;
+  rawPenalty: number;
+  appliedPenalty: number;
+  source: SourceContext;
+}
+
+export interface FactorExplanation extends ScoreFactor {
+  base: number;
+  appliedPenalty: number;
+  completenessBonus: number;
+  calculatedScore: number;
+  wasClamped: boolean;
+  isConsistent: boolean;
+  risks: FactorRiskReason[];
+  sources: SourceContext[];
+}
+
+export interface FactorExplanationContext {
+  criticality: string;
+  completenessPct: number;
+  objectDescription: string | null;
+  risks: ReadonlyArray<ExplainabilityRisk>;
+}
+
+const SOURCE_KEYS = new Set([
+  'source_name',
+  'source_type',
+  'source_record_id',
+  'source_collected_at',
+  'confidence',
+  'import_note',
+]);
+const SOURCE_CONFIDENCE = new Set<SourceConfidence>(['low', 'medium', 'high']);
+
+function manualSourceContext(): SourceContext {
+  return {
+    kind: 'manual',
+    sourceName: 'Ручные данные DTEK Core',
+    sourceType: null,
+    sourceRecordId: null,
+    collectedAt: null,
+    confidence: null,
+    isEvidenceRecord: false,
+  };
+}
+
+export function parseSourceContext(description: string | null): SourceContext {
+  if (!description) return manualSourceContext();
+
+  const markerPattern = /(?:^|\r?\n)\[Import Source\]\r?\n/g;
+  const markers = Array.from(description.matchAll(markerPattern));
+  const lastMarker = markers.at(-1);
+  if (!lastMarker || lastMarker.index === undefined) return manualSourceContext();
+
+  const block = description.slice(lastMarker.index + lastMarker[0].length);
+  if (!block.trim()) return manualSourceContext();
+
+  const values: Record<string, string> = {};
+  const lines = block.split(/\r?\n/).filter((line) => line.trim().length > 0);
+
+  for (const line of lines) {
+    const separator = line.indexOf(':');
+    if (separator <= 0) return manualSourceContext();
+
+    const key = line.slice(0, separator).trim();
+    const value = line.slice(separator + 1).trim();
+    if (!SOURCE_KEYS.has(key) || !value || values[key]) return manualSourceContext();
+    values[key] = value;
+  }
+
+  const sourceName = values.source_name;
+  const sourceType = values.source_type;
+  const confidence = values.confidence as SourceConfidence | undefined;
+  if (!sourceName || !sourceType || !confidence || !SOURCE_CONFIDENCE.has(confidence)) {
+    return manualSourceContext();
+  }
+
+  return {
+    kind: 'import',
+    sourceName,
+    sourceType,
+    sourceRecordId: values.source_record_id ?? null,
+    collectedAt: values.source_collected_at ?? null,
+    confidence,
+    isEvidenceRecord: false,
+  };
+}
+
+function uniqueSources(sources: ReadonlyArray<SourceContext>): SourceContext[] {
+  const seen = new Set<string>();
+  return sources.filter((source) => {
+    const key = [
+      source.kind,
+      source.sourceName,
+      source.sourceType,
+      source.collectedAt,
+      source.confidence,
+    ].join('|');
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function roundOne(value: number): number {
@@ -69,4 +204,60 @@ export function buildTopScoreDrivers(
     ))
     .slice(0, limit)
     .map(({ factor }) => factor);
+}
+
+export function buildFactorExplanations(
+  factors: ReadonlyArray<ScoreFactorInput>,
+  context: FactorExplanationContext,
+): FactorExplanation[] {
+  const base = getCriticalityBase(context.criticality);
+  const objectSource = parseSourceContext(context.objectDescription);
+
+  return buildScoreFactors(factors).map((factor) => {
+    const riskReasons = context.risks
+      .map((risk, index) => ({
+        risk,
+        index,
+        appliedPenalty: getRiskPenaltyForFactor(factor.key, risk),
+      }))
+      .filter(({ risk, appliedPenalty }) => isActiveRisk(risk) && appliedPenalty > 0)
+      .sort((left, right) => (
+        right.appliedPenalty - left.appliedPenalty
+        || left.index - right.index
+      ))
+      .map(({ risk, appliedPenalty }) => ({
+        riskId: risk.id,
+        title: risk.title,
+        severity: risk.severity,
+        status: risk.status,
+        rawPenalty: getRiskSeverityPenalty(risk.severity),
+        appliedPenalty,
+        source: parseSourceContext(risk.description),
+      }));
+    const appliedPenalty = riskReasons.reduce(
+      (sum, risk) => sum + risk.appliedPenalty,
+      0,
+    );
+    const completenessBonus = getCompletenessBonus(
+      factor.key,
+      context.completenessPct,
+    );
+    const unclampedScore = base - appliedPenalty + completenessBonus;
+    const calculatedScore = Math.max(0, Math.min(100, unclampedScore));
+
+    return {
+      ...factor,
+      base,
+      appliedPenalty,
+      completenessBonus,
+      calculatedScore,
+      wasClamped: calculatedScore !== unclampedScore,
+      isConsistent: factor.score === calculatedScore,
+      risks: riskReasons,
+      sources: uniqueSources([
+        objectSource,
+        ...riskReasons.map((risk) => risk.source),
+      ]),
+    };
+  });
 }

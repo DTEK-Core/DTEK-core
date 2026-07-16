@@ -9,7 +9,11 @@ import { CritTag } from '@/components/shared/crit-tag';
 import { TrustRing } from '@/components/shared/trust-ring';
 import { getTrustBand, OBJECT_TYPES } from '@/lib/design-tokens';
 import { triggerRecalculate } from '@/lib/actions/trust';
-import type { ScoreFactor } from '@/lib/trust/explainability';
+import type {
+  FactorExplanation,
+  ScoreFactor,
+  SourceContext,
+} from '@/lib/trust/explainability';
 import { fmtDateLong, fmtDateShort } from '@/lib/utils/dates';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -35,6 +39,7 @@ export interface PassportData {
   network_score: number;
   compliance_score: number;
   incident_score: number;
+  completeness_pct: number;
   open_risk_count: number;
   connection_count: number;
   calculated_at: string | null;
@@ -57,6 +62,7 @@ interface TrustPassportClientProps {
   delta30:        number;
   factors:        ScoreFactor[];
   topDrivers:     ScoreFactor[];
+  factorExplanations: FactorExplanation[];
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -82,6 +88,30 @@ const CRITICALITY_LABELS: Record<string, string> = {
   low:      'Низкая',
 };
 
+const SEVERITY_LABELS: Record<string, string> = {
+  critical: 'Критический',
+  high:     'Высокий',
+  medium:   'Средний',
+  low:      'Низкий',
+};
+
+const SOURCE_TYPE_LABELS: Record<string, string> = {
+  manual_csv:             'Ручная таблица',
+  asset_inventory:        'Инвентаризация / CMDB',
+  vulnerability_export:   'Сканер уязвимостей',
+  monitoring_export:      'Мониторинг',
+  directory_export:       'AD / LDAP / FreeIPA',
+  security_tool_export:   'Средство защиты',
+  network_export:         'Сетевое оборудование',
+  other:                  'Другой источник',
+};
+
+const CONFIDENCE_LABELS: Record<string, string> = {
+  high:   'Высокая',
+  medium: 'Средняя',
+  low:    'Низкая',
+};
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function typeLabel(type: string): string {
@@ -103,6 +133,24 @@ function formatDriverDelta(value: number): string {
   return `${sign}${formatDecimal(Math.abs(value))}`;
 }
 
+function formatSourceDate(value: string | null): string | null {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return fmtDateShort(date);
+}
+
+function sourceMeta(source: SourceContext): string {
+  if (source.kind === 'manual') return 'Ручной источник · не является evidence record';
+
+  const parts = [
+    source.sourceType ? SOURCE_TYPE_LABELS[source.sourceType] ?? source.sourceType : null,
+    source.confidence ? `Уверенность: ${CONFIDENCE_LABELS[source.confidence]}` : null,
+    formatSourceDate(source.collectedAt),
+  ].filter((part): part is string => Boolean(part));
+  return `${parts.join(' · ')} · source context, не evidence record`;
+}
+
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export function TrustPassportClient({
@@ -114,6 +162,7 @@ export function TrustPassportClient({
   delta30,
   factors,
   topDrivers,
+  factorExplanations,
 }: TrustPassportClientProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -319,31 +368,113 @@ export function TrustPassportClient({
             <span className="pp-formula mono">Trust = Σ (фактор × вес)</span>
           </div>
 
-          <div className="pp-factors">
-            {factors.map(f => {
-              const fb = getTrustBand(f.score);
+          <div className="pp-reasons">
+            {factorExplanations.map(factor => {
+              const fb = getTrustBand(factor.score);
+              const visibleRisks = factor.risks.slice(0, 5);
               return (
-                <div className="ppf" key={f.key}>
-                  <div className="ppf-head">
-                    <span className="ppf-label">{f.label}</span>
-                    <span className="ppf-contrib mono">+{formatDecimal(f.contribution)}</span>
-                  </div>
-                  <div className="ppf-bar">
-                    <div
-                      className="ppf-fill"
-                      style={{
-                        width: mounted ? `${f.score}%` : '0%',
-                        background: fb.color,
-                      }}
-                    />
-                  </div>
-                  <div className="ppf-foot">
-                    <span className="ppf-weight mono">вес {f.weight}%</span>
-                    <span className="ppf-score mono" style={{ color: fb.color }}>
-                      {f.score}/100
+                <details className="pp-reason" key={factor.key}>
+                  <summary className="pp-reason-summary">
+                    <span className="pp-reason-chevron" aria-hidden="true">
+                      <Icon name="chevR" size={15} />
                     </span>
+                    <span className="pp-reason-main">
+                      <span className="pp-reason-head">
+                        <strong>{factor.label}</strong>
+                        <span className="mono" style={{ color: fb.color }}>
+                          {factor.score}/100
+                        </span>
+                      </span>
+                      <span className="pp-reason-bar" aria-hidden="true">
+                        <span
+                          style={{
+                            width: mounted ? `${factor.score}%` : '0%',
+                            background: fb.color,
+                          }}
+                        />
+                      </span>
+                      <span className="pp-reason-formula mono">
+                        <span>
+                          {factor.base} база − {factor.appliedPenalty} штрафы + {factor.completenessBonus} бонус = {factor.calculatedScore}
+                        </span>
+                        <span>
+                          {factor.score} × {factor.weight}% = {formatDecimal(factor.contribution)} вклад
+                        </span>
+                      </span>
+                    </span>
+                    <span className="pp-reason-contribution">
+                      <strong className="mono">+{formatDecimal(factor.contribution)}</strong>
+                      <span>вклад · вес {factor.weight}%</span>
+                    </span>
+                  </summary>
+
+                  <div className="pp-reason-body">
+                    {!factor.isConsistent && (
+                      <div className="pp-reason-warning" role="status">
+                        <Icon name="risk" size={16} />
+                        <span>
+                          Сохранённая оценка {factor.score} отличается от текущего расчёта {factor.calculatedScore}.
+                          {canRecalculate
+                            ? ' Запустите переоценку объекта.'
+                            : ' Требуется переоценка пользователем с правом изменения.'}
+                        </span>
+                      </div>
+                    )}
+                    {factor.wasClamped && (
+                      <p className="pp-reason-note">
+                        Результат ограничен допустимым диапазоном 0–100.
+                      </p>
+                    )}
+
+                    <div className="pp-reason-columns">
+                      <div className="pp-reason-group">
+                        <h3>Активные риски</h3>
+                        {visibleRisks.length > 0 ? (
+                          <ul className="pp-reason-risks">
+                            {visibleRisks.map(risk => (
+                              <li key={risk.riskId}>
+                                <span className={`pp-reason-severity sev-${risk.severity}`} />
+                                <span className="pp-reason-risk-main">
+                                  <strong>{risk.title}</strong>
+                                  <span>
+                                    {SEVERITY_LABELS[risk.severity] ?? risk.severity} · {risk.source.sourceName}
+                                  </span>
+                                </span>
+                                <span className="pp-reason-penalty mono">−{risk.appliedPenalty}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="pp-reason-empty">
+                            Активные риски этого фактора не зарегистрированы.
+                          </p>
+                        )}
+                        {factor.risks.length > visibleRisks.length && (
+                          <p className="pp-reason-more">
+                            Ещё рисков: {factor.risks.length - visibleRisks.length}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="pp-reason-group">
+                        <h3>Источники данных</h3>
+                        <ul className="pp-reason-sources">
+                          {factor.sources.map((source, index) => (
+                            <li key={`${source.kind}-${source.sourceName}-${index}`}>
+                              <span className="pp-reason-source-icon" aria-hidden="true">
+                                <Icon name={source.kind === 'import' ? 'download' : 'edit'} size={14} />
+                              </span>
+                              <span>
+                                <strong>{source.sourceName}</strong>
+                                <small>{sourceMeta(source)}</small>
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </details>
               );
             })}
           </div>

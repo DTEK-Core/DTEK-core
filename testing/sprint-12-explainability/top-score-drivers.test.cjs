@@ -6,31 +6,35 @@ const ts = require('typescript');
 
 function loadExplainabilityModule() {
   const modulePath = path.resolve(__dirname, '../../lib/trust/explainability.ts');
-  const source = fs.readFileSync(modulePath, 'utf8');
-  const { outputText } = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2020,
-    },
-    fileName: modulePath,
-  });
-  const loaded = { exports: {} };
-  const execute = new Function(
-    'exports',
-    'require',
-    'module',
-    '__filename',
-    '__dirname',
-    outputText,
-  );
-  execute(loaded.exports, require, loaded, modulePath, path.dirname(modulePath));
-  return loaded.exports;
+  const previousLoader = require.extensions['.ts'];
+
+  require.extensions['.ts'] = (module, fileName) => {
+    const source = fs.readFileSync(fileName, 'utf8');
+    const { outputText } = ts.transpileModule(source, {
+      compilerOptions: {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES2020,
+      },
+      fileName,
+    });
+    module._compile(outputText, fileName);
+  };
+
+  delete require.cache[modulePath];
+  try {
+    return require(modulePath);
+  } finally {
+    if (previousLoader) require.extensions['.ts'] = previousLoader;
+    else delete require.extensions['.ts'];
+  }
 }
 
 const {
   buildScoreFactors,
+  buildFactorExplanations,
   buildTopScoreDrivers,
   NEUTRAL_TRUST_REFERENCE,
+  parseSourceContext,
 } = loadExplainabilityModule();
 
 const defaultFactors = [
@@ -99,4 +103,161 @@ test('ties preserve the canonical input order', () => {
 
   assert.deepEqual(buildTopScoreDrivers(factors).map(({ key }) => key), ['vuln', 'config']);
   assert.deepEqual(buildTopScoreDrivers(factors, 1).map(({ key }) => key), ['vuln']);
+});
+
+test('source parser reads only the last valid trailing import block', () => {
+  const source = parseSourceContext([
+    'Описание объекта',
+    '',
+    '[Import Source]',
+    'source_name: Старый источник',
+    'source_type: other',
+    'confidence: low',
+    '',
+    '[Import Source]',
+    'source_name: MaxPatrol VM',
+    'source_type: vulnerability_export',
+    'source_record_id: vm-1001',
+    'source_collected_at: 2026-07-15',
+    'confidence: high',
+    'import_note: Тестовый импорт',
+  ].join('\n'));
+
+  assert.deepEqual(source, {
+    kind: 'import',
+    sourceName: 'MaxPatrol VM',
+    sourceType: 'vulnerability_export',
+    sourceRecordId: 'vm-1001',
+    collectedAt: '2026-07-15',
+    confidence: 'high',
+    isEvidenceRecord: false,
+  });
+});
+
+test('missing and malformed source metadata use the manual fallback', () => {
+  const expected = {
+    kind: 'manual',
+    sourceName: 'Ручные данные DTEK Core',
+    sourceType: null,
+    sourceRecordId: null,
+    collectedAt: null,
+    confidence: null,
+    isEvidenceRecord: false,
+  };
+
+  assert.deepEqual(parseSourceContext('Обычное описание'), expected);
+  assert.deepEqual(parseSourceContext([
+    '[Import Source]',
+    'source_name: Источник',
+    'unknown_key: value',
+    'confidence: high',
+  ].join('\n')), expected);
+});
+
+test('factor reasons reproduce base, active penalties, bonus and sources', () => {
+  const importedObject = [
+    'Сервер приложений',
+    '',
+    '[Import Source]',
+    'source_name: Asset Inventory',
+    'source_type: asset_inventory',
+    'source_collected_at: 2026-07-14',
+    'confidence: medium',
+  ].join('\n');
+  const importedRisk = [
+    '[Import Source]',
+    'source_name: MaxPatrol VM',
+    'source_type: vulnerability_export',
+    'source_record_id: vm-1001',
+    'confidence: high',
+  ].join('\n');
+  const explanations = buildFactorExplanations(defaultFactors, {
+    criticality: 'high',
+    completenessPct: 85,
+    objectDescription: importedObject,
+    risks: [
+      {
+        id: 'risk-vuln',
+        title: 'Критичная версия пакета',
+        category: 'vulnerability',
+        severity: 'high',
+        status: 'open',
+        description: importedRisk,
+      },
+      {
+        id: 'risk-config',
+        title: 'Небезопасная конфигурация',
+        category: 'configuration',
+        severity: 'medium',
+        status: 'in_progress',
+        description: null,
+      },
+      {
+        id: 'risk-closed',
+        title: 'Закрытый риск',
+        category: 'vulnerability',
+        severity: 'critical',
+        status: 'closed',
+        description: null,
+      },
+    ],
+  });
+
+  const vuln = explanations.find(({ key }) => key === 'vuln');
+  const compliance = explanations.find(({ key }) => key === 'compliance');
+
+  assert.ok(vuln);
+  assert.equal(vuln.base, 70);
+  assert.equal(vuln.appliedPenalty, 25);
+  assert.equal(vuln.completenessBonus, 0);
+  assert.equal(vuln.calculatedScore, 45);
+  assert.equal(vuln.isConsistent, true);
+  assert.deepEqual(vuln.risks.map(({ riskId }) => riskId), ['risk-vuln']);
+  assert.deepEqual(vuln.sources.map(({ sourceName }) => sourceName), [
+    'Asset Inventory',
+    'MaxPatrol VM',
+  ]);
+
+  assert.ok(compliance);
+  assert.equal(compliance.appliedPenalty, 0);
+  assert.equal(compliance.completenessBonus, 10);
+  assert.equal(compliance.calculatedScore, 80);
+  assert.equal(compliance.risks.length, 0);
+});
+
+test('distributed penalties and clamp state match the score engine rules', () => {
+  const distributedFactors = defaultFactors.map((factor) => ({ ...factor, score: 69 }));
+  const distributed = buildFactorExplanations(distributedFactors, {
+    criticality: 'high',
+    completenessPct: 0,
+    objectDescription: null,
+    risks: [{
+      id: 'risk-other',
+      title: 'Общий организационный риск',
+      category: 'organizational',
+      severity: 'low',
+      status: 'open',
+      description: null,
+    }],
+  });
+
+  assert.ok(distributed.every(factor => factor.appliedPenalty === 1));
+  assert.ok(distributed.every(factor => factor.calculatedScore === 69));
+
+  const clamped = buildFactorExplanations([
+    { key: 'vuln', label: 'Уязвимости', score: 0, weight: 22 },
+  ], {
+    criticality: 'critical',
+    completenessPct: 0,
+    objectDescription: null,
+    risks: [
+      { id: 'a', title: 'A', category: 'vulnerability', severity: 'critical', status: 'open', description: null },
+      { id: 'b', title: 'B', category: 'vulnerability', severity: 'critical', status: 'open', description: null },
+    ],
+  })[0];
+
+  assert.equal(clamped.appliedPenalty, 80);
+  assert.equal(clamped.calculatedScore, 0);
+  assert.equal(clamped.wasClamped, true);
+  assert.equal(clamped.isConsistent, true);
 });
