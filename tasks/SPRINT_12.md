@@ -4,7 +4,7 @@
 `Спринт: 12`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 11, Trust_Score_Model_v2.md, ADR-001, ADR-007`  
-`Статус: 📋 Запланирован`
+`Статус: 🚧 В работе`
 
 ---
 
@@ -64,16 +64,16 @@ Trust Score без объяснения может восприниматься 
 
 ## 5. Задачи Спринта
 
-| ID | Задача | Приоритет | Оценка | Зависимости |
-|---|---|---|---|---|
-| S12-T001 | Evidence-backed Explainability Model Specification | P1 | M | S11 |
-| S12-T002 | Top Score Drivers for Object Passport | P1 | M | T001 |
-| S12-T003 | Factor Reason Cards With Sources | P1 | M | T001 |
-| S12-T004 | Risk Impact Hint | P1 | M | T001 |
-| S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 |
-| S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 |
-| S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 |
-| S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 |
+| ID | Задача | Приоритет | Оценка | Зависимости | Статус |
+|---|---|---|---|---|---|
+| S12-T001 | Evidence-backed Explainability Model Specification | P1 | M | S11 | ✅ Завершено |
+| S12-T002 | Top Score Drivers for Object Passport | P1 | M | T001 | 📋 Запланировано |
+| S12-T003 | Factor Reason Cards With Sources | P1 | M | T001 | 📋 Запланировано |
+| S12-T004 | Risk Impact Hint | P1 | M | T001 | 📋 Запланировано |
+| S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | 📋 Запланировано |
+| S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 | 📋 Запланировано |
+| S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 | 📋 Запланировано |
+| S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 | 📋 Запланировано |
 
 ---
 
@@ -106,6 +106,8 @@ Trust Score без объяснения может восприниматься 
 **Описание:** определить, какие причины Trust Score показываются пользователю и как они рассчитываются из существующих данных, import source и будущих evidence records.
 
 **Ожидаемый результат:** спецификация explainability без изменения ADR-001.
+
+**Решение:** создан `docs/architecture/Evidence_Explainability_Model.md`. Спецификация фиксирует четырёхуровневую модель объяснения, канонический read model, factor arithmetic, top drivers относительно neutral reference 70, counterfactual risk impact, score delta contract, source/evidence context, empty/error states и требования RBAC/multi-tenant isolation. `confidence` остаётся metadata и не влияет на Score; import source context явно отделён от будущего Evidence Layer. Формула ADR-001, схема БД, зависимости и Trust Score Engine не изменены.
 
 ### S12-T002 — Top Score Drivers
 

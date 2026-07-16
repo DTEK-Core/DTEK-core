@@ -5,6 +5,26 @@
 
 ---
 
+## Sprint 12 — Evidence-backed Trust Explainability
+
+### S12-T001 — Evidence-backed Explainability Model Specification
+
+#### Добавлено
+
+- `docs/architecture/Evidence_Explainability_Model.md` — единый explainability contract для Trust Score, factor reasons, top drivers, risk impact, score delta и source/evidence context.
+- Детерминированные правила neutral delta и counterfactual impact, учитывающие текущие веса, clamp и финальное округление Trust Score Engine.
+
+#### Изменено
+
+- Sprint 12 переведён в активное состояние; S12-T001 отмечена завершённой.
+- README, Documentation Index, Roadmap, Sprint Roadmap, MVP Release Plan и Technical Debt синхронизированы с началом Sprint 12.
+
+#### Архитектура И Безопасность
+
+- Формула ADR-001, схема БД, зависимости, RLS и RBAC не изменены.
+- Import source context отделён от future Evidence Layer; `confidence` не влияет на Score.
+- Explainability определена как tenant-scoped read model без клиентского `service_role` и без записи counterfactual результатов.
+
 ## Strategic Shift — 2026-07-09
 
 ### Evidence-first Trust Platform

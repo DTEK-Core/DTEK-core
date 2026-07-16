@@ -1,7 +1,7 @@
 # SPRINT_ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 09.07.2026`  
+`Дата: 16.07.2026`
 `Назначение: единый план разработки после Sprint 08 до Evidence-first коммерческого MVP`
 
 ---
@@ -62,7 +62,7 @@ Demo Ready
 
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
-| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Evidence-backed Explainability Ready | Объяснить Trust Score, impact рисков и источники данных |
+| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Evidence-backed Explainability Ready — в работе | Объяснить Trust Score, impact рисков и источники данных |
 | Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Evidence-aware Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported/auto-candidate risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Pilot Ready | Подготовить продукт к 1–3 пилотам |
 | Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox |
@@ -82,7 +82,7 @@ Sprint 08 UX Refinement
                             -> Sprint 15 Connector Framework Foundation
 ```
 
-Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Sprint 12 является следующим активным Sprint; он зависит от устойчивой модели данных, импортированных source-aware объектов и импортированных рисков.
+Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Sprint 12 является активным Sprint; S12-T001 зафиксировала explainability contract, а последующие задачи реализуют его поверх устойчивой модели данных, импортированных source-aware объектов и импортированных рисков.
 
 Sprint 15 уже не является случайным одиночным коннектором. Он создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам.
 

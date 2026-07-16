@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.11.0 — Sprint 11 closed: Evidence Onboarding Ready.**
+**v0.12.0-dev — Sprint 12 active: explainability model specified.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. Sprint 11 закрыл Evidence Onboarding Ready: CSV/XLSX import объектов и рисков, preview, source metadata, duplicate detection, partial success, audit events и воспроизводимые test fixtures. Post-Sprint 11 stabilization добавила совместимость собственного Risk CSV export с Risk Import, localized header mapping, wrong-file detection и конечные loading/error states. Автоматические import contract-тесты и повторный authenticated smoke test пройдены.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Sprint 12 начат со спецификации Evidence-backed Explainability: зафиксированы единые правила top drivers, factor reasons, counterfactual risk impact, score delta и честное разделение import source context и будущих evidence records без изменения формулы Trust Score.
 
 ### Реализованные Маршруты
 
@@ -136,6 +136,7 @@ tasks/               Backlog and sprint history
 | [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Evidence-first стратегия и новая роль автоматического наполнения |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery, Connector и Evidence layers |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
+| [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Спецификация объяснимости Trust Score Sprint 12 |
 | [docs/user/IMPORT_GUIDE.md](docs/user/IMPORT_GUIDE.md) | Руководство по импорту, preview, source metadata и ошибкам |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
@@ -155,7 +156,7 @@ tasks/               Backlog and sprint history
 
 Следующий фокус:
 
-1. Sprint 12 — Evidence-backed Trust Explainability.
+1. Sprint 12 — Evidence-backed Trust Explainability, реализация UI по утверждённой модели.
 2. Sprint 13 — Evidence-aware Risk Workflow.
 3. Sprint 14 — Pilot Readiness.
 4. Sprint 15 — Connector Framework Foundation.
@@ -183,4 +184,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.11.0 / Sprint 11 closed**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.12.0-dev / Sprint 12 active**
