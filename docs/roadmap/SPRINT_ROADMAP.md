@@ -54,6 +54,7 @@ Demo Ready
 | Sprint 08 | [tasks/SPRINT_08_IMPLEMENTATION.md](../../tasks/SPRINT_08_IMPLEMENTATION.md) | UX refinement, loading states, invite link, role info, settings polish |
 | Sprint 09 | [tasks/SPRINT_09.md](../../tasks/SPRINT_09.md) | Market MVP packaging: demo narrative, dataset, seed plan, ICP, one-pager, pilot offer |
 | Sprint 10 | [tasks/SPRINT_10.md](../../tasks/SPRINT_10.md) | Reporting & Export: Trust Passport report, Risk CSV, Executive Organization Report, RBAC/audit, smoke checklist |
+| Sprint 11 | [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) | Evidence Import & Data Onboarding: CSV/XLSX import, preview, source metadata, duplicate detection, partial success, audit events, fixtures, smoke PASS |
 
 ---
 
@@ -61,7 +62,6 @@ Demo Ready
 
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
-| Sprint 11 | [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) | Evidence Onboarding Ready | Загрузить реальные данные через CSV/XLSX как первый evidence ingestion |
 | Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Evidence-backed Explainability Ready | Объяснить Trust Score, impact рисков и источники данных |
 | Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Evidence-aware Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported/auto-candidate risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Pilot Ready | Подготовить продукт к 1–3 пилотам |
@@ -82,7 +82,7 @@ Sprint 08 UX Refinement
                             -> Sprint 15 Connector Framework Foundation
 ```
 
-Sprint 10 завершён и даёт Reporting Ready baseline. Sprint 11 является следующим активным Sprint; Sprint 12 зависит от устойчивой модели данных и импортированных рисков.
+Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Sprint 12 является следующим активным Sprint; он зависит от устойчивой модели данных, импортированных source-aware объектов и импортированных рисков.
 
 Sprint 15 уже не является случайным одиночным коннектором. Он создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам.
 

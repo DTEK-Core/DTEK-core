@@ -4,7 +4,7 @@
 `Спринт: 11`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 10, PRODUCT_STRATEGY.md, ROADMAP.md, ADR-007`  
-`Статус: 🟠 Стабилизация / повторная проверка`
+`Статус: ✅ Завершён`
 
 ---
 
@@ -66,7 +66,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T005 | Import Templates | P1 | S | T001 | ✅ Завершено |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | ✅ Завершено |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 | ✅ Завершено |
-| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 🔄 Повторная проверка |
+| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | ✅ Завершено |
 
 ---
 
@@ -158,7 +158,9 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Решение:** подготовлен `docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md` для воспроизводимой ручной приёмки Data Onboarding. Основной сценарий использует отдельные валидные наборы на 60 объектов и 25 рисков; ошибки, дубли и partial success проверяются специализированными fixtures. Чеклист покрывает CSV/XLSX, preview, error report, source metadata, duplicate/create-only strategy, partial success, RBAC, tenant isolation, audit events, Trust Score, Dashboard, Objects, Passport, Risks, Graph, performance и mobile UI. Инженерные проверки выполняются автоматически; статус `PASS` и закрытие Sprint 11 требуют authenticated прогона в отдельной тестовой организации.
 
-**Post-Sprint 11 stabilization:** по результатам первого ручного прогона устранена несовместимость Risk CSV Export → Risk Import, добавлены localized/export header mapping с приоритетом `*_key`, wrong-dataset detection и переход в правильный import, grouped error/warning/info preview, tab-separated CSV, явные file-read/preview/commit timeouts и конкретные duplicate matching fields. Создан `testing/sprint-11-import/` с готовыми valid, partial, duplicate, invalid и performance datasets; `npm run test:import` проверяет parser и import contracts без изменения БД. Основной smoke теперь использует готовые 60 objects / 25 risks fixtures, а ошибки и дубли проверяются отдельными файлами.
+**Post-Sprint 11 stabilization:** по результатам первого ручного прогона устранена несовместимость Risk CSV Export → Risk Import, добавлены localized/export header mapping с приоритетом `*_key`, wrong-dataset detection и переход в правильный import, grouped error/warning/info preview, tab-separated CSV, явные file-read/preview/commit timeouts и конкретные duplicate matching fields. Создан `testing/sprint-11-import/` с готовыми valid, partial, duplicate, invalid и performance datasets; `npm run test:import` проверяет parser и import contracts без изменения БД. Основной smoke использует готовые 60 objects / 25 risks fixtures, а ошибки и дубли проверяются отдельными файлами.
+
+**Sprint 11 closure:** повторная ручная приёмка Data Onboarding успешно пройдена после stabilization. Подтверждены CSV/XLSX import объектов и рисков, скачивание и совместимость шаблонов, Risk CSV export roundtrip, preview, column mapping, source metadata, duplicate detection, partial success, commit импортируемых записей, неправильный тип файла, отсутствие бесконечной загрузки, RBAC/RLS/multi-tenant isolation, audit events, Trust Passport, Risk Registry, Trust Score, Dashboard и Trust Graph после bulk import. Sprint достиг milestone **Evidence Onboarding Ready**; следующий этап — Sprint 12.
 
 ---
 
@@ -177,7 +179,22 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - [x] `npm run build` проходит.
 - [x] Подготовлен Data Onboarding smoke checklist.
 - [x] `npm run test:import` проходит.
-- [ ] Ручной smoke test 60 объектов / 25 рисков пройден.
+- [x] Ручной smoke test 60 объектов / 25 рисков пройден.
+
+### Итоговая Сверка Завершённости
+
+| Задача | Реализовано | Протестировано | Задокументировано | Итог |
+|---|:---:|:---:|:---:|---|
+| S11-T001 Evidence Import Schema Specification | ✅ | ✅ | ✅ | Завершено |
+| S11-T002 Objects CSV/XLSX Import | ✅ | ✅ | ✅ | Завершено |
+| S11-T003 Risks CSV/XLSX Import | ✅ | ✅ | ✅ | Завершено |
+| S11-T004 Import Preview, Validation & Source Metadata | ✅ | ✅ | ✅ | Завершено |
+| S11-T005 Import Templates | ✅ | ✅ | ✅ | Завершено |
+| S11-T006 Import Audit Events | ✅ | ✅ | ✅ | Завершено |
+| S11-T007 Import Documentation | ✅ | ✅ | ✅ | Завершено |
+| S11-T008 Data Onboarding Smoke Test | ✅ | ✅ | ✅ | Завершено |
+
+Ничего не перенесено в следующий Sprint как блокер. Известные ограничения Sprint 11 остаются осознанными границами MVP и описаны в `docs/user/IMPORT_GUIDE.md` и `docs/architecture/Evidence_Import_Schema.md`: source context временно хранится в existing text fields, update/merge существующих записей не выполняется, background queue и Connector Framework не входят в Sprint 11.
 
 ---
 

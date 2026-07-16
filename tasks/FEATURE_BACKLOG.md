@@ -136,6 +136,9 @@
 | M-022 | S11 | Risks CSV/XLSX Import | P1 | L |
 | M-023 | S11 | Import Preview, Validation & Source Metadata | P1 | M |
 | M-024 | S11 | Import Templates | P1 | S |
+| M-025 | S11 | Import Audit Events | P1 | S |
+| M-026 | S11 | Import Documentation | P1 | S |
+| M-027 | S11 | Data Onboarding Smoke Test | P1 | S |
 | M-030 | S12 | Evidence-backed Trust Score Top Drivers | P1 | M |
 | M-031 | S12 | Factor Reason Cards With Sources | P1 | M |
 | M-032 | S12 | Risk Impact Hint | P1 | M |

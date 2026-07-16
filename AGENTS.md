@@ -40,13 +40,15 @@
 * **Sprint 07** — комплексное тестирование реализованной платформы.
 * **Sprint 08** — Product Review, UX/UI refinement, командные пожелания и аккуратные улучшения существующего интерфейса.
 * **Sprint 09** — Market MVP Packaging: demo narrative, demo dataset, seed plan, ICP/interview script, product one-pager, landing copy alignment, pilot offer и documentation sync.
+* **Sprint 10** — Reporting & Export: Trust Passport PDF, Risk CSV, Executive Organization Report, report RBAC/audit и smoke checklist.
+* **Sprint 11** — Evidence Import & Data Onboarding: CSV/XLSX import объектов и рисков, preview, source metadata, duplicate detection, partial success, audit events, test fixtures и ручная приёмка.
 * **ADR-007** — переход к Evidence-first Trust Platform / Trust Intelligence Platform.
 
 Текущий этап:
 
-* **Sprint 10** — Reporting & Export.
+* **Sprint 12** — Evidence-backed Trust Explainability.
 
-Sprint 10 должен развивать Market MVP без изменения продуктовой границы: отчёты и экспорт для CISO поверх уже реализованных Trust Passport, Trust Score, Trust Graph и Risk Registry. Все последующие Sprint должны учитывать Evidence-first стратегию: import становится первым evidence ingestion path, explainability показывает источники данных, а connector framework развивается поэтапно.
+Sprint 12 должен развивать Market MVP без изменения продуктовой границы: объяснимость Trust Score поверх уже реализованных Trust Passport, Trust Score, Trust Graph, Risk Registry, Reporting и Evidence Import. Все последующие Sprint должны учитывать Evidence-first стратегию: import является первым evidence ingestion path, explainability показывает источники данных, а connector framework развивается поэтапно.
 
 ---
 

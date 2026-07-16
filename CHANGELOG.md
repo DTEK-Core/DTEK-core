@@ -26,6 +26,18 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### Sprint 11 Closure — Evidence Onboarding Ready
+
+#### Изменено
+
+- Sprint 11 переведён из стабилизации в закрытое состояние после повторной ручной приёмки Data Onboarding.
+- README, Documentation Index, Roadmap, Sprint Roadmap, MVP Release Plan, Feature Backlog, AGENTS и smoke checklist синхронизированы с фактическим состоянием Sprint 11.
+- Следующий активный этап зафиксирован как Sprint 12 — Evidence-backed Trust Explainability.
+
+#### Проверено
+
+- Повторный smoke test подтвердил import flow для 60 объектов и 25 рисков, CSV/XLSX parsing, preview, source metadata, duplicate detection, partial success, RBAC/tenant isolation, audit events и связанные страницы.
+
 ### Post-Sprint 11 — Import Stabilization
 
 #### Исправлено
@@ -55,7 +67,7 @@
 #### Изменено
 
 - README, Documentation Index, Import Guide и Sprint 11 связаны с новым checklist.
-- Sprint 11 переведён в состояние готовности к ручной приёмке без преждевременного объявления runtime-проверок успешными.
+- На момент S11-T008 Sprint 11 был переведён в состояние готовности к ручной приёмке без преждевременного объявления runtime-проверок успешными.
 
 ### S11-T007 — Import Documentation
 
@@ -160,7 +172,7 @@
 #### Изменено
 
 - Sprint 10 отмечен как завершённый в `tasks/SPRINT_10.md`, Roadmap и Documentation Index.
-- Sprint 11 переведён в статус готовности к старту как следующий этап Roadmap.
+- На момент перехода после Sprint 10 Sprint 11 был переведён в статус готовности к старту как следующий этап Roadmap.
 - `README.md` обновлён: текущий фокус теперь Sprint 11 Evidence Import & Data Onboarding.
 - `ARCHITECTURE_DECISIONS.md`, `docs/architecture/User_Roles.md` и RBAC-документация синхронизированы с фактической MVP-моделью ролей.
 

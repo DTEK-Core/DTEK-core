@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.11.0 — Sprint 11 stabilization: CSV/XLSX import исправлен, повторный smoke test ожидается.**
+**v0.11.0 — Sprint 11 closed: Evidence Onboarding Ready.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. Post-Sprint 11 stabilization добавила совместимость собственного Risk CSV export с Risk Import, localized header mapping, wrong-file detection, конечные loading/error states и воспроизводимые test fixtures. Автоматические import contract-тесты проходят; Evidence Onboarding Ready ожидает повторного authenticated smoke test.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. Sprint 11 закрыл Evidence Onboarding Ready: CSV/XLSX import объектов и рисков, preview, source metadata, duplicate detection, partial success, audit events и воспроизводимые test fixtures. Post-Sprint 11 stabilization добавила совместимость собственного Risk CSV export с Risk Import, localized header mapping, wrong-file detection и конечные loading/error states. Автоматические import contract-тесты и повторный authenticated smoke test пройдены.
 
 ### Реализованные Маршруты
 
@@ -155,11 +155,10 @@ tasks/               Backlog and sprint history
 
 Следующий фокус:
 
-1. Sprint 11 — Evidence Import & Data Onboarding.
-2. Sprint 12 — Evidence-backed Trust Explainability.
-3. Sprint 13 — Evidence-aware Risk Workflow.
-4. Sprint 14 — Pilot Readiness.
-5. Sprint 15 — Connector Framework Foundation.
+1. Sprint 12 — Evidence-backed Trust Explainability.
+2. Sprint 13 — Evidence-aware Risk Workflow.
+3. Sprint 14 — Pilot Readiness.
+4. Sprint 15 — Connector Framework Foundation.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 
@@ -184,4 +183,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.11.0 / Sprint 11 stabilization**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.11.0 / Sprint 11 closed**

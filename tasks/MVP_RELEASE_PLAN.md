@@ -377,8 +377,8 @@ PDF Export (F-028) и CSV Export (F-035) становятся обязатель
 |---|---|---|
 | Sprint 09 | R6 Market MVP Foundation | Demo Ready + Interview Ready |
 | Sprint 10 | R6 Market MVP Foundation | Reporting Ready |
-| Sprint 11 | R6 Market MVP Foundation | Data Onboarding Ready |
-| Sprint 12 | R6 Market MVP Foundation | Explainability Ready |
+| Sprint 11 | R6 Market MVP Foundation | Evidence Onboarding Ready |
+| Sprint 12 | R6 Market MVP Foundation | Explainability Ready — следующий |
 | Sprint 13 | R6 / Pilot MVP | Risk Workflow Ready |
 | Sprint 14 | Pilot MVP | Pilot Ready |
 | Sprint 15 | Post-Market MVP | Integration Ready |
