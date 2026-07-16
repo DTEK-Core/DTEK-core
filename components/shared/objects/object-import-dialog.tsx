@@ -7,9 +7,10 @@ import { parseObjectImportFile } from '@/lib/import/browser-file';
 interface ObjectImportDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  canImportRisks: boolean;
 }
 
-export function ObjectImportDialog(props: ObjectImportDialogProps) {
+export function ObjectImportDialog({ canImportRisks, ...props }: ObjectImportDialogProps) {
   return (
     <DataImportDialog
       {...props}
@@ -17,6 +18,8 @@ export function ObjectImportDialog(props: ObjectImportDialogProps) {
       pickerTitle="Выберите CSV или XLSX"
       pickerNote="До 5 МБ и 500 объектов, первый лист XLSX"
       checkingText="Проверяем структуру и права доступа…"
+      importType="objects"
+      canOpenMismatchedImport={canImportRisks}
       reportName="objects"
       templateHref="/templates/dtek-core-objects-import-template.csv"
       parseFile={parseObjectImportFile}

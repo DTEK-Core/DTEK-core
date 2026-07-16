@@ -37,7 +37,12 @@ interface ObjectRaw {
   trust_passports: TrustPassportRaw | TrustPassportRaw[] | null;
 }
 
-export default async function ObjectsPage() {
+export default async function ObjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ import?: string }>;
+}) {
+  const query = await searchParams;
   const supabase = await createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
@@ -92,6 +97,7 @@ export default async function ObjectsPage() {
       objects={objects}
       userRole={profile.role ?? 'viewer'}
       totalInOrg={objects.length}
+      initialImportOpen={query.import === '1'}
     />
   );
 }

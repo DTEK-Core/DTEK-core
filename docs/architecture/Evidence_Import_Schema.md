@@ -80,11 +80,12 @@ confidence: medium
 Для `.csv` допускаются разделители:
 
 - comma `,`;
-- semicolon `;`.
+- semicolon `;`;
+- tab.
 
 ### Реализация Objects Import В S11-T002
 
-- CSV разбирается локальным parser с поддержкой quoted values, UTF-8 BOM, comma и semicolon;
+- CSV разбирается локальным parser с поддержкой quoted/multiline values, UTF-8 BOM, comma, semicolon и tab;
 - XLSX читается библиотекой `read-excel-file` из первого листа;
 - чтение файла выполняется в browser, а normalization, validation, duplicate detection, RBAC и запись — повторно на server side;
 - payload Server Actions ограничен 8 МБ, а import contract дополнительно ограничивает файл 5 МБ, 500 непустыми строками и 40 колонками;
@@ -101,7 +102,8 @@ confidence: medium
 | Максимум строк объектов | 500 |
 | Максимум строк рисков | 500 |
 | Пустые строки | Игнорируются |
-| Неизвестные колонки | Не блокируют import, попадают в warnings |
+| Неизвестные колонки | Не блокируют import, группируются в один warning |
+| Служебные export-колонки | Безопасно игнорируются и группируются как info |
 
 ---
 
@@ -330,7 +332,7 @@ Default: `medium`.
 
 Перед validation:
 
-1. Все заголовки колонок приводятся к lowercase snake_case.
+1. Все заголовки колонок приводятся к lowercase snake_case с удалением BOM.
 2. Пробелы в начале и конце значений удаляются.
 3. Пустые строки и строки из одних разделителей игнорируются.
 4. Пустые значения трактуются как `null`, кроме обязательных колонок.
@@ -341,7 +343,24 @@ Default: `medium`.
    - `DD.MM.YYYY`.
 7. `cvss_score` принимает `7.5` и `7,5`, сохраняется как number.
 8. `sla_days` принимает положительное целое число от 1 до 36500.
-9. Неизвестные колонки не записываются в БД и отображаются как warnings.
+9. Локализованные и export-заголовки сопоставляются с каноническими полями до validation.
+10. Технические `category/severity/status key` имеют приоритет над display-колонками.
+11. Неизвестные колонки не записываются в БД и группируются в один warning.
+12. Служебные export-колонки безопасно игнорируются и группируются как info.
+13. Dataset signature проверяется до preview: файл risks нельзя передать в objects pipeline и наоборот.
+
+### 7.1 Risk Export Roundtrip
+
+Risk CSV export DTEK Core совместим с Risk Import:
+
+- `Название` сопоставляется с `title`;
+- `Категория key`, `Критичность key`, `Статус key` сопоставляются с canonical enum fields;
+- localized probability и остальные enum values проходят общий alias normalization;
+- `Linked objects` используется как `linked_object_name`;
+- при нескольких объектах автоматически используется первый с info issue;
+- internal IDs, Owner, Author и Evidence note не импортируются.
+
+Object Export в Sprint 11 отсутствует и не является частью import contract.
 
 ---
 
@@ -370,6 +389,7 @@ Preview должен показать:
 - количество валидных строк;
 - количество строк с errors;
 - количество warnings;
+- количество informational messages;
 - потенциальные дубли;
 - список первых ошибок;
 - возможность скачать error report.
@@ -380,9 +400,9 @@ Commit доступен только после preview.
 
 - objects и risks используют общий preview UI и единый source metadata contract;
 - до выбора файла пользователь задаёт file-level source metadata, при пустом `source_name` используется имя файла;
-- preview показывает total, valid, creatable, error, duplicate и warning counters;
+- preview показывает total, valid, creatable, error, duplicate, warning и information counters;
 - source summary показывает effective source defaults и число строк с построчными переопределениями;
-- первые замечания показываются в UI вместе с исходным значением и рекомендацией;
+- замечания разделяются на blocking errors, warnings и information; однотипные header issues группируются;
 - полный validation report выгружается в UTF-8 CSV по контракту раздела 9;
 - значения отчёта, начинающиеся с Excel formula markers, нейтрализуются перед выгрузкой;
 - preview не изменяет БД, а commit повторяет server-side validation с теми же source defaults.
@@ -401,7 +421,7 @@ Commit доступен только после preview.
 | `message` | string | Человекочитаемое сообщение |
 | `original_value` | string/null | Исходное значение |
 | `suggestion` | string/null | Подсказка исправления |
-| `severity` | `error`/`warning` | Ошибка блокирует строку, warning не блокирует |
+| `severity` | `error`/`warning`/`info` | Ошибка блокирует строку; warning и info не блокируют |
 
 Базовые коды:
 
@@ -414,9 +434,12 @@ Commit доступен только после preview.
 | `value_too_long` | error | Превышен лимит длины |
 | `rbac_denied` | error | Роль не может импортировать строку |
 | `object_not_found` | warning | Риск импортируется без связи с объектом |
-| `duplicate_in_file` | warning | Похожая строка уже есть в файле |
-| `possible_duplicate_existing` | warning | Похожая запись уже есть в организации |
-| `unknown_column` | warning | Колонка не используется |
+| `duplicate_in_file` | warning | Строка совпала по документированному duplicate key внутри файла |
+| `possible_duplicate_existing` | warning | Запись совпала по указанным matching fields в организации |
+| `unknown_columns` | warning | Неизвестные заголовки сгруппированы и не импортируются |
+| `ignored_columns` | info | Служебные/export колонки безопасно пропущены |
+| `mapped_columns` | info | Локализованные/export заголовки сопоставлены с canonical fields |
+| `multiple_object_references` | info | Для Risk Export с несколькими объектами используется первая связь |
 
 ---
 

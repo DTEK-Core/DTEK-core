@@ -60,21 +60,22 @@ interface ObjectsListClientProps {
   objects: ObjItem[];
   userRole: string;
   totalInOrg: number;
+  initialImportOpen?: boolean;
 }
 
 type SortKey = 'name' | 'risks' | 'trust';
 
-export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsListClientProps) {
+export function ObjectsListClient({ objects, userRole, totalInOrg, initialImportOpen = false }: ObjectsListClientProps) {
   const router = useRouter();
+  const canCreate = userRole === 'owner' || userRole === 'analyst' || userRole === 'admin';
   const [q, setQ] = useState('');
   const [typeF, setTypeF] = useState('all');
   const [bandF, setBandF] = useState('all');
   const [view, setView] = useState<'table' | 'cards'>('table');
   const [sort, setSort] = useState<{ key: SortKey; dir: 'asc' | 'desc' }>({ key: 'trust', dir: 'asc' });
 
-  const canCreate = userRole === 'owner' || userRole === 'analyst' || userRole === 'admin';
   const [showAdd, setShowAdd] = useState(false);
-  const [showImport, setShowImport] = useState(false);
+  const [showImport, setShowImport] = useState(initialImportOpen && canCreate);
 
   const setSortKey = (key: SortKey) => {
     setSort(s => ({ key, dir: s.key === key && s.dir === 'asc' ? 'desc' : 'asc' }));
@@ -169,7 +170,11 @@ export function ObjectsListClient({ objects, userRole, totalInOrg }: ObjectsList
         onOpenChange={setShowAdd}
         userRole={userRole}
       />
-      <ObjectImportDialog open={showImport} onOpenChange={setShowImport} />
+      <ObjectImportDialog
+        open={showImport}
+        onOpenChange={setShowImport}
+        canImportRisks={userRole === 'owner' || userRole === 'analyst'}
+      />
 
       {/* Content */}
       {rows.length === 0 ? (

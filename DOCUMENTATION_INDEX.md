@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 15.07.2026`
+`Дата: 16.07.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -137,6 +137,7 @@
 | [docs/testing/RBAC_TESTING_GUIDE.md](docs/testing/RBAC_TESTING_GUIDE.md) | RBAC testing |
 | [docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md](docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md) | Sprint 10 Reporting manual smoke test |
 | [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Sprint 11 Data Onboarding manual smoke test |
+| [testing/sprint-11-import/README.md](testing/sprint-11-import/README.md) | Готовые import fixtures и автоматические contract-тесты Sprint 11 |
 | [docs/testing/BUG_REPORT_TEMPLATE.md](docs/testing/BUG_REPORT_TEMPLATE.md) | Bug report template |
 
 ---

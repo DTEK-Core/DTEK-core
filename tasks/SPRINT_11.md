@@ -4,7 +4,7 @@
 `Спринт: 11`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 10, PRODUCT_STRATEGY.md, ROADMAP.md, ADR-007`  
-`Статус: 🟡 В работе`
+`Статус: 🟠 Стабилизация / повторная проверка`
 
 ---
 
@@ -66,7 +66,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 | S11-T005 | Import Templates | P1 | S | T001 | ✅ Завершено |
 | S11-T006 | Import Audit Events | P1 | S | T002, T003 | ✅ Завершено |
 | S11-T007 | Import Documentation | P1 | S | T001–T006 | ✅ Завершено |
-| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 🧪 Готово к проверке |
+| S11-T008 | Data Onboarding Smoke Test | P1 | S | T002–T007 | 🔄 Повторная проверка |
 
 ---
 
@@ -156,7 +156,9 @@ Sprint 11 должен позволить загрузить 50–200 актив
 
 **Ожидаемый результат:** после импорта работают Dashboard, Objects, Risks, Passport и Graph.
 
-**Решение:** подготовлен `docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md` для воспроизводимой ручной приёмки Data Onboarding. Сценарий использует 62 строки объектов с ожидаемыми 60 creates и 27 строк рисков с ожидаемыми 25 creates, покрывает CSV/XLSX, preview, error report, source metadata, duplicate/create-only strategy, partial success, RBAC, tenant isolation, audit events, Trust Score, Dashboard, Objects, Passport, Risks, Graph, performance и mobile UI. Инженерные проверки выполняются автоматически; статус `PASS` и закрытие Sprint 11 требуют authenticated прогона в отдельной тестовой организации.
+**Решение:** подготовлен `docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md` для воспроизводимой ручной приёмки Data Onboarding. Основной сценарий использует отдельные валидные наборы на 60 объектов и 25 рисков; ошибки, дубли и partial success проверяются специализированными fixtures. Чеклист покрывает CSV/XLSX, preview, error report, source metadata, duplicate/create-only strategy, partial success, RBAC, tenant isolation, audit events, Trust Score, Dashboard, Objects, Passport, Risks, Graph, performance и mobile UI. Инженерные проверки выполняются автоматически; статус `PASS` и закрытие Sprint 11 требуют authenticated прогона в отдельной тестовой организации.
+
+**Post-Sprint 11 stabilization:** по результатам первого ручного прогона устранена несовместимость Risk CSV Export → Risk Import, добавлены localized/export header mapping с приоритетом `*_key`, wrong-dataset detection и переход в правильный import, grouped error/warning/info preview, tab-separated CSV, явные file-read/preview/commit timeouts и конкретные duplicate matching fields. Создан `testing/sprint-11-import/` с готовыми valid, partial, duplicate, invalid и performance datasets; `npm run test:import` проверяет parser и import contracts без изменения БД. Основной smoke теперь использует готовые 60 objects / 25 risks fixtures, а ошибки и дубли проверяются отдельными файлами.
 
 ---
 
@@ -174,6 +176,7 @@ Sprint 11 должен позволить загрузить 50–200 актив
 - [x] `npm run lint` проходит.
 - [x] `npm run build` проходит.
 - [x] Подготовлен Data Onboarding smoke checklist.
+- [x] `npm run test:import` проходит.
 - [ ] Ручной smoke test 60 объектов / 25 рисков пройден.
 
 ---

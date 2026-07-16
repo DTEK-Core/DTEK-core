@@ -5,7 +5,7 @@ export const MAX_IMPORT_ROWS = 500;
 
 export type ImportCell = string | number | boolean | null;
 export type ImportMatrix = ImportCell[][];
-export type ImportIssueSeverity = 'error' | 'warning';
+export type ImportIssueSeverity = 'error' | 'warning' | 'info';
 
 export interface ImportIssue {
   row: number;
@@ -25,6 +25,7 @@ export interface ImportPreviewSummary {
   errorRows: number;
   duplicateRows: number;
   warningCount: number;
+  informationCount: number;
   sourceMetadata: ImportSourcePreview;
   issues: ImportIssue[];
 }

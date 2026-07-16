@@ -1,0 +1,3 @@
+﻿"name","type","criticality","ip_address","os_platform","segment","exposure","description","source_name","source_type","source_record_id","source_collected_at","confidence"
+"S11-OBJ-SERVER-001","server","low","10.111.1.1","Astra Linux","corporate","internal","Controlled Sprint 11 object 001","S11 Test Asset Inventory","asset_inventory","s11-obj-asset-001","2026-07-16","medium"
+"S11-OBJ-SERVER-002","server","medium","10.111.1.2","Astra Linux","corporate","internal","Controlled Sprint 11 object 002","S11 Test Asset Inventory","asset_inventory","s11-obj-asset-002","2026-07-16","medium"

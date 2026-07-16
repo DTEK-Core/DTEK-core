@@ -26,6 +26,25 @@
 
 ## Sprint 11 — Evidence Import & Data Onboarding
 
+### Post-Sprint 11 — Import Stabilization
+
+#### Исправлено
+
+- Risk CSV export DTEK Core повторно импортируется через localized header mapping и приоритет технических `*_key` колонок.
+- Файлы неправильного типа распознаются до preview и направляют пользователя в соответствующий import modal.
+- Async file read, preview и commit всегда завершаются success, error или timeout state; после неизвестного commit status слепой повтор блокируется.
+- Unknown, ignored и mapped headers группируются; preview разделяет errors, warnings и information.
+- Duplicate messages указывают конкретные matching fields; tab-separated CSV поддерживается parser.
+
+#### Добавлено
+
+- `testing/sprint-11-import/` с valid 60/25, partial success, duplicate, invalid, localized, export roundtrip и performance 200/100 fixtures.
+- `npm run test:import` с contract-тестами parser, mapping, templates, roundtrip, RBAC, duplicates и partial success.
+
+#### Безопасность
+
+- Server-side wrong-dataset validation дублирует client UX; RBAC и tenant-scoped organization checks сохранены без миграций и изменений RLS.
+
 ### S11-T008 — Data Onboarding Smoke Test
 
 #### Добавлено

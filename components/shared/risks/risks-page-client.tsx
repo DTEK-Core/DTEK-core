@@ -45,6 +45,7 @@ interface RisksPageClientProps {
   risks: RiskRow[];
   userRole: string;
   objects: SimpleObj[];
+  initialImportOpen?: boolean;
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -117,17 +118,17 @@ function toEditable(r: RiskRow): EditableRisk {
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export function RisksPageClient({ risks, userRole, objects }: RisksPageClientProps) {
+export function RisksPageClient({ risks, userRole, objects, initialImportOpen = false }: RisksPageClientProps) {
   const router = useRouter();
+  const canCreate = ['owner', 'analyst'].includes(userRole);
   const [q, setQ]             = useState('');
   const [sevFilter, setSev]   = useState('all');
   const [statFilter, setStat] = useState('all');
   const [selectedId, setSelectedId]       = useState<string | null>(null);
   const [showCreateDialog, setShowCreate] = useState(false);
-  const [showImportDialog, setShowImport] = useState(false);
+  const [showImportDialog, setShowImport] = useState(initialImportOpen && canCreate);
   const [editRisk, setEditRisk]           = useState<EditableRisk | null>(null);
 
-  const canCreate = ['owner', 'analyst'].includes(userRole);
   const canExport = ['owner', 'analyst'].includes(userRole);
 
   const activeCount = risks.filter(r => r.status === 'open' || r.status === 'in_progress').length;

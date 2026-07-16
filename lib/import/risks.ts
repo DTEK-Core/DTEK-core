@@ -9,7 +9,6 @@ import {
   isBlankRow,
   issue,
   normalizeEnum,
-  normalizeHeader,
   normalizeImportDate,
   sourcePreview,
   validateImportPayload,
@@ -20,6 +19,7 @@ import {
   type ImportPreviewSummary,
   type ImportSourceDefaults,
 } from '@/lib/import/shared';
+import { resolveImportHeaders } from '@/lib/import/headers';
 
 export const MAX_RISK_IMPORT_ROWS = MAX_IMPORT_ROWS;
 export { validateImportPayload as validateRiskImportPayload };
@@ -74,14 +74,6 @@ export interface RiskImportCommitResult extends ImportCommitSummary {
   unlinked: number;
   linkFailures: number;
 }
-
-const IMPORT_HEADERS = new Set([
-  'title', 'severity', 'external_id', 'description', 'category', 'status',
-  'probability', 'cvss_score', 'impact', 'sla_days', 'due_date',
-  'linked_object_name', 'linked_object_ip', 'linked_object_external_id',
-  'owner_email', 'source_name', 'source_type', 'source_record_id',
-  'source_collected_at', 'confidence', 'import_note',
-]);
 
 const SOURCE_OVERRIDE_FIELDS = [
   'external_id', 'source_name', 'source_type', 'source_record_id',
@@ -188,19 +180,9 @@ export function prepareRiskImport(
   sourceDefaults: ImportSourceDefaults = DEFAULT_IMPORT_SOURCE,
 ): RiskImportPreview {
   const headerRow = matrix[0] ?? [];
-  const headerIndex = new Map<string, number>();
-  const globalIssues: ImportIssue[] = [];
-
-  headerRow.forEach((cell, index) => {
-    const header = normalizeHeader(cell);
-    if (!header) return;
-    if (headerIndex.has(header)) {
-      globalIssues.push(issue(1, header, 'duplicate_column', `Колонка «${header}» указана несколько раз`, 'error'));
-      return;
-    }
-    headerIndex.set(header, index);
-    if (!IMPORT_HEADERS.has(header)) globalIssues.push(issue(1, header, 'unknown_column', `Колонка «${header}» не используется при импорте`, 'warning'));
-  });
+  const resolvedHeaders = resolveImportHeaders('risks', headerRow);
+  const headerIndex = resolvedHeaders.headerIndex;
+  const globalIssues: ImportIssue[] = [...resolvedHeaders.issues];
   for (const required of ['title', 'severity']) {
     if (!headerIndex.has(required)) globalIssues.push(issue(1, required, 'missing_required_field', `В файле отсутствует обязательная колонка «${required}»`, 'error'));
   }
@@ -222,13 +204,14 @@ export function prepareRiskImport(
 
   const rows: RiskImportPreviewRow[] = dataRows.map(({ row, rowNumber }) => {
     const rowIssues: ImportIssue[] = [];
+    if (blockingHeader) return { rowNumber, risk: null, issues: rowIssues, duplicateInFile: false, duplicateExisting: false };
+
     const value = (field: string) => {
       const index = headerIndex.get(field);
       return index === undefined ? null : cellText(row[index]);
     };
     if (SOURCE_OVERRIDE_FIELDS.some(field => value(field) !== null)) sourceOverrideRows += 1;
 
-    if (blockingHeader) rowIssues.push(issue(rowNumber, '_row', 'invalid_header', 'Исправьте обязательные или повторяющиеся колонки файла', 'error'));
     if (row.length > headerRow.length && row.slice(headerRow.length).some(cell => cellText(cell) !== null)) {
       rowIssues.push(issue(rowNumber, '_row', 'extra_columns', 'В строке есть значения без заголовков колонок', 'warning'));
     }
@@ -256,9 +239,21 @@ export function prepareRiskImport(
       else rowIssues.push(issue(rowNumber, 'owner_email', 'unsupported_mapping', 'owner_email пока не назначает владельца риска', 'warning', ownerEmail));
     }
 
+    const linkedObjectNames = (value('linked_object_name') ?? '').split(';').map(item => item.trim()).filter(Boolean);
+    if (linkedObjectNames.length > 1) {
+      rowIssues.push(issue(
+        rowNumber,
+        'linked_object_name',
+        'multiple_object_references',
+        `Найдено несколько связанных объектов; автоматически будет использован первый: «${linkedObjectNames[0]}»`,
+        'info',
+        value('linked_object_name'),
+      ));
+    }
+
     const linkedObject = matchObject(
       rowNumber,
-      value('linked_object_name'),
+      linkedObjectNames[0] ?? null,
       value('linked_object_ip'),
       value('linked_object_external_id'),
       objectsByName,
@@ -315,12 +310,26 @@ export function prepareRiskImport(
 
       const key = `${risk.title.toLocaleLowerCase('ru')}\u0000${risk.category}\u0000${risk.severity}`;
       duplicateInFile = seenInFile.has(key);
-      if (duplicateInFile) rowIssues.push(issue(rowNumber, 'title', 'duplicate_in_file', 'Похожий риск уже есть в файле', 'warning', risk.title));
+      if (duplicateInFile) rowIssues.push(issue(rowNumber, 'title', 'duplicate_in_file', 'Дубль в файле: совпали поля title + category + severity', 'warning', risk.title));
       else seenInFile.add(key);
 
-      duplicateExisting = existingKeys.has(key)
-        || (!!risk.linkedObjectId && existingTitleObjects.has(`${risk.title.toLocaleLowerCase('ru')}\u0000${risk.linkedObjectId}`));
-      if (duplicateExisting) rowIssues.push(issue(rowNumber, 'title', 'possible_duplicate_existing', 'Похожий риск уже существует в организации и будет пропущен', 'warning', risk.title));
+      const duplicateBySignature = existingKeys.has(key);
+      const duplicateByObject = !!risk.linkedObjectId
+        && existingTitleObjects.has(`${risk.title.toLocaleLowerCase('ru')}\u0000${risk.linkedObjectId}`);
+      duplicateExisting = duplicateBySignature || duplicateByObject;
+      if (duplicateExisting) {
+        const matchedBy = duplicateBySignature && duplicateByObject
+          ? 'title + category + severity и title + linked object'
+          : duplicateBySignature ? 'title + category + severity' : 'title + linked object';
+        rowIssues.push(issue(
+          rowNumber,
+          'title',
+          'possible_duplicate_existing',
+          `Риск уже существует: совпадение по ${matchedBy}. Строка будет пропущена`,
+          'warning',
+          risk.title,
+        ));
+      }
     }
 
     return { rowNumber, risk, issues: rowIssues, duplicateInFile, duplicateExisting };
@@ -338,6 +347,7 @@ export function prepareRiskImport(
     errorRows: rows.length - validRows,
     duplicateRows: rows.filter(row => row.duplicateInFile || row.duplicateExisting).length,
     warningCount: allIssues.filter(item => item.severity === 'warning').length,
+    informationCount: allIssues.filter(item => item.severity === 'info').length,
     sourceMetadata: sourcePreview(fileName, sourceDefaults, sourceOverrideRows),
     issues: allIssues,
     rows,

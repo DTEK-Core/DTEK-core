@@ -22,6 +22,7 @@ import {
   type ImportMatrix,
   type ImportSourceDefaults,
 } from '@/lib/import/shared';
+import { importTypeMismatchMessage } from '@/lib/import/headers';
 
 interface AuthContext {
   userId: string;
@@ -95,6 +96,8 @@ async function createPreview(
 
   const payload = validateRiskImportPayload(fileName, matrix);
   if (!payload.success) return { error: 'Файл имеет недопустимый размер или структуру' };
+  const mismatch = importTypeMismatchMessage('risks', payload.data.matrix);
+  if (mismatch) return { error: mismatch };
   const source = validateImportSourceDefaults(sourceDefaults);
   if (!source.success) return { error: 'Проверьте название, тип, дату и комментарий источника' };
   if (countImportDataRows(payload.data.matrix) > MAX_RISK_IMPORT_ROWS) {

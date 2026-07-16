@@ -48,7 +48,12 @@ interface RiskRaw {
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 
-export default async function RisksPage() {
+export default async function RisksPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ import?: string }>;
+}) {
+  const query = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -127,5 +132,12 @@ export default async function RisksPage() {
     type: o.type,
   }));
 
-  return <RisksPageClient risks={risks} userRole={profile.role} objects={objects} />;
+  return (
+    <RisksPageClient
+      risks={risks}
+      userRole={profile.role}
+      objects={objects}
+      initialImportOpen={query.import === '1'}
+    />
+  );
 }

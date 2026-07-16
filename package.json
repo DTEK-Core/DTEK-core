@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:import": "node --test testing/sprint-11-import/import.test.cjs",
+    "test:import:fixtures": "node testing/sprint-11-import/generate-fixtures.cjs"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.16",

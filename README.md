@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.11.0 — Sprint 11 в работе: CSV/XLSX import объектов и рисков реализован.**
+**v0.11.0 — Sprint 11 stabilization: CSV/XLSX import исправлен, повторный smoke test ожидается.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. В Sprint 11 уже доступны загрузка объектов и рисков из CSV/XLSX, source metadata, validation preview, CSV-отчёт проверки, шаблоны, import audit events и полный комплект пользовательской документации. Data Onboarding smoke checklist подготовлен; milestone ожидает ручной приёмки в тестовой организации.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone. Post-Sprint 11 stabilization добавила совместимость собственного Risk CSV export с Risk Import, localized header mapping, wrong-file detection, конечные loading/error states и воспроизводимые test fixtures. Автоматические import contract-тесты проходят; Evidence Onboarding Ready ожидает повторного authenticated smoke test.
 
 ### Реализованные Маршруты
 
@@ -184,4 +184,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.11.0 / Sprint 11 in progress**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.11.0 / Sprint 11 stabilization**

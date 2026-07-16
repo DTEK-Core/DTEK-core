@@ -9,7 +9,6 @@ import {
   isBlankRow,
   issue,
   normalizeEnum,
-  normalizeHeader,
   normalizeImportDate,
   sourcePreview,
   validateImportPayload,
@@ -20,6 +19,7 @@ import {
   type ImportCommitSummary,
   type ImportSourceDefaults,
 } from '@/lib/import/shared';
+import { resolveImportHeaders } from '@/lib/import/headers';
 
 export const MAX_OBJECT_IMPORT_ROWS = MAX_IMPORT_ROWS;
 export { validateImportPayload as validateObjectImportPayload };
@@ -55,12 +55,6 @@ export interface ExistingObjectMatch {
 }
 
 export type ObjectImportCommitResult = ImportCommitSummary;
-
-const IMPORT_HEADERS = new Set([
-  'name', 'type', 'external_id', 'description', 'criticality', 'ip_address',
-  'os_platform', 'segment', 'exposure', 'owner_email', 'source_name',
-  'source_type', 'source_record_id', 'source_collected_at', 'confidence', 'import_note',
-]);
 
 const INFRA_TYPES = new Set(['server', 'workstation', 'laptop', 'network', 'ot']);
 const SOURCE_OVERRIDE_FIELDS = [
@@ -103,21 +97,9 @@ export function prepareObjectImport(
   sourceDefaults: ImportSourceDefaults = DEFAULT_IMPORT_SOURCE,
 ): ObjectImportPreview {
   const headerRow = matrix[0] ?? [];
-  const headerIndex = new Map<string, number>();
-  const globalIssues: ImportIssue[] = [];
-
-  headerRow.forEach((cell, index) => {
-    const header = normalizeHeader(cell);
-    if (!header) return;
-    if (headerIndex.has(header)) {
-      globalIssues.push(issue(1, header, 'duplicate_column', `Колонка «${header}» указана несколько раз`, 'error'));
-      return;
-    }
-    headerIndex.set(header, index);
-    if (!IMPORT_HEADERS.has(header)) {
-      globalIssues.push(issue(1, header, 'unknown_column', `Колонка «${header}» не используется при импорте`, 'warning'));
-    }
-  });
+  const resolvedHeaders = resolveImportHeaders('objects', headerRow);
+  const headerIndex = resolvedHeaders.headerIndex;
+  const globalIssues: ImportIssue[] = [...resolvedHeaders.issues];
 
   for (const required of ['name', 'type']) {
     if (!headerIndex.has(required)) {
@@ -140,13 +122,14 @@ export function prepareObjectImport(
 
   const rows: ObjectImportPreviewRow[] = dataRows.map(({ row, rowNumber }) => {
     const rowIssues: ImportIssue[] = [];
+    if (blockingHeader) return { rowNumber, object: null, issues: rowIssues, duplicateInFile: false, duplicateExisting: false };
+
     const value = (field: string) => {
       const index = headerIndex.get(field);
       return index === undefined ? null : cellText(row[index]);
     };
     if (SOURCE_OVERRIDE_FIELDS.some(field => value(field) !== null)) sourceOverrideRows += 1;
 
-    if (blockingHeader) rowIssues.push(issue(rowNumber, '_row', 'invalid_header', 'Исправьте обязательные или повторяющиеся колонки файла', 'error'));
     if (row.length > headerRow.length && row.slice(headerRow.length).some(cell => cellText(cell) !== null)) {
       rowIssues.push(issue(rowNumber, '_row', 'extra_columns', 'В строке есть значения без заголовков колонок', 'warning'));
     }
@@ -211,11 +194,25 @@ export function prepareObjectImport(
 
       const key = `${object.name.toLocaleLowerCase('ru')}\u0000${object.type}`;
       duplicateInFile = seenInFile.has(key);
-      if (duplicateInFile) rowIssues.push(issue(rowNumber, 'name', 'duplicate_in_file', 'Объект с таким именем и типом уже есть в файле', 'warning', object.name));
+      if (duplicateInFile) rowIssues.push(issue(rowNumber, 'name', 'duplicate_in_file', 'Дубль в файле: совпали поля name + type', 'warning', object.name));
       else seenInFile.add(key);
 
-      duplicateExisting = existingByNameType.has(key) || (!!object.ip_address && existingIpCounts.get(object.ip_address) === 1);
-      if (duplicateExisting) rowIssues.push(issue(rowNumber, 'name', 'possible_duplicate_existing', 'Похожий объект уже существует в организации и будет пропущен', 'warning', object.name));
+      const duplicateByNameType = existingByNameType.has(key);
+      const duplicateByIp = !!object.ip_address && existingIpCounts.get(object.ip_address) === 1;
+      duplicateExisting = duplicateByNameType || duplicateByIp;
+      if (duplicateExisting) {
+        const matchedBy = duplicateByNameType && duplicateByIp
+          ? 'name + type и уникальный IP'
+          : duplicateByNameType ? 'name + type' : 'уникальный IP';
+        rowIssues.push(issue(
+          rowNumber,
+          'name',
+          'possible_duplicate_existing',
+          `Объект уже существует: совпадение по ${matchedBy}. Строка будет пропущена`,
+          'warning',
+          object.name,
+        ));
+      }
     }
 
     return { rowNumber, object, issues: rowIssues, duplicateInFile, duplicateExisting };
@@ -233,6 +230,7 @@ export function prepareObjectImport(
     errorRows: rows.length - validRows,
     duplicateRows: rows.filter(row => row.duplicateInFile || row.duplicateExisting).length,
     warningCount: allIssues.filter(item => item.severity === 'warning').length,
+    informationCount: allIssues.filter(item => item.severity === 'info').length,
     sourceMetadata: sourcePreview(fileName, sourceDefaults, sourceOverrideRows),
     issues: allIssues,
     rows,

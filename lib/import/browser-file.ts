@@ -15,7 +15,9 @@ function trimTrailingBlankRows(matrix: ImportMatrix): ImportMatrix {
   return result;
 }
 
-function countDelimiter(line: string, delimiter: ',' | ';'): number {
+type CsvDelimiter = ',' | ';' | '\t';
+
+function countDelimiter(line: string, delimiter: CsvDelimiter): number {
   let count = 0;
   let inQuotes = false;
   for (let index = 0; index < line.length; index += 1) {
@@ -29,9 +31,14 @@ function countDelimiter(line: string, delimiter: ',' | ';'): number {
   return count;
 }
 
-function detectDelimiter(text: string): ',' | ';' {
+function detectDelimiter(text: string): CsvDelimiter {
   const firstLine = text.split(/\r?\n/).find(line => line.trim().length > 0) ?? '';
-  return countDelimiter(firstLine, ';') > countDelimiter(firstLine, ',') ? ';' : ',';
+  const counts = ([',', ';', '\t'] as const).map(delimiter => ({
+    delimiter,
+    count: countDelimiter(firstLine, delimiter),
+  }));
+  counts.sort((left, right) => right.count - left.count);
+  return counts[0]?.count ? counts[0].delimiter : ',';
 }
 
 export function parseCsv(text: string): ImportMatrix {

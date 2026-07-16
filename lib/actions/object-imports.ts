@@ -21,6 +21,7 @@ import {
   type ImportMatrix,
   type ImportSourceDefaults,
 } from '@/lib/import/shared';
+import { importTypeMismatchMessage } from '@/lib/import/headers';
 
 const INITIAL_SCORE: Record<string, number> = {
   critical: 65, high: 70, medium: 75, low: 80,
@@ -83,6 +84,8 @@ async function createPreview(
 
   const payload = validateObjectImportPayload(fileName, matrix);
   if (!payload.success) return { error: 'Файл имеет недопустимый размер или структуру' };
+  const mismatch = importTypeMismatchMessage('objects', payload.data.matrix);
+  if (mismatch) return { error: mismatch };
   const source = validateImportSourceDefaults(sourceDefaults);
   if (!source.success) return { error: 'Проверьте название, тип, дату и комментарий источника' };
 
