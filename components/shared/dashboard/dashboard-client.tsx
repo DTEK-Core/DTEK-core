@@ -12,6 +12,8 @@ import { TrustTrendChart, type HistoryPoint } from './trust-trend-chart';
 import { TrustDistribution, type DistEntry } from './trust-distribution';
 import { TopRiskyObjects, type RiskyObject } from './top-risky-objects';
 import { EventFeed, type EventItem } from './event-feed';
+import { DashboardExplainability } from './explainability-summary';
+import type { DashboardExplainabilitySummary } from '@/lib/trust/explainability';
 
 export interface DashboardProps {
   org: {
@@ -30,6 +32,7 @@ export interface DashboardProps {
   distribution: DistEntry[];
   history: HistoryPoint[];
   events: EventItem[];
+  explainability: DashboardExplainabilitySummary;
   canRecalc: boolean;
   canOpenExecutiveReport: boolean;
 }
@@ -41,6 +44,7 @@ export function DashboardClient({
   distribution,
   history,
   events,
+  explainability,
   canRecalc,
   canOpenExecutiveReport,
 }: DashboardProps) {
@@ -178,6 +182,8 @@ export function DashboardClient({
 
       {/* ── Main layout ── */}
       <div className="dash-grid">
+        <DashboardExplainability summary={explainability} />
+
         {/* Trend chart */}
         <section className="card dash-chart-row">
           <div className="card-head">

@@ -7,6 +7,25 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T006 — Dashboard Explainability Summary
+
+#### Добавлено
+
+- Компактная сводка трёх главных отрицательных факторов организации на Dashboard с охватом паспортов, средним object-level отклонением и текущим весом.
+- Прямая ссылка на Trust Passport объекта с наибольшим отрицательным driver для каждого фактора.
+- Honest empty states для отсутствующих факторных данных и отсутствия материальных отрицательных drivers.
+- Contract-тесты организационной агрегации, stable ranking, neutral filtering и неполного passport coverage.
+
+#### Изменено
+
+- KPI объектов, trust distribution, top-5 и explainability строятся из одного tenant-scoped набора активных объектов; количество параллельных Dashboard-запросов сокращено с тринадцати до семи.
+- Sprint 12, README, Roadmap, Sprint Roadmap, MVP Release Plan, Feature Backlog и Technical Debt синхронизированы с завершением S12-T006.
+
+#### Безопасность
+
+- Сводка учитывает только неархивные объекты текущей организации и дополнительно сверяет tenant паспорта перед агрегацией.
+- Новая метрика не является отдельным организационным Score; формула ADR-001, схема БД, RLS/RBAC, права записи и зависимости не изменены.
+
 ### S12-T005 — Score Delta Explanation With Evidence Timeline
 
 #### Добавлено

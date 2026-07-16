@@ -38,7 +38,7 @@ Sprint 01–08 создали функциональный и визуально
 | Demo data | Спецификация и manual seed plan готовы |
 | Import/export | Реализовано для CSV/XLSX import и ключевых отчётов; import трактуется как evidence ingestion |
 | Reports | Реализовано в Sprint 10 |
-| Explainability | Sprint 12 в работе; архитектурная модель утверждена, UI требуется |
+| Explainability | Sprint 12 в работе; object-level и Dashboard UI реализованы, документация и QA остаются |
 | Pilot narrative | Готов |
 | Pilot readiness | Требуется |
 | Evidence-first architecture | ADR-007 принят; требуется реализация слоями |
@@ -68,7 +68,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. Sprint 12 Evidence-backed Trust Explainability начат: explainability model утверждена, далее реализуются object-level drivers, reasons, impact и summary. Sprint 13–14 закрывают workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. В Sprint 12 реализованы explainability model, object-level drivers, reasons, impact, score delta и Dashboard summary; до закрытия Sprint остаются пользовательская документация и QA checklist. Sprint 13–14 закрывают workflow и pilot readiness.
 
 Фокус:
 

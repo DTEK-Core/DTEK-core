@@ -82,7 +82,7 @@ Sprint 08 UX Refinement
                             -> Sprint 15 Connector Framework Foundation
 ```
 
-Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Sprint 12 является активным Sprint; S12-T001 зафиксировала explainability contract, а последующие задачи реализуют его поверх устойчивой модели данных, импортированных source-aware объектов и импортированных рисков.
+Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Sprint 12 является активным Sprint: explainability contract и UI на уровнях объекта и организации реализованы, остаются пользовательская документация и итоговый QA checklist.
 
 Sprint 15 уже не является случайным одиночным коннектором. Он создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам.
 

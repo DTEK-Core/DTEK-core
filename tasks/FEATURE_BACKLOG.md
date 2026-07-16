@@ -143,6 +143,7 @@
 | M-031 | S12 | Factor Reason Cards With Sources | P1 | M |
 | M-032 | S12 | Risk Impact Hint | P1 | M |
 | M-033 | S12 | Score Delta Explanation With Evidence Timeline | P2 | M |
+| M-034 | S12 | Dashboard Explainability Summary | P2 | S |
 | M-040 | S13 | Risk Owner & Assignment | P1 | M |
 | M-041 | S13 | Due Date & SLA Warnings | P1 | M |
 | M-042 | S13 | Risk Comments | P1 | M |

@@ -121,6 +121,34 @@ export interface ScoreDeltaEvent {
   factorDeltas: FactorScoreDelta[];
 }
 
+export interface DashboardObjectDriversInput {
+  objectId: string;
+  objectName: string;
+  factors: ReadonlyArray<ScoreFactorInput> | null;
+}
+
+export interface DashboardDriverSummary {
+  key: TrustFactorKey;
+  label: string;
+  weight: number;
+  affectedObjects: number;
+  averageNeutralDelta: number;
+  averageFactorScore: number;
+  coveragePct: number;
+  leadingObject: {
+    id: string;
+    name: string;
+    factorScore: number;
+    neutralDelta: number;
+  };
+}
+
+export interface DashboardExplainabilitySummary {
+  totalObjects: number;
+  analyzedObjects: number;
+  drivers: DashboardDriverSummary[];
+}
+
 const SOURCE_KEYS = new Set([
   'source_name',
   'source_type',
@@ -266,6 +294,38 @@ function explainFactor(factor: ScoreFactorInput): {
   };
 }
 
+function normalizeDashboardFactors(
+  factors: ReadonlyArray<ScoreFactorInput> | null,
+): ScoreFactorInput[] | null {
+  if (!factors || factors.length !== TRUST_FACTORS.length) return null;
+
+  const factorsByKey = new Map<TrustFactorKey, ScoreFactorInput>();
+  for (const factor of factors) {
+    const canonical = TRUST_FACTORS.find((item) => item.key === factor.key);
+    if (
+      !canonical
+      || factorsByKey.has(canonical.key)
+      || !Number.isFinite(factor.score)
+      || factor.score < 0
+      || factor.score > 100
+      || !Number.isFinite(factor.weight)
+      || factor.weight < 0
+      || factor.weight > 100
+    ) {
+      return null;
+    }
+    factorsByKey.set(canonical.key, {
+      key: canonical.key,
+      label: canonical.label,
+      score: factor.score,
+      weight: factor.weight,
+    });
+  }
+
+  return TRUST_FACTORS.map((factor) => factorsByKey.get(factor.key) ?? null)
+    .filter((factor): factor is ScoreFactorInput => factor !== null);
+}
+
 export function buildScoreFactors(
   factors: ReadonlyArray<ScoreFactorInput>,
 ): ScoreFactor[] {
@@ -287,6 +347,86 @@ export function buildTopScoreDrivers(
     ))
     .slice(0, limit)
     .map(({ factor }) => factor);
+}
+
+export function buildDashboardExplainabilitySummary(
+  objects: ReadonlyArray<DashboardObjectDriversInput>,
+  maxDrivers = 3,
+): DashboardExplainabilitySummary {
+  const limit = Math.max(0, Math.floor(maxDrivers));
+  const analyzedObjects = objects.flatMap((object, objectIndex) => {
+    const normalizedFactors = normalizeDashboardFactors(object.factors);
+    if (!normalizedFactors) return [];
+    return [{
+      object,
+      objectIndex,
+      factors: normalizedFactors.map((factor) => explainFactor(factor)),
+    }];
+  });
+
+  const drivers = TRUST_FACTORS.flatMap((canonicalFactor, factorIndex) => {
+    const affected = analyzedObjects.flatMap((entry) => {
+      const explanation = entry.factors.find(
+        ({ factor }) => factor.key === canonicalFactor.key,
+      );
+      return explanation?.factor.direction === 'negative'
+        ? [{ ...entry, ...explanation }]
+        : [];
+    });
+    if (affected.length === 0) return [];
+
+    const leading = affected.reduce((current, candidate) => (
+      candidate.rawNeutralDelta < current.rawNeutralDelta
+      || (
+        candidate.rawNeutralDelta === current.rawNeutralDelta
+        && candidate.objectIndex < current.objectIndex
+      )
+        ? candidate
+        : current
+    ));
+    const totalNeutralDelta = affected.reduce(
+      (sum, entry) => sum + entry.rawNeutralDelta,
+      0,
+    );
+    const averageFactorScore = affected.reduce(
+      (sum, entry) => sum + entry.factor.score,
+      0,
+    ) / affected.length;
+
+    return [{
+      factorIndex,
+      totalMagnitude: Math.abs(totalNeutralDelta),
+      driver: {
+        key: canonicalFactor.key,
+        label: canonicalFactor.label,
+        weight: leading.factor.weight,
+        affectedObjects: affected.length,
+        averageNeutralDelta: roundOne(totalNeutralDelta / affected.length),
+        averageFactorScore: roundOne(averageFactorScore),
+        coveragePct: analyzedObjects.length > 0
+          ? Math.round((affected.length / analyzedObjects.length) * 100)
+          : 0,
+        leadingObject: {
+          id: leading.object.objectId,
+          name: leading.object.objectName,
+          factorScore: leading.factor.score,
+          neutralDelta: roundOne(leading.rawNeutralDelta),
+        },
+      },
+    }];
+  })
+    .sort((left, right) => (
+      right.totalMagnitude - left.totalMagnitude
+      || left.factorIndex - right.factorIndex
+    ))
+    .slice(0, limit)
+    .map(({ driver }) => driver);
+
+  return {
+    totalObjects: objects.length,
+    analyzedObjects: analyzedObjects.length,
+    drivers,
+  };
 }
 
 export function buildRiskImpactHints(

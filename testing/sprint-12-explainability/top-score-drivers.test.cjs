@@ -33,6 +33,7 @@ const {
   buildScoreFactors,
   buildFactorExplanations,
   buildRiskImpactHints,
+  buildDashboardExplainabilitySummary,
   buildScoreDeltaTimeline,
   buildSourceTimeline,
   buildTopScoreDrivers,
@@ -69,6 +70,17 @@ const defaultFactors = [
   { key: 'compliance', label: 'Соответствие', score: 80, weight: 16 },
   { key: 'incident', label: 'Инциденты', score: 70, weight: 12 },
 ];
+
+function dashboardFactors(scores, weights = defaultWeights) {
+  return [
+    { key: 'vuln', label: 'Уязвимости', score: scores.vuln, weight: weights.vuln_weight },
+    { key: 'config', label: 'Конфигурация', score: scores.config, weight: weights.config_weight },
+    { key: 'access', label: 'Доступ', score: scores.access, weight: weights.access_weight },
+    { key: 'network', label: 'Сеть', score: scores.network, weight: weights.network_weight },
+    { key: 'compliance', label: 'Соответствие', score: scores.compliance, weight: weights.compliance_weight },
+    { key: 'incident', label: 'Инциденты', score: scores.incident, weight: weights.incident_weight },
+  ];
+}
 
 test('top drivers reproduce the approved Sprint 12 worked example', () => {
   const drivers = buildTopScoreDrivers(defaultFactors);
@@ -127,6 +139,95 @@ test('ties preserve the canonical input order', () => {
 
   assert.deepEqual(buildTopScoreDrivers(factors).map(({ key }) => key), ['vuln', 'config']);
   assert.deepEqual(buildTopScoreDrivers(factors, 1).map(({ key }) => key), ['vuln']);
+});
+
+test('dashboard summary aggregates negative object drivers by breadth and magnitude', () => {
+  const summary = buildDashboardExplainabilitySummary([
+    {
+      objectId: 'object-a',
+      objectName: 'APP-01',
+      factors: dashboardFactors({
+        vuln: 50, config: 60, access: 70, network: 70, compliance: 80, incident: 70,
+      }),
+    },
+    {
+      objectId: 'object-b',
+      objectName: 'DB-01',
+      factors: dashboardFactors({
+        vuln: 60, config: 50, access: 70, network: 70, compliance: 80, incident: 70,
+      }),
+    },
+  ]);
+
+  assert.equal(summary.totalObjects, 2);
+  assert.equal(summary.analyzedObjects, 2);
+  assert.deepEqual(summary.drivers, [
+    {
+      key: 'vuln',
+      label: 'Уязвимости',
+      weight: 22,
+      affectedObjects: 2,
+      averageNeutralDelta: -3.3,
+      averageFactorScore: 55,
+      coveragePct: 100,
+      leadingObject: {
+        id: 'object-a',
+        name: 'APP-01',
+        factorScore: 50,
+        neutralDelta: -4.4,
+      },
+    },
+    {
+      key: 'config',
+      label: 'Конфигурация',
+      weight: 18,
+      affectedObjects: 2,
+      averageNeutralDelta: -2.7,
+      averageFactorScore: 55,
+      coveragePct: 100,
+      leadingObject: {
+        id: 'object-b',
+        name: 'DB-01',
+        factorScore: 50,
+        neutralDelta: -3.6,
+      },
+    },
+  ]);
+});
+
+test('dashboard summary excludes neutral data and reports incomplete passport coverage', () => {
+  const neutralFactors = dashboardFactors({
+    vuln: 70, config: 70, access: 70, network: 70, compliance: 80, incident: 70,
+  });
+  const summary = buildDashboardExplainabilitySummary([
+    { objectId: 'ready', objectName: 'Ready', factors: neutralFactors },
+    { objectId: 'missing', objectName: 'Missing', factors: null },
+    { objectId: 'partial', objectName: 'Partial', factors: neutralFactors.slice(0, 5) },
+  ]);
+
+  assert.equal(summary.totalObjects, 3);
+  assert.equal(summary.analyzedObjects, 1);
+  assert.deepEqual(summary.drivers, []);
+});
+
+test('dashboard summary uses canonical order for equal aggregate impact and respects limit', () => {
+  const equalWeights = {
+    vuln_weight: 20,
+    config_weight: 20,
+    access_weight: 20,
+    network_weight: 20,
+    compliance_weight: 10,
+    incident_weight: 10,
+  };
+  const summary = buildDashboardExplainabilitySummary([{
+    objectId: 'object-a',
+    objectName: 'APP-01',
+    factors: dashboardFactors({
+      vuln: 60, config: 60, access: 70, network: 70, compliance: 70, incident: 70,
+    }, equalWeights),
+  }], 1);
+
+  assert.deepEqual(summary.drivers.map(({ key }) => key), ['vuln']);
 });
 
 test('source parser reads only the last valid trailing import block', () => {

@@ -110,6 +110,26 @@ function DashboardSkeleton() {
       </div>
       <div className="card loading-card">
         <div className="loading-toolbar" style={{ padding: 0, marginBottom: 18 }}>
+          <div>
+            <Block width={180} height={16} />
+            <div style={{ height: 6 }} />
+            <Block width={320} height={11} />
+          </div>
+          <Block width={92} height={22} radius={7} />
+        </div>
+        <div className="loading-explain-list">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div className="loading-explain-row" key={index}>
+              <Block width={26} height={26} radius={7} />
+              <Block width="100%" height={34} radius={6} />
+              <Block width={102} height={28} radius={6} />
+              <Block width="100%" height={34} radius={6} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="card loading-card">
+        <div className="loading-toolbar" style={{ padding: 0, marginBottom: 18 }}>
           <Block width={210} height={18} />
           <Block width={190} height={34} radius={8} />
         </div>

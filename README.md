@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.12.0-dev — Sprint 12 active: Score Delta Explanation implemented.**
+**v0.12.0-dev — Sprint 12 active: Dashboard Explainability Summary implemented.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint и Score Delta Explanation. Trust Passport показывает фактическую историю изменения Score, доступные изменения факторов и текущий source context, не выдавая временную близость источника за доказанную причинность.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint, Score Delta Explanation и Dashboard Explainability Summary. Dashboard агрегирует уже рассчитанные object-level drivers и показывает главные причины снижения доверия без введения отдельной организационной формулы.
 
 ### Реализованные Маршруты
 

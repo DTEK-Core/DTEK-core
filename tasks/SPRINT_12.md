@@ -71,7 +71,7 @@ Trust Score без объяснения может восприниматься 
 | S12-T003 | Factor Reason Cards With Sources | P1 | M | T001 | ✅ Завершено |
 | S12-T004 | Risk Impact Hint | P1 | M | T001 | ✅ Завершено |
 | S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | ✅ Завершено |
-| S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 | 📋 Запланировано |
+| S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 | ✅ Завершено |
 | S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 | 📋 Запланировано |
 | S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 | 📋 Запланировано |
 
@@ -147,6 +147,8 @@ Trust Score без объяснения может восприниматься 
 
 **Ожидаемый результат:** Dashboard отвечает на вопрос “что сейчас сильнее всего снижает доверие”.
 
+**Решение:** Dashboard получил компактную сводку трёх главных отрицательных факторов организации. Pure aggregation повторно использует object-level `neutral_delta` S12-T002, исключает neutral/positive factors, группирует отрицательные drivers по каноническим факторам и ранжирует их по сумме абсолютных отклонений; отдельный организационный scoring algorithm не создаётся. Для каждого фактора показываются текущий вес, количество и доля затронутых паспортов, среднее отклонение среди них и объект с наибольшим отрицательным влиянием со ссылкой на Trust Passport. Поддержаны состояния отсутствующих паспортов и отсутствия материального снижения. Read model включает только неархивные объекты текущей организации, дополнительно проверяет `trust_passports.organization_id` и использует текущий `trust_factor_config` с fallback ADR-001. Объектные KPI, distribution, top-5 и explainability теперь строятся из одного tenant-scoped набора, что сокращает Dashboard с тринадцати до семи параллельных запросов. Формула Trust Score, схема БД, RLS/RBAC и зависимости не изменены.
+
 ### S12-T007 — User Documentation
 
 **Описание:** обновить guide по Trust Score и FAQ.
@@ -168,8 +170,8 @@ Trust Score без объяснения может восприниматься 
 - [x] В объяснении есть source/evidence context там, где он доступен.
 - [x] Risk impact показывается пользователю.
 - [x] Последнее изменение Score объясняется по фактической истории и доступным factor snapshots.
-- [ ] Dashboard показывает summary причин.
-- [ ] Формула Trust Score не изменена.
+- [x] Dashboard показывает summary причин.
+- [x] Формула Trust Score не изменена.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.

@@ -5,6 +5,16 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { DashboardClient } from '@/components/shared/dashboard/dashboard-client';
 import type { DashboardProps } from '@/components/shared/dashboard/dashboard-client';
 import type { EventItem } from '@/components/shared/dashboard/event-feed';
+import { TRUST_FACTORS, type TrustFactorKey } from '@/lib/design-tokens';
+import {
+  buildDashboardExplainabilitySummary,
+  type DashboardObjectDriversInput,
+  type ScoreFactorInput,
+} from '@/lib/trust/explainability';
+import {
+  DEFAULT_FACTOR_WEIGHTS,
+  type FactorWeights,
+} from '@/lib/trust/calculate';
 import '@/app/dashboard.css';
 
 export const metadata: Metadata = { title: 'Центр управления — DTEK Core' };
@@ -25,6 +35,7 @@ interface ObjectRaw {
   trust_score: number;
   trust_level: string;
   criticality: string;
+  trust_passports: ExplainabilityPassportRaw | ExplainabilityPassportRaw[] | null;
 }
 
 interface EventRaw {
@@ -34,6 +45,53 @@ interface EventRaw {
   reason: string | null;
   created_at: string;
   objects: { name: string; type: string } | { name: string; type: string }[] | null;
+}
+
+interface ExplainabilityPassportRaw {
+  organization_id: string;
+  vuln_score: number;
+  config_score: number;
+  access_score: number;
+  network_score: number;
+  compliance_score: number;
+  incident_score: number;
+}
+
+const FACTOR_SCORE_KEYS: Readonly<Record<
+  TrustFactorKey,
+  keyof Omit<ExplainabilityPassportRaw, 'organization_id'>
+>> = {
+  vuln:       'vuln_score',
+  config:     'config_score',
+  access:     'access_score',
+  network:    'network_score',
+  compliance: 'compliance_score',
+  incident:   'incident_score',
+};
+
+const FACTOR_WEIGHT_KEYS: Readonly<Record<TrustFactorKey, keyof FactorWeights>> = {
+  vuln:       'vuln_weight',
+  config:     'config_weight',
+  access:     'access_weight',
+  network:    'network_weight',
+  compliance: 'compliance_weight',
+  incident:   'incident_weight',
+};
+
+function single<T>(value: T | T[] | null): T | null {
+  return Array.isArray(value) ? value[0] ?? null : value;
+}
+
+function scoreFactors(
+  passport: ExplainabilityPassportRaw,
+  weights: FactorWeights,
+): ScoreFactorInput[] {
+  return TRUST_FACTORS.map((factor) => ({
+    key: factor.key,
+    label: factor.label,
+    score: passport[FACTOR_SCORE_KEYS[factor.key]],
+    weight: weights[FACTOR_WEIGHT_KEYS[factor.key]],
+  }));
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -62,11 +120,12 @@ export default async function DashboardPage() {
 
   const [
     orgResult,
-    kpi1, kpi2, kpi3, kpi4,
-    topRiskyResult,
+    openRisksResult,
+    criticalRisksResult,
+    objectsResult,
     historyResult,
     eventsResult,
-    ...distResults
+    factorWeightsResult,
   ] = await Promise.all([
     // 1. Org
     admin.from('organizations')
@@ -74,11 +133,7 @@ export default async function DashboardPage() {
       .eq('id', orgId)
       .single(),
 
-    // 2. KPI counts
-    admin.from('objects')
-      .select('*', { count: 'exact', head: true })
-      .eq('organization_id', orgId)
-      .neq('status', 'archived'),
+    // 2. Risk KPI counts
     admin.from('risks')
       .select('*', { count: 'exact', head: true })
       .eq('organization_id', orgId)
@@ -88,19 +143,18 @@ export default async function DashboardPage() {
       .eq('organization_id', orgId)
       .eq('severity', 'critical')
       .in('status', ['open', 'in_progress']),
-    admin.from('objects')
-      .select('*', { count: 'exact', head: true })
-      .eq('organization_id', orgId)
-      .eq('trust_level', 'critical')
-      .neq('status', 'archived'),
 
-    // 3. Top 5 risky objects
+    // 3. One active object set for KPI, distribution, top-5 and explainability
     admin.from('objects')
-      .select('id, name, type, trust_score, trust_level, criticality')
+      .select(`
+        id, name, type, trust_score, trust_level, criticality,
+        trust_passports(
+          organization_id, vuln_score, config_score, access_score,
+          network_score, compliance_score, incident_score
+        )
+      `)
       .eq('organization_id', orgId)
-      .neq('status', 'archived')
-      .order('trust_score', { ascending: true })
-      .limit(5),
+      .neq('status', 'archived'),
 
     // 4. Trend history
     admin.from('trust_score_history')
@@ -116,14 +170,11 @@ export default async function DashboardPage() {
       .order('created_at', { ascending: false })
       .limit(15),
 
-    // 6. Distribution: 5 level counts
-    ...LEVELS.map(level =>
-      admin.from('objects')
-        .select('*', { count: 'exact', head: true })
-        .eq('organization_id', orgId)
-        .eq('trust_level', level)
-        .neq('status', 'archived'),
-    ),
+    // 6. Current organization factor weights
+    admin.from('trust_factor_config')
+      .select('vuln_weight, config_weight, access_weight, network_weight, compliance_weight, incident_weight')
+      .eq('organization_id', orgId)
+      .single(),
   ]);
 
   // ── Shape data ────────────────────────────────────────────────────────────
@@ -136,30 +187,37 @@ export default async function DashboardPage() {
     short_name:  orgRaw?.short_name ?? null,
   };
 
+  const objects = (
+    (objectsResult.data ?? []) as unknown as ObjectRaw[]
+  );
+
   const kpi: DashboardProps['kpi'] = {
-    totalObjects:     kpi1.count ?? 0,
-    openRisks:        kpi2.count ?? 0,
-    critRisks:        kpi3.count ?? 0,
-    critLevelObjects: kpi4.count ?? 0,
+    totalObjects: objects.length,
+    openRisks: openRisksResult.count ?? 0,
+    critRisks: criticalRisksResult.count ?? 0,
+    critLevelObjects: objects.filter(({ trust_level }) => trust_level === 'critical').length,
   };
 
-  const topRisky = ((topRiskyResult.data ?? []) as ObjectRaw[]).map(o => ({
-    id:          o.id,
-    name:        o.name,
-    type:        o.type,
-    trust_score: o.trust_score,
-    trust_level: o.trust_level,
-    criticality: o.criticality,
-  }));
+  const topRisky = [...objects]
+    .sort((left, right) => left.trust_score - right.trust_score)
+    .slice(0, 5)
+    .map(o => ({
+      id:          o.id,
+      name:        o.name,
+      type:        o.type,
+      trust_score: o.trust_score,
+      trust_level: o.trust_level,
+      criticality: o.criticality,
+    }));
 
   const history = ((historyResult.data ?? []) as { new_score: number; created_at: string }[]).map(p => ({
     new_score:  p.new_score,
     created_at: p.created_at,
   }));
 
-  const distribution = LEVELS.map((level, i) => ({
+  const distribution = LEVELS.map((level) => ({
     level,
-    count: distResults[i]?.count ?? 0,
+    count: objects.filter((object) => object.trust_level === level).length,
   }));
 
   const events: EventItem[] = ((eventsResult.data ?? []) as EventRaw[]).map(e => {
@@ -175,6 +233,21 @@ export default async function DashboardPage() {
     };
   });
 
+  const factorWeights = (
+    factorWeightsResult.data as unknown as FactorWeights | null
+  ) ?? DEFAULT_FACTOR_WEIGHTS;
+  const explainabilityObjects: DashboardObjectDriversInput[] = objects.map((object) => {
+    const passport = single(object.trust_passports);
+    return {
+      objectId: object.id,
+      objectName: object.name,
+      factors: passport?.organization_id === orgId
+        ? scoreFactors(passport, factorWeights)
+        : null,
+    };
+  });
+  const explainability = buildDashboardExplainabilitySummary(explainabilityObjects);
+
   const canRecalc = ['owner', 'analyst'].includes(role);
 
   return (
@@ -185,6 +258,7 @@ export default async function DashboardPage() {
       distribution={distribution}
       history={history}
       events={events}
+      explainability={explainability}
       canRecalc={canRecalc}
       canOpenExecutiveReport={canRecalc}
     />
