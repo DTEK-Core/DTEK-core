@@ -32,10 +32,32 @@ function loadExplainabilityModule() {
 const {
   buildScoreFactors,
   buildFactorExplanations,
+  buildRiskImpactHints,
   buildTopScoreDrivers,
   NEUTRAL_TRUST_REFERENCE,
   parseSourceContext,
 } = loadExplainabilityModule();
+
+const defaultWeights = {
+  vuln_weight: 22,
+  config_weight: 18,
+  access_weight: 18,
+  network_weight: 14,
+  compliance_weight: 16,
+  incident_weight: 12,
+};
+
+const completeHighObject = {
+  criticality: 'high',
+  name: 'APP-01',
+  type: 'server',
+  description: 'Сервер приложений',
+  ip_address: '10.0.0.10',
+  os_platform: 'Astra Linux',
+  segment: 'production',
+  exposure: 'internal',
+  owner_id: 'owner-1',
+};
 
 const defaultFactors = [
   { key: 'vuln', label: 'Уязвимости', score: 45, weight: 22 },
@@ -260,4 +282,84 @@ test('distributed penalties and clamp state match the score engine rules', () =>
   assert.equal(clamped.calculatedScore, 0);
   assert.equal(clamped.wasClamped, true);
   assert.equal(clamped.isConsistent, true);
+});
+
+test('risk impact uses counterfactual engine scores and excludes inactive risks', () => {
+  const hints = buildRiskImpactHints(completeHighObject, [
+    { id: 'risk-vuln', category: 'vulnerability', severity: 'high', status: 'open' },
+    { id: 'risk-config', category: 'configuration', severity: 'medium', status: 'in_progress' },
+    { id: 'risk-closed', category: 'vulnerability', severity: 'critical', status: 'closed' },
+  ], defaultWeights);
+
+  assert.deepEqual(hints, [
+    {
+      riskId: 'risk-vuln',
+      state: 'potential_gain',
+      currentScore: 65,
+      projectedScore: 71,
+      potentialGain: 6,
+    },
+    {
+      riskId: 'risk-config',
+      state: 'potential_gain',
+      currentScore: 65,
+      projectedScore: 68,
+      potentialGain: 3,
+    },
+    {
+      riskId: 'risk-closed',
+      state: 'inactive',
+      currentScore: 65,
+      projectedScore: 65,
+      potentialGain: 0,
+    },
+  ]);
+});
+
+test('risk impact respects clamp, final rounding and distributed penalties', () => {
+  const criticalObject = { ...completeHighObject, criticality: 'critical' };
+  const clamped = buildRiskImpactHints(criticalObject, [
+    { id: 'risk-a', category: 'vulnerability', severity: 'critical', status: 'open' },
+    { id: 'risk-b', category: 'vulnerability', severity: 'critical', status: 'open' },
+    { id: 'risk-c', category: 'vulnerability', severity: 'critical', status: 'open' },
+  ], defaultWeights);
+
+  assert.equal(clamped[0].state, 'no_rounded_change');
+  assert.equal(clamped[0].currentScore, 54);
+  assert.equal(clamped[0].projectedScore, 54);
+  assert.equal(clamped[0].potentialGain, 0);
+
+  const distributed = buildRiskImpactHints(completeHighObject, [
+    { id: 'risk-other', category: 'organizational', severity: 'low', status: 'open' },
+  ], defaultWeights)[0];
+
+  assert.deepEqual(distributed, {
+    riskId: 'risk-other',
+    state: 'potential_gain',
+    currentScore: 72,
+    projectedScore: 73,
+    potentialGain: 1,
+  });
+});
+
+test('risk impact uses the current organization factor weights', () => {
+  const vulnOnlyWeights = {
+    vuln_weight: 100,
+    config_weight: 0,
+    access_weight: 0,
+    network_weight: 0,
+    compliance_weight: 0,
+    incident_weight: 0,
+  };
+  const hint = buildRiskImpactHints(completeHighObject, [
+    { id: 'risk-vuln', category: 'vulnerability', severity: 'high', status: 'open' },
+  ], vulnOnlyWeights)[0];
+
+  assert.deepEqual(hint, {
+    riskId: 'risk-vuln',
+    state: 'potential_gain',
+    currentScore: 45,
+    projectedScore: 70,
+    potentialGain: 25,
+  });
 });

@@ -218,6 +218,8 @@
 .pp-risk-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .pp-risk-title { font-size: 12.5px; font-weight: 600; }
 .pp-risk-meta { font-size: 10.5px; color: var(--text-mute); }
+.pp-risk-impact { margin-top: 4px; color: var(--text-mute); font-size: 10px; line-height: 1.45; overflow-wrap: anywhere; }
+.pp-risk-impact.is-gain { color: var(--teal); font-weight: 600; }
 .pp-risk-score { font-size: 13px; font-weight: 700; color: var(--text-dim); }
 .pp-norisk { display: flex; align-items: center; gap: 10px; padding: 20px; color: var(--teal); font-size: 13px; font-weight: 600; background: var(--teal-soft); border-radius: var(--r); }
 .pp-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

@@ -1,10 +1,13 @@
 import type { TrustFactorKey } from '@/lib/design-tokens';
 import {
+  calcTrustScore,
   getCompletenessBonus,
   getCriticalityBase,
   getRiskPenaltyForFactor,
   getRiskSeverityPenalty,
   isActiveRisk,
+  type FactorWeights,
+  type ObjectForCalc,
   type RiskForCalc,
 } from './calculate';
 
@@ -72,6 +75,20 @@ export interface FactorExplanationContext {
   completenessPct: number;
   objectDescription: string | null;
   risks: ReadonlyArray<ExplainabilityRisk>;
+}
+
+export interface RiskImpactInput extends RiskForCalc {
+  id: string;
+}
+
+export type RiskImpactState = 'potential_gain' | 'no_rounded_change' | 'inactive';
+
+export interface RiskImpactHint {
+  riskId: string;
+  state: RiskImpactState;
+  currentScore: number;
+  projectedScore: number;
+  potentialGain: number;
 }
 
 const SOURCE_KEYS = new Set([
@@ -204,6 +221,42 @@ export function buildTopScoreDrivers(
     ))
     .slice(0, limit)
     .map(({ factor }) => factor);
+}
+
+export function buildRiskImpactHints(
+  object: ObjectForCalc,
+  risks: ReadonlyArray<RiskImpactInput>,
+  weights: FactorWeights,
+): RiskImpactHint[] {
+  const currentRisks = Array.from(risks);
+  const currentScore = calcTrustScore(object, currentRisks, weights).trust_score;
+
+  return currentRisks.map((risk) => {
+    if (!isActiveRisk(risk)) {
+      return {
+        riskId: risk.id,
+        state: 'inactive',
+        currentScore,
+        projectedScore: currentScore,
+        potentialGain: 0,
+      };
+    }
+
+    const projectedScore = calcTrustScore(
+      object,
+      currentRisks.filter((candidate) => candidate.id !== risk.id),
+      weights,
+    ).trust_score;
+    const potentialGain = Math.max(0, projectedScore - currentScore);
+
+    return {
+      riskId: risk.id,
+      state: potentialGain > 0 ? 'potential_gain' : 'no_rounded_change',
+      currentScore,
+      projectedScore,
+      potentialGain,
+    };
+  });
 }
 
 export function buildFactorExplanations(

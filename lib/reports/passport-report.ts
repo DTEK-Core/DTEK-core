@@ -3,6 +3,7 @@ import { TRUST_FACTORS, type TrustFactorKey } from '@/lib/design-tokens';
 import { getReportAccessContext } from '@/lib/reports/access';
 import {
   buildFactorExplanations,
+  buildRiskImpactHints,
   buildScoreFactors,
   buildTopScoreDrivers,
   type ExplainabilityRisk,
@@ -53,6 +54,7 @@ interface ObjectRaw {
   segment: string | null;
   exposure: string | null;
   description: string | null;
+  owner_id: string | null;
   owner: OwnerRaw | OwnerRaw[] | null;
   trust_passports: PassportRaw | PassportRaw[] | null;
 }
@@ -188,7 +190,7 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   const { data: objData } = await admin
     .from('objects')
     .select(`
-      id, name, type, criticality, ip_address, os_platform, segment, exposure, description,
+      id, name, type, criticality, ip_address, os_platform, segment, exposure, description, owner_id,
       owner:profiles!owner_id(full_name),
       trust_passports(
         trust_score, trust_level,
@@ -245,13 +247,6 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   const linkedRisks = riskLinks
     .map((link) => single(link.risks))
     .filter((risk): risk is RiskRaw => risk?.organization_id === orgId);
-  const risks: PassportRisk[] = linkedRisks.map((risk) => ({
-    id:         risk.id,
-    title:      risk.title,
-    severity:   risk.severity,
-    cvss_score: risk.cvss_score,
-    due_date:   risk.due_date,
-  }));
 
   const [orgResult, weightsResult] = await Promise.all([
     admin
@@ -272,6 +267,35 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   const weights = (
     weightsResult.data as unknown as WeightsRaw | null
   ) ?? DEFAULT_FACTOR_WEIGHTS;
+  const explanationRisks: ExplainabilityRisk[] = linkedRisks.map((risk) => ({
+    id:          risk.id,
+    title:       risk.title,
+    severity:    risk.severity,
+    category:    risk.category,
+    status:      risk.status,
+    description: risk.description,
+  }));
+  const impactByRisk = new Map(
+    buildRiskImpactHints({
+      criticality: raw.criticality,
+      name: raw.name,
+      type: raw.type,
+      description: raw.description,
+      ip_address: raw.ip_address,
+      os_platform: raw.os_platform,
+      segment: raw.segment,
+      exposure: raw.exposure,
+      owner_id: raw.owner_id,
+    }, explanationRisks, weights).map((hint) => [hint.riskId, hint]),
+  );
+  const risks: PassportRisk[] = linkedRisks.map((risk) => ({
+    id:         risk.id,
+    title:      risk.title,
+    severity:   risk.severity,
+    cvss_score: risk.cvss_score,
+    due_date:   risk.due_date,
+    impactHint: impactByRisk.get(risk.id) ?? null,
+  }));
 
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
   const { data: deltaRaw } = await admin
@@ -287,14 +311,6 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   const firstScore = (deltaRaw as unknown as { new_score: number } | null)?.new_score ?? null;
   const delta30 = firstScore !== null ? passport.trust_score - firstScore : 0;
   const factors = buildFactors(passport, weights);
-  const explanationRisks: ExplainabilityRisk[] = linkedRisks.map((risk) => ({
-    id:          risk.id,
-    title:       risk.title,
-    severity:    risk.severity,
-    category:    risk.category,
-    status:      risk.status,
-    description: risk.description,
-  }));
   const factorExplanations = hideSourceRecordIds(
     buildFactorExplanations(factors, {
       criticality: raw.criticality,

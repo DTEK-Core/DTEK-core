@@ -7,7 +7,7 @@ import { SeverityTag } from '@/components/shared/severity-tag';
 import { Meter } from '@/components/shared/meter';
 import { updateRiskStatus, linkRiskToObject } from '@/lib/actions/risks';
 import { formatSla } from '@/lib/utils/dates';
-import type { RiskRow, SimpleObj } from './risks-page-client';
+import type { LinkedObj, RiskRow, SimpleObj } from './risks-page-client';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -59,6 +59,14 @@ function riskAge(createdAt: string): string {
   return `${Math.floor(diffDays / 30)} мес`;
 }
 
+function impactCopy(hint: NonNullable<LinkedObj['impactHint']>): string {
+  if (hint.state === 'inactive') return 'Риск сейчас не влияет на Trust Score.';
+  if (hint.state === 'no_rounded_change') {
+    return 'В текущей конфигурации закрытие риска не изменит округлённый Trust Score.';
+  }
+  return `Закрытие риска может повысить Trust Score объекта примерно на ${hint.potentialGain}.`;
+}
+
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
@@ -85,7 +93,6 @@ export function RiskDrawer({ risk, objects, onClose, onEdit }: RiskDrawerProps) 
   const sla          = formatSla(risk.due_date);
   const color        = SEVERITY_COLORS[risk.severity] ?? 'var(--teal)';
   const linkedObj    = risk.linked_objects[0] ?? null;
-  const trustImpact  = Math.round((risk.cvss_score ?? 5) * 2);
   const statusTone   = STATUS_TONE[effectiveStatus] ?? 'neutral';
   const statusLabel  = STATUS_LABELS[effectiveStatus] ?? effectiveStatus;
   const catLabel     = CATEGORY_LABELS[risk.category] ?? risk.category;
@@ -249,11 +256,48 @@ export function RiskDrawer({ risk, objects, onClose, onEdit }: RiskDrawerProps) 
           {/* Trust impact */}
           <div>
             <h3 className="drawer-sec-title">Влияние на доверие</h3>
-            <p className="drawer-text">
-              Устранение этого риска повысит индекс доверия объекта ориентировочно на{' '}
-              <span className="mono" style={{ color: 'var(--teal)' }}>+{trustImpact}</span>{' '}
-              пунктов и снимет ограничение по сегменту.
-            </p>
+            {risk.linked_objects.length > 0 ? (
+              <div className="risk-impact-list">
+                {risk.linked_objects.map((object) => {
+                  const hint = object.impactHint;
+                  return (
+                    <div className="risk-impact-row" key={object.id}>
+                      <button
+                        className="risk-impact-object"
+                        onClick={() => router.push(`/objects/${object.id}/passport`)}
+                      >
+                        <Icon name="passport" size={14} />
+                        <span>{object.name}</span>
+                      </button>
+                      {hint ? (
+                        <div className={`risk-impact-result is-${hint.state}`}>
+                          <span className="risk-impact-value mono">
+                            {hint.state === 'potential_gain' ? `+${hint.potentialGain}` : '—'}
+                          </span>
+                          <span className="risk-impact-copy">{impactCopy(hint)}</span>
+                          {hint.state !== 'inactive' && (
+                            <span className="risk-impact-scores mono">
+                              {hint.currentScore} → {hint.projectedScore}
+                            </span>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="risk-impact-unavailable">
+                          Влияние для этой связи пока не рассчитано.
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+                <p className="risk-impact-note">
+                  Ориентировочный расчёт по текущим данным и весам. До фактического закрытия другие условия могут измениться.
+                </p>
+              </div>
+            ) : (
+              <p className="drawer-text">
+                Влияние не рассчитывается, пока риск не связан с объектом.
+              </p>
+            )}
           </div>
 
           {/* Recommended actions */}

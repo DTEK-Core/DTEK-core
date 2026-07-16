@@ -11,6 +11,7 @@ import { getTrustBand, OBJECT_TYPES } from '@/lib/design-tokens';
 import { triggerRecalculate } from '@/lib/actions/trust';
 import type {
   FactorExplanation,
+  RiskImpactHint,
   ScoreFactor,
   SourceContext,
 } from '@/lib/trust/explainability';
@@ -51,6 +52,7 @@ export interface PassportRisk {
   severity: string;
   cvss_score: number | null;
   due_date: string | null;
+  impactHint: RiskImpactHint | null;
 }
 
 interface TrustPassportClientProps {
@@ -523,6 +525,7 @@ export function TrustPassportClient({
                       <span className="pp-risk-meta mono">
                         {formatRiskMeta(r.id, r.due_date)}
                       </span>
+                      <PassportRiskImpact hint={r.impactHint} />
                     </div>
                     {r.cvss_score != null && (
                       <span className="pp-risk-score mono">{r.cvss_score}</span>
@@ -607,5 +610,26 @@ function PpMeta({ label, value }: { label: string; value: string }) {
       <span className="pp-meta-label">{label}</span>
       <span className="pp-meta-val mono">{value}</span>
     </div>
+  );
+}
+
+function PassportRiskImpact({ hint }: { hint: RiskImpactHint | null }) {
+  if (!hint) {
+    return <span className="pp-risk-impact">Влияние пока не рассчитано</span>;
+  }
+  if (hint.state === 'inactive') {
+    return <span className="pp-risk-impact">Сейчас не влияет на Trust Score</span>;
+  }
+  if (hint.state === 'no_rounded_change') {
+    return (
+      <span className="pp-risk-impact">
+        Закрытие не изменит округлённый Score · {hint.currentScore} → {hint.projectedScore}
+      </span>
+    );
+  }
+  return (
+    <span className="pp-risk-impact is-gain">
+      Ориентировочно +{hint.potentialGain} к Trust Score после закрытия · {hint.currentScore} → {hint.projectedScore}
+    </span>
   );
 }

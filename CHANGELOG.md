@@ -7,6 +7,26 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T004 — Risk Impact Hint
+
+#### Добавлено
+
+- Counterfactual Risk Impact Hint через два расчёта существующим Trust Score Engine: со всеми рисками и без выбранного риска.
+- Отдельный impact по каждому связанному объекту в Risk Drawer и компактные подсказки в Trust Passport и printable Passport.
+- Состояния потенциального роста, отсутствия изменения после округления, неактивного риска и отсутствующей связи.
+- Contract-тесты custom weights, inactive risks, distributed penalties, clamp и финального округления.
+
+#### Изменено
+
+- Risk Registry загружает полные tenant-scoped поля объектов и актуальный `trust_factor_config` для server-side impact read model.
+- Фиктивная формула `CVSS × 2` и недостоверное обещание снять ограничение сегмента удалены из Risk Drawer.
+- Sprint 12, README и Technical Debt синхронизированы с завершением S12-T004.
+
+#### Безопасность
+
+- Impact рассчитывается read-only на сервере после проверки текущей организации; связи с объектами другой организации исключаются из модели.
+- Counterfactual результаты не сохраняются, не меняют Score и не добавляют новых привилегий, миграций или зависимостей.
+
 ### S12-T003 — Factor Reason Cards With Sources
 
 #### Добавлено

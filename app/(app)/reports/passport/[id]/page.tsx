@@ -5,6 +5,7 @@ import { fmtDateLong, fmtDateShort } from '@/lib/utils/dates';
 import { getPassportReportData } from '@/lib/reports/passport-report';
 import { Logo } from '@/components/shared/logo';
 import { PassportReportActions } from '@/components/shared/reports/report-actions';
+import type { RiskImpactHint } from '@/lib/trust/explainability';
 import '@/app/report.css';
 
 export const metadata: Metadata = {
@@ -39,6 +40,15 @@ function typeLabel(type: string): string {
 function formatGeneratedAt(iso: string): string {
   const date = new Date(iso);
   return `${fmtDateLong(iso)} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
+function riskImpactCopy(hint: RiskImpactHint | null): string {
+  if (!hint) return 'Влияние на Trust Score не рассчитано';
+  if (hint.state === 'inactive') return 'Риск сейчас не влияет на Trust Score';
+  if (hint.state === 'no_rounded_change') {
+    return `Закрытие не изменит округлённый Score (${hint.currentScore} → ${hint.projectedScore})`;
+  }
+  return `Ориентировочно +${hint.potentialGain} после закрытия (${hint.currentScore} → ${hint.projectedScore})`;
 }
 
 export default async function PassportReportPage({
@@ -138,6 +148,9 @@ export default async function PassportReportPage({
                     <div>
                       <strong>{risk.title}</strong>
                       <span>ID {risk.id.slice(0, 8)}{risk.due_date ? ` · SLA ${fmtDateShort(new Date(risk.due_date))}` : ''}</span>
+                      <span className={`report-risk-impact${risk.impactHint?.state === 'potential_gain' ? ' is-gain' : ''}`}>
+                        {riskImpactCopy(risk.impactHint)}
+                      </span>
                     </div>
                     <em>{SEVERITY_LABELS[risk.severity] ?? risk.severity}</em>
                     {risk.cvss_score != null && <b>{risk.cvss_score}</b>}

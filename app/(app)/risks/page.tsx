@@ -4,6 +4,16 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { RisksPageClient } from '@/components/shared/risks/risks-page-client';
 import type { RiskRow, LinkedObj } from '@/components/shared/risks/risks-page-client';
+import {
+  buildRiskImpactHints,
+  type RiskImpactHint,
+  type RiskImpactInput,
+} from '@/lib/trust/explainability';
+import {
+  DEFAULT_FACTOR_WEIGHTS,
+  type FactorWeights,
+  type ObjectForCalc,
+} from '@/lib/trust/calculate';
 import '@/app/risks.css';
 
 export const metadata: Metadata = { title: 'Реестр рисков — DTEK Core' };
@@ -21,7 +31,6 @@ interface ProfileLinkRaw {
 
 interface ObjLinkRaw {
   id: string;
-  name: string;
 }
 
 interface ObjRiskRaw {
@@ -44,6 +53,15 @@ interface RiskRaw {
   owner: ProfileLinkRaw | ProfileLinkRaw[] | null;
   author: ProfileLinkRaw | ProfileLinkRaw[] | null;
   object_risks: ObjRiskRaw[] | null;
+}
+
+interface ObjectImpactRaw extends ObjectForCalc {
+  id: string;
+  status: string;
+}
+
+function single<T>(value: T | T[] | null): T | null {
+  return Array.isArray(value) ? value[0] ?? null : value;
 }
 
 // ── Page ───────────────────────────────────────────────────────────────────────
@@ -73,20 +91,63 @@ export default async function RisksPage({
 
   const orgId = profile.organization_id;
 
-  // ── Load risks with owner, author, and linked objects ─────────────────────
-  const { data: risksRaw } = await admin
-    .from('risks')
-    .select(`
-      id, title, description, category, severity, probability,
-      cvss_score, status, impact, due_date, created_at, updated_at,
-      owner:profiles!owner_id(full_name),
-      author:profiles!author_id(full_name),
-      object_risks(objects(id, name))
-    `)
-    .eq('organization_id', orgId)
-    .order('created_at', { ascending: false });
+  const [risksResult, objectsResult, weightsResult] = await Promise.all([
+    admin
+      .from('risks')
+      .select(`
+        id, title, description, category, severity, probability,
+        cvss_score, status, impact, due_date, created_at, updated_at,
+        owner:profiles!owner_id(full_name),
+        author:profiles!author_id(full_name),
+        object_risks(objects(id))
+      `)
+      .eq('organization_id', orgId)
+      .order('created_at', { ascending: false }),
+    admin
+      .from('objects')
+      .select('id, name, type, criticality, description, ip_address, os_platform, segment, exposure, owner_id, status')
+      .eq('organization_id', orgId)
+      .order('name'),
+    admin
+      .from('trust_factor_config')
+      .select('vuln_weight, config_weight, access_weight, network_weight, compliance_weight, incident_weight')
+      .eq('organization_id', orgId)
+      .single(),
+  ]);
 
-  const rawList = (risksRaw as unknown as RiskRaw[] | null) ?? [];
+  const rawList = (risksResult.data as unknown as RiskRaw[] | null) ?? [];
+  const objectList = (
+    objectsResult.data as unknown as ObjectImpactRaw[] | null
+  ) ?? [];
+  const weights = (
+    weightsResult.data as unknown as FactorWeights | null
+  ) ?? DEFAULT_FACTOR_WEIGHTS;
+  const objectsById = new Map(objectList.map((object) => [object.id, object]));
+  const risksByObject = new Map<string, RiskImpactInput[]>();
+
+  for (const risk of rawList) {
+    for (const relation of risk.object_risks ?? []) {
+      const linkedObject = single(relation.objects);
+      if (!linkedObject || !objectsById.has(linkedObject.id)) continue;
+
+      const objectRisks = risksByObject.get(linkedObject.id) ?? [];
+      objectRisks.push({
+        id: risk.id,
+        category: risk.category,
+        severity: risk.severity,
+        status: risk.status,
+      });
+      risksByObject.set(linkedObject.id, objectRisks);
+    }
+  }
+
+  const impactByRelation = new Map<string, RiskImpactHint>();
+  for (const object of objectList) {
+    const objectRisks = risksByObject.get(object.id) ?? [];
+    for (const hint of buildRiskImpactHints(object, objectRisks, weights)) {
+      impactByRelation.set(`${object.id}:${hint.riskId}`, hint);
+    }
+  }
 
   const risks: RiskRow[] = rawList.map(raw => {
     const ownerRaw  = Array.isArray(raw.owner)  ? raw.owner[0]  : raw.owner;
@@ -94,8 +155,15 @@ export default async function RisksPage({
 
     const linkedObjects: LinkedObj[] = (raw.object_risks ?? [])
       .map(or => {
-        const obj = Array.isArray(or.objects) ? or.objects[0] : or.objects;
-        return obj ? { id: obj.id, name: obj.name } : null;
+        const relationObject = single(or.objects);
+        const object = relationObject ? objectsById.get(relationObject.id) : null;
+        return object
+          ? {
+              id: object.id,
+              name: object.name,
+              impactHint: impactByRelation.get(`${object.id}:${raw.id}`) ?? null,
+            }
+          : null;
       })
       .filter((o): o is LinkedObj => o !== null);
 
@@ -118,19 +186,13 @@ export default async function RisksPage({
     };
   });
 
-  // ── Load objects for the create-risk form ─────────────────────────────────
-  const { data: objectsRaw } = await admin
-    .from('objects')
-    .select('id, name, type')
-    .eq('organization_id', orgId)
-    .neq('status', 'archived')
-    .order('name');
-
-  const objects = ((objectsRaw as unknown as { id: string; name: string; type: string }[] | null) ?? []).map(o => ({
-    id:   o.id,
-    name: o.name,
-    type: o.type,
-  }));
+  const objects = objectList
+    .filter((object) => object.status !== 'archived')
+    .map((object) => ({
+      id:   object.id,
+      name: object.name,
+      type: object.type,
+    }));
 
   return (
     <RisksPageClient

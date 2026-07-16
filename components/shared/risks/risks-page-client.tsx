@@ -9,12 +9,14 @@ import { RiskDrawer } from './risk-drawer';
 import { RiskFormDialog, type EditableRisk } from './risk-form-dialog';
 import { RiskImportDialog } from './risk-import-dialog';
 import { formatSla } from '@/lib/utils/dates';
+import type { RiskImpactHint } from '@/lib/trust/explainability';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface LinkedObj {
   id: string;
   name: string;
+  impactHint: RiskImpactHint | null;
 }
 
 export interface SimpleObj {
