@@ -1,4 +1,4 @@
-import type { TrustFactorKey } from '@/lib/design-tokens';
+import { TRUST_FACTORS, type TrustFactorKey } from '../design-tokens';
 import {
   calcTrustScore,
   getCompletenessBonus,
@@ -91,6 +91,36 @@ export interface RiskImpactHint {
   potentialGain: number;
 }
 
+export interface ScoreHistoryInput {
+  id: string;
+  oldScore: number | null;
+  newScore: number;
+  factorsSnapshot: unknown;
+  reason: string | null;
+  changedBy: string;
+  createdAt: string;
+}
+
+export interface FactorScoreDelta {
+  key: TrustFactorKey;
+  label: string;
+  previousScore: number;
+  currentScore: number;
+  delta: number;
+}
+
+export interface ScoreDeltaEvent {
+  id: string;
+  oldScore: number | null;
+  newScore: number;
+  delta: number | null;
+  reasonLabel: string;
+  actorLabel: string;
+  createdAt: string;
+  factorComparisonAvailable: boolean;
+  factorDeltas: FactorScoreDelta[];
+}
+
 const SOURCE_KEYS = new Set([
   'source_name',
   'source_type',
@@ -100,6 +130,13 @@ const SOURCE_KEYS = new Set([
   'import_note',
 ]);
 const SOURCE_CONFIDENCE = new Set<SourceConfidence>(['low', 'medium', 'high']);
+const SCORE_REASON_LABELS: Readonly<Record<string, string>> = {
+  recalculated:    'Ручная переоценка',
+  risk_changed:    'Изменение риска',
+  risk_imported:   'Импорт рисков',
+  object_updated:  'Изменение данных объекта',
+  weights_changed: 'Изменение весов факторов',
+};
 
 function manualSourceContext(): SourceContext {
   return {
@@ -169,6 +206,35 @@ function uniqueSources(sources: ReadonlyArray<SourceContext>): SourceContext[] {
     seen.add(key);
     return true;
   });
+}
+
+function parseFactorSnapshot(value: unknown): Record<TrustFactorKey, number> | null {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+
+  const snapshot = value as Record<string, unknown>;
+  const parsed = {} as Record<TrustFactorKey, number>;
+  for (const factor of TRUST_FACTORS) {
+    const score = snapshot[factor.key];
+    if (typeof score !== 'number' || !Number.isFinite(score) || score < 0 || score > 100) {
+      return null;
+    }
+    parsed[factor.key] = score;
+  }
+  return parsed;
+}
+
+function scoreActorLabel(changedBy: string): string {
+  if (changedBy === 'system') return 'Система';
+  if (changedBy.startsWith('user:') || /^[0-9a-f-]{36}$/i.test(changedBy)) {
+    return 'Пользователь';
+  }
+  return 'Служебный процесс';
+}
+
+function sourceTimestamp(source: SourceContext): number {
+  if (!source.collectedAt) return Number.NEGATIVE_INFINITY;
+  const timestamp = new Date(source.collectedAt).getTime();
+  return Number.isNaN(timestamp) ? Number.NEGATIVE_INFINITY : timestamp;
 }
 
 function roundOne(value: number): number {
@@ -257,6 +323,71 @@ export function buildRiskImpactHints(
       potentialGain,
     };
   });
+}
+
+export function buildScoreDeltaTimeline(
+  history: ReadonlyArray<ScoreHistoryInput>,
+  maxEvents = 5,
+): ScoreDeltaEvent[] {
+  const limit = Math.max(0, Math.floor(maxEvents));
+
+  return history.slice(0, limit).map((entry, index) => {
+    const previousEntry = history[index + 1];
+    const currentSnapshot = parseFactorSnapshot(entry.factorsSnapshot);
+    const previousSnapshot = parseFactorSnapshot(previousEntry?.factorsSnapshot);
+    const hasContinuousHistory = entry.oldScore !== null
+      && previousEntry?.newScore === entry.oldScore;
+    const factorComparisonAvailable = hasContinuousHistory
+      && currentSnapshot !== null
+      && previousSnapshot !== null;
+    const factorDeltas = factorComparisonAvailable
+      ? TRUST_FACTORS.flatMap((factor) => {
+          const previousScore = previousSnapshot[factor.key];
+          const currentScore = currentSnapshot[factor.key];
+          const delta = currentScore - previousScore;
+          return delta === 0
+            ? []
+            : [{
+                key: factor.key,
+                label: factor.label,
+                previousScore,
+                currentScore,
+                delta,
+              }];
+        })
+      : [];
+
+    return {
+      id: entry.id,
+      oldScore: entry.oldScore,
+      newScore: entry.newScore,
+      delta: entry.oldScore === null ? null : entry.newScore - entry.oldScore,
+      reasonLabel: entry.reason
+        ? SCORE_REASON_LABELS[entry.reason] ?? 'Переоценка Trust Score'
+        : 'Переоценка Trust Score',
+      actorLabel: scoreActorLabel(entry.changedBy),
+      createdAt: entry.createdAt,
+      factorComparisonAvailable,
+      factorDeltas,
+    };
+  });
+}
+
+export function buildSourceTimeline(
+  sources: ReadonlyArray<SourceContext>,
+  maxSources = 6,
+): SourceContext[] {
+  const limit = Math.max(0, Math.floor(maxSources));
+
+  return uniqueSources(sources)
+    .map((source, index) => ({ source, index }))
+    .sort((left, right) => (
+      sourceTimestamp(right.source) - sourceTimestamp(left.source)
+      || Number(right.source.kind === 'import') - Number(left.source.kind === 'import')
+      || left.index - right.index
+    ))
+    .slice(0, limit)
+    .map(({ source }) => source);
 }
 
 export function buildFactorExplanations(

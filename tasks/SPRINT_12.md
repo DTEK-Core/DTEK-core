@@ -70,7 +70,7 @@ Trust Score без объяснения может восприниматься 
 | S12-T002 | Top Score Drivers for Object Passport | P1 | M | T001 | ✅ Завершено |
 | S12-T003 | Factor Reason Cards With Sources | P1 | M | T001 | ✅ Завершено |
 | S12-T004 | Risk Impact Hint | P1 | M | T001 | ✅ Завершено |
-| S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | 📋 Запланировано |
+| S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | ✅ Завершено |
 | S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 | 📋 Запланировано |
 | S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 | 📋 Запланировано |
 | S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 | 📋 Запланировано |
@@ -131,13 +131,15 @@ Trust Score без объяснения может восприниматься 
 
 **Ожидаемый результат:** в Risk Drawer/Passport видно “закрытие риска может дать +N к Trust Score”.
 
-**Решение:** добавлен pure counterfactual расчёт `current = calcTrustScore(all risks)` и `projected = calcTrustScore(without target risk)` через существующий Trust Score Engine с актуальными весами организации, completeness, category mapping, distributed penalties, clamp и финальным округлением ADR-001. В Risk Drawer эффект показывается отдельно для каждого связанного объекта; Trust Passport и printable Passport получают компактную подсказку по каждому риску. Поддержаны состояния `potential_gain`, `no_rounded_change`, `inactive` и отсутствие связи, а формулировки подчёркивают ориентировочный характер результата. Прежняя фиктивная оценка `CVSS × 2` и недостоверное обещание снять ограничение сегмента удалены. Read model строится server-side только из объектов и рисков текущей организации; новых записей, привилегий, миграций и зависимостей нет. Contract-тесты фиксируют custom weights, inactive risks, distributed penalties, clamp и округление. Историческая причинность остаётся scope S12-T005.
+**Решение:** добавлен pure counterfactual расчёт `current = calcTrustScore(all risks)` и `projected = calcTrustScore(without target risk)` через существующий Trust Score Engine с актуальными весами организации, completeness, category mapping, distributed penalties, clamp и финальным округлением ADR-001. В Risk Drawer эффект показывается отдельно для каждого связанного объекта; Trust Passport и printable Passport получают компактную подсказку по каждому риску. Поддержаны состояния `potential_gain`, `no_rounded_change`, `inactive` и отсутствие связи, а формулировки подчёркивают ориентировочный характер результата. Прежняя фиктивная оценка `CVSS × 2` и недостоверное обещание снять ограничение сегмента удалены. Read model строится server-side только из объектов и рисков текущей организации; новых записей, привилегий, миграций и зависимостей нет. Contract-тесты фиксируют custom weights, inactive risks, distributed penalties, clamp и округление. Историческое объяснение добавлено в S12-T005 в пределах данных текущей схемы.
 
 ### S12-T005 — Score Delta Explanation With Evidence Timeline
 
 **Описание:** объяснить последнее изменение Trust Score по истории.
 
-**Ожидаемый результат:** пользователь понимает, почему Score изменился с прошлого расчёта и какие source/evidence это вызвали.
+**Ожидаемый результат:** пользователь видит фактическое изменение Score, доступные изменения факторов и границу между историческим событием и текущим source/evidence context.
+
+**Решение:** Trust Passport получил блок «Почему изменился Score» с последней фактической delta, причиной расчёта, безопасной ролью инициатора, датой и раскрываемой историей до пяти событий. Для каждой записи factor delta строится только по двум последовательным полным `factors_snapshot`; первая или повреждённая запись получает честный fallback без реконструкции причинности. Текущие import/manual sources дедуплицируются, сортируются по дате сбора и показываются отдельной timeline с явным предупреждением, что близость дат не доказывает причину изменения. Printable Passport содержит ту же сводку. Tenant-scoped report service запрашивает историю по `object_id + organization_id`, не передаёт клиенту raw `changed_by`, `source_record_id` или исходный snapshot. Формула ADR-001, схема БД, RLS/RBAC, зависимости и права записи не изменены; исторические веса и связь history → evidence остаются ограничением текущей схемы.
 
 ### S12-T006 — Dashboard Explainability Summary
 
@@ -165,6 +167,7 @@ Trust Score без объяснения может восприниматься 
 - [x] Факторы имеют reason cards.
 - [x] В объяснении есть source/evidence context там, где он доступен.
 - [x] Risk impact показывается пользователю.
+- [x] Последнее изменение Score объясняется по фактической истории и доступным factor snapshots.
 - [ ] Dashboard показывает summary причин.
 - [ ] Формула Trust Score не изменена.
 - [ ] Документация обновлена.

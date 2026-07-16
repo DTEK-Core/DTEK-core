@@ -21,7 +21,7 @@
 | TD-001 | Нет demo seed data | Демо начинается с пустых экранов | Sprint 09 |
 | TD-002 | Нет CSV import | Реальные пилоты невозможно быстро наполнить данными | Sprint 11 |
 | TD-003 | Нет PDF/CSV reporting | CISO не получает артефакт для руководства | Sprint 10 |
-| TD-004 | Top Score Drivers, Factor Reason Cards и Risk Impact Hint реализованы, но timeline и dashboard summary ещё не завершены | Passport объясняет факторы, источники и counterfactual impact, но пока не историческую причинность | Sprint 12 T005–T006 |
+| TD-004 | Object-level explainability завершена, но dashboard summary ещё не реализован | Passport объясняет факторы, impact и доступную историю; организация пока не получает краткую сводку причин на Dashboard | Sprint 12 T006 |
 | TD-005 | Invite email delivery не является полноценным каналом | Командный onboarding требует ручной передачи ссылки | Sprint 14 или раньше |
 
 ---

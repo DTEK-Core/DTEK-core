@@ -12,6 +12,7 @@ import { triggerRecalculate } from '@/lib/actions/trust';
 import type {
   FactorExplanation,
   RiskImpactHint,
+  ScoreDeltaEvent,
   ScoreFactor,
   SourceContext,
 } from '@/lib/trust/explainability';
@@ -65,6 +66,8 @@ interface TrustPassportClientProps {
   factors:        ScoreFactor[];
   topDrivers:     ScoreFactor[];
   factorExplanations: FactorExplanation[];
+  scoreTimeline: ScoreDeltaEvent[];
+  sourceTimeline: SourceContext[];
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -153,6 +156,14 @@ function sourceMeta(source: SourceContext): string {
   return `${parts.join(' · ')} · source context, не evidence record`;
 }
 
+function formatTimelineDate(value: string): string {
+  return Number.isNaN(new Date(value).getTime()) ? 'Дата не указана' : fmtDateLong(value);
+}
+
+function signedDelta(value: number): string {
+  return `${value > 0 ? '+' : ''}${value}`;
+}
+
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export function TrustPassportClient({
@@ -165,6 +176,8 @@ export function TrustPassportClient({
   factors,
   topDrivers,
   factorExplanations,
+  scoreTimeline,
+  sourceTimeline,
 }: TrustPassportClientProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -362,6 +375,11 @@ export function TrustPassportClient({
             </div>
           )}
         </section>
+
+        <ScoreDeltaExplanation
+          events={scoreTimeline}
+          sources={sourceTimeline}
+        />
 
         {/* ── Factor breakdown ── */}
         <section className="pp-section">
@@ -631,5 +649,125 @@ function PassportRiskImpact({ hint }: { hint: RiskImpactHint | null }) {
     <span className="pp-risk-impact is-gain">
       Ориентировочно +{hint.potentialGain} к Trust Score после закрытия · {hint.currentScore} → {hint.projectedScore}
     </span>
+  );
+}
+
+function ScoreDeltaExplanation({
+  events,
+  sources,
+}: {
+  events: ScoreDeltaEvent[];
+  sources: SourceContext[];
+}) {
+  const latest = events[0] ?? null;
+
+  return (
+    <section className="pp-section pp-delta-section">
+      <div className="pp-section-head">
+        <h2 className="pp-section-title">Почему изменился Score</h2>
+        <span className="pp-neutral-reference mono">Фактическая история расчётов</span>
+      </div>
+
+      {!latest ? (
+        <div className="pp-delta-empty">
+          <Icon name="clock" size={18} />
+          <div>
+            <strong>История изменений пока пуста</strong>
+            <span>После первого изменения Trust Score здесь появится объяснение delta.</span>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className={`pp-delta-summary is-${latest.delta === null ? 'initial' : latest.delta > 0 ? 'positive' : latest.delta < 0 ? 'negative' : 'neutral'}`}>
+            <span className="pp-delta-icon" aria-hidden="true">
+              <Icon name="trend" size={19} />
+            </span>
+            <div className="pp-delta-summary-main">
+              <span>{latest.reasonLabel}</span>
+              <strong>
+                {latest.oldScore === null
+                  ? `Первая зафиксированная оценка: ${latest.newScore}`
+                  : `Score изменился с ${latest.oldScore} до ${latest.newScore}`}
+              </strong>
+              <small>{formatTimelineDate(latest.createdAt)} · {latest.actorLabel}</small>
+            </div>
+            <span className="pp-delta-value mono">
+              {latest.delta === null ? latest.newScore : signedDelta(latest.delta)}
+            </span>
+          </div>
+
+          <div className="pp-delta-grid">
+            <div className="pp-delta-group">
+              <h3>Изменение факторов</h3>
+              {!latest.factorComparisonAvailable ? (
+                <p className="pp-delta-limitation">
+                  Детализация причин для этой записи ограничена историческими данными: предыдущий factor snapshot недоступен.
+                </p>
+              ) : latest.factorDeltas.length === 0 ? (
+                <p className="pp-delta-limitation">
+                  Факторные оценки в доступных snapshots не изменились. Исторические веса не сохранены, поэтому их вклад не детализирован.
+                </p>
+              ) : (
+                <ul className="pp-factor-deltas">
+                  {latest.factorDeltas.map((factor) => (
+                    <li key={factor.key}>
+                      <span>{factor.label}</span>
+                      <span className="mono">{factor.previousScore} → {factor.currentScore}</span>
+                      <strong className={`mono ${factor.delta > 0 ? 'is-positive' : 'is-negative'}`}>
+                        {signedDelta(factor.delta)}
+                      </strong>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className="pp-delta-group">
+              <h3>Контекст источников</h3>
+              <p className="pp-source-disclaimer">
+                Текущие источники данных. Даты сбора не являются доказанной причиной конкретного изменения Score.
+              </p>
+              <ol className="pp-source-timeline">
+                {sources.map((source, index) => (
+                  <li key={`${source.kind}-${source.sourceName}-${index}`}>
+                    <span className="pp-source-dot" aria-hidden="true" />
+                    <div>
+                      <strong>{source.sourceName}</strong>
+                      <span>{sourceMeta(source)}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          {events.length > 1 && (
+            <details className="pp-delta-history">
+              <summary>
+                <span className="pp-delta-history-chevron" aria-hidden="true">
+                  <Icon name="chevR" size={14} />
+                </span>
+                Предыдущие изменения ({events.length - 1})
+              </summary>
+              <ol>
+                {events.slice(1).map((event) => (
+                  <li key={event.id}>
+                    <span className={`pp-history-dot is-${event.delta === null ? 'initial' : event.delta > 0 ? 'positive' : event.delta < 0 ? 'negative' : 'neutral'}`} />
+                    <div>
+                      <strong>
+                        {event.oldScore === null
+                          ? `Первая оценка ${event.newScore}`
+                          : `${event.oldScore} → ${event.newScore} (${signedDelta(event.delta ?? 0)})`}
+                      </strong>
+                      <span>{event.reasonLabel} · {formatTimelineDate(event.createdAt)} · {event.actorLabel}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          )}
+        </>
+      )}
+    </section>
   );
 }

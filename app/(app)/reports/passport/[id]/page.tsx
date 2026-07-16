@@ -5,7 +5,7 @@ import { fmtDateLong, fmtDateShort } from '@/lib/utils/dates';
 import { getPassportReportData } from '@/lib/reports/passport-report';
 import { Logo } from '@/components/shared/logo';
 import { PassportReportActions } from '@/components/shared/reports/report-actions';
-import type { RiskImpactHint } from '@/lib/trust/explainability';
+import type { RiskImpactHint, SourceContext } from '@/lib/trust/explainability';
 import '@/app/report.css';
 
 export const metadata: Metadata = {
@@ -51,6 +51,17 @@ function riskImpactCopy(hint: RiskImpactHint | null): string {
   return `Ориентировочно +${hint.potentialGain} после закрытия (${hint.currentScore} → ${hint.projectedScore})`;
 }
 
+function signedDelta(value: number): string {
+  return `${value > 0 ? '+' : ''}${value}`;
+}
+
+function sourceContextCopy(source: SourceContext): string {
+  const parts = [source.kind === 'import' ? 'Импорт' : 'Ручной ввод'];
+  if (source.collectedAt) parts.push(fmtDateLong(source.collectedAt));
+  if (source.confidence) parts.push(`confidence: ${source.confidence}`);
+  return parts.join(' · ');
+}
+
 export default async function PassportReportPage({
   params,
 }: {
@@ -59,6 +70,7 @@ export default async function PassportReportPage({
   const { id } = await params;
   const report = await getPassportReportData(id);
   const band = getTrustBand(report.passport.trust_score);
+  const latestDelta = report.scoreTimeline[0] ?? null;
 
   return (
     <main className="report-shell">
@@ -124,6 +136,77 @@ export default async function PassportReportPage({
               );
             })}
           </div>
+        </section>
+
+        <section className="report-section">
+          <div className="report-section-head">
+            <h2>Объяснение изменения Score</h2>
+            <span>История расчётов и текущий source context</span>
+          </div>
+          {!latestDelta ? (
+            <p className="report-empty">
+              История изменений пока пуста. Объяснение появится после первого изменения Trust Score.
+            </p>
+          ) : (
+            <div className="report-delta-grid">
+              <div className="report-delta-block">
+                <div className="report-delta-score">
+                  <div>
+                    <span>{latestDelta.reasonLabel}</span>
+                    <strong>
+                      {latestDelta.oldScore === null
+                        ? `Первая зафиксированная оценка: ${latestDelta.newScore}`
+                        : `${latestDelta.oldScore} → ${latestDelta.newScore}`}
+                    </strong>
+                    <small>{fmtDateLong(latestDelta.createdAt)} · {latestDelta.actorLabel}</small>
+                  </div>
+                  <b>
+                    {latestDelta.delta === null
+                      ? latestDelta.newScore
+                      : signedDelta(latestDelta.delta)}
+                  </b>
+                </div>
+                <h3>Изменение факторов</h3>
+                {!latestDelta.factorComparisonAvailable ? (
+                  <p className="report-delta-limit">
+                    Предыдущий factor snapshot недоступен, поэтому детализация факторов ограничена.
+                  </p>
+                ) : latestDelta.factorDeltas.length === 0 ? (
+                  <p className="report-delta-limit">
+                    Факторные оценки не изменились. Исторические веса не сохранены и не детализируются.
+                  </p>
+                ) : (
+                  <ul className="report-factor-deltas">
+                    {latestDelta.factorDeltas.map((factor) => (
+                      <li key={factor.key}>
+                        <span>{factor.label}</span>
+                        <span>{factor.previousScore} → {factor.currentScore}</span>
+                        <strong>{signedDelta(factor.delta)}</strong>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div className="report-delta-block">
+                <h3>Контекст источников</h3>
+                <p className="report-delta-limit">
+                  Это текущие источники данных. Даты сбора не являются доказанной причиной конкретного изменения Score.
+                </p>
+                <ol className="report-source-timeline">
+                  {report.sourceTimeline.map((source, index) => (
+                    <li key={`${source.kind}-${source.sourceName}-${index}`}>
+                      <span />
+                      <div>
+                        <strong>{source.sourceName}</strong>
+                        <small>{sourceContextCopy(source)}</small>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="report-two-col">

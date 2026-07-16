@@ -4,11 +4,16 @@ import { getReportAccessContext } from '@/lib/reports/access';
 import {
   buildFactorExplanations,
   buildRiskImpactHints,
+  buildScoreDeltaTimeline,
   buildScoreFactors,
+  buildSourceTimeline,
   buildTopScoreDrivers,
   type ExplainabilityRisk,
   type FactorExplanation,
+  type ScoreDeltaEvent,
   type ScoreFactor,
+  type ScoreHistoryInput,
+  type SourceContext,
 } from '@/lib/trust/explainability';
 import {
   DEFAULT_FACTOR_WEIGHTS,
@@ -75,6 +80,16 @@ interface RiskLinkRaw {
   risks: RiskRaw | RiskRaw[] | null;
 }
 
+interface ScoreHistoryRaw {
+  id: string;
+  old_score: number | null;
+  new_score: number;
+  factors_snapshot: unknown;
+  reason: string | null;
+  changed_by: string;
+  created_at: string;
+}
+
 type WeightsRaw = FactorWeights;
 
 const FACTOR_WEIGHT_KEYS: Readonly<Record<TrustFactorKey, keyof FactorWeights>> = {
@@ -101,6 +116,8 @@ export interface PassportReportData {
   factors: PassportReportFactor[];
   topDrivers: ScoreFactor[];
   factorExplanations: FactorExplanation[];
+  scoreTimeline: ScoreDeltaEvent[];
+  sourceTimeline: SourceContext[];
   generatedAt: string;
   sourceCoverage: Array<{
     source: string;
@@ -298,17 +315,28 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
   }));
 
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  const { data: deltaRaw } = await admin
-    .from('trust_score_history')
-    .select('new_score')
-    .eq('object_id', objectId)
-    .eq('organization_id', orgId)
-    .gte('created_at', thirtyDaysAgo)
-    .order('created_at', { ascending: true })
-    .limit(1)
-    .single();
+  const [deltaResult, historyResult] = await Promise.all([
+    admin
+      .from('trust_score_history')
+      .select('new_score')
+      .eq('object_id', objectId)
+      .eq('organization_id', orgId)
+      .gte('created_at', thirtyDaysAgo)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .single(),
+    admin
+      .from('trust_score_history')
+      .select('id, old_score, new_score, factors_snapshot, reason, changed_by, created_at')
+      .eq('object_id', objectId)
+      .eq('organization_id', orgId)
+      .order('created_at', { ascending: false })
+      .limit(6),
+  ]);
 
-  const firstScore = (deltaRaw as unknown as { new_score: number } | null)?.new_score ?? null;
+  const firstScore = (
+    deltaResult.data as unknown as { new_score: number } | null
+  )?.new_score ?? null;
   const delta30 = firstScore !== null ? passport.trust_score - firstScore : 0;
   const factors = buildFactors(passport, weights);
   const factorExplanations = hideSourceRecordIds(
@@ -318,6 +346,22 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
       objectDescription: raw.description,
       risks: explanationRisks,
     }),
+  );
+  const historyRows = (
+    historyResult.data as unknown as ScoreHistoryRaw[] | null
+  ) ?? [];
+  const scoreHistory: ScoreHistoryInput[] = historyRows.map((entry) => ({
+    id: entry.id,
+    oldScore: entry.old_score,
+    newScore: entry.new_score,
+    factorsSnapshot: entry.factors_snapshot,
+    reason: entry.reason,
+    changedBy: entry.changed_by,
+    createdAt: entry.created_at,
+  }));
+  const scoreTimeline = buildScoreDeltaTimeline(scoreHistory, 5);
+  const sourceTimeline = buildSourceTimeline(
+    factorExplanations.flatMap((factor) => factor.sources),
   );
 
   return {
@@ -333,6 +377,8 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     factors,
     topDrivers: buildTopScoreDrivers(factors),
     factorExplanations,
+    scoreTimeline,
+    sourceTimeline,
     generatedAt: new Date().toISOString(),
     sourceCoverage: buildSourceCoverage(object, risks),
   };

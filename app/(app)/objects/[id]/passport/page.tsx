@@ -25,6 +25,8 @@ export default async function PassportPage({
       factors={report.factors}
       topDrivers={report.topDrivers}
       factorExplanations={report.factorExplanations}
+      scoreTimeline={report.scoreTimeline}
+      sourceTimeline={report.sourceTimeline}
     />
   );
 }

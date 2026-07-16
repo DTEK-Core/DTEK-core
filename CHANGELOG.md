@@ -7,6 +7,26 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T005 — Score Delta Explanation With Evidence Timeline
+
+#### Добавлено
+
+- Блок «Почему изменился Score» в Trust Passport с фактической delta, причиной, безопасной ролью инициатора и историей до пяти событий.
+- Сравнение факторных оценок только по последовательным полным `factors_snapshot` с честными fallback-состояниями для первой и неполной записи.
+- Timeline текущих import/manual sources с дедупликацией, сортировкой по дате сбора и явным отказом от недоказанной исторической причинности.
+- Сводка последнего изменения Score и source context в printable Trust Passport.
+- Contract-тесты factor delta, malformed snapshots, actor sanitization, source ordering, deduplication и limit.
+
+#### Изменено
+
+- Tenant-scoped Passport report получает до шести записей `trust_score_history`, чтобы построить пять сравнимых событий без дополнительных клиентских запросов.
+- Sprint 12, README и Technical Debt синхронизированы с завершением S12-T005.
+
+#### Безопасность
+
+- История запрашивается по `object_id` и текущему `organization_id`; клиент получает нормализованный read model без raw `changed_by`, `source_record_id` и исходных snapshots.
+- Формула ADR-001, схема БД, RLS/RBAC, права записи, зависимости и Trust Score Engine не изменены.
+
 ### S12-T004 — Risk Impact Hint
 
 #### Добавлено

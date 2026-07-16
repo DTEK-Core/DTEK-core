@@ -201,6 +201,146 @@
   border-radius: inherit;
 }
 
+.report-delta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.report-delta-block {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r);
+  background: var(--surface-2);
+}
+
+.report-delta-block h3 {
+  margin: 16px 0 9px;
+  color: var(--text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.report-delta-block > h3:first-child {
+  margin-top: 0;
+}
+
+.report-delta-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.report-delta-score div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.report-delta-score span,
+.report-delta-score small,
+.report-source-timeline small {
+  color: var(--text-mute);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.report-delta-score strong {
+  margin: 3px 0;
+  font-size: 14px;
+}
+
+.report-delta-score b {
+  color: var(--report-band);
+  font-family: var(--mono);
+  font-size: 24px;
+  white-space: nowrap;
+}
+
+.report-factor-deltas,
+.report-source-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.report-factor-deltas li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 32px;
+  gap: 8px;
+  padding: 7px 0;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+}
+
+.report-factor-deltas li:first-child {
+  border-top: 0;
+}
+
+.report-factor-deltas li span:nth-child(2),
+.report-factor-deltas li strong {
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+.report-factor-deltas li strong {
+  text-align: right;
+}
+
+.report-delta-limit {
+  margin: 0;
+  color: var(--text-mute);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.report-source-timeline {
+  position: relative;
+  margin-top: 12px;
+}
+
+.report-source-timeline::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 4px;
+  width: 1px;
+  background: var(--border-subtle);
+}
+
+.report-source-timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr);
+  gap: 9px;
+  padding-bottom: 10px;
+}
+
+.report-source-timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.report-source-timeline li > span {
+  position: relative;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  margin-top: 3px;
+  border: 2px solid var(--surface-2);
+  border-radius: 50%;
+  background: var(--info);
+}
+
+.report-source-timeline strong,
+.report-source-timeline small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
 .report-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -511,6 +651,7 @@
 
   .report-summary-grid,
   .report-factor-grid,
+  .report-delta-grid,
   .report-two-col,
   .report-source-grid,
   .executive-kpi-grid,
@@ -580,6 +721,7 @@
 
   .report-stat,
   .report-section.compact,
+  .report-delta-block,
   .report-source,
   .executive-summary-item,
   .executive-table-head {
@@ -590,6 +732,10 @@
   .report-field span,
   .report-factor-foot,
   .report-section-head span,
+  .report-delta-score span,
+  .report-delta-score small,
+  .report-delta-limit,
+  .report-source-timeline small,
   .report-empty,
   .report-state p,
   .report-source p,
@@ -606,13 +752,20 @@
   .report-stat strong,
   .report-field strong,
   .report-section h2,
+  .report-delta-score strong,
+  .report-source-timeline strong,
   .report-state h1,
   .report-factor-top strong,
   .report-risk strong {
     color: #111827 !important;
   }
 
+  .report-source-timeline li > span {
+    border-color: #fff;
+  }
+
   .report-two-col,
+  .report-delta-grid,
   .report-source-grid,
   .executive-summary,
   .executive-table,

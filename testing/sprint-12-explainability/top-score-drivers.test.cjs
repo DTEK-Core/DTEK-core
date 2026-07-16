@@ -33,6 +33,8 @@ const {
   buildScoreFactors,
   buildFactorExplanations,
   buildRiskImpactHints,
+  buildScoreDeltaTimeline,
+  buildSourceTimeline,
   buildTopScoreDrivers,
   NEUTRAL_TRUST_REFERENCE,
   parseSourceContext,
@@ -362,4 +364,183 @@ test('risk impact uses the current organization factor weights', () => {
     projectedScore: 70,
     potentialGain: 25,
   });
+});
+
+test('score delta timeline uses history rows and compares consecutive valid snapshots', () => {
+  const previousSnapshot = {
+    vuln: 45,
+    config: 55,
+    access: 70,
+    network: 70,
+    compliance: 80,
+    incident: 70,
+  };
+  const currentSnapshot = { ...previousSnapshot, vuln: 55, config: 60 };
+  const timeline = buildScoreDeltaTimeline([
+    {
+      id: 'history-latest',
+      oldScore: 58,
+      newScore: 63,
+      factorsSnapshot: currentSnapshot,
+      reason: 'risk_imported',
+      changedBy: '4da0b4a9-1064-4e2b-a206-0dc48e123456',
+      createdAt: '2026-07-16T12:00:00.000Z',
+    },
+    {
+      id: 'history-previous',
+      oldScore: 55,
+      newScore: 58,
+      factorsSnapshot: previousSnapshot,
+      reason: 'recalculated',
+      changedBy: 'system',
+      createdAt: '2026-07-15T12:00:00.000Z',
+    },
+  ]);
+
+  assert.deepEqual(timeline[0], {
+    id: 'history-latest',
+    oldScore: 58,
+    newScore: 63,
+    delta: 5,
+    reasonLabel: 'Импорт рисков',
+    actorLabel: 'Пользователь',
+    createdAt: '2026-07-16T12:00:00.000Z',
+    factorComparisonAvailable: true,
+    factorDeltas: [
+      { key: 'vuln', label: 'Уязвимости', previousScore: 45, currentScore: 55, delta: 10 },
+      { key: 'config', label: 'Конфигурация', previousScore: 55, currentScore: 60, delta: 5 },
+    ],
+  });
+  assert.equal(timeline[1].factorComparisonAvailable, false);
+  assert.deepEqual(timeline[1].factorDeltas, []);
+});
+
+test('score delta timeline handles first, unchanged, discontinuous and malformed snapshots honestly', () => {
+  const completeSnapshot = {
+    vuln: 70,
+    config: 70,
+    access: 70,
+    network: 70,
+    compliance: 80,
+    incident: 70,
+  };
+  const unchanged = buildScoreDeltaTimeline([
+    {
+      id: 'latest',
+      oldScore: 70,
+      newScore: 72,
+      factorsSnapshot: completeSnapshot,
+      reason: 'weights_changed',
+      changedBy: 'scheduler',
+      createdAt: '2026-07-16T12:00:00.000Z',
+    },
+    {
+      id: 'previous',
+      oldScore: null,
+      newScore: 70,
+      factorsSnapshot: completeSnapshot,
+      reason: null,
+      changedBy: 'system',
+      createdAt: '2026-07-15T12:00:00.000Z',
+    },
+  ]);
+
+  assert.equal(unchanged[0].factorComparisonAvailable, true);
+  assert.deepEqual(unchanged[0].factorDeltas, []);
+  assert.equal(unchanged[0].reasonLabel, 'Изменение весов факторов');
+  assert.equal(unchanged[0].actorLabel, 'Служебный процесс');
+  assert.equal(unchanged[1].delta, null);
+
+  const malformed = buildScoreDeltaTimeline([
+    {
+      id: 'malformed',
+      oldScore: 60,
+      newScore: 61,
+      factorsSnapshot: { vuln: 61 },
+      reason: 'unrecognized_reason',
+      changedBy: 'system',
+      createdAt: '2026-07-16T12:00:00.000Z',
+    },
+    {
+      id: 'previous',
+      oldScore: 59,
+      newScore: 60,
+      factorsSnapshot: completeSnapshot,
+      reason: null,
+      changedBy: 'system',
+      createdAt: '2026-07-15T12:00:00.000Z',
+    },
+  ])[0];
+
+  assert.equal(malformed.factorComparisonAvailable, false);
+  assert.deepEqual(malformed.factorDeltas, []);
+  assert.equal(malformed.reasonLabel, 'Переоценка Trust Score');
+
+  const discontinuous = buildScoreDeltaTimeline([
+    {
+      id: 'latest',
+      oldScore: 70,
+      newScore: 72,
+      factorsSnapshot: completeSnapshot,
+      reason: 'recalculated',
+      changedBy: 'system',
+      createdAt: '2026-07-16T12:00:00.000Z',
+    },
+    {
+      id: 'non-adjacent',
+      oldScore: 60,
+      newScore: 65,
+      factorsSnapshot: { ...completeSnapshot, vuln: 60 },
+      reason: 'recalculated',
+      changedBy: 'system',
+      createdAt: '2026-07-14T12:00:00.000Z',
+    },
+  ])[0];
+
+  assert.equal(discontinuous.factorComparisonAvailable, false);
+  assert.deepEqual(discontinuous.factorDeltas, []);
+});
+
+test('source timeline deduplicates and orders current context without claiming causality', () => {
+  const manual = {
+    kind: 'manual',
+    sourceName: 'Ручные данные DTEK Core',
+    sourceType: null,
+    sourceRecordId: null,
+    collectedAt: null,
+    confidence: null,
+    isEvidenceRecord: false,
+  };
+  const inventory = {
+    kind: 'import',
+    sourceName: 'Asset Inventory',
+    sourceType: 'asset_inventory',
+    sourceRecordId: 'asset-100',
+    collectedAt: '2026-07-15',
+    confidence: 'medium',
+    isEvidenceRecord: false,
+  };
+  const scanner = {
+    kind: 'import',
+    sourceName: 'MaxPatrol VM',
+    sourceType: 'vulnerability_export',
+    sourceRecordId: 'vm-100',
+    collectedAt: '2026-07-16',
+    confidence: 'high',
+    isEvidenceRecord: false,
+  };
+
+  const timeline = buildSourceTimeline([
+    manual,
+    inventory,
+    { ...inventory, sourceRecordId: 'asset-duplicate' },
+    scanner,
+  ]);
+
+  assert.deepEqual(timeline.map(({ sourceName }) => sourceName), [
+    'MaxPatrol VM',
+    'Asset Inventory',
+    'Ручные данные DTEK Core',
+  ]);
+  assert.equal(buildSourceTimeline([manual, inventory, scanner], 2).length, 2);
 });
