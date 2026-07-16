@@ -67,7 +67,7 @@ Trust Score без объяснения может восприниматься 
 | ID | Задача | Приоритет | Оценка | Зависимости | Статус |
 |---|---|---|---|---|---|
 | S12-T001 | Evidence-backed Explainability Model Specification | P1 | M | S11 | ✅ Завершено |
-| S12-T002 | Top Score Drivers for Object Passport | P1 | M | T001 | 📋 Запланировано |
+| S12-T002 | Top Score Drivers for Object Passport | P1 | M | T001 | ✅ Завершено |
 | S12-T003 | Factor Reason Cards With Sources | P1 | M | T001 | 📋 Запланировано |
 | S12-T004 | Risk Impact Hint | P1 | M | T001 | 📋 Запланировано |
 | S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | 📋 Запланировано |
@@ -114,6 +114,8 @@ Trust Score без объяснения может восприниматься 
 **Описание:** показать главные причины снижения или роста Trust Score на странице объекта/паспорта.
 
 **Ожидаемый результат:** пользователь видит 3–5 ключевых факторов влияния.
+
+**Решение:** в Trust Passport добавлен блок «Ключевые факторы оценки» с максимум пятью материальными drivers, отсортированными по абсолютному взвешенному отклонению от neutral reference 70. Для каждого фактора показываются score, актуальный вес организации, направление и вклад с точностью до одного знака; при отсутствии отклонений отображается честное neutral state. Расчёт вынесен в pure-модуль `lib/trust/explainability.ts`, покрыт contract-тестами и использует стабильный порядок ADR-001. Passport report service теперь получает текущий `trust_factor_config`, а единый fallback весов переиспользуется Trust Engine. Risk-level причины и source context остаются в scope S12-T003, counterfactual impact — S12-T004.
 
 ### S12-T003 — Factor Reason Cards With Sources
 

@@ -7,8 +7,9 @@ import { Icon } from '@/components/shared/icon';
 import { Logo } from '@/components/shared/logo';
 import { CritTag } from '@/components/shared/crit-tag';
 import { TrustRing } from '@/components/shared/trust-ring';
-import { getTrustBand, TRUST_FACTORS, OBJECT_TYPES } from '@/lib/design-tokens';
+import { getTrustBand, OBJECT_TYPES } from '@/lib/design-tokens';
 import { triggerRecalculate } from '@/lib/actions/trust';
+import type { ScoreFactor } from '@/lib/trust/explainability';
 import { fmtDateLong, fmtDateShort } from '@/lib/utils/dates';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -54,6 +55,8 @@ interface TrustPassportClientProps {
   orgName:        string;
   canRecalculate: boolean;
   delta30:        number;
+  factors:        ScoreFactor[];
+  topDrivers:     ScoreFactor[];
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -81,35 +84,6 @@ const CRITICALITY_LABELS: Record<string, string> = {
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-interface FactorItem {
-  key: string;
-  label: string;
-  weight: number;
-  score: number;
-  contribution: number;
-}
-
-function makeFactors(p: PassportData): FactorItem[] {
-  const scores: Record<string, number> = {
-    vuln:       p.vuln_score,
-    config:     p.config_score,
-    access:     p.access_score,
-    network:    p.network_score,
-    compliance: p.compliance_score,
-    incident:   p.incident_score,
-  };
-  return TRUST_FACTORS.map(f => {
-    const score = scores[f.key] ?? 70;
-    return {
-      key:          f.key,
-      label:        f.label,
-      weight:       f.weight,
-      score,
-      contribution: Math.round((score * f.weight) / 100),
-    };
-  });
-}
-
 function typeLabel(type: string): string {
   return OBJECT_TYPES.find(t => t.key === type)?.label ?? type;
 }
@@ -118,6 +92,15 @@ function formatRiskMeta(riskId: string, dueDate: string | null): string {
   const shortId = riskId.slice(0, 8);
   if (!dueDate) return shortId;
   return `${shortId} · SLA: ${fmtDateShort(new Date(dueDate))}`;
+}
+
+function formatDecimal(value: number): string {
+  return value.toFixed(1).replace('.', ',');
+}
+
+function formatDriverDelta(value: number): string {
+  const sign = value > 0 ? '+' : '−';
+  return `${sign}${formatDecimal(Math.abs(value))}`;
 }
 
 // ── Component ──────────────────────────────────────────────────────────────────
@@ -129,6 +112,8 @@ export function TrustPassportClient({
   orgName,
   canRecalculate,
   delta30,
+  factors,
+  topDrivers,
 }: TrustPassportClientProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -156,8 +141,6 @@ export function TrustPassportClient({
 
   const band    = getTrustBand(passport.trust_score);
   const tone    = BAND_TONE[band.key] ?? 'teal';
-  const factors = makeFactors(passport);
-
   const metaParts = [
     object.id.slice(0, 8),
     typeLabel(object.type),
@@ -273,6 +256,62 @@ export function TrustPassportClient({
           <PpStat label="Оценка" value={<span className="mono">{fmtDateLong(passport.calculated_at)}</span>} />
         </div>
 
+        {/* ── Top score drivers ── */}
+        <section className="pp-section pp-drivers-section">
+          <div className="pp-section-head">
+            <h2 className="pp-section-title">Ключевые факторы оценки</h2>
+            <span className="pp-neutral-reference mono">Относительно уровня 70</span>
+          </div>
+
+          {topDrivers.length > 0 ? (
+            <ol className="pp-drivers">
+              {topDrivers.map((driver, index) => {
+                const isNegative = driver.direction === 'negative';
+                const factorBand = getTrustBand(driver.score);
+                return (
+                  <li
+                    className={`pp-driver is-${driver.direction}`}
+                    key={driver.key}
+                  >
+                    <span className="pp-driver-rank mono">{index + 1}</span>
+                    <span className="pp-driver-direction" aria-hidden="true">
+                      <Icon name={isNegative ? 'arrowDown' : 'arrowUp'} size={16} />
+                    </span>
+                    <div className="pp-driver-main">
+                      <div className="pp-driver-title-row">
+                        <span className="pp-driver-title">{driver.label}</span>
+                        <span
+                          className="pp-driver-score mono"
+                          style={{ color: factorBand.color }}
+                        >
+                          {driver.score}/100
+                        </span>
+                      </div>
+                      <span className="pp-driver-meta">
+                        Вес {driver.weight}% · {isNegative
+                          ? 'снижает итоговую оценку'
+                          : 'поддерживает итоговую оценку'}
+                      </span>
+                    </div>
+                    <div
+                      className="pp-driver-impact"
+                      aria-label={`Вклад ${formatDriverDelta(driver.neutralDelta)} пункта относительно уровня 70`}
+                    >
+                      <strong className="mono">{formatDriverDelta(driver.neutralDelta)} п.</strong>
+                      <span>вклад к 70</span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <div className="pp-drivers-empty">
+              <Icon name="shield" size={19} />
+              <span>Существенных отклонений от нейтрального уровня нет</span>
+            </div>
+          )}
+        </section>
+
         {/* ── Factor breakdown ── */}
         <section className="pp-section">
           <div className="pp-section-head">
@@ -287,7 +326,7 @@ export function TrustPassportClient({
                 <div className="ppf" key={f.key}>
                   <div className="ppf-head">
                     <span className="ppf-label">{f.label}</span>
-                    <span className="ppf-contrib mono">+{f.contribution}</span>
+                    <span className="ppf-contrib mono">+{formatDecimal(f.contribution)}</span>
                   </div>
                   <div className="ppf-bar">
                     <div
@@ -324,7 +363,7 @@ export function TrustPassportClient({
                       background: fb.color,
                       opacity: 0.85,
                     }}
-                    title={`${f.label}: +${f.contribution}`}
+                    title={`${f.label}: +${formatDecimal(f.contribution)}`}
                   />
                 );
               })}

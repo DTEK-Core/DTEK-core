@@ -7,6 +7,25 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T002 — Top Score Drivers
+
+#### Добавлено
+
+- Pure-модуль Trust Score explainability для factor contribution, neutral delta, direction и стабильного top-5.
+- Блок «Ключевые факторы оценки» в Trust Passport с положительными/отрицательными drivers и neutral state.
+- Contract-тесты утверждённого примера, custom weights, top-5, neutral filtering и stable ties.
+
+#### Изменено
+
+- Trust Passport и printable report используют актуальные веса `trust_factor_config`, а не только design defaults.
+- Дефолтные веса вынесены в единый контракт и переиспользуются Trust Engine и report service.
+- Sprint 12 и README синхронизированы с завершением S12-T002.
+
+#### Безопасность
+
+- Drivers рассчитываются в tenant-scoped report flow и доступны в read-only режиме всем ролям с доступом к паспорту.
+- Новых клиентских привилегий, записей в БД, миграций и зависимостей нет.
+
 ### S12-T001 — Evidence-backed Explainability Model Specification
 
 #### Добавлено

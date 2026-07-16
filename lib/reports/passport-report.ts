@@ -1,6 +1,15 @@
 import { notFound } from 'next/navigation';
-import { TRUST_FACTORS } from '@/lib/design-tokens';
+import { TRUST_FACTORS, type TrustFactorKey } from '@/lib/design-tokens';
 import { getReportAccessContext } from '@/lib/reports/access';
+import {
+  buildScoreFactors,
+  buildTopScoreDrivers,
+  type ScoreFactor,
+} from '@/lib/trust/explainability';
+import {
+  DEFAULT_FACTOR_WEIGHTS,
+  type FactorWeights,
+} from '@/lib/trust/calculate';
 import type {
   PassportData,
   PassportObject,
@@ -55,13 +64,18 @@ interface RiskLinkRaw {
   risks: RiskRaw | RiskRaw[] | null;
 }
 
-export interface PassportReportFactor {
-  key: string;
-  label: string;
-  weight: number;
-  score: number;
-  contribution: number;
-}
+type WeightsRaw = FactorWeights;
+
+const FACTOR_WEIGHT_KEYS: Readonly<Record<TrustFactorKey, keyof FactorWeights>> = {
+  vuln:       'vuln_weight',
+  config:     'config_weight',
+  access:     'access_weight',
+  network:    'network_weight',
+  compliance: 'compliance_weight',
+  incident:   'incident_weight',
+};
+
+export type PassportReportFactor = ScoreFactor;
 
 export interface PassportReportData {
   object: PassportObject;
@@ -74,6 +88,7 @@ export interface PassportReportData {
   role: string;
   delta30: number;
   factors: PassportReportFactor[];
+  topDrivers: ScoreFactor[];
   generatedAt: string;
   sourceCoverage: Array<{
     source: string;
@@ -86,7 +101,10 @@ function single<T>(value: T | T[] | null): T | null {
   return Array.isArray(value) ? value[0] ?? null : value;
 }
 
-function buildFactors(passport: PassportData): PassportReportFactor[] {
+function buildFactors(
+  passport: PassportData,
+  weights: Readonly<FactorWeights>,
+): PassportReportFactor[] {
   const scores: Record<string, number> = {
     vuln:       passport.vuln_score,
     config:     passport.config_score,
@@ -96,16 +114,15 @@ function buildFactors(passport: PassportData): PassportReportFactor[] {
     incident:   passport.incident_score,
   };
 
-  return TRUST_FACTORS.map((factor) => {
+  return buildScoreFactors(TRUST_FACTORS.map((factor) => {
     const score = scores[factor.key] ?? 70;
     return {
-      key:          factor.key,
-      label:        factor.label,
-      weight:       factor.weight,
+      key:    factor.key,
+      label:  factor.label,
+      weight: weights[FACTOR_WEIGHT_KEYS[factor.key]],
       score,
-      contribution: Math.round((score * factor.weight) / 100),
     };
-  });
+  }));
 }
 
 function buildSourceCoverage(object: PassportObject, risks: PassportRisk[]) {
@@ -213,14 +230,25 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     })
     .filter((risk): risk is PassportRisk => risk !== null);
 
-  const { data: orgData } = await admin
-    .from('organizations')
-    .select('name, short_name')
-    .eq('id', orgId)
-    .single();
+  const [orgResult, weightsResult] = await Promise.all([
+    admin
+      .from('organizations')
+      .select('name, short_name')
+      .eq('id', orgId)
+      .single(),
+    admin
+      .from('trust_factor_config')
+      .select('vuln_weight, config_weight, access_weight, network_weight, compliance_weight, incident_weight')
+      .eq('organization_id', orgId)
+      .single(),
+  ]);
 
+  const orgData = orgResult.data;
   const org = orgData as unknown as OrgRaw | null;
   const orgName = org?.short_name ?? org?.name ?? '';
+  const weights = (
+    weightsResult.data as unknown as WeightsRaw | null
+  ) ?? DEFAULT_FACTOR_WEIGHTS;
 
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
   const { data: deltaRaw } = await admin
@@ -235,6 +263,7 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
 
   const firstScore = (deltaRaw as unknown as { new_score: number } | null)?.new_score ?? null;
   const delta30 = firstScore !== null ? passport.trust_score - firstScore : 0;
+  const factors = buildFactors(passport, weights);
 
   return {
     object,
@@ -246,7 +275,8 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     userEmail: user.email,
     role,
     delta30,
-    factors: buildFactors(passport),
+    factors,
+    topDrivers: buildTopScoreDrivers(factors),
     generatedAt: new Date().toISOString(),
     sourceCoverage: buildSourceCoverage(object, risks),
   };

@@ -5,8 +5,13 @@
  */
 
 import { createAdminClient } from '@/lib/supabase/admin';
-import { calcTrustScore, calcCompleteness, calcOrgIndex } from './calculate';
-import type { ObjectForCalc, RiskForCalc, FactorWeights } from './calculate';
+import {
+  calcTrustScore,
+  calcCompleteness,
+  calcOrgIndex,
+  DEFAULT_FACTOR_WEIGHTS,
+} from './calculate';
+import type { ObjectForCalc, RiskForCalc } from './calculate';
 
 // ── Internal DB row shapes ─────────────────────────────────────────────────────
 
@@ -31,17 +36,6 @@ interface OrgObjectRow {
   trust_score: number;
   criticality: string;
 }
-
-// ── Defaults ───────────────────────────────────────────────────────────────────
-
-const DEFAULT_WEIGHTS: FactorWeights = {
-  vuln_weight:       22,
-  config_weight:     18,
-  access_weight:     18,
-  network_weight:    14,
-  compliance_weight: 16,
-  incident_weight:   12,
-};
 
 // ── Options ────────────────────────────────────────────────────────────────────
 
@@ -98,7 +92,7 @@ export async function recalculateObjectTrust(
     .eq('organization_id', orgId)
     .single();
 
-  const weights = (weightsRaw as unknown as WeightsRow | null) ?? DEFAULT_WEIGHTS;
+  const weights = (weightsRaw as unknown as WeightsRow | null) ?? DEFAULT_FACTOR_WEIGHTS;
 
   // 4. Рассчитать
   const result       = calcTrustScore(obj, risks, weights);

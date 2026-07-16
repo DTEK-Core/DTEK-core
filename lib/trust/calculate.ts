@@ -80,6 +80,15 @@ export interface FactorWeights {
   incident_weight:   number;
 }
 
+export const DEFAULT_FACTOR_WEIGHTS: Readonly<FactorWeights> = {
+  vuln_weight:       22,
+  config_weight:     18,
+  access_weight:     18,
+  network_weight:    14,
+  compliance_weight: 16,
+  incident_weight:   12,
+};
+
 export interface TrustFactors {
   vuln:       number;
   config:     number;
