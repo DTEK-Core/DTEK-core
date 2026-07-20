@@ -1,7 +1,7 @@
 # ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 16.07.2026`
+`Дата: 20.07.2026`
 `Основа: Strategic Product & Market Analysis + Sprint 08 + ADR-007`
 
 ---
@@ -38,7 +38,7 @@ Sprint 01–08 создали функциональный и визуально
 | Demo data | Спецификация и manual seed plan готовы |
 | Import/export | Реализовано для CSV/XLSX import и ключевых отчётов; import трактуется как evidence ingestion |
 | Reports | Реализовано в Sprint 10 |
-| Explainability | Sprint 12 в работе; object-level и Dashboard UI реализованы, документация и QA остаются |
+| Explainability | Sprint 12 реализован; QA checklist готов, ожидается ручная приёмка |
 | Pilot narrative | Готов |
 | Pilot readiness | Требуется |
 | Evidence-first architecture | ADR-007 принят; требуется реализация слоями |
@@ -68,7 +68,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. В Sprint 12 реализованы explainability model, object-level drivers, reasons, impact, score delta, Dashboard summary и пользовательская документация; до закрытия Sprint остаётся QA checklist. Sprint 13–14 закрывают workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. Реализация Sprint 12 завершена вместе с пользовательской документацией и QA checklist; milestone ожидает ручную приёмку владельцем проекта. Sprint 13–14 закрывают workflow и pilot readiness.
 
 Фокус:
 
@@ -185,7 +185,7 @@ Sprint 01–08 создали функциональный и визуально
 | Sprint 09 | `tasks/SPRINT_09.md` | Market MVP Packaging |
 | Sprint 10 | `tasks/SPRINT_10.md` | Reporting & Export — завершён |
 | Sprint 11 | `tasks/SPRINT_11.md` | Evidence Import & Data Onboarding — завершён |
-| Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability — в работе |
+| Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability — реализация завершена, manual QA pending |
 | Sprint 13 | `tasks/SPRINT_13.md` | Evidence-aware Risk Workflow |
 | Sprint 14 | `tasks/SPRINT_14.md` | Pilot Readiness |
 | Sprint 15 | `tasks/SPRINT_15.md` | Connector Framework Foundation |

@@ -23,9 +23,9 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.12.0-dev — Sprint 12 active: User Documentation implemented.**
+**v0.12.0-dev — Sprint 12 implementation complete: manual QA pending.**
 
-Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint, Score Delta Explanation и Dashboard Explainability Summary. Пользовательская документация теперь объясняет, как читать блоки «Ключевые факторы оценки», «Расчёт оценки», «Почему изменился Score», impact hints и Dashboard summary.
+Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint, Score Delta Explanation и Dashboard Explainability Summary. Пользовательская документация и воспроизводимый QA checklist готовы; до закрытия milestone требуется ручная приёмка владельцем проекта.
 
 ### Реализованные Маршруты
 
@@ -145,6 +145,7 @@ tasks/               Backlog and sprint history
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
 | [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Пользовательское руководство по отчётам и экспорту |
 | [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Ручная приёмка Data Onboarding Sprint 11 |
+| [docs/testing/EXPLAINABILITY_QA_CHECKLIST.md](docs/testing/EXPLAINABILITY_QA_CHECKLIST.md) | Ручная приёмка Evidence-backed Explainability Sprint 12 |
 | [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
 | [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
@@ -158,7 +159,7 @@ tasks/               Backlog and sprint history
 
 Следующий фокус:
 
-1. Sprint 12 — Evidence-backed Trust Explainability, реализация UI по утверждённой модели.
+1. Завершить ручную приёмку Sprint 12 по Explainability QA Checklist.
 2. Sprint 13 — Evidence-aware Risk Workflow.
 3. Sprint 14 — Pilot Readiness.
 4. Sprint 15 — Connector Framework Foundation.
@@ -186,4 +187,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.12.0-dev / Sprint 12 active**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.12.0-dev / Sprint 12 manual QA pending**

@@ -7,6 +7,23 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T008 — Explainability QA Checklist
+
+#### Добавлено
+
+- Ручной QA checklist полного Sprint 12 с эталонным Score 63, factor arithmetic, Top Drivers, custom weights, clamp, rounding и counterfactual Risk Impact Hint.
+- Сценарии Score Delta Timeline, manual/imported/malformed source context, Dashboard aggregation, import regression, четырёх ролей, tenant isolation, safe errors и mobile/desktop UI.
+- Итоговый протокол и Definition of Ready для честного закрытия milestone после ручной приёмки владельцем проекта.
+
+#### Изменено
+
+- Sprint 12, README, Documentation Index, Roadmap, Sprint Roadmap, MVP Release Plan, AGENTS и explainability specification синхронизированы: реализация S12-T001–T008 завершена, manual QA остаётся условием закрытия milestone.
+
+#### Безопасность И Граница Продукта
+
+- Чеклист отдельно проверяет отсутствие internal IDs и raw errors, read-only доступ четырёх ролей, запрет переоценки для viewer и изоляцию второй организации.
+- Source context, confidence, timestamps и impact hints проверяются в пределах утверждённой модели без изменения ADR-001, схемы БД или Evidence Layer.
+
 ### S12-T007 — User Documentation: Why This Score
 
 #### Добавлено

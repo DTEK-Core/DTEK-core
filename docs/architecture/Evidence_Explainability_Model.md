@@ -573,4 +573,5 @@ potential gain = +6
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая Evidence Layer и Evidence Timeline.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий source metadata contract.
 - [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) — ограничения MVP и Pilot readiness.
+- [EXPLAINABILITY_QA_CHECKLIST.md](../testing/EXPLAINABILITY_QA_CHECKLIST.md) — ручная сверка UI, формулы, sources, RBAC и responsive states.
 - [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) — задачи реализации explainability.

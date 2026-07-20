@@ -4,7 +4,7 @@
 `Спринт: 12`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 11, Trust_Score_Model_v2.md, ADR-001, ADR-007`  
-`Статус: 🚧 В работе`
+`Статус: 🧪 Реализация завершена, ожидается ручная приёмка`
 
 ---
 
@@ -73,7 +73,7 @@ Trust Score без объяснения может восприниматься 
 | S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | ✅ Завершено |
 | S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 | ✅ Завершено |
 | S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 | ✅ Завершено |
-| S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 | 📋 Запланировано |
+| S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 | ✅ Завершено |
 
 ---
 
@@ -163,6 +163,8 @@ Trust Score без объяснения может восприниматься 
 
 **Ожидаемый результат:** чеклист исключает расхождения UI и формулы.
 
+**Решение:** создан `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` — воспроизводимая ручная приёмка полного Sprint 12. Чеклист включает эталонный объект со Score 63 и проверкой factor arithmetic, Top Drivers, custom weights, active/inactive risks, clamp и rounding, counterfactual Risk Impact Hint, фактическую Score Delta Timeline, manual/imported/malformed source states, Dashboard aggregation, regression импорта Sprint 11, четыре роли, tenant isolation, safe error states, mobile/desktop UI и сверку пользовательской документации. Инженерные contract-тесты отделены от authenticated manual QA; milestone закрывается только после заполнения итогового протокола владельцем проекта.
+
 ---
 
 ## 8. Definition Of Done
@@ -175,9 +177,11 @@ Trust Score без объяснения может восприниматься 
 - [x] Dashboard показывает summary причин.
 - [x] Формула Trust Score не изменена.
 - [x] Документация обновлена.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] Explainability QA checklist подготовлен.
+- [ ] Ручная приёмка по checklist завершена без Blocker/Critical замечаний.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
 
 ---
 

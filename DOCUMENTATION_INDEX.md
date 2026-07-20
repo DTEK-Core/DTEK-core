@@ -138,6 +138,7 @@
 | [docs/testing/RBAC_TESTING_GUIDE.md](docs/testing/RBAC_TESTING_GUIDE.md) | RBAC testing |
 | [docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md](docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md) | Sprint 10 Reporting manual smoke test |
 | [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Sprint 11 Data Onboarding manual smoke test |
+| [docs/testing/EXPLAINABILITY_QA_CHECKLIST.md](docs/testing/EXPLAINABILITY_QA_CHECKLIST.md) | Sprint 12 Explainability manual QA: formula, sources, history, RBAC и mobile |
 | [testing/sprint-11-import/README.md](testing/sprint-11-import/README.md) | Готовые import fixtures и автоматические contract-тесты Sprint 11 |
 | [docs/testing/BUG_REPORT_TEMPLATE.md](docs/testing/BUG_REPORT_TEMPLATE.md) | Bug report template |
 
@@ -161,7 +162,7 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging, завершён |
 | [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export, завершён |
 | [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, завершён |
-| [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: Evidence-backed Trust Explainability, в работе |
+| [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Evidence-aware Risk Workflow |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Pilot Readiness |
 | [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Connector Framework Foundation |
