@@ -68,7 +68,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. В Sprint 12 реализованы explainability model, object-level drivers, reasons, impact, score delta и Dashboard summary; до закрытия Sprint остаются пользовательская документация и QA checklist. Sprint 13–14 закрывают workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. В Sprint 12 реализованы explainability model, object-level drivers, reasons, impact, score delta, Dashboard summary и пользовательская документация; до закрытия Sprint остаётся QA checklist. Sprint 13–14 закрывают workflow и pilot readiness.
 
 Фокус:
 

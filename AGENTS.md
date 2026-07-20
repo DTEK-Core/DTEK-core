@@ -46,7 +46,7 @@
 
 Текущий этап:
 
-* **Sprint 12** — Evidence-backed Trust Explainability; S12-T001–T006 завершены, остаются пользовательская документация и итоговый QA checklist.
+* **Sprint 12** — Evidence-backed Trust Explainability; S12-T001–T007 завершены, остаётся итоговый QA checklist.
 
 Sprint 12 должен развивать Market MVP без изменения продуктовой границы: объяснимость Trust Score поверх уже реализованных Trust Passport, Trust Score, Trust Graph, Risk Registry, Reporting и Evidence Import. Все последующие Sprint должны учитывать Evidence-first стратегию: import является первым evidence ingestion path, explainability показывает источники данных, а connector framework развивается поэтапно.
 

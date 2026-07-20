@@ -7,6 +7,23 @@
 
 ## Sprint 12 — Evidence-backed Trust Explainability
 
+### S12-T007 — User Documentation: Why This Score
+
+#### Добавлено
+
+- Пользовательское объяснение блоков Trust Passport: «Ключевые факторы оценки», reason cards, source context, «Почему изменился Score» и Risk Impact Hint.
+- FAQ по Sprint 12 explainability: neutral reference 70, отличие source context от evidence record, ограничения истории, counterfactual impact и Dashboard summary.
+- Краткое объяснение explainability в основном User Guide.
+
+#### Изменено
+
+- Trust Score Guide расширен разделом «Почему Score такой» и рекомендациями по работе с объяснениями.
+- README, Documentation Index, Roadmap, Sprint Roadmap и Sprint 12 синхронизированы с завершением пользовательской документации.
+
+#### Безопасность И Граница Продукта
+
+- Документация явно фиксирует, что explainability не меняет формулу ADR-001, не добавляет новый score engine, не делает `confidence` частью расчёта и не трактует import source context как полноценный evidence record.
+
 ### S12-T006 — Dashboard Explainability Summary
 
 #### Добавлено

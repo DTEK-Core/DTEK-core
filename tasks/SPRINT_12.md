@@ -72,7 +72,7 @@ Trust Score без объяснения может восприниматься 
 | S12-T004 | Risk Impact Hint | P1 | M | T001 | ✅ Завершено |
 | S12-T005 | Score Delta Explanation With Evidence Timeline | P2 | M | T001 | ✅ Завершено |
 | S12-T006 | Dashboard Explainability Summary | P2 | S | T002–T004 | ✅ Завершено |
-| S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 | 📋 Запланировано |
+| S12-T007 | User Documentation: Why This Score | P1 | S | T001–T006 | ✅ Завершено |
 | S12-T008 | Explainability QA Checklist | P1 | S | T002–T007 | 📋 Запланировано |
 
 ---
@@ -155,6 +155,8 @@ Trust Score без объяснения может восприниматься 
 
 **Ожидаемый результат:** пользовательская документация объясняет новую логику.
 
+**Решение:** обновлены `docs/user/TRUST_SCORE_GUIDE.md`, `docs/user/FAQ.md` и `docs/user/USER_GUIDE.md`. Пользовательская документация теперь объясняет, как читать ключевые факторы оценки относительно reference 70, reason cards с base/penalties/bonus/contribution, source context и его отличие от будущих evidence records, фактическую историю «Почему изменился Score», counterfactual Risk Impact Hint и Dashboard summary «Что снижает доверие». Документы подчёркивают ограничения Market MVP: explainability не меняет формулу ADR-001, `confidence` не влияет на Score, impact hint является ориентиром, а source dates не доказывают причинность конкретного изменения. README, Documentation Index, Roadmap, Sprint Roadmap, CHANGELOG и AGENTS синхронизированы.
+
 ### S12-T008 — Explainability QA Checklist
 
 **Описание:** проверить корректность причин на демо-данных и импортированных данных.
@@ -172,7 +174,7 @@ Trust Score без объяснения может восприниматься 
 - [x] Последнее изменение Score объясняется по фактической истории и доступным factor snapshots.
 - [x] Dashboard показывает summary причин.
 - [x] Формула Trust Score не изменена.
-- [ ] Документация обновлена.
+- [x] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.
 - [ ] `npm run build` проходит.

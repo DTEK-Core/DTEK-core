@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 16.07.2026`
+`Дата: 20.07.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -114,7 +114,7 @@
 |---|---|
 | [docs/user/USER_GUIDE.md](docs/user/USER_GUIDE.md) | Руководство пользователя |
 | [docs/user/PLATFORM_WORKFLOW.md](docs/user/PLATFORM_WORKFLOW.md) | Рабочий процесс платформы |
-| [docs/user/TRUST_SCORE_GUIDE.md](docs/user/TRUST_SCORE_GUIDE.md) | Trust Score guide |
+| [docs/user/TRUST_SCORE_GUIDE.md](docs/user/TRUST_SCORE_GUIDE.md) | Trust Score guide, explainability, reason cards, impact hint и Dashboard summary |
 | [docs/user/OBJECT_MODEL_GUIDE.md](docs/user/OBJECT_MODEL_GUIDE.md) | Object model guide |
 | [docs/user/RISK_REGISTRY_GUIDE.md](docs/user/RISK_REGISTRY_GUIDE.md) | Risk Registry guide |
 | [docs/user/IMPORT_GUIDE.md](docs/user/IMPORT_GUIDE.md) | CSV/XLSX import объектов и рисков, preview и диагностика |
