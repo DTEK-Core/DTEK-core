@@ -10,15 +10,16 @@
 ## 1. Быстрый Маршрут Для Нового Участника
 
 1. [README.md](README.md) — что такое продукт и как запустить проект.
-2. [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) — утверждённые ADR.
-3. [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) — стратегия и позиционирование.
-4. [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) — Evidence-first концепция после ADR-007.
-5. [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) — дальнейшее развитие.
-6. [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) — будущая последовательность спринтов.
-7. [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) — техническая архитектура MVP.
-8. [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) — Discovery, Connector и Evidence layers.
-9. [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) — модель безопасности.
-10. [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md) — правила работы AI/разработчиков.
+2. [diploma/README.md](diploma/README.md) — учебный маршрут автора от основ до защиты.
+3. [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) — утверждённые ADR.
+4. [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) — стратегия и позиционирование.
+5. [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) — Evidence-first концепция после ADR-007.
+6. [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) — дальнейшее развитие.
+7. [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) — будущая последовательность спринтов.
+8. [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) — техническая архитектура MVP.
+9. [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) — Discovery, Connector и Evidence layers.
+10. [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) — модель безопасности.
+11. [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md) — правила работы AI/разработчиков.
 
 ---
 
@@ -33,6 +34,29 @@
 | [CLAUDE.md](CLAUDE.md) | Legacy-контекст Claude workflow, сохраняется для совместимости |
 | [CHANGELOG.md](CHANGELOG.md) | История изменений |
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Этот индекс |
+
+---
+
+## 2.1. Учебная Документация Автора
+
+| Документ | Назначение |
+|---|---|
+| [diploma/README.md](diploma/README.md) | Точка входа и маршруты изучения |
+| [diploma/00_PROJECT_LEARNING_MAP.md](diploma/00_PROJECT_LEARNING_MAP.md) | Карта знаний и обязательное ядро |
+| [diploma/01_PROJECT_FROM_ZERO.md](diploma/01_PROJECT_FROM_ZERO.md) | Web-разработка и термины с абсолютного нуля |
+| [diploma/05_PRODUCT_FUNCTIONALITY.md](diploma/05_PRODUCT_FUNCTIONALITY.md) | Фактическая карта реализованных и будущих модулей |
+| [diploma/07_SYSTEM_ARCHITECTURE.md](diploma/07_SYSTEM_ARCHITECTURE.md) | Архитектура простыми словами и технически |
+| [diploma/11_AUTH_RBAC_RLS_AND_MULTITENANCY.md](diploma/11_AUTH_RBAC_RLS_AND_MULTITENANCY.md) | Ключевая модель доступа и tenant isolation |
+| [diploma/18_SECURITY_MODEL.md](diploma/18_SECURITY_MODEL.md) | Учебная модель угроз и остаточных рисков |
+| [diploma/23_CURRENT_STATE_AND_ROADMAP.md](diploma/23_CURRENT_STATE_AND_ROADMAP.md) | Честное состояние MVP и Roadmap |
+| [diploma/24_DIPLOMA_POSITIONING.md](diploma/24_DIPLOMA_POSITIONING.md) | Основа позиционирования диплома |
+| [diploma/25_DEFENSE_QUESTIONS_AND_ANSWERS.md](diploma/25_DEFENSE_QUESTIONS_AND_ANSWERS.md) | 60 вопросов комиссии с опорными ответами |
+| [diploma/26_GLOSSARY.md](diploma/26_GLOSSARY.md) | Словарь терминов |
+| [diploma/27_CODE_NAVIGATION_GUIDE.md](diploma/27_CODE_NAVIGATION_GUIDE.md) | Путеводитель по репозиторию |
+| [diploma/28_PRACTICAL_STUDY_PLAN.md](diploma/28_PRACTICAL_STUDY_PLAN.md) | Практический план на шесть недель |
+| [diploma/diagrams/README.md](diploma/diagrams/README.md) | Mermaid-диаграммы основных потоков |
+
+Полная последовательность документов `00–28` находится в [diploma/README.md](diploma/README.md). Учебная папка объясняет существующие источники истины, но не заменяет ADR, код, миграции и актуальный Sprint.
 
 ---
 

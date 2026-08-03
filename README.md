@@ -127,6 +127,7 @@ supabase/migrations/ PostgreSQL schema and RLS
 design/              Approved visual prototype
 docs/                Product, architecture, security, user docs
 tasks/               Backlog and sprint history
+diploma/             Учебная база автора и подготовка к защите
 ```
 
 ---
@@ -135,6 +136,7 @@ tasks/               Backlog and sprint history
 
 | Документ | Назначение |
 |---|---|
+| [diploma/README.md](diploma/README.md) | Полная учебная документация проекта: от основ до защиты диплома |
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Навигация по всей документации |
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
