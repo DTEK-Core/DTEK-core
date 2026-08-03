@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 20.07.2026`
+`Дата: 03.08.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -27,7 +27,7 @@
 | Документ | Назначение |
 |---|---|
 | [README.md](README.md) | Краткое описание продукта, запуск, статус, структура |
-| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR-001–006, высший источник архитектурных решений |
+| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR-001–008, высший источник архитектурных решений |
 | [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
 | [AGENTS.md](AGENTS.md) | Постоянный контекст Codex/AI-агентов |
 | [CLAUDE.md](CLAUDE.md) | Legacy-контекст Claude workflow, сохраняется для совместимости |
@@ -87,7 +87,7 @@
 | [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула Trust Score |
 | [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора |
 | [docs/architecture/User_Roles.md](docs/architecture/User_Roles.md) | Роли и матрица доступа |
-| [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
+| [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг, Known Limitations и архитектурные риски |
 
 ---
 
@@ -130,7 +130,7 @@
 |---|---|
 | [docs/development/TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md) | Диагностика локального окружения и Supabase |
 | [docs/operations/DEPLOYMENT.md](docs/operations/DEPLOYMENT.md) | Деплой и переменные окружения |
-| [docs/testing/TEST_STRATEGY.md](docs/testing/TEST_STRATEGY.md) | Стратегия тестирования |
+| [docs/testing/TEST_STRATEGY.md](docs/testing/TEST_STRATEGY.md) | Актуальная стратегия автоматического, ручного, security и release-тестирования |
 | [docs/testing/TEST_PLAN_SPRINT_01_03.md](docs/testing/TEST_PLAN_SPRINT_01_03.md) | Test plan Sprint 01–03 |
 | [docs/testing/TEST_PLAN_SPRINT_05_07.md](docs/testing/TEST_PLAN_SPRINT_05_07.md) | Test plan Sprint 05–07 |
 | [docs/testing/MANUAL_TESTING_GUIDE.md](docs/testing/MANUAL_TESTING_GUIDE.md) | Manual testing guide |

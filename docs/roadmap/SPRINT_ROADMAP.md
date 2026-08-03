@@ -1,6 +1,7 @@
 # SPRINT_ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
+`Дата проверки: 03.08.2026`
 `Дата: 20.07.2026`
 `Назначение: единый план разработки после Sprint 08 до Evidence-first коммерческого MVP`
 
@@ -83,6 +84,8 @@ Sprint 08 UX Refinement
 ```
 
 Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Все задачи реализации Sprint 12 завершены, включая пользовательскую документацию и итоговый QA checklist. Milestone Evidence-backed Explainability Ready закрывается после ручного прогона `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md`; затем активная разработка переходит к Sprint 13.
+
+Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Это не закрывает manual QA и не запускает Sprint 13 автоматически.
 
 Sprint 15 уже не является случайным одиночным коннектором. Он создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам.
 

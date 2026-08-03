@@ -64,6 +64,8 @@
 
 ### Evidence-first Market MVP Epics После Sprint 08
 
+Статус на 03.08.2026: Epic 12–14 завершены, реализация Epic 15 (Sprint 12) завершена и ожидает ручной приёмки. Epic 16+ не начаты.
+
 | # | Epic | Sprint | Цель |
 |---|---|---|---|
 | 12 | Market MVP Packaging | Sprint 09 | Упаковать продукт для demo/interview |

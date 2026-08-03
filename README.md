@@ -27,6 +27,8 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint, Score Delta Explanation и Dashboard Explainability Summary. Пользовательская документация и воспроизводимый QA checklist готовы; до закрытия milestone требуется ручная приёмка владельцем проекта.
 
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Новый Sprint не начат. Единственный обязательный gate текущего этапа — authenticated manual QA Sprint 12 в отдельной тестовой организации.
+
 ### Реализованные Маршруты
 
 | Страница | Маршрут |
@@ -102,7 +104,9 @@ npm run dev
 npm run type-check
 npm run lint
 npm run build
+npm run test:import
 npm run test:trust-explainability
+npm audit
 ```
 
 ---
@@ -155,12 +159,32 @@ tasks/               Backlog and sprint history
 
 ---
 
+## Handoff Текущего Этапа
+
+| Область | Состояние |
+|---|---|
+| Активная ветка | `develop` |
+| Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
+| Последняя реализация | Sprint 12 — Evidence-backed Trust Explainability |
+| Gate перед следующей разработкой | Ручная приёмка `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` |
+| Схема БД | Локальная цепочка миграций `001–017`; Cloud state сверяется через Supabase CLI |
+| Автоматический baseline | type-check, ESLint, build, import и explainability contract tests, npm audit |
+| Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting |
+| Частичные области | Risk workflow, source metadata как text block, audit coverage, автоматизация ручного QA |
+| Будущая архитектура | Evidence Layer, Discovery Layer, Identity Resolution, Discovery Inbox и Connector Framework не реализованы |
+
+Перед продолжением разработки обязательно прочитать `AGENTS.md`, `AI_DEVELOPMENT_GUIDE.md`, `ARCHITECTURE_DECISIONS.md`, `docs/product/PRODUCT_STRATEGY.md`, `docs/roadmap/ROADMAP.md`, текущий Sprint-документ и `docs/architecture/TECHNICAL_DEBT.md`.
+
+Без нового ADR или решения владельца нельзя менять формулу Trust Score, product boundary, стек, RBAC/RLS, multi-tenant модель или начинать Connector Runtime. Проект готов принять следующую задачу после фиксации результата ручной приёмки Sprint 12.
+
+---
+
 ## Roadmap
 
-Следующий фокус:
+Текущий gate и утверждённая последовательность:
 
 1. Завершить ручную приёмку Sprint 12 по Explainability QA Checklist.
-2. Sprint 13 — Evidence-aware Risk Workflow.
+2. После отдельного решения владельца: Sprint 13 — Evidence-aware Risk Workflow.
 3. Sprint 14 — Pilot Readiness.
 4. Sprint 15 — Connector Framework Foundation.
 

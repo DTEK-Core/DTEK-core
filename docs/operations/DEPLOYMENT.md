@@ -1,7 +1,7 @@
 # DEPLOYMENT.md — DTEK Core
 
 `Версия: 1.0`  
-`Дата: 25.06.2026`
+`Дата: 03.08.2026`
 
 ---
 
@@ -25,9 +25,17 @@ DTEK Core деплоится автоматически при push в `main`:
 git push origin main  ← только через PR из develop + CI
 ```
 
+Текущее состояние на 03.08.2026:
+
+- актуальная разработка находится в `develop`;
+- `main` не содержит реализацию текущего Market MVP;
+- production release текущего состояния не подтверждён;
+- preview `develop` может быть защищён Vercel SSO;
+- merge/deploy разрешён только после ручного QA Sprint 12 и release checklist.
+
 **CI пайплайн** (`.github/workflows/ci.yml`):
 ```
-lint → type-check → build
+lint → type-check + contract tests → build
 ```
 
 Ручной деплой (при необходимости):
@@ -93,7 +101,15 @@ cp .env.example .env.local
 SUPABASE_ACCESS_TOKEN=<token> npx supabase db push --include-all
 ```
 
-Текущие миграции: `001` — `017` (применены на Cloud)
+Локальная миграционная цепочка: `001` — `017`.
+
+Состояние Cloud нельзя считать подтверждённым только по документации. Перед release выполнить:
+
+```bash
+SUPABASE_ACCESS_TOKEN=<token> npx supabase migration list
+```
+
+Все локальные и удалённые версии должны совпадать. Только после этого при необходимости разрешён `db push`.
 
 Regenerate TypeScript types после новых миграций:
 
@@ -138,7 +154,11 @@ npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/data
 [ ] npm run type-check — 0 ошибок
 [ ] npm run lint — 0 предупреждений
 [ ] npm run build — успешная сборка
+[ ] npm run test:import — все тесты проходят
+[ ] npm run test:trust-explainability — все тесты проходят
+[ ] npm audit — 0 известных уязвимостей
 [ ] Переменные окружения настроены в Vercel
-[ ] Новые миграции применены на Supabase Cloud
+[ ] `supabase migration list` подтверждает миграции `001–017` на Cloud
+[ ] Ручной QA Sprint 12 завершён без Blocker/Critical
 [ ] PR одобрен и CI прошёл
 ```

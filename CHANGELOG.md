@@ -5,6 +5,29 @@
 
 ---
 
+## Current Stage Consolidation — 2026-08-03
+
+### Исправлено
+
+- Next.js и связанный ESLint baseline обновлены в пределах ветки 15; уязвимые transitive PostCSS и sharp заменены безопасными версиями через npm overrides.
+- Supabase local seed отключён: конфигурация больше не ссылается на отсутствующий `supabase/seed.sql`.
+- Устаревшие утверждения об отсутствии CSV/XLSX import и reporting удалены из актуальных пользовательских и эксплуатационных документов.
+
+### Изменено
+
+- `npm run lint` переведён с deprecated `next lint` на прямой ESLint CLI с `--max-warnings=0`.
+- GitHub Actions выполняет import и explainability contract tests до production build.
+- README, Documentation Index, Deployment, Test Strategy, Technical Debt, FAQ, Pilot Offer, Roadmap и backlog синхронизированы с фактическим состоянием Sprint 11/12.
+- Known Limitations собраны в `TECHNICAL_DEBT.md`; отдельный дублирующий документ не создавался.
+
+### Проверено
+
+- Sprint 11 остаётся последним полностью закрытым Sprint.
+- Реализация Sprint 12 завершена; authenticated manual QA остаётся обязательным gate и не отмечен как PASS формально.
+- Новый Sprint и новый продуктовый функционал не начинались.
+
+---
+
 ## Sprint 12 — Evidence-backed Trust Explainability
 
 ### S12-T008 — Explainability QA Checklist

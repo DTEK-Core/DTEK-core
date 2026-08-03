@@ -1,7 +1,7 @@
 # ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 20.07.2026`
+`Дата: 03.08.2026`
 `Основа: Strategic Product & Market Analysis + Sprint 08 + ADR-007`
 
 ---
@@ -39,6 +39,7 @@ Sprint 01–08 создали функциональный и визуально
 | Import/export | Реализовано для CSV/XLSX import и ключевых отчётов; import трактуется как evidence ingestion |
 | Reports | Реализовано в Sprint 10 |
 | Explainability | Sprint 12 реализован; QA checklist готов, ожидается ручная приёмка |
+| Engineering consolidation | Dependency hardening и CI contract tests завершены; новый Sprint не начат |
 | Pilot narrative | Готов |
 | Pilot readiness | Требуется |
 | Evidence-first architecture | ADR-007 принят; требуется реализация слоями |
