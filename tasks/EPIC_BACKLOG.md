@@ -64,7 +64,7 @@
 
 ### Evidence-first Market MVP Epics После Sprint 08
 
-Статус на 03.08.2026: Epic 12–14 завершены, реализация Epic 15 (Sprint 12) завершена и ожидает ручной приёмки. Epic 16+ не начаты.
+Статус на 07.08.2026: Epic 12–14 завершены, реализация Epic 15 (Sprint 12) завершена и ожидает ручной приёмки. Epic 16–17 составляют оставшийся commercial MVP; Epic 18–24 — Post-MVP.
 
 | # | Epic | Sprint | Цель |
 |---|---|---|---|
@@ -72,11 +72,11 @@
 | 13 | Reporting & Export | Sprint 10 | Дать CISO отчёты и экспорт |
 | 14 | Evidence Import & Data Onboarding | Sprint 11 | Загрузить реальные данные как первый evidence ingestion path |
 | 15 | Evidence-backed Trust Explainability | Sprint 12 | Объяснить Trust Score, impact рисков и источники данных |
-| 16 | Evidence-aware Risk Workflow | Sprint 13 | Превратить ручные, импортированные и auto-candidate риски в рабочий процесс |
-| 17 | Pilot Readiness | Sprint 14 | Подготовить продукт к 1–3 пилотам |
-| 18 | Connector Framework Foundation | Sprint 15 | Спроектировать Discovery, Evidence, Identity Resolution и Connector Framework |
+| 16 | Pilot Risk Workflow | Sprint 13 | Превратить ручные и импортированные риски в рабочий процесс |
+| 17 | Pilot Readiness | Sprint 14 | Подготовить продукт к 1–3 пилотам и закрыть release gates |
+| 18 | Connector Framework Foundation | Post-MVP Sprint 15 | Спроектировать Discovery, Evidence, Identity Resolution и Connector Framework |
 
-### Новые Evidence-first Epic
+### Post-MVP Evidence-first Epic
 
 | # | Epic | Назначение |
 |---|---|---|
@@ -87,7 +87,7 @@
 | 23 | Auto Risk Mapper | Создание risk candidates на основе evidence |
 | 24 | Drift Detection | Отслеживание изменений инфраструктуры и их влияния на Trust Score |
 
-Эти Epic не заменяют исходные Epic 1–11. Они являются следующим слоем после Functional MVP и описаны в `docs/roadmap/SPRINT_ROADMAP.md`.
+Эти Epic не заменяют исходные Epic 1–17. Они являются Post-MVP слоем после коммерческого MVP и пилотных сигналов; до Sprint 14 их реализация не начинается.
 
 ---
 

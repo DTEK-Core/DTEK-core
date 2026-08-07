@@ -1,7 +1,7 @@
 # ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 03.08.2026`
+`Дата: 07.08.2026`
 `Основа: Strategic Product & Market Analysis + Sprint 08 + ADR-007`
 
 ---
@@ -17,7 +17,7 @@ Sprint 01–08 создали функциональный и визуально
 3. Дать отчёты, которые CISO может показать руководству.
 4. Сделать Trust Score объяснимым через факторы, риски и evidence/source context.
 5. Подготовить продукт к первым пилотам.
-6. Спроектировать foundation Connector Framework.
+6. Подготовить продукт к первым пилотам; Connector Framework оставить следующим Post-MVP этапом.
 
 ---
 
@@ -41,8 +41,8 @@ Sprint 01–08 создали функциональный и визуально
 | Explainability | Sprint 12 реализован; QA checklist готов, ожидается ручная приёмка |
 | Engineering consolidation | Dependency hardening и CI contract tests завершены; новый Sprint не начат |
 | Pilot narrative | Готов |
-| Pilot readiness | Требуется |
-| Evidence-first architecture | ADR-007 принят; требуется реализация слоями |
+| Commercial MVP remaining | Sprint 13 Pilot Risk Workflow и Sprint 14 Pilot Readiness |
+| Evidence-first architecture | ADR-007 принят; Discovery/Evidence/Connector runtime — Post-MVP |
 
 ---
 
@@ -83,19 +83,17 @@ Sprint 01–08 создали функциональный и визуально
 - pilot runbook;
 - email invitation hardening.
 
-### Phase C — Pilot MVP
+### Phase C — Commercial MVP Completion
 
 Статус: после Market MVP.
 
 Фокус:
 
-- работа с 1–3 пилотными организациями;
-- evidence/comments по рискам;
+- Pilot Risk Workflow: owner, due date, comments, activity и audit для manual/imported рисков;
 - стабильность окружения;
 - базовый мониторинг;
 - backup/runbook;
-- улучшение UX по реальным данным;
-- первый API или выбранный connector prototype.
+- финальный release/pilot checklist.
 
 ### Phase D — Evidence-first Integrations
 
@@ -155,7 +153,7 @@ Sprint 01–08 создали функциональный и визуально
 | Reports | CISO получает материал для руководства |
 | Explainability | Пользователь понимает, почему Trust Score именно такой |
 | Risk Impact | Видно, какие риски дают максимальный эффект при закрытии |
-| Workflow | У риска есть ответственный, срок, evidence и комментарии |
+| Workflow | У риска есть ответственный, срок, manual/imported origin context, комментарии и история |
 | Stability | Нет зависаний при проблемах Supabase/DNS |
 
 ---
@@ -171,7 +169,7 @@ Sprint 01–08 создали функциональный и визуально
 | Evidence Onboarding Ready | CSV/XLSX import создаёт source-aware данные и готовит Evidence Layer |
 | Explainability Ready | Trust Score объясняется через факторы, причины, impact рисков и source/evidence context |
 | Risk Workflow Ready | Риски имеют владельцев, сроки, evidence/comments и историю |
-| Market MVP Ready | Import/export/reporting/explainability готовы для ручного пилота |
+| Commercial MVP Ready | Import/export/reporting/explainability, risk workflow и release gates готовы для ручного пилота |
 | Pilot Ready | Продукт можно дать 1–3 компаниям на 2–4 недели |
 | Connector Foundation Ready | Спроектированы Connector Framework, Evidence Layer, Discovery Inbox и shortlist первых источников |
 
@@ -187,9 +185,9 @@ Sprint 01–08 создали функциональный и визуально
 | Sprint 10 | `tasks/SPRINT_10.md` | Reporting & Export — завершён |
 | Sprint 11 | `tasks/SPRINT_11.md` | Evidence Import & Data Onboarding — завершён |
 | Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability — реализация завершена, manual QA pending |
-| Sprint 13 | `tasks/SPRINT_13.md` | Evidence-aware Risk Workflow |
-| Sprint 14 | `tasks/SPRINT_14.md` | Pilot Readiness |
-| Sprint 15 | `tasks/SPRINT_15.md` | Connector Framework Foundation |
+| Sprint 13 | `tasks/SPRINT_13.md` | Commercial MVP: Pilot Risk Workflow |
+| Sprint 14 | `tasks/SPRINT_14.md` | Commercial MVP: Pilot Readiness и release gates |
+| Sprint 15 | `tasks/SPRINT_15.md` | Post-MVP: Connector Framework Foundation |
 
 ---
 
@@ -197,4 +195,4 @@ Sprint 01–08 создали функциональный и визуально
 
 Каждая следующая задача должна приближать DTEK Core к первому реальному пилоту.
 
-Если задача не помогает показать ценность CISO, загрузить данные, объяснить Trust Score, получить отчёт или приблизить Evidence-first foundation — она, скорее всего, Post-MVP.
+Если задача не помогает показать ценность CISO, загрузить данные, объяснить Trust Score, получить отчёт, вести риск или безопасно запустить пилот — она, скорее всего, Post-MVP.

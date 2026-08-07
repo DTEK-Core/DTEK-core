@@ -2,7 +2,7 @@
 
 `Проект: DTEK Core`  
 `Спринт: 14`  
-`Тип: Pilot MVP Stabilization`  
+`Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
 `Статус: 📋 Запланирован`
 
@@ -12,7 +12,7 @@
 
 Подготовить DTEK Core к 1–3 пилотным внедрениям на 2–4 недели.
 
-Sprint 14 закрывает эксплуатационные, стабильностные и onboarding-риски перед передачей продукта первым внешним пользователям, а также собирает evidence о том, какие источники данных нужны для Connector Framework.
+Sprint 14 закрывает эксплуатационные, стабильностные и onboarding-риски перед передачей продукта первым внешним пользователям. Он также включает release gates Sprint 12: authenticated manual QA и сверку Cloud migrations.
 
 ---
 
@@ -20,10 +20,10 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 
 | Параметр | Значение |
 |---|---|
-| Фаза | Pilot MVP |
-| Предыдущий Sprint | Sprint 13 — Evidence-aware Risk Workflow |
-| Следующий Sprint | Sprint 15 — Connector Framework Foundation |
-| Milestone | Pilot Ready |
+| Фаза | Commercial MVP release |
+| Предыдущий Sprint | Sprint 13 — Pilot Risk Workflow |
+| Следующий этап | Post-MVP: Sprint 15 — Connector Framework Foundation |
+| Milestone | Commercial MVP / Pilot Ready |
 
 ---
 
@@ -44,7 +44,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 - backup/restore checklist;
 - monitoring/error handling plan;
 - pilot success metrics.
-- connector/source discovery checklist for pilots.
+- сбор обратной связи о востребованных источниках для Post-MVP.
 
 ### Не входит
 
@@ -67,7 +67,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 |
-| S14-T007 | Pilot Metrics, Source Inventory & Feedback Loop | P1 | S | T001 |
+| S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 |
 | S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 |
 
 ---
@@ -98,7 +98,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 
 ### S14-T001 — Pilot Readiness Checklist
 
-**Описание:** создать единый checklist перед запуском пилота.
+**Описание:** создать единый checklist перед запуском пилота, включая закрытие ручного QA Sprint 12 и сверку Cloud migrations.
 
 **Ожидаемый результат:** команда понимает, что проверить до выдачи доступа.
 
@@ -132,11 +132,11 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 
 **Ожидаемый результат:** команда видит падения Server Actions, build/deploy failures и Supabase outages.
 
-### S14-T007 — Pilot Metrics, Source Inventory & Feedback Loop
+### S14-T007 — Pilot Metrics & Feedback Loop
 
-**Описание:** определить метрики успешности пилота и собрать inventory источников клиента: AD/LDAP, Zabbix, MaxPatrol VM, Kaspersky, Wazuh, UserGate, SIEM, VMware/Proxmox/Kubernetes/cloud.
+**Описание:** определить метрики успешности пилота и собрать feedback о востребованных источниках клиента для Post-MVP приоритизации коннекторов.
 
-**Ожидаемый результат:** пилот измеряется через usage, data completeness, reports, feedback, willingness to pay и connector demand.
+**Ожидаемый результат:** пилот измеряется через usage, data completeness, reports, feedback, willingness to pay и connector demand без обещания интеграций в MVP.
 
 ### S14-T008 — Pilot Documentation Pack
 
@@ -149,6 +149,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 ## 8. Definition Of Done
 
 - [ ] Есть pilot readiness checklist.
+- [ ] Sprint 12 authenticated manual QA и Cloud migration check подтверждены.
 - [ ] Есть runbook диагностики окружения.
 - [ ] Invite flow готов для пилота.
 - [ ] Smoke test baseline есть.

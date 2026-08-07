@@ -117,9 +117,9 @@
 
 ## Evidence-first Market MVP Feature Backlog После Sprint 08
 
-Этот раздел дополняет исходный MVP backlog и соответствует Sprint 09–15 после ADR-007.
+Этот раздел дополняет исходный MVP backlog после ADR-007. Коммерческий MVP заканчивается Sprint 14; Sprint 15 и следующие инициативы относятся к Post-MVP.
 
-Статус на 03.08.2026: M-001–M-034 реализованы; M-030–M-034 ожидают итоговой ручной приёмки Sprint 12. M-040 и последующие features не начаты.
+Статус на 07.08.2026: M-001–M-034 реализованы; M-030–M-034 ожидают итоговой ручной приёмки Sprint 12. M-040–M-055 составляют оставшийся commercial MVP; M-060+ — Post-MVP.
 
 | ID | Sprint | Feature | Приоритет | Размер |
 |---|---|---|---|---|
@@ -149,7 +149,7 @@
 | M-040 | S13 | Risk Owner & Assignment | P1 | M |
 | M-041 | S13 | Due Date & SLA Warnings | P1 | M |
 | M-042 | S13 | Risk Comments | P1 | M |
-| M-043 | S13 | Manual/Imported/Auto Risk Evidence UI | P1 | M |
+| M-043 | S13 | Manual/Imported Risk Origin Context UI | P1 | S |
 | M-044 | S13 | Risk Activity Timeline | P2 | M |
 | M-050 | S14 | Pilot Readiness Checklist | P1 | S |
 | M-051 | S14 | Environment Health Check | P1 | M |
@@ -157,12 +157,12 @@
 | M-053 | S14 | Smoke Test Automation Baseline | P1 | M |
 | M-054 | S14 | Backup & Restore Runbook | P1 | S |
 | M-055 | S14 | Pilot Metrics & Feedback Loop | P1 | S |
-| M-060 | S15 | Connector Framework Architecture Decision | P1 | M |
-| M-061 | S15 | Evidence Layer Data Model Specification | P1 | L |
-| M-062 | S15 | Normalization & Identity Resolution Specification | P1 | M |
-| M-063 | S15 | Discovery Inbox UX Specification | P1 | M |
-| M-064 | S15 | Connector Shortlist & First-source Selection Report | P1 | S |
-| M-065 | S15 | Connector Security Model | P1 | M |
+| M-060 | Post-MVP S15 | Connector Framework Architecture Decision | P1 | M |
+| M-061 | Post-MVP S15 | Evidence Layer Data Model Specification | P1 | L |
+| M-062 | Post-MVP S15 | Normalization & Identity Resolution Specification | P1 | M |
+| M-063 | Post-MVP S15 | Discovery Inbox UX Specification | P1 | M |
+| M-064 | Post-MVP S15 | Connector Shortlist & First-source Selection Report | P1 | S |
+| M-065 | Post-MVP S15 | Connector Security Model | P1 | M |
 
 ---
 

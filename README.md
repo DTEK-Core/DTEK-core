@@ -15,7 +15,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 | **Trust Passport** | Evidence-backed цифровой паспорт доверия каждого объекта |
 | **Trust Score** | 6-факторная оценка доверия объекта от 0 до 100 на основе рисков, атрибутов и evidence |
 | **Trust Graph** | Граф связей и зависимостей между объектами, ручной в текущем MVP и автоматизируемый в следующих версиях |
-| **Risk Registry** | Реестр ручных, импортированных и автоматически предложенных рисков с влиянием на Trust Score |
+| **Risk Registry** | Реестр ручных и импортированных рисков с влиянием на Trust Score |
 | **Configurator** | Настройка весов Trust Score под отрасль и организацию |
 | **Dashboard** | Управленческий обзор доверия, рисков и событий организации |
 
@@ -27,7 +27,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint, Score Delta Explanation и Dashboard Explainability Summary. Пользовательская документация и воспроизводимый QA checklist готовы; до закрытия milestone требуется ручная приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Новый Sprint не начат. Единственный обязательный gate текущего этапа — authenticated manual QA Sprint 12 в отдельной тестовой организации.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Roadmap зафиксирован: до первого коммерческого MVP остаются Sprint 13 — Pilot Risk Workflow и Sprint 14 — Pilot Readiness; старт возможен только после authenticated manual QA Sprint 12 и сверки Cloud migrations.
 
 ### Реализованные Маршруты
 
@@ -152,8 +152,8 @@ diploma/             Учебная база автора и подготовк�
 | [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Пользовательское руководство по отчётам и экспорту |
 | [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Ручная приёмка Data Onboarding Sprint 11 |
 | [docs/testing/EXPLAINABILITY_QA_CHECKLIST.md](docs/testing/EXPLAINABILITY_QA_CHECKLIST.md) | Ручная приёмка Evidence-backed Explainability Sprint 12 |
-| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего MVP к Market MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–15 до коммерческого MVP |
+| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Зафиксированный Roadmap до коммерческого MVP и Post-MVP |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–14 до MVP; Sprint 15 — Post-MVP |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
 | [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности |
 | [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
@@ -186,9 +186,9 @@ diploma/             Учебная база автора и подготовк�
 Текущий gate и утверждённая последовательность:
 
 1. Завершить ручную приёмку Sprint 12 по Explainability QA Checklist.
-2. После отдельного решения владельца: Sprint 13 — Evidence-aware Risk Workflow.
+2. Sprint 13 — Pilot Risk Workflow.
 3. Sprint 14 — Pilot Readiness.
-4. Sprint 15 — Connector Framework Foundation.
+4. После коммерческого MVP: Sprint 15 — Connector Framework Foundation.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 

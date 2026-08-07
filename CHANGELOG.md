@@ -28,6 +28,21 @@
 
 ---
 
+## Roadmap Finalization — 2026-08-07
+
+### Изменено
+
+- Коммерческий MVP официально ограничен Sprint 13 — Pilot Risk Workflow и Sprint 14 — Pilot Readiness.
+- Sprint 13 очищен от auto-candidate risks, Discovery Inbox и Evidence Layer runtime: в MVP остаётся workflow для manual/imported risks с origin context.
+- Sprint 14 стал финальным release gate и включает authenticated QA Sprint 12 и сверку Cloud migrations.
+- Sprint 15, Connector Framework, Evidence Layer, Discovery, Identity Resolution и первый connector prototype явно переведены в Post-MVP.
+
+### Документация
+
+- Roadmap, Sprint Roadmap, MVP Scope, Product Strategy, release/epic/feature backlogs, Sprint 13–15, README, Documentation Index, AGENTS и Technical Debt синхронизированы с зафиксированной границей MVP.
+
+---
+
 ## Sprint 12 — Evidence-backed Trust Explainability
 
 ### S12-T008 — Explainability QA Checklist

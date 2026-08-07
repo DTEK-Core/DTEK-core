@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 03.08.2026`
+`Дата: 07.08.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -90,8 +90,8 @@
 
 | Документ | Назначение |
 |---|---|
-| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Evidence-first дорожная карта от Sprint 09 к Market/Pilot MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план Sprint 09–15 с учётом ADR-007 |
+| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Зафиксированная дорожная карта до коммерческого MVP и Post-MVP |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план: Sprint 09–14 — MVP, Sprint 15 — Post-MVP |
 | [tasks/MVP_RELEASE_PLAN.md](tasks/MVP_RELEASE_PLAN.md) | Исторический release plan R0–R6, дополнен новым Market MVP направлением |
 | [tasks/EPIC_BACKLOG.md](tasks/EPIC_BACKLOG.md) | Epic backlog MVP |
 | [tasks/FEATURE_BACKLOG.md](tasks/FEATURE_BACKLOG.md) | Feature backlog MVP |
@@ -187,9 +187,9 @@ Sprint-файлы в `tasks/` сохраняются как историческ
 | [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export, завершён |
 | [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, завершён |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
-| [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Evidence-aware Risk Workflow |
-| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Pilot Readiness |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Connector Framework Foundation |
+| [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: Commercial MVP Pilot Risk Workflow |
+| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Commercial MVP Pilot Readiness |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation |
 
 ---
 

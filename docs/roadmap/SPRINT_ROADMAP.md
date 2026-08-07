@@ -1,9 +1,8 @@
 # SPRINT_ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата проверки: 03.08.2026`
-`Дата: 20.07.2026`
-`Назначение: единый план разработки после Sprint 08 до Evidence-first коммерческого MVP`
+`Дата: 07.08.2026`
+`Назначение: официально зафиксированный план до коммерческого MVP`
 
 ---
 
@@ -16,9 +15,9 @@ Demo Ready
   -> Reporting Ready
   -> Evidence Onboarding Ready
   -> Evidence-backed Explainability Ready
-  -> Evidence-aware Risk Workflow Ready
-  -> Pilot Ready
-  -> Connector Foundation Ready
+  -> Pilot Risk Workflow Ready
+  -> Pilot Ready / Commercial MVP
+  -> Post-MVP Connector Foundation Ready
 ```
 
 ---
@@ -64,9 +63,9 @@ Demo Ready
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
 | Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA pending | Объяснить Trust Score, impact рисков и источники данных |
-| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Evidence-aware Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported/auto-candidate risks |
-| Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Pilot Ready | Подготовить продукт к 1–3 пилотам |
-| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox |
+| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Pilot Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported risks |
+| Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Commercial MVP / Pilot Ready | Закрыть release gates и подготовить продукт к 1–3 пилотам |
+| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Post-MVP Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
 
 ---
 
@@ -78,16 +77,17 @@ Sprint 08 UX Refinement
         -> Sprint 10 Reporting & Export
             -> Sprint 11 Evidence Import & Data Onboarding
                 -> Sprint 12 Evidence-backed Trust Explainability
-                    -> Sprint 13 Evidence-aware Risk Workflow
+                    -> Sprint 13 Pilot Risk Workflow
                         -> Sprint 14 Pilot Readiness
-                            -> Sprint 15 Connector Framework Foundation
+                            -> Commercial MVP fixed
+                                -> Post-MVP Sprint 15 Connector Framework Foundation
 ```
 
 Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Все задачи реализации Sprint 12 завершены, включая пользовательскую документацию и итоговый QA checklist. Milestone Evidence-backed Explainability Ready закрывается после ручного прогона `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md`; затем активная разработка переходит к Sprint 13.
 
 Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Это не закрывает manual QA и не запускает Sprint 13 автоматически.
 
-Sprint 15 уже не является случайным одиночным коннектором. Он создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам.
+Sprint 15 создаёт foundation для безопасных коннекторов и выбирает первые candidates по пилотным сигналам, но не входит в коммерческий MVP.
 
 ---
 
@@ -101,7 +101,8 @@ Sprint 15 уже не является случайным одиночным к�
 - Trust Score объясним;
 - риски имеют workflow;
 - пилот можно запустить и измерить;
-- Connector Framework спроектирован до первой тяжёлой интеграции.
+
+После Sprint 14 начинается Post-MVP: Connector Framework, Evidence Layer, Discovery Inbox, Identity Resolution и первый connector prototype требуют отдельного решения на основе pilot feedback.
 
 Enterprise-функции (`SSO`, `on-prem`, `custom roles`, `marketplace`, агент) остаются за пределами этой Sprint Roadmap.
 

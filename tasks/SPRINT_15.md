@@ -2,9 +2,9 @@
 
 `Проект: DTEK Core`  
 `Спринт: 15`  
-`Тип: Evidence-first Architecture Sprint`  
+`Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 📋 Запланирован`
+`Статус: 📋 Post-MVP, не входит в коммерческий MVP`
 
 ---
 
@@ -20,16 +20,16 @@ Sprint 15 не должен реализовывать много коннект
 
 | Параметр | Значение |
 |---|---|
-| Фаза | Evidence-first MVP / Connector Foundation |
+| Фаза | Post-MVP / Connector Foundation |
 | Предыдущий Sprint | Sprint 14 — Pilot Readiness |
-| Следующий этап | First connector prototype / Commercial MVP iteration на базе Connector Framework |
+| Следующий этап | First connector prototype после pilot feedback |
 | Milestone | Connector Foundation Ready |
 
 ---
 
 ## 3. Бизнес-Ценность
 
-Первые пилоты покажут, какие источники реально есть у клиентов. Sprint 15 превращает этот feedback в архитектуру автоматического наполнения: DTEK Core сможет принимать данные из AD, Zabbix, MaxPatrol VM, Wazuh, Kaspersky, UserGate и других источников без хаотичных интеграций.
+Первые пилоты покажут, какие источники реально есть у клиентов. Sprint 15 превращает этот feedback в архитектуру автоматического наполнения для следующей версии продукта; он не является условием первого коммерческого релиза.
 
 ---
 

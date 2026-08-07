@@ -1,7 +1,7 @@
 # PRODUCT_STRATEGY.md — DTEK Core
 
 `Статус: источник истины`  
-`Дата: 08.07.2026`  
+`Дата: 07.08.2026`<br>
 `Этап: Strategic Consolidation после Sprint 08`
 
 ---
@@ -149,7 +149,7 @@ DTEK Core — Trust Intelligence layer над активами, evidence, рис
 - RBAC/RLS/security docs присутствуют;
 - UI отполирован до demo-ready состояния.
 
-Ограничение: платформа пока сильнее как демонстрационный и ручной MVP, чем как автоматизированный evidence-first продукт. Этот разрыв закрывается через import, evidence-backed explainability и Connector Framework Foundation.
+Ограничение: платформа пока сильнее как демонстрационный и import-driven MVP, чем как автоматизированный evidence-first продукт. Для первого коммерческого релиза этот разрыв закрывается import, evidence-backed explainability, risk workflow и pilot readiness; Connector Framework относится к Post-MVP.
 
 ---
 
@@ -169,10 +169,11 @@ DTEK Core — Trust Intelligence layer над активами, evidence, рис
 - executive report;
 - объяснимость Trust Score;
 - impact закрытия риска;
-- workflow риска: owner, due date, evidence, comments;
+- workflow риска: owner, due date, manual/imported origin context, comments и activity;
 - стабильный pilot runbook;
 - email invitations или понятный manual invite flow.
-- evidence/source context для импортированных и будущих автоматически найденных данных.
+- source context для импортированных данных;
+- ручной QA, Cloud migration check и pilot readiness.
 
 ---
 

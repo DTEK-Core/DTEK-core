@@ -1,7 +1,7 @@
 # MVP_Scope.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`
+`Дата: 07.08.2026`
 
 ---
 
@@ -21,7 +21,7 @@
 -> принять управленческое решение
 ```
 
-После ADR-007 целевой путь расширяется: пользователь подключает источники или загружает выгрузки, DTEK Core создаёт evidence-backed цифровую модель, а аналитик подтверждает и корректирует её.
+После ADR-007 стратегический путь расширяется: сейчас пользователь загружает выгрузки как первый evidence ingestion path, а подключение источников и автоматическое построение модели остаются Post-MVP развитием.
 
 ---
 
@@ -63,15 +63,15 @@ Market MVP нужен для первых внешних демонстраци�
 - executive organization report;
 - Trust Score explainability;
 - risk impact hints;
-- workflow риска: owner, due date, comments, evidence;
+- workflow риска: owner, due date, comments, activity и manual/imported origin context;
 - source/evidence context в explainability;
 - стабильный invite flow;
 - pilot runbook.
-- Connector Framework Foundation.
+- финальный pilot/release checklist, включая Sprint 12 manual QA и Cloud migration check.
 
 ---
 
-## 4. Не Входит В Market MVP
+## 4. Post-MVP / Не Входит В Commercial MVP
 
 - полноценный SIEM/SOAR;
 - DLP;
@@ -83,6 +83,9 @@ Market MVP нужен для первых внешних демонстраци�
 - SSO/SAML;
 - много внешних коннекторов одновременно;
 - ML/AI scoring.
+- Connector Framework, Evidence Layer, Discovery Inbox и Identity Resolution runtime;
+- auto-candidate риски и автоматическое discovery;
+- первый production connector и marketplace.
 
 ---
 
@@ -95,7 +98,6 @@ Market MVP нужен для первых внешних демонстраци�
 | Reporting | CISO получает отчёт для руководства |
 | Explainability | Пользователь понимает причину Trust Score и происхождение данных |
 | Pilot readiness | Продукт можно дать 1–3 организациям на 2–4 недели |
-| Connector foundation | Понятно, какие источники подключать первыми и как делать это безопасно |
 | Product validation | Есть подтверждение интереса и willingness to pilot |
 
 ---
