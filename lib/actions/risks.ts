@@ -42,6 +42,28 @@ function num(fd: FormData, key: string): number | null {
   return isNaN(n) ? null : n;
 }
 
+async function validateRiskOwner(
+  ownerId: string | null | undefined,
+  orgId: string,
+  admin: ReturnType<typeof createAdminClient>,
+): Promise<string | null> {
+  if (!ownerId) return null;
+
+  const { data, error } = await admin
+    .from('profiles')
+    .select('id')
+    .eq('id', ownerId)
+    .eq('organization_id', orgId)
+    .eq('status', 'active')
+    .maybeSingle();
+
+  if (error || !data) {
+    return 'Выберите активного участника текущей организации';
+  }
+
+  return null;
+}
+
 // ── Actions ────────────────────────────────────────────────────────────────────
 
 export async function createRisk(formData: FormData) {
@@ -68,11 +90,15 @@ export async function createRisk(formData: FormData) {
     impact:      str(formData, 'impact'),
     sla_days:    slaDaysNum,
     object_id:   str(formData, 'object_id') || null,
+    owner_id:    str(formData, 'owner_id') || null,
   });
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
   }
+
+  const ownerError = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
+  if (ownerError) return { error: ownerError };
 
   const { sla_days, object_id, ...riskFields } = parsed.data;
   const due_date = sla_days
@@ -126,10 +152,26 @@ export async function updateRisk(id: string, formData: FormData) {
     probability: str(formData, 'probability') || null,
     cvss_score:  num(formData, 'cvss_score'),
     impact:      str(formData, 'impact'),
+    owner_id:    str(formData, 'owner_id') || null,
   });
 
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
+
+  const { data: currentRiskRaw, error: currentRiskError } = await admin
+    .from('risks')
+    .select('owner_id')
+    .eq('id', id)
+    .eq('organization_id', orgId)
+    .maybeSingle();
+  const currentRisk = currentRiskRaw as { owner_id: string | null } | null;
+
+  if (currentRiskError || !currentRisk) return { error: 'Риск не найден' };
+
+  if (parsed.data.owner_id !== currentRisk.owner_id) {
+    const ownerError = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
+    if (ownerError) return { error: ownerError };
   }
 
   const { error } = await admin

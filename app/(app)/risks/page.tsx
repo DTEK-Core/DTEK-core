@@ -27,6 +27,13 @@ interface ProfileRaw {
 
 interface ProfileLinkRaw {
   full_name: string;
+  status?: string;
+}
+
+interface RiskAssigneeRaw {
+  id: string;
+  full_name: string;
+  role: string;
 }
 
 interface ObjLinkRaw {
@@ -50,6 +57,7 @@ interface RiskRaw {
   due_date: string | null;
   created_at: string;
   updated_at: string;
+  owner_id: string | null;
   owner: ProfileLinkRaw | ProfileLinkRaw[] | null;
   author: ProfileLinkRaw | ProfileLinkRaw[] | null;
   object_risks: ObjRiskRaw[] | null;
@@ -79,14 +87,15 @@ export default async function RisksPage({
 
   const admin = createAdminClient();
   const orgId = profile.organization_id;
+  const canManageRisks = ['owner', 'analyst'].includes(profile.role);
 
-  const [risksResult, objectsResult, weightsResult] = await Promise.all([
+  const [risksResult, objectsResult, weightsResult, assigneesResult] = await Promise.all([
     admin
       .from('risks')
       .select(`
         id, title, description, category, severity, probability,
-        cvss_score, status, impact, due_date, created_at, updated_at,
-        owner:profiles!owner_id(full_name),
+        cvss_score, status, impact, due_date, owner_id, created_at, updated_at,
+        owner:profiles!owner_id(full_name, status),
         author:profiles!author_id(full_name),
         object_risks(objects(id))
       `)
@@ -102,6 +111,14 @@ export default async function RisksPage({
       .select('vuln_weight, config_weight, access_weight, network_weight, compliance_weight, incident_weight')
       .eq('organization_id', orgId)
       .single(),
+    canManageRisks
+      ? admin
+          .from('profiles')
+          .select('id, full_name, role')
+          .eq('organization_id', orgId)
+          .eq('status', 'active')
+          .order('full_name')
+      : Promise.resolve({ data: null }),
   ]);
 
   const rawList = (risksResult.data as unknown as RiskRaw[] | null) ?? [];
@@ -169,7 +186,9 @@ export default async function RisksPage({
       due_date:       raw.due_date,
       created_at:     raw.created_at,
       updated_at:     raw.updated_at,
+      owner_id:       raw.owner_id,
       owner_name:     ownerRaw?.full_name  ?? null,
+      owner_is_active: ownerRaw?.status === 'active',
       author_name:    authorRaw?.full_name ?? null,
       linked_objects: linkedObjects,
     };
@@ -183,11 +202,16 @@ export default async function RisksPage({
       type: object.type,
     }));
 
+  const assignees = (
+    assigneesResult.data as unknown as RiskAssigneeRaw[] | null
+  ) ?? [];
+
   return (
     <RisksPageClient
       risks={risks}
       userRole={profile.role}
       objects={objects}
+      assignees={assignees}
       initialImportOpen={query.import === '1'}
     />
   );

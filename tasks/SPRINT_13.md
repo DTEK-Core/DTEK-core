@@ -123,6 +123,11 @@ imported origin остаётся existing source metadata, без Evidence Layer
 
 **Ожидаемый результат:** риск имеет владельца, отображаемого в списке и drawer.
 
+**Решение:** owner и analyst выбирают активного участника своей организации
+при создании или редактировании риска, включая снятие назначения. Server Action
+валидирует UUID и tenant/status выбранного профиля; admin и viewer не получают
+список для назначения и не могут вызвать изменение на сервере.
+
 ### S13-T003 — Due Date & SLA Warnings
 
 **Описание:** улучшить отображение сроков и просрочек.
@@ -164,7 +169,7 @@ imported origin остаётся existing source metadata, без Evidence Layer
 ## 8. Definition Of Done
 
 - [x] S13-T001: минимальная модель workflow согласована с текущей схемой и RLS.
-- [ ] Риск имеет владельца.
+- [x] S13-T002: риск имеет владельца, отображаемого в списке и drawer.
 - [ ] SLA/due date видны и подсвечиваются.
 - [ ] Есть комментарии или зафиксированное MVP-решение.
 - [ ] Manual/imported origin context отображается; auto candidates остаются Post-MVP.

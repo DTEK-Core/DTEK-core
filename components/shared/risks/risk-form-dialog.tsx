@@ -19,7 +19,7 @@ import {
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
 import { createRisk, updateRisk, deleteRisk } from '@/lib/actions/risks';
-import type { SimpleObj } from './risks-page-client';
+import type { RiskAssignee, SimpleObj } from './risks-page-client';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -61,6 +61,9 @@ export interface EditableRisk {
   probability: string | null;
   cvss_score: number | null;
   impact: string | null;
+  owner_id: string | null;
+  owner_name: string | null;
+  owner_is_active: boolean;
 }
 
 interface RiskFormDialogProps {
@@ -68,6 +71,7 @@ interface RiskFormDialogProps {
   onOpenChange: (v: boolean) => void;
   editRisk?: EditableRisk | null;
   objects: SimpleObj[];
+  assignees: RiskAssignee[];
   onDeleted?: () => void;
 }
 
@@ -78,6 +82,7 @@ export function RiskFormDialog({
   onOpenChange,
   editRisk,
   objects,
+  assignees,
   onDeleted,
 }: RiskFormDialogProps) {
   const router = useRouter();
@@ -149,6 +154,7 @@ export function RiskFormDialog({
             <RiskFormFields
               initialValues={editRisk ?? undefined}
               objects={objects}
+              assignees={assignees}
               isEdit={isEdit}
               error={error}
             />
@@ -242,11 +248,13 @@ export function RiskFormDialog({
 function RiskFormFields({
   initialValues,
   objects,
+  assignees,
   isEdit,
   error,
 }: {
   initialValues?: EditableRisk;
   objects: SimpleObj[];
+  assignees: RiskAssignee[];
   isEdit: boolean;
   error?: string | null;
 }) {
@@ -326,6 +334,28 @@ function RiskFormFields({
         />
       </label>
 
+      {/* Responsible person */}
+      <label className="set-field">
+        <span className="set-field-label">Ответственный</span>
+        <select
+          className="set-input"
+          name="owner_id"
+          defaultValue={initialValues?.owner_id ?? ''}
+        >
+          <option value="">— Не назначен</option>
+          {initialValues?.owner_id && !initialValues.owner_is_active && (
+            <option value={initialValues.owner_id}>
+              {initialValues.owner_name ?? 'Текущий ответственный'} · Недоступен
+            </option>
+          )}
+          {assignees.map((assignee) => (
+            <option key={assignee.id} value={assignee.id}>
+              {assignee.full_name} · {roleLabel(assignee.role)}
+            </option>
+          ))}
+        </select>
+      </label>
+
       {/* Привязать к объекту — only on create */}
       {!isEdit && (
         <label className="set-field">
@@ -383,4 +413,15 @@ function RiskFormFields({
       )}
     </div>
   );
+}
+
+function roleLabel(role: string): string {
+  const labels: Record<string, string> = {
+    owner: 'Владелец',
+    analyst: 'Аналитик ИБ',
+    admin: 'Администратор',
+    viewer: 'Наблюдатель',
+  };
+
+  return labels[role] ?? role;
 }

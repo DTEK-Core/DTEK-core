@@ -97,6 +97,7 @@ export const CreateRiskSchema = z.object({
   impact:      longText.nullable().optional(),
   sla_days:    z.number().int('SLA должен быть целым числом').positive('SLA должен быть положительным числом').nullable().optional(),
   object_id:   z.string().uuid('Некорректный идентификатор объекта').nullable().optional(),
+  owner_id:    z.string().uuid('Некорректный идентификатор ответственного').nullable().optional(),
 });
 
 export const UpdateRiskSchema = z.object({
@@ -107,6 +108,7 @@ export const UpdateRiskSchema = z.object({
   probability: z.enum(RISK_PROBABILITY, { message: 'Выберите допустимую вероятность' }).nullable().optional(),
   cvss_score:  z.number().min(0).max(10).nullable().optional(),
   impact:      longText.nullable().optional(),
+  owner_id:    z.string().uuid('Некорректный идентификатор ответственного').nullable().optional(),
 });
 
 export const UpdateRiskStatusSchema = z.object({

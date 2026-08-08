@@ -37,6 +37,13 @@
   manual QA Sprint 12 остаётся условием pilot release, но не блокирует работу
   Sprint 13 в `develop` по явному решению владельца.
 
+### Добавлено
+
+- S13-T002: owner и analyst могут назначать или снимать ответственного за риск
+  из активных участников своей организации. Назначение показывается в Risk
+  Registry и drawer, а Server Action повторно проверяет tenant и active status
+  выбранного профиля.
+
 ## Current Stage Consolidation — 2026-08-03
 
 ### Исправлено

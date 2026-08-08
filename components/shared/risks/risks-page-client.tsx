@@ -25,6 +25,12 @@ export interface SimpleObj {
   type: string;
 }
 
+export interface RiskAssignee {
+  id: string;
+  full_name: string;
+  role: string;
+}
+
 export interface RiskRow {
   id: string;
   title: string;
@@ -38,7 +44,9 @@ export interface RiskRow {
   due_date: string | null;
   created_at: string;
   updated_at: string;
+  owner_id: string | null;
   owner_name: string | null;
+  owner_is_active: boolean;
   author_name: string | null;
   linked_objects: LinkedObj[];
 }
@@ -47,6 +55,7 @@ interface RisksPageClientProps {
   risks: RiskRow[];
   userRole: string;
   objects: SimpleObj[];
+  assignees: RiskAssignee[];
   initialImportOpen?: boolean;
 }
 
@@ -115,12 +124,15 @@ function toEditable(r: RiskRow): EditableRisk {
     probability: r.probability,
     cvss_score:  r.cvss_score,
     impact:      r.impact,
+    owner_id:    r.owner_id,
+    owner_name:  r.owner_name,
+    owner_is_active: r.owner_is_active,
   };
 }
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export function RisksPageClient({ risks, userRole, objects, initialImportOpen = false }: RisksPageClientProps) {
+export function RisksPageClient({ risks, userRole, objects, assignees, initialImportOpen = false }: RisksPageClientProps) {
   const router = useRouter();
   const canCreate = ['owner', 'analyst'].includes(userRole);
   const [q, setQ]             = useState('');
@@ -255,6 +267,7 @@ export function RisksPageClient({ risks, userRole, objects, initialImportOpen = 
             <div className="rtable-head">
               <span className="rth">Риск</span>
               <span className="rth">Объект</span>
+              <span className="rth">Ответственный</span>
               <span className="rth">Категория</span>
               <span className="rth">Статус</span>
               <span className="rth rth-c">SLA</span>
@@ -305,6 +318,11 @@ export function RisksPageClient({ risks, userRole, objects, initialImportOpen = 
                     <span className="rt-cell ot-dim">—</span>
                   )}
 
+                  {/* Assigned owner */}
+                  <span className={`rt-cell rt-owner${r.owner_name ? '' : ' ot-dim'}`}>
+                    {r.owner_name ?? 'Не назначен'}
+                  </span>
+
                   {/* Category */}
                   <span className="rt-cell ot-dim">{catLbl}</span>
 
@@ -349,6 +367,7 @@ export function RisksPageClient({ risks, userRole, objects, initialImportOpen = 
         open={showCreateDialog}
         onOpenChange={setShowCreate}
         objects={objects}
+        assignees={assignees}
       />
 
       <RiskImportDialog open={showImportDialog} onOpenChange={setShowImport} />
@@ -359,6 +378,7 @@ export function RisksPageClient({ risks, userRole, objects, initialImportOpen = 
         onOpenChange={v => { if (!v) setEditRisk(null); }}
         editRisk={editRisk}
         objects={objects}
+        assignees={assignees}
         onDeleted={() => { setEditRisk(null); setSelectedId(null); }}
       />
     </div>
