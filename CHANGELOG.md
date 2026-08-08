@@ -5,6 +5,21 @@
 
 ---
 
+## Performance Stabilization — 2026-08-08
+
+### Исправлено
+
+- Повторные Supabase Auth/Profile round-trip в middleware, App Shell, Server
+  Components и Server Actions сокращены: защита использует верифицированный
+  JWT claims context, общий для одного SSR render.
+- Server Actions больше не проходят дополнительную middleware-проверку до
+  собственной RBAC-авторизации; создание организации распараллеливает
+  независимые profile/config записи.
+- Fail-fast timeout Supabase уменьшен с 4 до 2 секунд, чтобы недоступный DNS
+  или endpoint не воспринимался как зависание интерфейса.
+- Гостевые auth-страницы и редиректы с защищённых маршрутов больше не ждут
+  Supabase, если в запросе отсутствует auth-cookie.
+
 ## Current Stage Consolidation — 2026-08-03
 
 ### Исправлено

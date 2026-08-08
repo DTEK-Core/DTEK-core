@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { UsersPageClient } from '@/components/shared/users/users-page-client';
 import type { Member } from '@/components/shared/users/user-row';
 
@@ -27,26 +28,17 @@ interface PendingInvitation {
 }
 
 export default async function UsersPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: profileRaw } = await supabase
-    .from('profiles')
-    .select('id, organization_id, role')
-    .eq('id', user.id)
-    .single();
-
-  const currentProfile = profileRaw as unknown as Profile | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const currentProfile = context.profile as Profile | null;
   if (!currentProfile?.organization_id) redirect('/onboarding/create');
 
   const currentRole = currentProfile.role ?? 'viewer';
   if (currentRole !== 'owner' && currentRole !== 'admin') {
     redirect('/dashboard');
   }
+
+  const supabase = await createClient();
 
   // Fetch active/blocked members
   const { data: membersRaw } = await supabase
@@ -94,7 +86,7 @@ export default async function UsersPage() {
   return (
     <UsersPageClient
       members={allMembers}
-      currentUserId={user.id}
+      currentUserId={context.userId}
       currentUserRole={currentRole}
     />
   );

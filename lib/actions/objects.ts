@@ -2,8 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { recalculateObjectTrust } from '@/lib/trust/engine';
 import { CreateObjectSchema, UpdateObjectSchema } from '@/lib/validation/schemas';
 
@@ -24,21 +24,17 @@ interface AuthCtx {
 }
 
 async function getAuthCtx(): Promise<AuthCtx | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const admin = createAdminClient();
-  const { data } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = data as { role: string; organization_id: string } | null;
+  const context = await getCurrentUserContext();
+  if (!context) return null;
+  const profile = context?.profile as { role: string; organization_id: string } | null;
   if (!profile?.organization_id) return null;
 
-  return { userId: user.id, role: profile.role, orgId: profile.organization_id, admin };
+  return {
+    userId: context.userId,
+    role: profile.role,
+    orgId: profile.organization_id,
+    admin: createAdminClient(),
+  };
 }
 
 function str(fd: FormData, key: string): string | null {

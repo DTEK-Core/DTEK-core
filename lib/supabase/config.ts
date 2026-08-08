@@ -1,4 +1,4 @@
-const DEFAULT_SUPABASE_TIMEOUT_MS = 4_000;
+const DEFAULT_SUPABASE_TIMEOUT_MS = 2_000;
 
 export function getSupabaseUrl(): string {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

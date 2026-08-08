@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { SettingsLayout } from '@/components/shared/settings/settings-layout';
 import type { SecurityEventRow } from '@/components/shared/settings/security-log';
 
@@ -28,22 +29,12 @@ interface Organization {
 }
 
 export default async function SettingsPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: profileRaw } = await supabase
-    .from('profiles')
-    .select('id, full_name, email, role, team, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as Profile | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as Profile | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
+  const supabase = await createClient();
   const { data: orgRaw } = await supabase
     .from('organizations')
     .select('id, name, inn, industry, region, size')
@@ -79,7 +70,7 @@ export default async function SettingsPage() {
       <SettingsLayout
         profile={{
           fullName: profile.full_name ?? '',
-          email: profile.email ?? user.email ?? '',
+          email: profile.email ?? '',
           team: profile.team,
           role: profile.role,
         }}

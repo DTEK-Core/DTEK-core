@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { createClient } from '@/lib/supabase/server';
 import { AppSidebar } from '@/components/shared/shell/app-sidebar';
 
@@ -13,23 +14,14 @@ interface Organization {
 }
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
 
-  if (!user) redirect('/login');
-
-  const { data: profileRaw } = await supabase
-    .from('profiles')
-    .select('full_name, email, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as Profile | null;
+  const profile = context.profile as Profile | null;
 
   let orgName: string | null = null;
   if (profile?.organization_id) {
+    const supabase = await createClient();
     const { data: orgRaw } = await supabase
       .from('organizations')
       .select('name')
@@ -40,7 +32,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   const displayName = profile?.full_name ?? '';
-  const email = profile?.email ?? user.email ?? '';
+  const email = profile?.email ?? '';
 
   return (
     <div className="app">

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { createSecurityEvent } from '@/lib/security/audit';
 
 type UserRole = 'analyst' | 'admin' | 'viewer';
@@ -18,24 +19,15 @@ async function getCallerProfile(): Promise<{
   orgId: string;
   actorEmail: string;
 } | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data } = await supabase
-    .from('profiles')
-    .select('id, email, role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = data as unknown as ProfileRow | null;
+  const context = await getCurrentUserContext();
+  const profile = context?.profile as ProfileRow | null;
   if (!profile?.organization_id) return null;
   if (profile.role !== 'owner' && profile.role !== 'admin') return null;
 
   return {
     profile,
     orgId: profile.organization_id,
-    actorEmail: user.email ?? profile.email ?? '',
+    actorEmail: profile.email ?? '',
   };
 }
 

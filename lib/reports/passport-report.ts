@@ -200,7 +200,7 @@ function hideSourceRecordIds(
 }
 
 export async function getPassportReportData(objectId: string): Promise<PassportReportData> {
-  const { admin, user, orgId, role } = await getReportAccessContext('passport', {
+  const { admin, userId, userEmail, orgId, role } = await getReportAccessContext('passport', {
     onDenied: 'notFound',
   });
 
@@ -370,8 +370,8 @@ export async function getPassportReportData(objectId: string): Promise<PassportR
     risks,
     orgName,
     orgId,
-    userId: user.id,
-    userEmail: user.email,
+    userId,
+    userEmail,
     role,
     delta30,
     factors,

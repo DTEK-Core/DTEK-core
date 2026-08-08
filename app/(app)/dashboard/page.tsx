@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { DashboardClient } from '@/components/shared/dashboard/dashboard-client';
 import type { DashboardProps } from '@/components/shared/dashboard/dashboard-client';
 import type { EventItem } from '@/components/shared/dashboard/event-feed';
@@ -97,19 +97,11 @@ function scoreFactors(
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DashboardPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
 
   const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as { role: string; organization_id: string } | null;
+  const profile = context.profile as { role: string; organization_id: string } | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
   const orgId = profile.organization_id;

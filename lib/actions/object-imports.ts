@@ -2,8 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { recalculateOrgIndex } from '@/lib/trust/engine';
 import { createCompletedImportAudit, createFailedImportAudit } from '@/lib/security/import-audit';
 import {
@@ -39,26 +39,17 @@ interface AuthContext {
 }
 
 async function getAuthContext(): Promise<AuthContext | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const admin = createAdminClient();
-  const { data } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = data as { role: string | null; organization_id: string | null } | null;
+  const context = await getCurrentUserContext();
+  if (!context) return null;
+  const profile = context?.profile as { role: string | null; organization_id: string | null } | null;
   if (!profile?.role || !profile.organization_id) return null;
 
   return {
-    userId: user.id,
-    actorEmail: user.email,
+    userId: context.userId,
+    actorEmail: context.profile?.email ?? undefined,
     role: profile.role,
     orgId: profile.organization_id,
-    admin,
+    admin: createAdminClient(),
   };
 }
 

@@ -20,7 +20,7 @@ export async function logPrintableReportExport(
   input: PrintableReportExportInput,
 ): Promise<PrintableReportExportResult> {
   if (input.reportType === 'passport') {
-    const { admin, user, orgId } = await getReportAccessContext('passport');
+    const { admin, userId, userEmail, orgId } = await getReportAccessContext('passport');
 
     const { data: objectRaw } = await admin
       .from('objects')
@@ -36,8 +36,8 @@ export async function logPrintableReportExport(
 
     await createSecurityEvent({
       organizationId: orgId,
-      actorId: user.id,
-      actorEmail: user.email,
+      actorId: userId,
+      actorEmail: userEmail,
       eventType: 'report.passport_exported',
       targetType: 'object',
       targetId: object.id,
@@ -53,12 +53,12 @@ export async function logPrintableReportExport(
     return { success: true };
   }
 
-  const { user, orgId } = await getReportAccessContext('executive');
+  const { userId, userEmail, orgId } = await getReportAccessContext('executive');
 
   await createSecurityEvent({
     organizationId: orgId,
-    actorId: user.id,
-    actorEmail: user.email,
+    actorId: userId,
+    actorEmail: userEmail,
     eventType: 'report.executive_exported',
     targetType: 'organization',
     targetId: orgId,

@@ -214,7 +214,7 @@ const RISK_CSV_COLUMNS: CsvColumn<RiskCsvRow>[] = [
 ];
 
 export async function getRiskCsvExport(searchParams: URLSearchParams): Promise<RiskCsvExport> {
-  const { admin, user, orgId } = await getReportAccessContext('riskCsv');
+  const { admin, userId, userEmail, orgId } = await getReportAccessContext('riskCsv');
 
   const filters: RiskCsvExport['filters'] = {
     q: normalizeQuery(searchParams.get('q')),
@@ -244,8 +244,8 @@ export async function getRiskCsvExport(searchParams: URLSearchParams): Promise<R
     filename: `dtek-core-risk-registry-${formatDateForFilename(new Date())}.csv`,
     rowCount: rows.length,
     orgId,
-    userId: user.id,
-    userEmail: user.email,
+    userId,
+    userEmail,
     filters,
   };
 }

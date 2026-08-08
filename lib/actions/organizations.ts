@@ -1,17 +1,13 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { CreateOrgSchema } from '@/lib/validation/schemas';
 
 export async function createOrganization(formData: FormData) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
 
   const parsed = CreateOrgSchema.safeParse({
     name:       (formData.get('name') as string | null)?.trim(),
@@ -41,7 +37,7 @@ export async function createOrganization(formData: FormData) {
       size,
       inn,
       region,
-      owner_id: user.id,
+      owner_id: context.userId,
     } as never)
     .select('id')
     .single();
@@ -51,16 +47,22 @@ export async function createOrganization(formData: FormData) {
   const org = orgRaw as unknown as { id: string } | null;
   if (!org?.id) return { error: 'Не удалось создать организацию' };
 
-  const { error: profileError } = await admin
-    .from('profiles')
-    .update({ organization_id: org.id, role: 'owner' } as never)
-    .eq('id', user.id);
+  const [profileResult, configResult] = await Promise.all([
+    admin
+      .from('profiles')
+      .update({ organization_id: org.id, role: 'owner' } as never)
+      .eq('id', context.userId),
+    admin
+      .from('trust_factor_config')
+      .insert({ organization_id: org.id } as never),
+  ]);
 
-  if (profileError) return { error: 'Не удалось назначить роль владельца. Попробуйте ещё раз.' };
-
-  await admin
-    .from('trust_factor_config')
-    .insert({ organization_id: org.id } as never);
+  if (profileResult.error) {
+    return { error: 'Не удалось назначить роль владельца. Попробуйте ещё раз.' };
+  }
+  if (configResult.error) {
+    return { error: 'Не удалось создать конфигурацию Trust Score. Попробуйте ещё раз.' };
+  }
 
   redirect('/onboarding/wizard');
 }

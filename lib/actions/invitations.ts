@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { InviteSchema } from '@/lib/validation/schemas';
 import { createServiceClient } from '@/lib/supabase/service';
 import { createSecurityEvent } from '@/lib/security/audit';
@@ -32,19 +33,10 @@ type SendInvitationResult = {
 };
 
 async function getCallerProfile(): Promise<CallerProfile | null> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data } = await supabase
-    .from('profiles')
-    .select('id, email, role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = data as unknown as CallerProfile | null;
+  const context = await getCurrentUserContext();
+  const profile = context?.profile as CallerProfile | null;
   if (!profile) return null;
-  return { ...profile, email: user.email ?? profile.email ?? null };
+  return { ...profile, email: profile.email ?? null };
 }
 
 function buildInviteUrl(token: string): string | null {

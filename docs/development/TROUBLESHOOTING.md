@@ -35,7 +35,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 Опционально:
 
 ```bash
-SUPABASE_FETCH_TIMEOUT_MS=4000
+SUPABASE_FETCH_TIMEOUT_MS=2000
 ```
 
 `NEXT_PUBLIC_SUPABASE_URL` должен содержать актуальный Supabase project ref:
@@ -139,7 +139,7 @@ npm run build
 ## Поведение приложения при сбое Supabase
 
 Supabase clients используют единый timeout `SUPABASE_FETCH_TIMEOUT_MS`
-по умолчанию `4000` мс.
+по умолчанию `2000` мс.
 
 Если Supabase недоступен:
 
@@ -147,6 +147,20 @@ Supabase clients используют единый timeout `SUPABASE_FETCH_TIMEO
 - публичные auth/onboarding страницы остаются доступными;
 - protected routes перенаправляются на `/login?error=supabase_unavailable`;
 - auth Server Actions возвращают понятную ошибку вместо зависания.
+
+### Проверка после оптимизации SSR
+
+В штатном запросе middleware проверяет JWT через `getClaims()`, а App Shell и
+страница используют один request-scoped profile context. Server Actions не
+проходят повторный middleware session/profile lookup: каждая из них
+авторизует пользователя самостоятельно. Это уменьшает число последовательных
+обращений к Supabase, но не может компенсировать отсутствие DNS или
+недоступность Supabase Cloud.
+
+Если в запросе нет Supabase auth-cookie, middleware не делает сетевой Auth
+вызов: `/login`, `/register` и другие auth-страницы открываются сразу, а
+защищённый маршрут сразу перенаправляется на login. Запросы с auth-cookie
+по-прежнему проходят проверку claims и refresh session.
 
 Это не заменяет восстановление DNS или Supabase, но сохраняет локальный UI
 отзывчивым и упрощает диагностику.

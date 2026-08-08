@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect, notFound } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { ObjectDetailClient } from '@/components/shared/objects/object-detail-client';
 import type {
   DetailObject,
@@ -105,30 +105,20 @@ export default async function ObjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as ProfileRaw | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as ProfileRaw | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
+  const admin = createAdminClient();
   const orgId = profile.organization_id;
   const role  = profile.role;
 
   // ── Object with passport ───────────────────────────────────────────────────
-  const { data: objData } = await admin
-    .from('objects')
-    .select(`
+  const [objectResult, riskLinksResult, relLinksResult, historyResult] = await Promise.all([
+    admin
+      .from('objects')
+      .select(`
       id, name, type, description, criticality, status,
       trust_score, trust_level,
       ip_address, os_platform, segment, exposure,
@@ -141,10 +131,29 @@ export default async function ObjectDetailPage({
         risk_count, open_risk_count, critical_risk_count,
         connection_count, completeness_pct, calculated_at
       )
-    `)
-    .eq('id', id)
-    .eq('organization_id', orgId)
-    .single();
+      `)
+      .eq('id', id)
+      .eq('organization_id', orgId)
+      .single(),
+    admin
+      .from('object_risks')
+      .select('risks(id, title, severity, status, category, cvss_score, due_date)')
+      .eq('object_id', id),
+    admin
+      .from('relations')
+      .select('source_object_id, target_object_id')
+      .or(`source_object_id.eq.${id},target_object_id.eq.${id}`)
+      .eq('organization_id', orgId),
+    admin
+      .from('trust_score_history')
+      .select('id, old_score, new_score, reason, changed_by, created_at')
+      .eq('object_id', id)
+      .eq('organization_id', orgId)
+      .order('created_at', { ascending: false })
+      .limit(20),
+  ]);
+
+  const objData = objectResult.data;
 
   if (!objData) notFound();
 
@@ -190,12 +199,7 @@ export default async function ObjectDetailPage({
     : null;
 
   // ── Risks via object_risks junction ────────────────────────────────────────
-  const { data: riskLinksData } = await admin
-    .from('object_risks')
-    .select('risks(id, title, severity, status, category, cvss_score, due_date)')
-    .eq('object_id', id);
-
-  const riskLinks = (riskLinksData as unknown as RiskLinkRaw[] | null) ?? [];
+  const riskLinks = (riskLinksResult.data as unknown as RiskLinkRaw[] | null) ?? [];
   const risks: RiskItem[] = riskLinks
     .map(link => {
       const r = Array.isArray(link.risks) ? link.risks[0] : link.risks;
@@ -214,13 +218,7 @@ export default async function ObjectDetailPage({
     .filter((r): r is RiskItem => r !== null);
 
   // ── Related objects via relations ──────────────────────────────────────────
-  const { data: relLinksData } = await admin
-    .from('relations')
-    .select('source_object_id, target_object_id')
-    .or(`source_object_id.eq.${id},target_object_id.eq.${id}`)
-    .eq('organization_id', orgId);
-
-  const relLinks = (relLinksData as unknown as RelLinkRaw[] | null) ?? [];
+  const relLinks = (relLinksResult.data as unknown as RelLinkRaw[] | null) ?? [];
   const relatedIdSet = new Set(
     relLinks.flatMap(r => [r.source_object_id, r.target_object_id])
             .filter(rid => rid !== id),
@@ -246,16 +244,8 @@ export default async function ObjectDetailPage({
   }
 
   // ── Trust Score history (last 20 entries) ─────────────────────────────────
-  const { data: historyRaw } = await admin
-    .from('trust_score_history')
-    .select('id, old_score, new_score, reason, changed_by, created_at')
-    .eq('object_id', id)
-    .eq('organization_id', orgId)
-    .order('created_at', { ascending: false })
-    .limit(20);
-
   const historyEntries: HistoryEntry[] = (
-    (historyRaw as unknown as HistoryEntryRaw[] | null) ?? []
+    (historyResult.data as unknown as HistoryEntryRaw[] | null) ?? []
   ).map(h => ({
     id:         h.id,
     old_score:  h.old_score,

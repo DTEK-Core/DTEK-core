@@ -308,7 +308,7 @@ function buildSourceCoverage(report: {
 }
 
 export async function getExecutiveReportData(): Promise<ExecutiveReportData> {
-  const { admin, user, orgId, role } = await getReportAccessContext('executive', {
+  const { admin, userId, userEmail, orgId, role } = await getReportAccessContext('executive', {
     onDenied: 'notFound',
   });
 
@@ -394,8 +394,8 @@ export async function getExecutiveReportData(): Promise<ExecutiveReportData> {
       trustScore,
       trustLevel,
     },
-    userId: user.id,
-    userEmail: user.email,
+    userId,
+    userEmail,
     role,
     generatedAt: new Date().toISOString(),
     summary: buildSummary({

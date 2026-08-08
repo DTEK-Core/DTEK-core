@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { RisksPageClient } from '@/components/shared/risks/risks-page-client';
 import type { RiskRow, LinkedObj } from '@/components/shared/risks/risks-page-client';
 import {
@@ -72,23 +72,12 @@ export default async function RisksPage({
   searchParams: Promise<{ import?: string }>;
 }) {
   const query = await searchParams;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as ProfileRaw | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as ProfileRaw | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
+  const admin = createAdminClient();
   const orgId = profile.organization_id;
 
   const [risksResult, objectsResult, weightsResult] = await Promise.all([

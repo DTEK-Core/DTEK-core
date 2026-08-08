@@ -58,6 +58,12 @@ function isOnboardingCreatePath(pathname: string) {
   return pathname === '/onboarding/create' || pathname.startsWith('/onboarding/create/');
 }
 
+function hasSupabaseAuthCookie(request: NextRequest): boolean {
+  return request.cookies.getAll().some(({ name }) =>
+    name.startsWith('sb-') && name.includes('auth-token'),
+  );
+}
+
 // ── Middleware ────────────────────────────────────────────────────────────────
 
 export async function middleware(request: NextRequest) {
@@ -90,6 +96,23 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Every Server Action performs its own authorization. Avoid running a second
+  // session/profile round-trip before the action can validate the same request.
+  if (request.headers.has('next-action')) {
+    return NextResponse.next();
+  }
+
+  // A request with no Supabase auth cookie cannot have a valid server session.
+  // Avoid an Auth/DNS round-trip for public auth screens and protected-route
+  // redirects; session refresh stays active whenever an auth cookie is present.
+  if (!hasSupabaseAuthCookie(request)) {
+    if (isAuthPath(pathname)) return NextResponse.next();
+
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
   let session;
   try {
     session = await updateSession(request);
@@ -110,23 +133,23 @@ export async function middleware(request: NextRequest) {
     throw error;
   }
 
-  const { supabaseResponse, user, organizationId } = session;
+  const { supabaseResponse, userId, organizationId } = session;
 
   // Unauthenticated user on protected route → login
-  if (!user && !isAuthPath(pathname)) {
+  if (!userId && !isAuthPath(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
   // Authenticated user on auth route → dashboard (or org creation if no org)
-  if (user && isAuthPath(pathname)) {
+  if (userId && isAuthPath(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = organizationId ? '/dashboard' : '/onboarding/create';
     return NextResponse.redirect(url);
   }
 
-  if (user) {
+  if (userId) {
     // No org → must create one first (all app routes except /onboarding/create)
     if (!organizationId && !isOnboardingCreatePath(pathname)) {
       const url = request.nextUrl.clone();

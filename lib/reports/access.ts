@@ -1,7 +1,6 @@
 import { notFound, redirect } from 'next/navigation';
-import type { User } from '@supabase/supabase-js';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 
 export const REPORT_FORBIDDEN = 'REPORT_FORBIDDEN';
 
@@ -20,7 +19,8 @@ interface ProfileRaw {
 
 export interface ReportAccessContext {
   admin: ReturnType<typeof createAdminClient>;
-  user: User;
+  userId: string;
+  userEmail: string | undefined;
   orgId: string;
   role: string;
 }
@@ -52,29 +52,17 @@ export async function getReportAccessContext(
   report: ReportKind,
   options: { onDenied?: 'throw' | 'notFound' } = {},
 ): Promise<ReportAccessContext> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as ProfileRaw | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as ProfileRaw | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
   assertReportAccess(profile.role, report, options.onDenied);
 
   return {
-    admin,
-    user,
+    admin: createAdminClient(),
+    userId: context.userId,
+    userEmail: context.profile?.email ?? undefined,
     orgId: profile.organization_id,
     role: profile.role,
   };

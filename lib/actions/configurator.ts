@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { recalculateAllOrgObjects } from '@/lib/trust/engine';
 import type { FactorWeights } from '@/lib/trust/calculate';
 import { FactorWeightsSchema } from '@/lib/validation/schemas';
@@ -12,23 +12,16 @@ import { createSecurityEvent } from '@/lib/security/audit';
 export async function saveFactorWeights(
   weights: FactorWeights,
 ): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-  const { data } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single() as unknown as { data: { role: string; organization_id: string } | null };
-
-  if (!data?.organization_id) redirect('/onboarding/create');
-  if (!['owner', 'analyst'].includes(data.role)) {
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as { role: string; organization_id: string } | null;
+  if (!profile?.organization_id) redirect('/onboarding/create');
+  if (!['owner', 'analyst'].includes(profile.role)) {
     return { error: 'Недостаточно прав для изменения весов' };
   }
 
-  const orgId = data.organization_id;
+  const orgId = profile.organization_id;
+  const admin = createAdminClient();
 
   // Fetch current weights for audit before/after metadata
   const { data: oldConfigRaw } = await admin
@@ -62,8 +55,8 @@ export async function saveFactorWeights(
 
   createSecurityEvent({
     organizationId: orgId,
-    actorId:        user.id,
-    actorEmail:     user.email ?? undefined,
+    actorId:        context.userId,
+    actorEmail:     context.profile?.email ?? undefined,
     eventType:      'config.weights_changed',
     targetType:     'config',
     metadata:       { before: oldConfigRaw ?? null, after: w },
@@ -73,7 +66,7 @@ export async function saveFactorWeights(
   try {
     await recalculateAllOrgObjects(orgId, {
       reason:    'recalculated',
-      changedBy: `user:${user.id}`,
+      changedBy: `user:${context.userId}`,
     });
   } catch {
     // Weights saved; recalc failed silently — scores will update on next trigger

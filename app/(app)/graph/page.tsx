@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { GraphPageClient } from './graph-page-client';
 import type { GraphNode, RawLink } from '@/lib/trust/graph-types';
 import '@/app/graph.css';
@@ -13,21 +13,12 @@ const NODE_SIZE: Record<string, number> = {
 };
 
 export default async function GraphPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as { role: string; organization_id: string } | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as { role: string; organization_id: string } | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
+  const admin = createAdminClient();
   const orgId   = profile.organization_id;
   const role    = profile.role;
   const canEdit = ['owner', 'analyst'].includes(role);

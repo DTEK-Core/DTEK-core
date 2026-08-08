@@ -2,26 +2,17 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { CreateRelationSchema } from '@/lib/validation/schemas';
 
 async function getAuthCtx() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const admin = createAdminClient();
-  const { data } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single() as unknown as { data: { role: string; organization_id: string } | null };
-
-  if (!data?.organization_id) return null;
+  const context = await getCurrentUserContext();
+  const profile = context?.profile as { role: string; organization_id: string } | null;
+  if (!profile?.organization_id) return null;
   return {
-    orgId: data.organization_id,
-    role:  data.role,
+    orgId: profile.organization_id,
+    role:  profile.role,
   };
 }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { Wizard } from '@/components/shared/onboarding/wizard';
 
 export const metadata: Metadata = {
@@ -17,22 +18,12 @@ interface Organization {
 }
 
 export default async function WizardPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: profileRaw } = await supabase
-    .from('profiles')
-    .select('organization_id')
-    .eq('id', user.id)
-    .single();
-
-  const profile = profileRaw as unknown as Profile | null;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as Profile | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
+  const supabase = await createClient();
   const { data: orgRaw } = await supabase
     .from('organizations')
     .select('id, name')

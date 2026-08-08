@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { WeightsEditor } from '@/components/shared/configurator/weights-editor';
 import type { FactorWeights } from '@/lib/trust/calculate';
 import '@/app/configurator.css';
@@ -18,21 +18,12 @@ const DEFAULT_WEIGHTS: FactorWeights = {
 };
 
 export default async function ConfiguratorPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single() as unknown as { data: { role: string; organization_id: string } | null };
-
-  const profile = profileRaw;
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profile = context.profile as { role: string; organization_id: string } | null;
   if (!profile?.organization_id) redirect('/onboarding/create');
 
+  const admin = createAdminClient();
   const orgId   = profile.organization_id;
   const canEdit = ['owner', 'analyst'].includes(profile.role);
 

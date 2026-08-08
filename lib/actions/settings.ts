@@ -4,13 +4,14 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { UpdateProfileSchema, UpdateOrgSchema } from '@/lib/validation/schemas';
 import { createSecurityEvent } from '@/lib/security/audit';
 
 export async function updateProfile(formData: FormData): Promise<{ error?: string }> {
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
 
   const parsed = UpdateProfileSchema.safeParse({
     full_name: (formData.get('full_name') as string | null)?.trim(),
@@ -24,7 +25,7 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
   const { error } = await supabase
     .from('profiles')
     .update({ full_name: parsed.data.full_name, team: parsed.data.team } as never)
-    .eq('id', user.id);
+    .eq('id', context.userId);
 
   if (error) return { error: 'Не удалось обновить профиль. Попробуйте ещё раз.' };
 
@@ -44,17 +45,9 @@ export async function updateOrganization(
     size: string | null;
   },
 ): Promise<{ error?: string }> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const admin = createAdminClient();
-  const { data: profileRaw } = await admin
-    .from('profiles')
-    .select('role, organization_id')
-    .eq('id', user.id)
-    .single() as unknown as { data: { role: string; organization_id: string } | null };
-
+  const context = await getCurrentUserContext();
+  if (!context) redirect('/login');
+  const profileRaw = context.profile as { role: string; organization_id: string } | null;
   if (!profileRaw?.organization_id) redirect('/onboarding/create');
 
   if (profileRaw.role !== 'owner') {
@@ -66,7 +59,7 @@ export async function updateOrganization(
     return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
   }
 
-  const { error } = await admin
+  const { error } = await createAdminClient()
     .from('organizations')
     .update({
       name:     parsed.data.name,
@@ -81,8 +74,8 @@ export async function updateOrganization(
 
   createSecurityEvent({
     organizationId: profileRaw.organization_id,
-    actorId:        user.id,
-    actorEmail:     user.email,
+    actorId:        context.userId,
+    actorEmail:     context.profile?.email ?? undefined,
     eventType:      'org.updated',
     targetType:     'organization',
     targetId:       profileRaw.organization_id,

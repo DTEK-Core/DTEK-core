@@ -30,20 +30,23 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: claimData, error: claimsError } = await supabase.auth.getClaims();
+
+  if (claimsError) throw claimsError;
+
+  const userId = typeof claimData?.claims.sub === 'string' ? claimData.claims.sub : null;
 
   let organizationId: string | null = null;
-  if (user) {
-    const { data } = await supabase
+  if (userId) {
+    const { data, error } = await supabase
       .from('profiles')
       .select('organization_id')
-      .eq('id', user.id)
+      .eq('id', userId)
       .single();
+    if (error) throw error;
     organizationId =
       (data as unknown as { organization_id: string | null } | null)?.organization_id ?? null;
   }
 
-  return { supabaseResponse, user, organizationId };
+  return { supabaseResponse, userId, organizationId };
 }
