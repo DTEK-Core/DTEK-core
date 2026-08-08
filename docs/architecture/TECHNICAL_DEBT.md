@@ -1,7 +1,7 @@
 # TECHNICAL_DEBT.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 07.08.2026`
+`Дата: 08.08.2026`
 `Область: архитектура, масштабирование, эксплуатация`
 
 ---
@@ -21,9 +21,9 @@
 | TD-001 | Demo dataset и manual seed plan готовы, автоматического seed нет | Новый demo tenant нужно наполнять вручную или через Sprint 11 import | Подтвердить воспроизводимый demo tenant до пилота |
 | TD-002 | ✅ CSV/XLSX import реализован в Sprint 11 | Ограничения create-only и отсутствия rollback сохраняются | Контролировать как Known Limitation |
 | TD-003 | ✅ Reporting реализован в Sprint 10 | PDF формируется через browser print, не server renderer | Контролировать как Known Limitation |
-| TD-004 | Sprint 12 не прошёл authenticated manual QA | Explainability milestone нельзя закрыть только contract-тестами | Выполнить `EXPLAINABILITY_QA_CHECKLIST.md` до следующего Sprint |
+| TD-004 | Sprint 12 не прошёл authenticated manual QA | Explainability milestone нельзя закрыть только contract-тестами | Выполнить `EXPLAINABILITY_QA_CHECKLIST.md` до pilot release; по решению владельца не блокирует Sprint 13 |
 | TD-005 | Invite email delivery не является полноценным каналом | Командный onboarding требует ручной передачи ссылки | Sprint 14 или раньше |
-| TD-006 | Cloud migrations `001–017` не сверены в текущей консолидации | Локальная схема может расходиться с Supabase Cloud | Выполнить `npx supabase migration list` с `SUPABASE_ACCESS_TOKEN` |
+| TD-006 | ✅ Cloud migrations `001–017` сверены 08.08.2026 | Повторная сверка обязательна перед production release и новыми migration-dependent задачами | Выполнять `npx supabase migration list --linked` через Supabase CLI |
 | TD-007 | `main` не синхронизирован с `develop`, production release не подтверждён | Production не отражает текущий Market MVP | Выпускать только после QA, PR и release checklist |
 
 ---

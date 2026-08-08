@@ -31,7 +31,7 @@ git push origin main  ← только через PR из develop + CI
 - `main` не содержит реализацию текущего Market MVP;
 - production release текущего состояния не подтверждён;
 - preview `develop` может быть защищён Vercel SSO;
-- merge/deploy разрешён только после ручного QA Sprint 12 и release checklist.
+- production merge/deploy разрешён только после ручного QA Sprint 12 и release checklist; это не блокирует разработку Sprint 13 в `develop` по решению владельца.
 
 **CI пайплайн** (`.github/workflows/ci.yml`):
 ```

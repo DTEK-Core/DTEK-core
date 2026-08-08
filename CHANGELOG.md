@@ -33,6 +33,9 @@
 - Начат Sprint 13. S13-T001 утвердил минимальную модель Pilot Risk Workflow:
   существующие поля `risks` покрывают owner/SLA, а comments/activity потребуют
   одну tenant-scoped RLS migration в следующих задачах.
+- README, Sprint Roadmap, Technical Debt и deployment handoff синхронизированы:
+  manual QA Sprint 12 остаётся условием pilot release, но не блокирует работу
+  Sprint 13 в `develop` по явному решению владельца.
 
 ## Current Stage Consolidation — 2026-08-03
 

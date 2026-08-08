@@ -168,9 +168,9 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Последняя реализация | Sprint 12 — Evidence-backed Trust Explainability |
-| Gate перед следующей разработкой | Ручная приёмка `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` |
-| Схема БД | Локальная цепочка миграций `001–017`; Cloud state сверяется через Supabase CLI |
+| Текущая разработка | Sprint 13 — Pilot Risk Workflow; S13-T001 завершена |
+| Gate перед pilot release | Ручная приёмка `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` |
+| Схема БД | Локальная и Cloud-цепочки миграций `001–017` сверены 08.08.2026 |
 | Автоматический baseline | type-check, ESLint, build, import и explainability contract tests, npm audit |
 | Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting |
 | Частичные области | Risk workflow, source metadata как text block, audit coverage, автоматизация ручного QA |
@@ -178,17 +178,17 @@ diploma/             Учебная база автора и подготовк�
 
 Перед продолжением разработки обязательно прочитать `AGENTS.md`, `AI_DEVELOPMENT_GUIDE.md`, `ARCHITECTURE_DECISIONS.md`, `docs/product/PRODUCT_STRATEGY.md`, `docs/roadmap/ROADMAP.md`, текущий Sprint-документ и `docs/architecture/TECHNICAL_DEBT.md`.
 
-Без нового ADR или решения владельца нельзя менять формулу Trust Score, product boundary, стек, RBAC/RLS, multi-tenant модель или начинать Connector Runtime. Проект готов принять следующую задачу после фиксации результата ручной приёмки Sprint 12.
+Без нового ADR или решения владельца нельзя менять формулу Trust Score, product boundary, стек, RBAC/RLS, multi-tenant модель или начинать Connector Runtime. По явному решению владельца Sprint 13 начат до ручной приёмки Sprint 12; эта приёмка остаётся обязательным gate перед pilot release.
 
 ---
 
 ## Roadmap
 
-Текущий gate и утверждённая последовательность:
+Текущие обязательства и утверждённая последовательность:
 
-1. Завершить ручную приёмку Sprint 12 по Explainability QA Checklist.
-2. Sprint 13 — Pilot Risk Workflow.
-3. Sprint 14 — Pilot Readiness.
+1. Выполнить Sprint 13 — Pilot Risk Workflow.
+2. Завершить ручную приёмку Sprint 12 по Explainability QA Checklist до pilot release.
+3. Выполнить Sprint 14 — Pilot Readiness и закрыть финальные release gates.
 4. После коммерческого MVP: Sprint 15 — Connector Framework Foundation.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
