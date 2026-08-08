@@ -21,9 +21,8 @@ Sprint 13 расширяет ручной и импортированный Risk
 
 ## Минимальная Migration 018
 
-Для comments и читаемой истории нужна одна локальная migration
-`018_risk_workflow.sql`, которая будет создана только в задачах реализации
-comments/activity.
+Для comments и читаемой истории используется migration
+`018_risk_workflow.sql`, созданная в S13-T004.
 
 ### `risk_comments`
 
@@ -36,7 +35,9 @@ comments/activity.
 | `body` | обязательный текст с ограничением длины |
 | `created_at` | UTC timestamp |
 
-Комментарии в MVP immutable: редактирование и удаление не входят в scope.
+Комментарии в MVP immutable: owner и analyst добавляют их через Server Action,
+а редактирование и удаление не входят в scope. Каждое успешное добавление также
+создаёт `comment_added` в `risk_activity` для будущей timeline S13-T006.
 
 ### `risk_activity`
 

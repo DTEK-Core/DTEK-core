@@ -126,6 +126,14 @@ export const UpdateRiskStatusSchema = z.object({
   status: z.enum(RISK_STATUSES, { message: 'Недопустимый статус риска' }),
 });
 
+export const AddRiskCommentSchema = z.object({
+  risk_id: z.string().uuid('Некорректный идентификатор риска'),
+  body: z.string()
+    .trim()
+    .min(1, 'Введите текст комментария')
+    .max(2000, 'Комментарий не должен превышать 2000 символов'),
+});
+
 // ── Invitations ───────────────────────────────────────────────────────────────
 
 export const InviteSchema = z.object({

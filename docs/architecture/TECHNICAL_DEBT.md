@@ -23,7 +23,7 @@
 | TD-003 | ✅ Reporting реализован в Sprint 10 | PDF формируется через browser print, не server renderer | Контролировать как Known Limitation |
 | TD-004 | Sprint 12 не прошёл authenticated manual QA | Explainability milestone нельзя закрыть только contract-тестами | Выполнить `EXPLAINABILITY_QA_CHECKLIST.md` до pilot release; по решению владельца не блокирует Sprint 13 |
 | TD-005 | Invite email delivery не является полноценным каналом | Командный onboarding требует ручной передачи ссылки | Sprint 14 или раньше |
-| TD-006 | ✅ Cloud migrations `001–017` сверены 08.08.2026 | Повторная сверка обязательна перед production release и новыми migration-dependent задачами | Выполнять `npx supabase migration list --linked` через Supabase CLI |
+| TD-006 | ✅ Cloud migrations `001–018` синхронизированы | Повторная сверка обязательна перед production release и новыми migration-dependent задачами | Выполнять `npx supabase migration list --linked` через Supabase CLI |
 | TD-007 | `main` не синхронизирован с `develop`, production release не подтверждён | Production не отражает текущий Market MVP | Выпускать только после QA, PR и release checklist |
 
 ---

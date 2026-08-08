@@ -5,7 +5,12 @@ import { revalidatePath } from 'next/cache';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { recalculateObjectTrust } from '@/lib/trust/engine';
-import { CreateRiskSchema, UpdateRiskSchema, UpdateRiskStatusSchema } from '@/lib/validation/schemas';
+import {
+  AddRiskCommentSchema,
+  CreateRiskSchema,
+  UpdateRiskSchema,
+  UpdateRiskStatusSchema,
+} from '@/lib/validation/schemas';
 
 // ── Auth helper ────────────────────────────────────────────────────────────────
 
@@ -244,11 +249,70 @@ export async function deleteRisk(id: string) {
   return { success: true };
 }
 
+export async function addRiskComment(riskId: string, body: string) {
+  const ctx = await getAuthCtx();
+  if (!ctx) redirect('/login');
+
+  const { userId, role, orgId, admin } = ctx;
+  if (!['owner', 'analyst'].includes(role)) {
+    return { error: 'Только владелец или аналитик может добавлять комментарии' };
+  }
+
+  const parsed = AddRiskCommentSchema.safeParse({ risk_id: riskId, body });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректный комментарий' };
+  }
+
+  const { data: risk, error: riskError } = await admin
+    .from('risks')
+    .select('id')
+    .eq('id', parsed.data.risk_id)
+    .eq('organization_id', orgId)
+    .maybeSingle();
+  if (riskError || !risk) return { error: 'Риск не найден' };
+
+  const { data: commentRaw, error: commentError } = await admin
+    .from('risk_comments')
+    .insert({
+      organization_id: orgId,
+      risk_id: parsed.data.risk_id,
+      author_id: userId,
+      body: parsed.data.body,
+    } as never)
+    .select('id')
+    .single();
+  const comment = commentRaw as { id: string } | null;
+
+  if (commentError || !comment) {
+    return { error: 'Не удалось добавить комментарий. Попробуйте ещё раз.' };
+  }
+
+  const { error: activityError } = await admin.from('risk_activity').insert({
+    organization_id: orgId,
+    risk_id: parsed.data.risk_id,
+    actor_id: userId,
+    event_type: 'comment_added',
+    metadata: {},
+  } as never);
+
+  if (activityError) {
+    await admin.from('risk_comments').delete().eq('id', comment.id);
+    return { error: 'Не удалось зафиксировать комментарий. Попробуйте ещё раз.' };
+  }
+
+  revalidatePath('/risks');
+  return { success: true };
+}
+
 export async function updateRiskStatus(id: string, status: string) {
   const ctx = await getAuthCtx();
   if (!ctx) redirect('/login');
 
-  const { orgId, admin } = ctx;
+  const { role, orgId, admin } = ctx;
+
+  if (!['owner', 'analyst'].includes(role)) {
+    return { error: 'Недостаточно прав' };
+  }
 
   const parsedStatus = UpdateRiskStatusSchema.safeParse({ status });
   if (!parsedStatus.success) {
@@ -289,7 +353,7 @@ export async function linkRiskToObject(riskId: string, objectId: string) {
 
   const { userId, role, orgId, admin } = ctx;
 
-  if (!['owner', 'analyst', 'admin'].includes(role)) {
+  if (!['owner', 'analyst'].includes(role)) {
     return { error: 'Недостаточно прав' };
   }
 

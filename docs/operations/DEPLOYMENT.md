@@ -158,7 +158,7 @@ npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/data
 [ ] npm run test:trust-explainability — все тесты проходят
 [ ] npm audit — 0 известных уязвимостей
 [ ] Переменные окружения настроены в Vercel
-[ ] `supabase migration list` подтверждает миграции `001–017` на Cloud
+[ ] `supabase migration list` подтверждает миграции `001–018` на Cloud
 [ ] Ручной QA Sprint 12 завершён без Blocker/Critical
 [ ] PR одобрен и CI прошёл
 ```

@@ -47,6 +47,11 @@
   риска. Risk Registry и drawer различают просрочку, срок менее трёх дней,
   выполнение в графике, завершённый SLA и отсутствие срока; закрытые статусы
   не показываются как просроченные.
+- S13-T004: добавлены immutable комментарии к рискам, tenant-scoped RLS tables
+  `risk_comments` и `risk_activity`, activity event `comment_added` и read-only
+  отображение для admin/viewer. Server Action ограничивает запись ролями owner
+  и analyst и проверяет принадлежность риска организации. Migration 018
+  применена к связанному Supabase Cloud.
 
 ## Current Stage Consolidation — 2026-08-03
 

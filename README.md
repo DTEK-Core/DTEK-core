@@ -27,7 +27,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. В Sprint 12 утверждена Evidence-backed Explainability model, реализованы Top Score Drivers, Factor Reason Cards, counterfactual Risk Impact Hint, Score Delta Explanation и Dashboard Explainability Summary. Пользовательская документация и воспроизводимый QA checklist готовы; до закрытия milestone требуется ручная приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–017` сверены с восстановленным Supabase Cloud 08.08.2026. Roadmap зафиксирован: Sprint 13 — Pilot Risk Workflow уже начат по явному решению владельца проекта; ручной authenticated QA Sprint 12 остаётся обязательным pilot release gate и не отмечен как `PASS`.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–018` применены и сверены; migration 018 добавляет risk comments/activity foundation. Roadmap зафиксирован: Sprint 13 — Pilot Risk Workflow уже начат по явному решению владельца проекта; ручной authenticated QA Sprint 12 остаётся обязательным pilot release gate и не отмечен как `PASS`.
 
 ### Реализованные Маршруты
 
@@ -170,7 +170,7 @@ diploma/             Учебная база автора и подготовк�
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
 | Текущая разработка | Sprint 13 — Pilot Risk Workflow; S13-T001 завершена |
 | Gate перед pilot release | Ручная приёмка `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` |
-| Схема БД | Локальная и Cloud-цепочки миграций `001–017` сверены 08.08.2026 |
+| Схема БД | Локальная и Cloud-цепочки миграций `001–018` синхронизированы |
 | Автоматический baseline | type-check, ESLint, build, import и explainability contract tests, npm audit |
 | Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting |
 | Частичные области | Risk workflow, source metadata как text block, audit coverage, автоматизация ручного QA |

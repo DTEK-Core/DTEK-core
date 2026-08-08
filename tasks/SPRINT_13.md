@@ -56,10 +56,10 @@
 
 ### Стартовая Готовность
 
-- Cloud migration chain `001–017` сверена с восстановленным Supabase Cloud 08.08.2026.
+- Cloud migration chain `001–018` применена и синхронизирована с Supabase Cloud.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- Следующая задача: S13-T004 — Risk Comments.
+- Следующая задача: S13-T005 — Risk Origin Context: Manual/Imported UI.
 
 ---
 
@@ -145,6 +145,12 @@ imported origin остаётся existing source metadata, без Evidence Layer
 
 **Ожидаемый результат:** команда может фиксировать ход устранения риска.
 
+**Решение:** migration 018 создаёт tenant-scoped immutable `risk_comments` и
+foundation `risk_activity` с deny-by-default mutation policies. Owner и analyst
+добавляют комментарии до 2000 символов через авторизованный Server Action;
+admin и viewer читают комментарии без возможности изменения. Успешный comment
+создаёт activity event `comment_added`.
+
 ### S13-T005 — Risk Origin Context: Manual/Imported UI
 
 **Описание:** показать происхождение существующего риска как manual или imported и связать его с уже реализованным source context.
@@ -176,7 +182,7 @@ imported origin остаётся existing source metadata, без Evidence Layer
 - [x] S13-T001: минимальная модель workflow согласована с текущей схемой и RLS.
 - [x] S13-T002: риск имеет владельца, отображаемого в списке и drawer.
 - [x] S13-T003: SLA/due date редактируются и подсвечиваются по состоянию.
-- [ ] Есть комментарии или зафиксированное MVP-решение.
+- [x] S13-T004: immutable комментарии доступны в risk drawer с RBAC/RLS.
 - [ ] Manual/imported origin context отображается; auto candidates остаются Post-MVP.
 - [ ] Activity timeline отражает ключевые события.
 - [ ] Audit events работают.

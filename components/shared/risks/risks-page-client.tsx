@@ -31,6 +31,13 @@ export interface RiskAssignee {
   role: string;
 }
 
+export interface RiskComment {
+  id: string;
+  body: string;
+  created_at: string;
+  author_name: string | null;
+}
+
 export interface RiskRow {
   id: string;
   title: string;
@@ -50,6 +57,7 @@ export interface RiskRow {
   owner_is_active: boolean;
   author_name: string | null;
   linked_objects: LinkedObj[];
+  comments: RiskComment[];
 }
 
 interface RisksPageClientProps {
@@ -361,6 +369,7 @@ export function RisksPageClient({ risks, userRole, objects, assignees, initialIm
         <RiskDrawer
           risk={selected}
           objects={objects}
+          canComment={canCreate}
           onClose={() => setSelectedId(null)}
           onEdit={canCreate ? () => { setEditRisk(toEditable(selected)); setSelectedId(null); } : undefined}
         />

@@ -69,6 +69,14 @@ interface ObjectImpactRaw extends ObjectForCalc {
   status: string;
 }
 
+interface RiskCommentRaw {
+  id: string;
+  risk_id: string;
+  body: string;
+  created_at: string;
+  author: ProfileLinkRaw | ProfileLinkRaw[] | null;
+}
+
 function single<T>(value: T | T[] | null): T | null {
   return Array.isArray(value) ? value[0] ?? null : value;
 }
@@ -90,7 +98,7 @@ export default async function RisksPage({
   const orgId = profile.organization_id;
   const canManageRisks = ['owner', 'analyst'].includes(profile.role);
 
-  const [risksResult, objectsResult, weightsResult, assigneesResult] = await Promise.all([
+  const [risksResult, objectsResult, weightsResult, assigneesResult, commentsResult] = await Promise.all([
     admin
       .from('risks')
       .select(`
@@ -120,6 +128,11 @@ export default async function RisksPage({
           .eq('status', 'active')
           .order('full_name')
       : Promise.resolve({ data: null }),
+    admin
+      .from('risk_comments')
+      .select('id, risk_id, body, created_at, author:profiles!author_id(full_name)')
+      .eq('organization_id', orgId)
+      .order('created_at', { ascending: true }),
   ]);
 
   const rawList = (risksResult.data as unknown as RiskRaw[] | null) ?? [];
@@ -129,6 +142,22 @@ export default async function RisksPage({
   const weights = (
     weightsResult.data as unknown as FactorWeights | null
   ) ?? DEFAULT_FACTOR_WEIGHTS;
+  const rawComments = (
+    commentsResult.data as unknown as RiskCommentRaw[] | null
+  ) ?? [];
+  const commentsByRisk = new Map<string, RiskRow['comments']>();
+
+  for (const comment of rawComments) {
+    const author = single(comment.author);
+    const riskComments = commentsByRisk.get(comment.risk_id) ?? [];
+    riskComments.push({
+      id: comment.id,
+      body: comment.body,
+      created_at: comment.created_at,
+      author_name: author?.full_name ?? null,
+    });
+    commentsByRisk.set(comment.risk_id, riskComments);
+  }
   const objectsById = new Map(objectList.map((object) => [object.id, object]));
   const risksByObject = new Map<string, RiskImpactInput[]>();
 
@@ -193,6 +222,7 @@ export default async function RisksPage({
       owner_is_active: ownerRaw?.status === 'active',
       author_name:    authorRaw?.full_name ?? null,
       linked_objects: linkedObjects,
+      comments:       commentsByRisk.get(raw.id) ?? [],
     };
   });
 
