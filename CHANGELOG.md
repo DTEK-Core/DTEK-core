@@ -23,6 +23,17 @@
   игнорируют refresh устаревшей cookie, а session check защищённого маршрута
   ограничен единым fail-fast timeout.
 
+## Sprint 13 Kickoff — 2026-08-08
+
+### Изменено
+
+- Cloud migrations `001–017` сверены с восстановленным Supabase Cloud.
+- Ручная приёмка Sprint 12 зафиксирована как отложенный pilot release gate по
+  решению владельца проекта; она не отмечена как `PASS` и не закрывает Sprint 12.
+- Начат Sprint 13. S13-T001 утвердил минимальную модель Pilot Risk Workflow:
+  существующие поля `risks` покрывают owner/SLA, а comments/activity потребуют
+  одну tenant-scoped RLS migration в следующих задачах.
+
 ## Current Stage Consolidation — 2026-08-03
 
 ### Исправлено

@@ -107,6 +107,7 @@
 | [docs/architecture/Reporting_Architecture.md](docs/architecture/Reporting_Architecture.md) | Архитектура отчётов и экспорта Sprint 10 |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Модель объяснимости Trust Score, drivers, impact и source context Sprint 12 |
+| [docs/architecture/Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Минимальная модель owner, SLA, comments и activity timeline Sprint 13 |
 | [docs/architecture/Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Полная схема БД, индексы, RLS |
 | [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула Trust Score |
 | [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора |

@@ -4,7 +4,7 @@
 `Спринт: 12`  
 `Тип: Market MVP Feature Sprint`  
 `Основа: Sprint 11, Trust_Score_Model_v2.md, ADR-001, ADR-007`  
-`Статус: 🧪 Реализация завершена, ожидается ручная приёмка`
+`Статус: 🧪 Реализация завершена; ручная приёмка отложена владельцем проекта`
 
 ---
 
@@ -184,6 +184,12 @@ Trust Score без объяснения может восприниматься 
 - [x] `npm run build` проходит.
 
 **Консолидация 03.08.2026:** автоматический baseline повторно подтверждён после dependency hardening; import и explainability contract tests включены в CI, `npm audit` очищен. Обязательная ручная приёмка остаётся открытой и не заменяется автоматическими проверками.
+
+**Handoff 08.08.2026:** Supabase Cloud восстановлен после pause; DNS, Auth, API,
+service-key table contracts и локальная/cloud migration chain `001–017` сверены.
+Владелец проекта явно разрешил начать Sprint 13 до полного ручного прогона
+Explainability QA. Это не означает `PASS` и не закрывает Sprint 12: ручной
+checklist остаётся обязательным release/pilot gate перед Sprint 14.
 
 ---
 

@@ -4,7 +4,7 @@
 `Спринт: 13`  
 `Тип: Commercial MVP Feature Sprint`<br>
 `Основа: Sprint 12, Risk_Model.md, PRODUCT_STRATEGY.md, ADR-007`  
-`Статус: 📋 Запланирован`
+`Статус: 🚧 В работе`
 
 ---
 
@@ -101,6 +101,15 @@
 
 **Ожидаемый результат:** решение: использовать существующие поля или добавить миграцию с RLS.
 
+**Решение:** `risks.owner_id`, `due_date`, `sla_days`, `author_id` и status уже
+покрывают assignment и SLA без изменения таблицы `risks`. Для comments и
+activity timeline в следующих задачах требуется одна минимальная migration
+`018_risk_workflow.sql`: tenant-scoped `risk_comments` и immutable
+`risk_activity`, обе с RLS, organization indexes и server-side writes. Manual/
+imported origin остаётся existing source metadata, без Evidence Layer, Storage
+или auto-candidate runtime. Детали зафиксированы в
+`docs/architecture/Risk_Workflow_Data_Model.md`.
+
 ### S13-T002 — Risk Owner & Assignment UX
 
 **Описание:** назначать ответственного за риск из пользователей организации.
@@ -147,6 +156,7 @@
 
 ## 8. Definition Of Done
 
+- [x] S13-T001: минимальная модель workflow согласована с текущей схемой и RLS.
 - [ ] Риск имеет владельца.
 - [ ] SLA/due date видны и подсвечиваются.
 - [ ] Есть комментарии или зафиксированное MVP-решение.

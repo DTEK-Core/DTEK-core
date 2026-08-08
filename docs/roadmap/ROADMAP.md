@@ -38,7 +38,7 @@ Sprint 01–08 создали функциональный и визуально
 | Demo data | Спецификация и manual seed plan готовы |
 | Import/export | Реализовано для CSV/XLSX import и ключевых отчётов; import трактуется как evidence ingestion |
 | Reports | Реализовано в Sprint 10 |
-| Explainability | Sprint 12 реализован; QA checklist готов, ожидается ручная приёмка |
+| Explainability | Sprint 12 реализован; QA checklist готов, ручная приёмка отложена владельцем проекта до pilot release gate |
 | Engineering consolidation | Dependency hardening и CI contract tests завершены; новый Sprint не начат |
 | Pilot narrative | Готов |
 | Commercial MVP remaining | Sprint 13 Pilot Risk Workflow и Sprint 14 Pilot Readiness |
@@ -69,7 +69,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. Реализация Sprint 12 завершена вместе с пользовательской документацией и QA checklist; milestone ожидает ручную приёмку владельцем проекта. Sprint 13–14 закрывают workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. Реализация Sprint 12 завершена вместе с пользовательской документацией и QA checklist; ручная приёмка остаётся обязательным pilot release gate, но по явному решению владельца не блокирует начало Sprint 13. Sprint 13–14 закрывают workflow и pilot readiness.
 
 Фокус:
 

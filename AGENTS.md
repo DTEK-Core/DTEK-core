@@ -49,7 +49,7 @@
 * **Sprint 12** — Evidence-backed Trust Explainability; S12-T001–T008 реализованы, итоговый QA checklist подготовлен, ожидается ручная приёмка владельцем проекта.
 * **Консолидация 03.08.2026** — dependency baseline усилен, contract tests включены в CI, Supabase seed config и документация синхронизированы; новый Sprint не начат.
 * **Roadmap фиксация 07.08.2026** — коммерческий MVP ограничен Sprint 13 (Pilot Risk Workflow) и Sprint 14 (Pilot Readiness); Sprint 15 и Discovery/Evidence/Connector инициативы — Post-MVP.
-* До следующей разработки обязательны ручной Sprint 12 QA и сверка Cloud migrations. Не отмечать их как PASS без фактического authenticated прогона и Supabase CLI access.
+* Cloud migrations `001–017` сверены с восстановленным Supabase Cloud 08.08.2026. Ручной Sprint 12 QA остаётся обязательным pilot release gate; владелец проекта разрешил начать Sprint 13 до его завершения. Не отмечать QA как PASS без фактического authenticated прогона.
 
 Sprint 12 должен развивать Market MVP без изменения продуктовой границы: объяснимость Trust Score поверх уже реализованных Trust Passport, Trust Score, Trust Graph, Risk Registry, Reporting и Evidence Import. Все последующие Sprint должны учитывать Evidence-first стратегию: import является первым evidence ingestion path, explainability показывает источники данных, а connector framework развивается поэтапно.
 

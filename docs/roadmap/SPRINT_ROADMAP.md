@@ -62,8 +62,8 @@ Demo Ready
 
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
-| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA pending | Объяснить Trust Score, impact рисков и источники данных |
-| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Pilot Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported risks |
+| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA deferred to pilot release gate | Объяснить Trust Score, impact рисков и источники данных |
+| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | В работе: Pilot Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Commercial MVP / Pilot Ready | Закрыть release gates и подготовить продукт к 1–3 пилотам |
 | Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Post-MVP Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
 
@@ -83,7 +83,7 @@ Sprint 08 UX Refinement
                                 -> Post-MVP Sprint 15 Connector Framework Foundation
 ```
 
-Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Все задачи реализации Sprint 12 завершены, включая пользовательскую документацию и итоговый QA checklist. Milestone Evidence-backed Explainability Ready закрывается после ручного прогона `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md`; затем активная разработка переходит к Sprint 13.
+Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Все задачи реализации Sprint 12 завершены, включая пользовательскую документацию и итоговый QA checklist. Ручной прогон `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` остаётся обязательным pilot release gate. По явному решению владельца от 08.08.2026 он отложен и не блокирует старт Sprint 13; Sprint 12 при этом не помечается закрытым или `PASS`.
 
 Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Это не закрывает manual QA и не запускает Sprint 13 автоматически.
 
