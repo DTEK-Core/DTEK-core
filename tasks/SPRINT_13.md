@@ -59,7 +59,7 @@
 - Cloud migration chain `001–017` сверена с восстановленным Supabase Cloud 08.08.2026.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- Следующая задача: S13-T002 — Risk Owner & Assignment UX.
+- Следующая задача: S13-T003 — Due Date & SLA Warnings.
 
 ---
 
