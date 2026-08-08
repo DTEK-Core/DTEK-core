@@ -54,6 +54,7 @@ interface RiskRaw {
   cvss_score: number | null;
   status: string;
   impact: string | null;
+  sla_days: number | null;
   due_date: string | null;
   created_at: string;
   updated_at: string;
@@ -94,7 +95,7 @@ export default async function RisksPage({
       .from('risks')
       .select(`
         id, title, description, category, severity, probability,
-        cvss_score, status, impact, due_date, owner_id, created_at, updated_at,
+        cvss_score, status, impact, sla_days, due_date, owner_id, created_at, updated_at,
         owner:profiles!owner_id(full_name, status),
         author:profiles!author_id(full_name),
         object_risks(objects(id))
@@ -183,6 +184,7 @@ export default async function RisksPage({
       cvss_score:     raw.cvss_score,
       status:         raw.status,
       impact:         raw.impact,
+      sla_days:       raw.sla_days,
       due_date:       raw.due_date,
       created_at:     raw.created_at,
       updated_at:     raw.updated_at,

@@ -61,6 +61,8 @@ export interface EditableRisk {
   probability: string | null;
   cvss_score: number | null;
   impact: string | null;
+  sla_days: number | null;
+  due_date: string | null;
   owner_id: string | null;
   owner_name: string | null;
   owner_is_active: boolean;
@@ -258,6 +260,19 @@ function RiskFormFields({
   isEdit: boolean;
   error?: string | null;
 }) {
+  const [dueDate, setDueDate] = useState(initialValues?.due_date?.slice(0, 10) ?? '');
+  const [slaDays, setSlaDays] = useState(initialValues?.sla_days?.toString() ?? '');
+
+  function handleDueDateChange(value: string) {
+    setDueDate(value);
+    if (value) setSlaDays('');
+  }
+
+  function handleSlaDaysChange(value: string) {
+    setSlaDays(value);
+    if (value) setDueDate('');
+  }
+
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px', marginTop: 4 }}>
 
@@ -271,6 +286,18 @@ function RiskFormFields({
           placeholder="Уязвимость в конфигурации TLS"
           required
           autoComplete="off"
+        />
+      </label>
+
+      {/* Due date */}
+      <label className="set-field">
+        <span className="set-field-label">Срок устранения</span>
+        <input
+          className="set-input"
+          name="due_date"
+          type="date"
+          value={dueDate}
+          onChange={(event) => handleDueDateChange(event.target.value)}
         />
       </label>
 
@@ -369,19 +396,20 @@ function RiskFormFields({
         </label>
       )}
 
-      {/* SLA — only on create */}
-      {!isEdit && (
-        <label className="set-field">
-          <span className="set-field-label">SLA (дней)</span>
-          <input
-            className="set-input"
-            name="sla_days"
-            type="number"
-            min="1"
-            placeholder="30"
-          />
-        </label>
-      )}
+      {/* SLA */}
+      <label className="set-field">
+        <span className="set-field-label">SLA (дней)</span>
+        <input
+          className="set-input"
+          name="sla_days"
+          type="number"
+          min="1"
+          max="36500"
+          value={slaDays}
+          onChange={(event) => handleSlaDaysChange(event.target.value)}
+          placeholder="30"
+        />
+      </label>
 
       {/* Влияние — full row */}
       <label className="set-field" style={{ gridColumn: 'span 2' }}>

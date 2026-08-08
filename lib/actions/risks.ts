@@ -42,6 +42,15 @@ function num(fd: FormData, key: string): number | null {
   return isNaN(n) ? null : n;
 }
 
+function calculateDueDate(dateOnly: string | null | undefined, slaDays: number | null | undefined): string | null {
+  if (dateOnly) return `${dateOnly}T23:59:59.999Z`;
+  if (!slaDays) return null;
+
+  const target = new Date();
+  target.setUTCDate(target.getUTCDate() + slaDays);
+  return `${target.toISOString().slice(0, 10)}T23:59:59.999Z`;
+}
+
 async function validateRiskOwner(
   ownerId: string | null | undefined,
   orgId: string,
@@ -77,8 +86,7 @@ export async function createRisk(formData: FormData) {
   }
 
   const cvssRaw = num(formData, 'cvss_score');
-  const slaDaysRaw = str(formData, 'sla_days');
-  const slaDaysNum = slaDaysRaw ? parseInt(slaDaysRaw, 10) : null;
+  const slaDaysNum = num(formData, 'sla_days');
 
   const parsed = CreateRiskSchema.safeParse({
     title:       str(formData, 'title'),
@@ -89,6 +97,7 @@ export async function createRisk(formData: FormData) {
     cvss_score:  cvssRaw,
     impact:      str(formData, 'impact'),
     sla_days:    slaDaysNum,
+    due_date:    str(formData, 'due_date'),
     object_id:   str(formData, 'object_id') || null,
     owner_id:    str(formData, 'owner_id') || null,
   });
@@ -100,10 +109,8 @@ export async function createRisk(formData: FormData) {
   const ownerError = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
   if (ownerError) return { error: ownerError };
 
-  const { sla_days, object_id, ...riskFields } = parsed.data;
-  const due_date = sla_days
-    ? new Date(Date.now() + sla_days * 86400000).toISOString()
-    : null;
+  const { sla_days, due_date: dueDateInput, object_id, ...riskFields } = parsed.data;
+  const due_date = calculateDueDate(dueDateInput, sla_days);
 
   const { data: risk, error } = await admin
     .from('risks')
@@ -153,6 +160,8 @@ export async function updateRisk(id: string, formData: FormData) {
     cvss_score:  num(formData, 'cvss_score'),
     impact:      str(formData, 'impact'),
     owner_id:    str(formData, 'owner_id') || null,
+    sla_days:    num(formData, 'sla_days'),
+    due_date:    str(formData, 'due_date'),
   });
 
   if (!parsed.success) {
@@ -174,9 +183,14 @@ export async function updateRisk(id: string, formData: FormData) {
     if (ownerError) return { error: ownerError };
   }
 
+  const { due_date: dueDateInput, sla_days, ...riskFields } = parsed.data;
   const { error } = await admin
     .from('risks')
-    .update(parsed.data as never)
+    .update({
+      ...riskFields,
+      sla_days,
+      due_date: calculateDueDate(dueDateInput, sla_days),
+    } as never)
     .eq('id', id)
     .eq('organization_id', orgId);
 

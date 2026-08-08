@@ -59,7 +59,7 @@
 - Cloud migration chain `001–017` сверена с восстановленным Supabase Cloud 08.08.2026.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- Следующая задача: S13-T003 — Due Date & SLA Warnings.
+- Следующая задача: S13-T004 — Risk Comments.
 
 ---
 
@@ -134,6 +134,11 @@ imported origin остаётся existing source metadata, без Evidence Layer
 
 **Ожидаемый результат:** риски подсвечиваются как overdue / due soon / on track.
 
+**Решение:** owner и analyst задают или меняют date-only срок и SLA в форме
+риска; явная дата имеет приоритет, иначе `due_date` вычисляется из `sla_days`.
+Для активных рисков единый helper показывает `Просрочено`, `Скоро срок`
+(менее трёх дней) или `В графике`; завершённые статусы останавливают SLA-warning.
+
 ### S13-T004 — Risk Comments
 
 **Описание:** добавить комментарии к риску для рабочей коммуникации.
@@ -170,7 +175,7 @@ imported origin остаётся existing source metadata, без Evidence Layer
 
 - [x] S13-T001: минимальная модель workflow согласована с текущей схемой и RLS.
 - [x] S13-T002: риск имеет владельца, отображаемого в списке и drawer.
-- [ ] SLA/due date видны и подсвечиваются.
+- [x] S13-T003: SLA/due date редактируются и подсвечиваются по состоянию.
 - [ ] Есть комментарии или зафиксированное MVP-решение.
 - [ ] Manual/imported origin context отображается; auto candidates остаются Post-MVP.
 - [ ] Activity timeline отражает ключевые события.

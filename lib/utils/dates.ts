@@ -3,6 +3,18 @@
 
 const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 const MONTHS_LONG  = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const ACTIVE_RISK_STATUSES = new Set(['open', 'in_progress']);
+const DAY_MS = 86_400_000;
+
+export type SlaState = 'none' | 'overdue' | 'due_soon' | 'on_track' | 'completed';
+
+export interface SlaInfo {
+  label: string;
+  dateLabel: string | null;
+  state: SlaState;
+  overdue: boolean;
+  daysRemaining: number | null;
+}
 
 export function fmtDateShort(d: Date): string {
   return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
@@ -15,11 +27,77 @@ export function fmtDateLong(iso: string | null): string {
   return `${d.getDate()} ${MONTHS_LONG[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-export function formatSla(dueDate: string | null): { label: string; overdue: boolean } {
-  if (!dueDate) return { label: '—', overdue: false };
+export function formatSla(
+  dueDate: string | null,
+  riskStatus = 'open',
+  now = new Date(),
+): SlaInfo {
+  if (!dueDate) {
+    return {
+      label: 'Не задан',
+      dateLabel: null,
+      state: 'none',
+      overdue: false,
+      daysRemaining: null,
+    };
+  }
+
   const due = new Date(dueDate);
-  if (due < new Date()) return { label: 'Просрочен', overdue: true };
-  return { label: fmtDateShort(due), overdue: false };
+  if (Number.isNaN(due.getTime())) {
+    return {
+      label: 'Не задан',
+      dateLabel: null,
+      state: 'none',
+      overdue: false,
+      daysRemaining: null,
+    };
+  }
+
+  const year = due.getUTCFullYear();
+  const month = due.getUTCMonth();
+  const day = due.getUTCDate();
+  const deadline = Date.UTC(year, month, day, 23, 59, 59, 999);
+  const dateLabel = `${day} ${MONTHS_SHORT[month]}`;
+
+  if (!ACTIVE_RISK_STATUSES.has(riskStatus)) {
+    return {
+      label: 'Завершено',
+      dateLabel,
+      state: 'completed',
+      overdue: false,
+      daysRemaining: null,
+    };
+  }
+
+  const remainingMs = deadline - now.getTime();
+  if (remainingMs < 0) {
+    return {
+      label: 'Просрочено',
+      dateLabel,
+      state: 'overdue',
+      overdue: true,
+      daysRemaining: 0,
+    };
+  }
+
+  const daysRemaining = Math.ceil(remainingMs / DAY_MS);
+  if (remainingMs < 3 * DAY_MS) {
+    return {
+      label: 'Скоро срок',
+      dateLabel,
+      state: 'due_soon',
+      overdue: false,
+      daysRemaining,
+    };
+  }
+
+  return {
+    label: 'В графике',
+    dateLabel,
+    state: 'on_track',
+    overdue: false,
+    daysRemaining,
+  };
 }
 
 export function relativeTime(iso: string): string {

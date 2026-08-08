@@ -5,6 +5,14 @@ const shortText  = z.string().min(1, 'Поле не может быть пуст
 const mediumText = z.string().min(1, 'Поле не может быть пустым').max(500).trim();
 const longText   = z.string().max(5000, 'Превышен лимит длины поля (5000 символов)').trim();
 const optShort   = z.string().max(200).trim().nullable().optional();
+const dateOnly   = z.string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Укажите дату в формате ГГГГ-ММ-ДД')
+  .refine((value) => {
+    const parsed = new Date(`${value}T00:00:00.000Z`);
+    return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  }, 'Укажите существующую календарную дату')
+  .nullable()
+  .optional();
 
 // ── Enum values from DB CHECK constraints ─────────────────────────────────────
 const OBJECT_TYPES = [
@@ -95,7 +103,8 @@ export const CreateRiskSchema = z.object({
   probability: z.enum(RISK_PROBABILITY, { message: 'Выберите допустимую вероятность' }).nullable().optional(),
   cvss_score:  z.number().min(0, 'CVSS не может быть меньше 0').max(10, 'CVSS не может быть больше 10').nullable().optional(),
   impact:      longText.nullable().optional(),
-  sla_days:    z.number().int('SLA должен быть целым числом').positive('SLA должен быть положительным числом').nullable().optional(),
+  sla_days:    z.number().int('SLA должен быть целым числом').positive('SLA должен быть положительным числом').max(36500, 'SLA не должен превышать 36500 дней').nullable().optional(),
+  due_date:    dateOnly,
   object_id:   z.string().uuid('Некорректный идентификатор объекта').nullable().optional(),
   owner_id:    z.string().uuid('Некорректный идентификатор ответственного').nullable().optional(),
 });
@@ -109,6 +118,8 @@ export const UpdateRiskSchema = z.object({
   cvss_score:  z.number().min(0).max(10).nullable().optional(),
   impact:      longText.nullable().optional(),
   owner_id:    z.string().uuid('Некорректный идентификатор ответственного').nullable().optional(),
+  sla_days:    z.number().int('SLA должен быть целым числом').positive('SLA должен быть положительным числом').max(36500, 'SLA не должен превышать 36500 дней').nullable().optional(),
+  due_date:    dateOnly,
 });
 
 export const UpdateRiskStatusSchema = z.object({

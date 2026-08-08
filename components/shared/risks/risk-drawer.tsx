@@ -90,7 +90,7 @@ export function RiskDrawer({ risk, objects, onClose, onEdit }: RiskDrawerProps) 
 
   const effectiveStatus = optimisticStatus ?? risk.status;
 
-  const sla          = formatSla(risk.due_date);
+  const sla          = formatSla(risk.due_date, effectiveStatus);
   const color        = SEVERITY_COLORS[risk.severity] ?? 'var(--teal)';
   const linkedObj    = risk.linked_objects[0] ?? null;
   const statusTone   = STATUS_TONE[effectiveStatus] ?? 'neutral';
@@ -197,7 +197,10 @@ export function RiskDrawer({ risk, objects, onClose, onEdit }: RiskDrawerProps) 
             <Fact
               label="SLA"
               value={
-                <span className={sla.overdue ? 'sla-over' : ''}>{sla.label}</span>
+                <span className={`sla-indicator sla-indicator-start sla-${sla.state}`}>
+                  <span className="sla-state">{sla.label}</span>
+                  {sla.dateLabel && <span className="sla-date mono">{sla.dateLabel}</span>}
+                </span>
               }
             />
             {risk.impact && <Fact label="Влияние" value={risk.impact} />}

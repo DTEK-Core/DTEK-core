@@ -41,6 +41,7 @@ export interface RiskRow {
   cvss_score: number | null;
   status: string;
   impact: string | null;
+  sla_days: number | null;
   due_date: string | null;
   created_at: string;
   updated_at: string;
@@ -124,6 +125,8 @@ function toEditable(r: RiskRow): EditableRisk {
     probability: r.probability,
     cvss_score:  r.cvss_score,
     impact:      r.impact,
+    sla_days:    r.sla_days,
+    due_date:    r.due_date,
     owner_id:    r.owner_id,
     owner_name:  r.owner_name,
     owner_is_active: r.owner_is_active,
@@ -275,7 +278,7 @@ export function RisksPageClient({ risks, userRole, objects, assignees, initialIm
             </div>
 
             {rows.map(r => {
-              const sla        = formatSla(r.due_date);
+              const sla        = formatSla(r.due_date, r.status);
               const statusTone = STATUS_TONE[r.status] ?? 'neutral';
               const statusLbl  = STATUS_LABELS[r.status] ?? r.status;
               const catLbl     = CATEGORY_LABELS[r.category] ?? r.category;
@@ -335,8 +338,9 @@ export function RisksPageClient({ risks, userRole, objects, assignees, initialIm
                   </span>
 
                   {/* SLA */}
-                  <span className={`rt-cell rt-c mono${sla.overdue ? ' sla-over' : ''}`}>
-                    {sla.label}
+                  <span className={`rt-cell rt-c sla-indicator sla-${sla.state}`}>
+                    <span className="sla-state">{sla.label}</span>
+                    {sla.dateLabel && <span className="sla-date mono">{sla.dateLabel}</span>}
                   </span>
 
                   {/* CVSS score */}

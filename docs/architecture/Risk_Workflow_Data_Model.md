@@ -14,7 +14,7 @@ Sprint 13 расширяет ручной и импортированный Risk
 | Возможность | Текущее поле | Решение |
 |---|---|---|
 | Ответственный | `owner_id` | Переиспользовать; Server Action проверяет участника той же организации. |
-| Срок и SLA | `due_date`, `sla_days` | Переиспользовать; warning вычисляется в UI из текущей даты. |
+| Срок и SLA | `due_date`, `sla_days` | Переиспользовать; date-only deadline хранится до конца UTC-дня, warning вычисляется в UI как overdue / due soon менее трёх дней / on track только для активных рисков. |
 | Статус | `status`, `resolved_at` | Переиспользовать утверждённый lifecycle. |
 | Автор | `author_id` | Переиспользовать для контекста создания. |
 | Origin | existing manual/import source metadata | Не добавлять evidence table, source ID или auto-candidate state. |
