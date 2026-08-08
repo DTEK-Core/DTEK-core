@@ -157,10 +157,12 @@ Supabase clients используют единый timeout `SUPABASE_FETCH_TIMEO
 обращений к Supabase, но не может компенсировать отсутствие DNS или
 недоступность Supabase Cloud.
 
-Если в запросе нет Supabase auth-cookie, middleware не делает сетевой Auth
-вызов: `/login`, `/register` и другие auth-страницы открываются сразу, а
-защищённый маршрут сразу перенаправляется на login. Запросы с auth-cookie
-по-прежнему проходят проверку claims и refresh session.
+Auth-страницы (`/login`, `/register`, password reset) не делают refresh
+устаревшей cookie и открываются сразу. Если auth-cookie отсутствует,
+защищённый маршрут сразу перенаправляется на login. Для запроса с cookie
+проверка claims и refresh session ограничены тем же 2-секундным пределом;
+после него маршрут безопасно перенаправляется на сообщение о недоступном
+Supabase.
 
 Это не заменяет восстановление DNS или Supabase, но сохраняет локальный UI
 отзывчивым и упрощает диагностику.

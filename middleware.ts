@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
-import { isSupabaseConnectionError } from '@/lib/supabase/config';
+import {
+  getSupabaseFetchTimeoutMs,
+  isSupabaseConnectionError,
+} from '@/lib/supabase/config';
 
 // ── Rate limiting ─────────────────────────────────────────────────────────────
 // In-memory store — acceptable for single-instance MVP.
@@ -64,6 +67,20 @@ function hasSupabaseAuthCookie(request: NextRequest): boolean {
   );
 }
 
+async function updateSessionWithinTimeout(request: NextRequest) {
+  const timeoutMs = getSupabaseFetchTimeoutMs();
+
+  return new Promise<Awaited<ReturnType<typeof updateSession>>>((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      const error = new Error('Supabase session check timed out');
+      error.name = 'AbortError';
+      reject(error);
+    }, timeoutMs);
+
+    updateSession(request).then(resolve, reject).finally(() => clearTimeout(timeoutId));
+  });
+}
+
 // ── Middleware ────────────────────────────────────────────────────────────────
 
 export async function middleware(request: NextRequest) {
@@ -96,6 +113,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Login and registration must remain available even when an old cookie cannot
+  // be refreshed because Supabase or DNS is unavailable.
+  if (isAuthPath(pathname)) {
+    return NextResponse.next();
+  }
+
   // Every Server Action performs its own authorization. Avoid running a second
   // session/profile round-trip before the action can validate the same request.
   if (request.headers.has('next-action')) {
@@ -103,11 +126,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // A request with no Supabase auth cookie cannot have a valid server session.
-  // Avoid an Auth/DNS round-trip for public auth screens and protected-route
-  // redirects; session refresh stays active whenever an auth cookie is present.
+  // Avoid an Auth/DNS round-trip for protected-route redirects.
   if (!hasSupabaseAuthCookie(request)) {
-    if (isAuthPath(pathname)) return NextResponse.next();
-
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
@@ -115,7 +135,7 @@ export async function middleware(request: NextRequest) {
 
   let session;
   try {
-    session = await updateSession(request);
+    session = await updateSessionWithinTimeout(request);
   } catch (error) {
     if (isSupabaseConnectionError(error)) {
       console.error('[supabase] connection unavailable in middleware:', error);
@@ -139,13 +159,6 @@ export async function middleware(request: NextRequest) {
   if (!userId && !isAuthPath(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    return NextResponse.redirect(url);
-  }
-
-  // Authenticated user on auth route → dashboard (or org creation if no org)
-  if (userId && isAuthPath(pathname)) {
-    const url = request.nextUrl.clone();
-    url.pathname = organizationId ? '/dashboard' : '/onboarding/create';
     return NextResponse.redirect(url);
   }
 
