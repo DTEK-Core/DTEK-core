@@ -14,6 +14,8 @@ import {
   type FactorWeights,
   type ObjectForCalc,
 } from '@/lib/trust/calculate';
+import { parseSourceContext } from '@/lib/trust/explainability';
+import { splitImportSourceDescription } from '@/lib/import/shared';
 import '@/app/risks.css';
 
 export const metadata: Metadata = { title: 'Реестр рисков — DTEK Core' };
@@ -202,11 +204,13 @@ export default async function RisksPage({
           : null;
       })
       .filter((o): o is LinkedObj => o !== null);
+    const source = parseSourceContext(raw.description);
+    const visibleDescription = splitImportSourceDescription(raw.description).description;
 
     return {
       id:             raw.id,
       title:          raw.title,
-      description:    raw.description,
+      description:    visibleDescription,
       category:       raw.category,
       severity:       raw.severity,
       probability:    raw.probability,
@@ -223,6 +227,21 @@ export default async function RisksPage({
       author_name:    authorRaw?.full_name ?? null,
       linked_objects: linkedObjects,
       comments:       commentsByRisk.get(raw.id) ?? [],
+      origin: source.kind === 'import'
+        ? {
+            kind: 'imported',
+            sourceName: source.sourceName,
+            sourceType: source.sourceType,
+            collectedAt: source.collectedAt,
+            confidence: source.confidence,
+          }
+        : {
+            kind: 'manual',
+            sourceName: 'Ручное создание',
+            sourceType: null,
+            collectedAt: null,
+            confidence: null,
+          },
     };
   });
 

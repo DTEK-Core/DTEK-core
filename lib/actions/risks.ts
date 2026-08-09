@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { recalculateObjectTrust } from '@/lib/trust/engine';
+import { preserveImportSourceDescription } from '@/lib/import/shared';
 import {
   AddRiskCommentSchema,
   CreateRiskSchema,
@@ -175,11 +176,14 @@ export async function updateRisk(id: string, formData: FormData) {
 
   const { data: currentRiskRaw, error: currentRiskError } = await admin
     .from('risks')
-    .select('owner_id')
+    .select('owner_id, description')
     .eq('id', id)
     .eq('organization_id', orgId)
     .maybeSingle();
-  const currentRisk = currentRiskRaw as { owner_id: string | null } | null;
+  const currentRisk = currentRiskRaw as {
+    owner_id: string | null;
+    description: string | null;
+  } | null;
 
   if (currentRiskError || !currentRisk) return { error: 'Риск не найден' };
 
@@ -193,6 +197,10 @@ export async function updateRisk(id: string, formData: FormData) {
     .from('risks')
     .update({
       ...riskFields,
+      description: preserveImportSourceDescription(
+        riskFields.description ?? null,
+        currentRisk.description,
+      ),
       sla_days,
       due_date: calculateDueDate(dueDateInput, sla_days),
     } as never)

@@ -44,6 +44,10 @@
 .rt-title-text { display: flex; flex-direction: column; min-width: 0; }
 .rt-title-main { font-size: 13px; font-weight: 600; line-height: 1.35; }
 .rt-title-sub { font-size: 11px; color: var(--text-mute); }
+.rt-title-sub-row { display: flex; align-items: center; gap: 7px; margin-top: 2px; }
+.risk-origin-badge { display: inline-flex; align-items: center; width: fit-content; padding: 2px 6px; border: 1px solid var(--border-1); border-radius: 999px; color: var(--text-mute); font-size: 9.5px; font-weight: 700; line-height: 1.2; letter-spacing: .02em; }
+.risk-origin-badge.is-imported { border-color: color-mix(in srgb, var(--info) 32%, var(--border-1)); background: color-mix(in srgb, var(--info) 9%, transparent); color: var(--info); }
+.risk-origin-badge.is-manual { background: var(--surface-3); }
 .rt-obj { font-size: 12px; color: var(--text-dim); text-align: left; }
 .rt-obj:hover { color: var(--teal); }
 .rt-cell { font-size: 12.5px; }
@@ -109,6 +113,13 @@
 .drawer-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .drawer-sec-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-mute); margin-bottom: 10px; }
 .drawer-text { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+.risk-origin-card { padding: 12px; border: 1px solid var(--border-1); border-radius: 8px; background: var(--surface); }
+.risk-origin-card.is-imported { border-color: color-mix(in srgb, var(--info) 24%, var(--border-1)); }
+.risk-origin-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.risk-origin-head strong { min-width: 0; color: var(--text); font-size: 12.5px; overflow-wrap: anywhere; }
+.risk-origin-meta { display: flex; flex-wrap: wrap; gap: 5px 12px; margin-top: 10px; color: var(--text-dim); font-size: 11.5px; }
+.risk-origin-card > p { margin: 9px 0 0; color: var(--text-dim); font-size: 11.5px; line-height: 1.5; }
+.risk-origin-card .risk-origin-note { padding-top: 8px; border-top: 1px solid var(--border-subtle); color: var(--text-mute); font-size: 10.5px; }
 .risk-comments-list { display: flex; flex-direction: column; gap: 8px; }
 .risk-comment { padding: 11px 12px; border: 1px solid var(--border-1); border-radius: 7px; background: var(--surface); }
 .risk-comment-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--text-mute); font-size: 10.5px; }

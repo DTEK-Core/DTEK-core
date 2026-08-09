@@ -48,6 +48,23 @@ const CATEGORY_LABELS: Record<string, string> = {
   other:          'Прочее',
 };
 
+const SOURCE_TYPE_LABELS: Record<string, string> = {
+  manual_csv:           'Ручная таблица',
+  asset_inventory:      'Инвентаризация / CMDB',
+  vulnerability_export: 'Сканер уязвимостей',
+  monitoring_export:    'Мониторинг',
+  directory_export:     'AD / LDAP / FreeIPA',
+  security_tool_export: 'Средство защиты',
+  network_export:       'Сетевое оборудование',
+  other:                'Другой источник',
+};
+
+const CONFIDENCE_LABELS: Record<string, string> = {
+  high:   'Высокая',
+  medium: 'Средняя',
+  low:    'Низкая',
+};
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function riskAge(createdAt: string): string {
@@ -65,6 +82,13 @@ function impactCopy(hint: NonNullable<LinkedObj['impactHint']>): string {
     return 'В текущей конфигурации закрытие риска не изменит округлённый Trust Score.';
   }
   return `Закрытие риска может повысить Trust Score объекта примерно на ${hint.potentialGain}.`;
+}
+
+function sourceDate(value: string | null): string | null {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return new Intl.DateTimeFormat('ru-RU', { dateStyle: 'medium' }).format(date);
 }
 
 
@@ -224,6 +248,31 @@ export function RiskDrawer({ risk, objects, canComment, onClose, onEdit }: RiskD
               }
             />
             {risk.impact && <Fact label="Влияние" value={risk.impact} />}
+          </div>
+
+          {/* Manual/imported origin context. This is metadata, not an Evidence record. */}
+          <div>
+            <h3 className="drawer-sec-title">Происхождение риска</h3>
+            <div className={`risk-origin-card is-${risk.origin.kind}`}>
+              <div className="risk-origin-head">
+                <span className={`risk-origin-badge is-${risk.origin.kind}`}>
+                  {risk.origin.kind === 'imported' ? 'Импортирован' : 'Создан вручную'}
+                </span>
+                <strong>{risk.origin.sourceName}</strong>
+              </div>
+              {risk.origin.kind === 'imported' ? (
+                <div className="risk-origin-meta">
+                  <span>{risk.origin.sourceType ? SOURCE_TYPE_LABELS[risk.origin.sourceType] ?? risk.origin.sourceType : 'Тип не указан'}</span>
+                  <span>{risk.origin.confidence ? `Уверенность: ${CONFIDENCE_LABELS[risk.origin.confidence]}` : 'Уверенность не указана'}</span>
+                  <span>{sourceDate(risk.origin.collectedAt) ?? 'Дата сбора не указана'}</span>
+                </div>
+              ) : (
+                <p>Риск зарегистрирован участником организации в DTEK Core.</p>
+              )}
+              <p className="risk-origin-note">
+                Контекст происхождения помогает оценить актуальность данных, но не является отдельной Evidence-записью.
+              </p>
+            </div>
           </div>
 
           {/* Link to object (only if no object linked) */}

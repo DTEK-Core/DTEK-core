@@ -59,7 +59,7 @@
 - Cloud migration chain `001–018` применена и синхронизирована с Supabase Cloud.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- Следующая задача: S13-T005 — Risk Origin Context: Manual/Imported UI.
+- Следующая задача: S13-T006 — Risk Activity Timeline.
 
 ---
 
@@ -157,6 +157,15 @@ admin и viewer читают комментарии без возможност�
 
 **Ожидаемый результат:** пользователь понимает происхождение риска без новой Evidence Layer table, Storage-архитектуры или auto-candidate runtime.
 
+**Решение:** Risk Registry показывает компактный origin badge `Вручную` или
+`Импорт`, а drawer — source name, source type, collected date и confidence для
+импортированных рисков. Read model строится server-side из существующего
+trailing `[Import Source]` block, не передаёт `source_record_id` клиенту и явно
+отделяет source context от будущей Evidence-записи. Ручные и повреждённые
+metadata получают безопасный manual fallback. Форма редактирования показывает
+только пользовательское описание, а Server Action сохраняет исходный import
+block при обновлении риска. Новых таблиц, прав, зависимостей и score logic нет.
+
 ### S13-T006 — Risk Activity Timeline
 
 **Описание:** показать историю ключевых действий по риску.
@@ -183,7 +192,7 @@ admin и viewer читают комментарии без возможност�
 - [x] S13-T002: риск имеет владельца, отображаемого в списке и drawer.
 - [x] S13-T003: SLA/due date редактируются и подсвечиваются по состоянию.
 - [x] S13-T004: immutable комментарии доступны в risk drawer с RBAC/RLS.
-- [ ] Manual/imported origin context отображается; auto candidates остаются Post-MVP.
+- [x] S13-T005: manual/imported origin context отображается; auto candidates остаются Post-MVP.
 - [ ] Activity timeline отражает ключевые события.
 - [ ] Audit events работают.
 - [ ] Документация обновлена.

@@ -212,6 +212,41 @@ export function appendSourceBlock(description: string | null, source: SourceMeta
   return description ? `${description}\n\n${lines.join('\n')}` : lines.join('\n');
 }
 
+export interface ImportSourceDescriptionParts {
+  description: string | null;
+  sourceBlock: string | null;
+}
+
+export function splitImportSourceDescription(description: string | null): ImportSourceDescriptionParts {
+  if (!description) return { description: null, sourceBlock: null };
+
+  const markerPattern = /(?:^|\r?\n)\[Import Source\]\r?\n/g;
+  const markers = Array.from(description.matchAll(markerPattern));
+  const lastMarker = markers.at(-1);
+  if (!lastMarker || lastMarker.index === undefined) {
+    return { description: description.trim() || null, sourceBlock: null };
+  }
+
+  const markerStart = lastMarker.index + (lastMarker[0].startsWith('\n') ? 1 : 0);
+  const sourceBlock = description.slice(markerStart).trim();
+  if (!sourceBlock) return { description: description.trim() || null, sourceBlock: null };
+
+  return {
+    description: description.slice(0, lastMarker.index).trim() || null,
+    sourceBlock,
+  };
+}
+
+export function preserveImportSourceDescription(
+  description: string | null,
+  currentDescription: string | null,
+): string | null {
+  const { sourceBlock } = splitImportSourceDescription(currentDescription);
+  const visibleDescription = description?.trim() || null;
+  if (!sourceBlock) return visibleDescription;
+  return visibleDescription ? `${visibleDescription}\n\n${sourceBlock}` : sourceBlock;
+}
+
 export function isBlankRow(row: ImportCell[]): boolean {
   return row.every(cell => cellText(cell) === null);
 }

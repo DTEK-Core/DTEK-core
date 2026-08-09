@@ -35,10 +35,40 @@ const {
   detectImportDatasetType,
   importTypeMismatchMessage,
 } = require('../../lib/import/headers.ts');
+const {
+  preserveImportSourceDescription,
+  splitImportSourceDescription,
+} = require('../../lib/import/shared.ts');
 
 function fixture(relativePath) {
   return parseCsv(fs.readFileSync(path.join(__dirname, relativePath), 'utf8'));
 }
+
+test('risk origin helpers hide and preserve the trailing import source block', () => {
+  const stored = [
+    'Описание риска',
+    '',
+    '[Import Source]',
+    'source_name: MaxPatrol VM',
+    'source_type: vulnerability_export',
+    'confidence: high',
+  ].join('\n');
+
+  assert.deepEqual(splitImportSourceDescription(stored), {
+    description: 'Описание риска',
+    sourceBlock: [
+      '[Import Source]',
+      'source_name: MaxPatrol VM',
+      'source_type: vulnerability_export',
+      'confidence: high',
+    ].join('\n'),
+  });
+  assert.equal(
+    preserveImportSourceDescription('Обновлённое описание', stored),
+    stored.replace('Описание риска', 'Обновлённое описание'),
+  );
+  assert.equal(splitImportSourceDescription('Ручной риск').sourceBlock, null);
+});
 
 test('CSV parser supports comma, semicolon, tab, BOM, quotes and multiline values', () => {
   assert.deepEqual(parseCsv('name,type\na,server'), [['name', 'type'], ['a', 'server']]);

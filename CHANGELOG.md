@@ -52,6 +52,10 @@
   отображение для admin/viewer. Server Action ограничивает запись ролями owner
   и analyst и проверяет принадлежность риска организации. Migration 018
   применена к связанному Supabase Cloud.
+- S13-T005: Risk Registry различает manual и imported риски; drawer показывает
+  безопасный source context без `source_record_id` и честно отделяет metadata
+  от Evidence Layer. Редактирование пользовательского описания сохраняет
+  trailing import block, не раскрывая его в форме.
 
 ## Current Stage Consolidation — 2026-08-03
 

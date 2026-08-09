@@ -38,6 +38,14 @@ export interface RiskComment {
   author_name: string | null;
 }
 
+export interface RiskOrigin {
+  kind: 'manual' | 'imported';
+  sourceName: string;
+  sourceType: string | null;
+  collectedAt: string | null;
+  confidence: 'low' | 'medium' | 'high' | null;
+}
+
 export interface RiskRow {
   id: string;
   title: string;
@@ -58,6 +66,7 @@ export interface RiskRow {
   author_name: string | null;
   linked_objects: LinkedObj[];
   comments: RiskComment[];
+  origin: RiskOrigin;
 }
 
 interface RisksPageClientProps {
@@ -310,7 +319,12 @@ export function RisksPageClient({ risks, userRole, objects, assignees, initialIm
                     />
                     <span className="rt-title-text">
                       <span className="rt-title-main">{r.title}</span>
-                      <span className="rt-title-sub mono">{r.id.slice(0, 8).toUpperCase()}</span>
+                      <span className="rt-title-sub-row">
+                        <span className="rt-title-sub mono">{r.id.slice(0, 8).toUpperCase()}</span>
+                        <span className={`risk-origin-badge is-${r.origin.kind}`}>
+                          {r.origin.kind === 'imported' ? 'Импорт' : 'Вручную'}
+                        </span>
+                      </span>
                     </span>
                   </span>
 
