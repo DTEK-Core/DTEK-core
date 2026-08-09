@@ -5,6 +5,15 @@
 
 ---
 
+## AI Workflow Stabilization — 2026-08-09
+
+### Изменено
+
+- `AI_DEVELOPMENT_GUIDE.md` и `AGENTS.md` ограничивают длительные составные
+  команды и запрещают циклическое ожидание GitHub/Vercel status после
+  подтверждённого push. Внешний deployment `pending` больше не блокирует
+  завершение обычной feature-задачи.
+
 ## Performance Stabilization — 2026-08-08
 
 ### Исправлено
