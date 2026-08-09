@@ -5,6 +5,16 @@
 
 ---
 
+## Terminal Safety Policy — 2026-08-09
+
+### Изменено
+
+- Добавлен `npm run check:terminal`: десять изолированных shell-сессий проверяют
+  read-only Git-команды с non-interactive окружением и timeout 10 секунд.
+- Инструкции Codex фиксируют раздельный lifecycle `cell_id` и terminal
+  `session_id`, обязательную публикацию nested tool result и минимальную
+  финальную Git-проверку без pager и повторного polling.
+
 ## Risk Comments Stabilization — 2026-08-09
 
 ### Исправлено
