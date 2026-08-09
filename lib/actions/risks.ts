@@ -258,7 +258,13 @@ export async function deleteRisk(id: string) {
 }
 
 export async function addRiskComment(riskId: string, body: string) {
-  const ctx = await getAuthCtx();
+  let ctx: AuthCtx | null;
+  try {
+    ctx = await getAuthCtx();
+  } catch {
+    return { error: 'Не удалось проверить доступ. Попробуйте ещё раз.' };
+  }
+
   if (!ctx) redirect('/login');
 
   const { userId, role, orgId, admin } = ctx;
@@ -271,45 +277,49 @@ export async function addRiskComment(riskId: string, body: string) {
     return { error: parsed.error.issues[0]?.message ?? 'Некорректный комментарий' };
   }
 
-  const { data: risk, error: riskError } = await admin
-    .from('risks')
-    .select('id')
-    .eq('id', parsed.data.risk_id)
-    .eq('organization_id', orgId)
-    .maybeSingle();
-  if (riskError || !risk) return { error: 'Риск не найден' };
+  try {
+    const { data: risk, error: riskError } = await admin
+      .from('risks')
+      .select('id')
+      .eq('id', parsed.data.risk_id)
+      .eq('organization_id', orgId)
+      .maybeSingle();
+    if (riskError || !risk) return { error: 'Риск не найден' };
 
-  const { data: commentRaw, error: commentError } = await admin
-    .from('risk_comments')
-    .insert({
+    const { data: commentRaw, error: commentError } = await admin
+      .from('risk_comments')
+      .insert({
+        organization_id: orgId,
+        risk_id: parsed.data.risk_id,
+        author_id: userId,
+        body: parsed.data.body,
+      } as never)
+      .select('id')
+      .single();
+    const comment = commentRaw as { id: string } | null;
+
+    if (commentError || !comment) {
+      return { error: 'Не удалось добавить комментарий. Попробуйте ещё раз.' };
+    }
+
+    const { error: activityError } = await admin.from('risk_activity').insert({
       organization_id: orgId,
       risk_id: parsed.data.risk_id,
-      author_id: userId,
-      body: parsed.data.body,
-    } as never)
-    .select('id')
-    .single();
-  const comment = commentRaw as { id: string } | null;
+      actor_id: userId,
+      event_type: 'comment_added',
+      metadata: {},
+    } as never);
 
-  if (commentError || !comment) {
+    if (activityError) {
+      await admin.from('risk_comments').delete().eq('id', comment.id);
+      return { error: 'Не удалось зафиксировать комментарий. Попробуйте ещё раз.' };
+    }
+
+    revalidatePath('/risks');
+    return { success: true };
+  } catch {
     return { error: 'Не удалось добавить комментарий. Попробуйте ещё раз.' };
   }
-
-  const { error: activityError } = await admin.from('risk_activity').insert({
-    organization_id: orgId,
-    risk_id: parsed.data.risk_id,
-    actor_id: userId,
-    event_type: 'comment_added',
-    metadata: {},
-  } as never);
-
-  if (activityError) {
-    await admin.from('risk_comments').delete().eq('id', comment.id);
-    return { error: 'Не удалось зафиксировать комментарий. Попробуйте ещё раз.' };
-  }
-
-  revalidatePath('/risks');
-  return { success: true };
 }
 
 export async function updateRiskStatus(id: string, status: string) {

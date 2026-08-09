@@ -168,13 +168,17 @@ export function RiskDrawer({ risk, objects, canComment, onClose, onEdit }: RiskD
 
     setCommentError(null);
     startTransition(async () => {
-      const result = await addRiskComment(risk.id, body);
-      if (result?.error) {
-        setCommentError(result.error);
-        return;
+      try {
+        const result = await addRiskComment(risk.id, body);
+        if (result?.error) {
+          setCommentError(result.error);
+          return;
+        }
+        setCommentBody('');
+        router.refresh();
+      } catch {
+        setCommentError('Не удалось добавить комментарий. Попробуйте ещё раз.');
       }
-      setCommentBody('');
-      router.refresh();
     });
   }
 
