@@ -1,14 +1,14 @@
 # TECHNICAL_DEBT.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.08.2026`
+`Дата: 12.08.2026`
 `Область: архитектура, масштабирование, эксплуатация`
 
 ---
 
 ## 1. Цель
 
-Документ фиксирует известный технический долг, ограничения и эксплуатационные риски после реализации Sprint 12 и финальной консолидации текущего этапа.
+Документ фиксирует известный технический долг, ограничения и эксплуатационные риски после реализации Sprint 13 и финальной консолидации текущего этапа.
 
 Технический долг не означает, что продукт сломан. Это список решений, которые приемлемы для MVP, но требуют контроля перед пилотами и enterprise-развитием.
 
@@ -23,8 +23,9 @@
 | TD-003 | ✅ Reporting реализован в Sprint 10 | PDF формируется через browser print, не server renderer | Контролировать как Known Limitation |
 | TD-004 | Sprint 12 не прошёл authenticated manual QA | Explainability milestone нельзя закрыть только contract-тестами | Выполнить `EXPLAINABILITY_QA_CHECKLIST.md` до pilot release; по решению владельца не блокирует Sprint 13 |
 | TD-005 | Invite email delivery не является полноценным каналом | Командный onboarding требует ручной передачи ссылки | Sprint 14 или раньше |
-| TD-006 | ✅ Cloud migrations `001–018` синхронизированы | Повторная сверка обязательна перед production release и новыми migration-dependent задачами | Выполнять `npx supabase migration list --linked` через Supabase CLI |
+| TD-006 | ✅ Cloud migrations `001–019` синхронизированы | Повторная сверка обязательна перед production release и новыми migration-dependent задачами | Выполнять `npx supabase migration list --linked` через Supabase CLI |
 | TD-007 | `main` не синхронизирован с `develop`, production release не подтверждён | Production не отражает текущий Market MVP | Выпускать только после QA, PR и release checklist |
+| TD-008 | Sprint 13 не прошёл authenticated multi-role QA | Risk Workflow milestone нельзя закрыть только contract-тестами | Выполнить `RISK_WORKFLOW_QA_CHECKLIST.md` до pilot release |
 
 ---
 
@@ -61,7 +62,7 @@
 | ID | Проблема | Риск | Решение |
 |---|---|---|---|
 | TD-301 | Нет выбранного первого коннектора | Можно потратить время на неверную интеграцию | Выбирать после интервью |
-| TD-302 | Risk workflow пока базовый | Risk Registry выглядит как список, а не процесс | Sprint 13 |
+| TD-302 | Pilot Risk Workflow реализован, но остаётся intentionally minimal | Не покрывает approvals, reminders и custom states | Не расширять до task manager без pilot signal |
 | TD-303 | Activity timeline и security audit реализованы без backfill старых действий; source metadata не является Evidence Layer | Старые workflow-события честно отсутствуют, полноценный Evidence Layer не нужен до пилота | Evidence Layer — Post-MVP |
 | TD-304 | Отраслевые пресеты пока экспертно-заданы | Требуется калибровка на реальных кейсах | Пилоты |
 | TD-305 | TrustOps термин не валидирован рынком | Может быть непонятен покупателю | Использовать как вторичный термин |

@@ -81,6 +81,7 @@ ADR-007 добавляет будущие источники данных и к�
 | RBAC Fixes (migration 017 + SA changes) | S06 | ✅ |
 | Import Audit Events без raw CSV data | S11 | ✅ |
 | Risk Workflow Audit Events без UUID и comment body | S13 | ✅ |
+| Audit Log privileged-read RLS (migration 019) | S13 | ✅ |
 
 ---
 
@@ -101,6 +102,8 @@ Sprint 13 добавляет события `risk.owner_changed`, `risk.due_date
 `risk.status_changed`. Они создаются после успешной mutation и содержат только
 безопасный before/after context: display names, даты, SLA и статусы. В metadata
 не передаются внутренние UUID, description, import source и текст комментариев.
+Migration 019 дополнительно ограничивает прямой RLS SELECT журнала ролями
+`owner` и `admin`; одной только скрытой вкладки UI недостаточно для RBAC.
 
 Экспорт, retention-политики и расширенные расследовательские фильтры
 остаются в плане Sprint 09+.

@@ -1,9 +1,9 @@
 # Database Design Full
 
 `Проект: DTEK Core`
-`Версия: 1.0`
-`Дата: 08.06.2026`
-`Статус: Утверждён`
+`Версия: 1.1`
+`Дата: 12.08.2026`
+`Статус: Актуальный`
 `Заменяет: Database_Design.md (устарел)`
 `СУБД: PostgreSQL 15 (Supabase)`
 `Решение: ADR-005`
@@ -330,6 +330,44 @@ CREATE INDEX idx_object_risks_object_id ON object_risks(object_id);
 CREATE INDEX idx_object_risks_risk_id ON object_risks(risk_id);
 ```
 
+### 3.6.1 `risk_comments`
+
+Immutable-комментарии Pilot Risk Workflow. `organization_id` обеспечивает
+tenant isolation, `author_id` может стать `NULL` после удаления профиля, а body
+ограничен 1–2000 символами после trim.
+
+```sql
+CREATE TABLE risk_comments (
+    id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id uuid NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    risk_id         uuid NOT NULL REFERENCES risks(id) ON DELETE CASCADE,
+    author_id       uuid REFERENCES profiles(id) ON DELETE SET NULL,
+    body            text NOT NULL CHECK (char_length(btrim(body)) BETWEEN 1 AND 2000),
+    created_at      timestamptz NOT NULL DEFAULT now()
+);
+```
+
+### 3.6.2 `risk_activity`
+
+Immutable workflow timeline. Metadata хранит только безопасный before/after
+display context и не содержит tenant/profile UUID или comment body.
+
+```sql
+CREATE TABLE risk_activity (
+    id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id uuid NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    risk_id         uuid NOT NULL REFERENCES risks(id) ON DELETE CASCADE,
+    actor_id        uuid REFERENCES profiles(id) ON DELETE SET NULL,
+    event_type      text NOT NULL CHECK (event_type IN (
+                        'owner_assigned', 'due_date_changed',
+                        'status_changed', 'comment_added'
+                    )),
+    metadata        jsonb NOT NULL DEFAULT '{}'::jsonb
+                    CHECK (jsonb_typeof(metadata) = 'object'),
+    created_at      timestamptz NOT NULL DEFAULT now()
+);
+```
+
 ---
 
 ### 3.7 `relations`
@@ -595,6 +633,40 @@ CREATE POLICY "risks_delete" ON risks FOR DELETE
         organization_id = current_org_id() AND
         current_user_role() IN ('owner', 'analyst')
     );
+```
+
+**`risk_comments`, `risk_activity`**
+```sql
+ALTER TABLE risk_comments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE risk_activity ENABLE ROW LEVEL SECURITY;
+
+-- Все роли читают только данные своей организации.
+CREATE POLICY "risk_comments_select" ON risk_comments FOR SELECT
+    USING (organization_id = current_org_id());
+CREATE POLICY "risk_activity_select" ON risk_activity FOR SELECT
+    USING (organization_id = current_org_id());
+
+-- Все прямые user-client mutations запрещены; запись выполняют Server Actions.
+CREATE POLICY "risk_comments_insert_deny" ON risk_comments FOR INSERT WITH CHECK (false);
+CREATE POLICY "risk_comments_update_deny" ON risk_comments FOR UPDATE USING (false);
+CREATE POLICY "risk_comments_delete_deny" ON risk_comments FOR DELETE USING (false);
+CREATE POLICY "risk_activity_insert_deny" ON risk_activity FOR INSERT WITH CHECK (false);
+CREATE POLICY "risk_activity_update_deny" ON risk_activity FOR UPDATE USING (false);
+CREATE POLICY "risk_activity_delete_deny" ON risk_activity FOR DELETE USING (false);
+```
+
+**`security_events`**
+```sql
+ALTER TABLE security_events ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "sec_events_select" ON security_events FOR SELECT
+    TO authenticated
+    USING (
+        organization_id = current_org_id()
+        AND current_user_role() IN ('owner', 'admin')
+    );
+
+-- Все mutations выполняются только server-side service client.
 ```
 
 **`trust_passports`**

@@ -69,7 +69,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase B — Market MVP
 
-Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. Реализация Sprint 12 завершена вместе с пользовательской документацией и QA checklist; ручная приёмка остаётся обязательным pilot release gate, но по явному решению владельца не блокирует начало Sprint 13. Sprint 13–14 закрывают workflow и pilot readiness.
+Статус: активная фаза. Sprint 09 завершил Demo Ready + Interview Ready упаковку, Sprint 10 закрыл Reporting Ready, Sprint 11 закрыл Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и QA checklists; их ручная authenticated приёмка остаётся обязательным pilot release gate. Sprint 14 закрывает общую pilot readiness.
 
 Фокус:
 
@@ -85,7 +85,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase C — Commercial MVP Completion
 
-Статус: после Market MVP.
+Статус: Sprint 13 реализован, manual QA pending; Sprint 14 запланирован.
 
 Фокус:
 

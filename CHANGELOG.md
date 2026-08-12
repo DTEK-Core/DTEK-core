@@ -117,6 +117,12 @@
   фиксируются отдельными tenant-scoped security audit events. Audit metadata
   ограничена безопасным before/after context без UUID, description, import
   source и comment body; owner/admin видят локализованные детали в Audit Log.
+- S13-T008: подготовлен authenticated Risk Workflow QA checklist на 14 сценариев;
+  пользовательские, архитектурные, security, roadmap и testing документы
+  синхронизированы. Реализация Sprint 13 завершена, manual QA остаётся `PENDING`.
+- QA-сверка выявила и migration 019 исправляет RLS gap: прямое чтение
+  `security_events` теперь разрешено только owner/admin, а не всем участникам
+  организации.
 
 ## Current Stage Consolidation — 2026-08-03
 

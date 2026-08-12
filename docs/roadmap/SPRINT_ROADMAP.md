@@ -63,7 +63,7 @@ Demo Ready
 | Sprint | Документ | Milestone | Цель |
 |---|---|---|---|
 | Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA deferred to pilot release gate | Объяснить Trust Score, impact рисков и источники данных |
-| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | В работе: Pilot Risk Workflow Ready | Сделать Risk Registry рабочим процессом для manual/imported risks |
+| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Реализация завершена, manual QA pending | Сделать Risk Registry рабочим процессом для manual/imported risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Commercial MVP / Pilot Ready | Закрыть release gates и подготовить продукт к 1–3 пилотам |
 | Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Post-MVP Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
 
@@ -84,6 +84,12 @@ Sprint 08 UX Refinement
 ```
 
 Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Все задачи реализации Sprint 12 завершены, включая пользовательскую документацию и итоговый QA checklist. Ручной прогон `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` остаётся обязательным pilot release gate. По явному решению владельца от 08.08.2026 он отложен и не блокирует старт Sprint 13; Sprint 12 при этом не помечается закрытым или `PASS`.
+
+Все задачи реализации Sprint 13 завершены, включая документацию и
+`docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md`. Authenticated multi-role QA Sprint
+13 остаётся `PENDING`; только фактический прогон может перевести milestone в
+`PASS`. Sprint 14 объединяет оставшиеся Sprint 12/13 manual gates с общей Pilot
+Readiness проверкой.
 
 Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Она не закрывает manual QA; старт Sprint 13 отдельно разрешён владельцем 08.08.2026 после восстановления Supabase и сверки Cloud migrations.
 

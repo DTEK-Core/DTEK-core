@@ -4,7 +4,7 @@
 `Спринт: 13`  
 `Тип: Commercial MVP Feature Sprint`<br>
 `Основа: Sprint 12, Risk_Model.md, PRODUCT_STRATEGY.md, ADR-007`  
-`Статус: 🚧 В работе`
+`Статус: 🧪 Реализация завершена, ручная QA ожидается`
 
 ---
 
@@ -29,7 +29,9 @@
 
 ## 3. Бизнес-Ценность
 
-Для пилота недостаточно показать риск. Клиент должен назначить ответственного, вести работу, прикладывать доказательства, понимать происхождение риска и видеть просрочки. Это делает DTEK Core операционным инструментом, а не витриной.
+Для пилота недостаточно показать риск. Клиент должен назначить ответственного,
+вести работу, фиксировать решения, понимать происхождение риска и видеть
+просрочки. Это делает DTEK Core операционным инструментом, а не витриной.
 
 ---
 
@@ -56,12 +58,13 @@
 
 ### Стартовая Готовность
 
-- Cloud migration chain `001–018` применена и синхронизирована с Supabase Cloud.
+- Cloud migration chain `001–019` применена и синхронизирована с Supabase Cloud.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- S13-T007 завершена: успешные изменения owner, due date/SLA и status создают
-  отдельные tenant-scoped security audit events с безопасным before/after context.
-- Следующая задача: S13-T008 — Risk Workflow Documentation & QA.
+- S13-T001–T008 реализованы; автоматический baseline S13-T008 проходит.
+- `docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md` подготовлен и остаётся `PENDING`
+  до фактического authenticated multi-role прогона.
+- Следующий этап после ручной приёмки — Sprint 14 Pilot Readiness.
 
 ---
 
@@ -204,6 +207,18 @@ state для рисков без записанной истории. Security a
 
 **Ожидаемый результат:** процесс работы с риском описан и проверяем.
 
+**Решение:** пользовательские, архитектурные, security и testing документы
+синхронизированы с фактическим Pilot Risk Workflow. Новый authenticated checklist
+покрывает owner assignment, due date/SLA states, status/Trust Score, immutable
+comments, manual/imported origin, timeline, security audit, четыре роли,
+multi-tenant isolation, empty/error/mobile и regression scenarios. На handoff
+автоматический baseline проходит; ручной результат остаётся `PENDING` и не
+подменяется формальным PASS.
+
+QA-сверка дополнительно выявила, что исходная migration 017 ограничивала
+`security_events` только tenant, но не ролью. Migration 019 применена к Supabase
+Cloud и приводит RLS к утверждённому owner/admin Audit Log contract.
+
 ---
 
 ## 8. Definition Of Done
@@ -215,10 +230,13 @@ state для рисков без записанной истории. Security a
 - [x] S13-T005: manual/imported origin context отображается; auto candidates остаются Post-MVP.
 - [x] Activity timeline отражает ключевые события.
 - [x] Audit events работают.
-- [ ] Документация обновлена.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] S13-T008: документация и воспроизводимый QA checklist подготовлены.
+- [x] Документация обновлена.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
+- [x] `npm audit --audit-level=low` не находит известных уязвимостей.
+- [ ] Authenticated multi-role QA выполнен по `RISK_WORKFLOW_QA_CHECKLIST.md`.
 
 ---
 

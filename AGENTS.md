@@ -47,10 +47,10 @@
 Текущий этап:
 
 * **Sprint 12** — Evidence-backed Trust Explainability; S12-T001–T008 реализованы, итоговый QA checklist подготовлен, ручная приёмка владельцем проекта отложена до pilot release gate.
-* **Sprint 13** — Pilot Risk Workflow; S13-T001–T007 реализованы, следующая задача S13-T008 Documentation & QA.
+* **Sprint 13** — Pilot Risk Workflow; S13-T001–T008 реализованы, QA checklist подготовлен, authenticated manual QA ожидается.
 * **Консолидация 03.08.2026** — dependency baseline усилен, contract tests включены в CI, Supabase seed config и документация синхронизированы.
 * **Roadmap фиксация 07.08.2026** — коммерческий MVP ограничен Sprint 13 (Pilot Risk Workflow) и Sprint 14 (Pilot Readiness); Sprint 15 и Discovery/Evidence/Connector инициативы — Post-MVP.
-* Cloud migrations `001–018` применены и сверены с Supabase Cloud; migration 018 добавлена в S13-T004. Ручной Sprint 12 QA остаётся обязательным pilot release gate; владелец проекта разрешил начать Sprint 13 до его завершения. Не отмечать QA как PASS без фактического authenticated прогона.
+* Cloud migrations `001–019` применены и сверены с Supabase Cloud; migration 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Ручные Sprint 12/13 QA остаются обязательными pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
 
 Sprint 13 развивает Market MVP без изменения продуктовой границы: добавляет
 pilot-ready workflow поверх manual/imported Risk Registry. Все последующие

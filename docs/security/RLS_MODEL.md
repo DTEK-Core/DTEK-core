@@ -1,7 +1,7 @@
 # RLS_MODEL.md — DTEK Core
 
-`Версия: 1.0`  
-`Дата: 25.06.2026`  
+`Версия: 1.1`
+`Дата: 12.08.2026`
 `Статус: Актуальный`
 
 ---
@@ -112,6 +112,33 @@ CREATE POLICY "write_allowed" ON risks
   );
 ```
 
+### `risk_comments` И `risk_activity`
+
+Migration 018 добавляет две tenant-scoped immutable таблицы. Все участники
+текущей организации читают comments/timeline через RLS, а прямые user-client
+INSERT/UPDATE/DELETE запрещены. Запись выполняют только авторизованные Server
+Actions после проверки роли owner/analyst и принадлежности риска tenant.
+
+```sql
+CREATE POLICY "risk_comments_select" ON risk_comments FOR SELECT
+  USING (organization_id = current_org_id());
+CREATE POLICY "risk_comments_insert_deny" ON risk_comments FOR INSERT
+  WITH CHECK (false);
+CREATE POLICY "risk_comments_update_deny" ON risk_comments FOR UPDATE
+  USING (false);
+CREATE POLICY "risk_comments_delete_deny" ON risk_comments FOR DELETE
+  USING (false);
+
+CREATE POLICY "risk_activity_select" ON risk_activity FOR SELECT
+  USING (organization_id = current_org_id());
+CREATE POLICY "risk_activity_insert_deny" ON risk_activity FOR INSERT
+  WITH CHECK (false);
+CREATE POLICY "risk_activity_update_deny" ON risk_activity FOR UPDATE
+  USING (false);
+CREATE POLICY "risk_activity_delete_deny" ON risk_activity FOR DELETE
+  USING (false);
+```
+
 ### `relations`
 
 ```sql
@@ -157,8 +184,9 @@ CREATE POLICY "org_isolation" ON trust_score_history
 
 ```sql
 -- SELECT: owner и admin
-CREATE POLICY "privileged_read" ON security_events
-  FOR SELECT USING (
+CREATE POLICY "sec_events_select" ON security_events FOR SELECT
+  TO authenticated
+  USING (
     organization_id = current_org_id()
     AND current_user_role() IN ('owner', 'admin')
   );
@@ -191,6 +219,8 @@ CREATE POLICY "invite_allowed" ON invitations
 | `002_profiles.sql` – `014_notify_trigger.sql` | Базовые таблицы + RLS |
 | `016_rls_hardening.sql` | Дополнительное ужесточение RLS (Sprint 06) |
 | `017_security_events.sql` | Таблица `security_events` + RLS |
+| `018_risk_workflow.sql` | Immutable `risk_comments`, `risk_activity` + tenant RLS |
+| `019_security_events_privileged_read.sql` | Audit Log SELECT ограничен owner/admin на уровне RLS |
 
 ---
 

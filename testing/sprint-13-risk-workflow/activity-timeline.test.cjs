@@ -136,3 +136,15 @@ test('due date and status workflow audit use explicit safe fields', () => {
 test('comments do not create security audit events', () => {
   assert.equal(buildRiskWorkflowAuditEvent('comment_added', { body: 'secret' }), null);
 });
+
+test('security events RLS restricts reads to owner and admin', () => {
+  const migrationPath = path.resolve(
+    __dirname,
+    '../../supabase/migrations/019_security_events_privileged_read.sql',
+  );
+  const migration = fs.readFileSync(migrationPath, 'utf8');
+
+  assert.match(migration, /DROP POLICY IF EXISTS "sec_events_select" ON security_events/);
+  assert.match(migration, /TO authenticated/);
+  assert.match(migration, /current_user_role\(\) IN \('owner', 'admin'\)/);
+});
