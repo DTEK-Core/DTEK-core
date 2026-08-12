@@ -17,12 +17,20 @@ const timeout = 10_000;
 const terminalGate = {
   name: 'terminal',
   executable: '/bin/echo',
-  args: ['CODEX_TERMINAL_OK'],
-  expectedOutput: /^CODEX_TERMINAL_OK\s*$/,
+  args: ['CODEX_TERMINAL_HEALTH_OK'],
+  expectedOutput: /^CODEX_TERMINAL_HEALTH_OK\s*$/,
+};
+
+const workingDirectoryGate = {
+  name: 'pwd',
+  executable: '/bin/pwd',
+  args: [],
+  expectedOutput: /\S/,
 };
 
 const stressCommands = [
   terminalGate,
+  workingDirectoryGate,
   { name: 'head', executable: 'git', args: ['rev-parse', 'HEAD'], expectedOutput: /^[0-9a-f]{40}\s*$/ },
   { name: 'status', executable: 'git', args: ['status', '--porcelain=v1', '--branch'], expectedOutput: /^## / },
   { name: 'log', executable: 'git', args: ['--no-pager', 'log', '-1', '--oneline'], expectedOutput: /\S/ },
@@ -31,22 +39,23 @@ const stressCommands = [
 
 const healthCommands = [
   terminalGate,
-  stressCommands[2],
+  workingDirectoryGate,
   stressCommands[3],
+  stressCommands[4],
 ];
 
 const diagnosticCommands = [
   terminalGate,
-  { name: 'pwd', executable: '/bin/pwd', args: [], expectedOutput: /\S/ },
+  workingDirectoryGate,
   { name: 'printf', executable: '/usr/bin/printf', args: ['terminal-exit-test\n'], expectedOutput: /^terminal-exit-test\s*$/ },
   { name: 'worktree', executable: 'git', args: ['rev-parse', '--is-inside-work-tree'], expectedOutput: /^true\s*$/ },
   { name: 'toplevel', executable: 'git', args: ['rev-parse', '--show-toplevel'], expectedOutput: /\S/ },
   { name: 'branch', executable: 'git', args: ['branch', '--show-current'], expectedOutput: /\S/ },
-  stressCommands[1],
-  { name: 'origin', executable: 'git', args: ['rev-parse', 'origin/develop'], expectedOutput: /^[0-9a-f]{40}\s*$/ },
   stressCommands[2],
+  { name: 'origin', executable: 'git', args: ['rev-parse', 'origin/develop'], expectedOutput: /^[0-9a-f]{40}\s*$/ },
   stressCommands[3],
   stressCommands[4],
+  stressCommands[5],
 ];
 
 if (healthMode && diagnosticMode) {

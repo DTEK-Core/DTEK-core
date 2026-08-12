@@ -29,12 +29,13 @@ wrapper и реальный terminal process. У команды должен б�
 Перед Git выполните:
 
 ```bash
-echo CODEX_TERMINAL_OK
+echo CODEX_TERMINAL_HEALTH_OK
+pwd
 ```
 
-Если stdout и `exit 0` не получены мгновенно, не запускайте новые Git-команды в
-этой session. Восстановите terminal штатным способом, не удаляя locks и не
-изменяя `.git`.
+Если stdout и `exit 0` обеих команд не получены мгновенно, не запускайте новые
+Git-команды в этой session. Восстановите terminal штатным способом, не удаляя
+locks и не изменяя `.git`.
 
 Контролируемые проверки проекта:
 
@@ -46,9 +47,13 @@ npm run git:health
 
 - `diagnose:terminal` последовательно проверяет shell, worktree, refs, status,
   log и object traversal;
-- `check:terminal` выполняет 20 циклов `echo → HEAD → status → log → rev-list`;
+- `check:terminal` выполняет 20 циклов
+  `echo → pwd → HEAD → status → log → rev-list`;
 - `git:health` является коротким финальным gate и проверяет terminal, чистый
-  synchronized status и последний commit без лишнего `rev-list`.
+  synchronized status и последний commit без лишнего `rev-list`;
+- после длительной реализации сначала завершите dev server, watchers, test
+  runners и дочерние Node-процессы; сломавшаяся перед Git session не требует
+  повторной реализации, финализацию продолжайте в свежем shell.
 
 Каждый subprocess работает без stdin/PTY, с отключёнными pager и credential
 prompt. Лимит одной короткой команды — 10 секунд. При превышении runner убивает

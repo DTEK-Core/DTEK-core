@@ -1,7 +1,7 @@
 # AI_DEVELOPMENT_GUIDE.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`  
+`Дата: 12.08.2026`
 `Назначение: инженерный регламент для AI-агентов и разработчиков`
 
 ---
@@ -106,6 +106,13 @@ Market MVP должен доказать ценность через:
 
 Чтобы работа не выглядела зависшей и не блокировалась внешними сервисами:
 
+- выполнять один Task ID как ограниченный цикл: read → implement → verify →
+  cleanup → terminal health gate → documentation → finalize → report;
+- не объединять несколько независимых Sprint-задач, полный аудит и полную
+  регрессию в одну непрерывную terminal session;
+- после build, test runner, browser/smoke testing, dev server и Supabase CLI
+  завершать watchers, background shells, log streams и дочерние Node-процессы;
+
 - запускать чтение и диагностические команды небольшими порциями;
 - не объединять много крупных файлов и сетевых запросов в одну команду;
 - для обычной диагностики ожидать не более 10 секунд за один вызов;
@@ -147,9 +154,10 @@ Git-команды выполняются строго отдельно:
 
 ### Terminal Health Gate
 
-Перед финальными Git-командами выполнить `echo CODEX_TERMINAL_OK` и получить
-ожидаемый stdout с фактическим `exit_code: 0`. Если gate не завершился
-мгновенно, не запускать Git в этой terminal session: завершить только текущий
+Перед финальными Git-командами отдельно выполнить
+`echo CODEX_TERMINAL_HEALTH_OK` и `pwd`, получив ожидаемый stdout с фактическим
+`exit_code: 0` для каждой команды. Если gate не завершился мгновенно, не
+запускать Git в этой terminal session: завершить только текущий
 `cell_id`/`session_id`, восстановить session штатным способом и повторить gate.
 Не менять `.git`, Git config или код проекта для маскировки дефекта terminal
 execution layer.
@@ -161,6 +169,12 @@ stdin/PTY, non-interactive environment и жёсткий timeout 10 секунд
 Финализация задачи: проверки, cleanup процессов, diff, отдельные commit/push и
 один короткий `npm run git:health`. Прямые nested `git status`, `git log` и
 `git rev-list` после push не нужны.
+
+Успешные `type-check`, lint и build не повторяются только ради отчёта. Если
+после проверки изменился код, повторяются лишь проверки, соответствующие
+затронутой области. Если execution session сломалась уже после реализации и
+проверок, fresh session продолжает с diff/status и Git-финализации без
+повторной разработки.
 
 Успешный `git push` с exit code и `npm run git:health` достаточно для
 подтверждения доставки кода и чистого synchronized working tree. `rev-list`

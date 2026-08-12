@@ -5,6 +5,17 @@
 
 ---
 
+## Codex Long Task Stability Policy — 2026-08-12
+
+### Изменено
+
+- Один Sprint Task закреплён как ограниченный цикл с обязательным cleanup
+  длительных процессов перед Git-финализацией.
+- Terminal Health Gate синхронизирован на две мгновенные проверки:
+  `echo CODEX_TERMINAL_HEALTH_OK` и `pwd`; automated runner проверяет обе.
+- Успешные quality checks не повторяются без изменений, а сбой execution
+  session перед Git завершается в fresh shell без повторной реализации.
+
 ## Terminal Execution Hardening — 2026-08-12
 
 ### Изменено
