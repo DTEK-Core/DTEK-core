@@ -1,7 +1,7 @@
 # TROUBLESHOOTING.md — DTEK Core
 
-`Дата: 15.07.2026`
-`Область: локальная разработка, Supabase, DNS, middleware, CSV/XLSX import`
+`Дата: 12.08.2026`
+`Область: локальная разработка, Terminal/Git, Supabase, DNS, middleware, CSV/XLSX import`
 
 ---
 
@@ -18,6 +18,48 @@
 ---
 
 ## Быстрая диагностика
+
+### Terminal/Git health
+
+Если Codex показывает `No output` после короткой команды, сначала различите UI
+wrapper и реальный terminal process. У команды должен быть фактический
+`exit_code`; активный `cell_id` продолжается только через `functions.wait`, а
+полученный `session_id` — только через `write_stdin`.
+
+Перед Git выполните:
+
+```bash
+echo CODEX_TERMINAL_OK
+```
+
+Если stdout и `exit 0` не получены мгновенно, не запускайте новые Git-команды в
+этой session. Восстановите terminal штатным способом, не удаляя locks и не
+изменяя `.git`.
+
+Контролируемые проверки проекта:
+
+```bash
+npm run diagnose:terminal
+npm run check:terminal
+npm run git:health
+```
+
+- `diagnose:terminal` последовательно проверяет shell, worktree, refs, status,
+  log и object traversal;
+- `check:terminal` выполняет 20 циклов `echo → HEAD → status → log → rev-list`;
+- `git:health` является коротким финальным gate и проверяет terminal, чистый
+  synchronized status и последний commit без лишнего `rev-list`.
+
+Каждый subprocess работает без stdin/PTY, с отключёнными pager и credential
+prompt. Лимит одной короткой команды — 10 секунд. При превышении runner убивает
+только эту команду и выводит `COMMAND TIMEOUT`, command и duration.
+
+Диагностика 12.08.2026 подтвердила целостность DTEK Core: refs читаются,
+`git fsck --no-progress` не обнаруживает missing/corrupt objects, stale locks,
+submodules, nested repositories, Git LFS, fsmonitor и custom hooks отсутствуют.
+Проект находится на локальном Data volume, а не в cloud/network path. Ранее
+наблюдавшийся `No output` классифицирован как незавершённый Codex code-mode
+lifecycle/output forwarding, а не зависание Git repository.
 
 ### 1. Проверить `.env.local`
 

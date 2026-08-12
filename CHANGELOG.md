@@ -5,6 +5,19 @@
 
 ---
 
+## Terminal Execution Hardening — 2026-08-12
+
+### Изменено
+
+- Terminal health runner переведён на прямые isolated subprocess без stdin/PTY;
+  pager, optional locks и credential prompt отключены, каждая короткая команда
+  имеет kill timeout 10 секунд и явный `COMMAND TIMEOUT` report.
+- `npm run check:terminal` выполняет 20 циклов `echo`, HEAD, status, log и
+  rev-list; добавлен полный `npm run diagnose:terminal`, а обычный
+  `npm run git:health` оставлен минимальным и не вызывает rev-list.
+- AGENTS, AI Development Guide и troubleshooting закрепляют Terminal Health
+  Gate и корректный lifecycle `cell_id` → `session_id` → `exit_code`.
+
 ## Git Status Health Check — 2026-08-12
 
 ### Изменено

@@ -251,6 +251,15 @@ Terminal-команды по умолчанию должны быть non-intera
 выполнять с `GIT_TERMINAL_PROMPT=0`, чтобы credential prompt завершался явной
 ошибкой, а не оставлял скрытое ожидание ввода.
 
+### Terminal Health Gate
+
+Перед финальными Git-командами сначала выполнить `echo CODEX_TERMINAL_OK`.
+Команда должна немедленно вернуть ожидаемый stdout и `exit_code: 0`. Если этого
+не произошло, никакие новые Git-команды в этой terminal session не запускать:
+остановить только активный lifecycle по его `cell_id`/`session_id`, восстановить
+terminal session и повторить gate. Не изменять репозиторий или Git config для
+маскировки сбоя execution layer.
+
 В code-mode lifecycle инструмента имеет два разных идентификатора. Если
 `functions.exec` возвращает `cell_id`, продолжать только через `functions.wait`
 для этого cell. Если результат затем содержит terminal `session_id`, cell уже
@@ -289,13 +298,15 @@ External deployment status проверяется максимум один ра
 отдельной короткой проверки синхронизации. Если команда была остановлена или её
 результат не получен, явно отметить Git-шаг незавершённым.
 
-Для воспроизводимой диагностики использовать `npm run check:terminal`: runner
-создаёт десять изолированных non-interactive shell-сессий и ограничивает каждую
-короткую Git-команду десятью секундами. Финальная проверка обычной задачи должна
-выполняться через `npm run git:health`, а не прямой nested `git status`. Полный
-десятицикловый `npm run check:terminal` нужен для диагностики, не после каждой
-feature-задачи. Перед ответом проверить, что запущенные Codex dev server,
-watcher или test runner завершены.
+Для воспроизводимой диагностики использовать `npm run diagnose:terminal`, а для
+stress-test — `npm run check:terminal`: runner создаёт двадцать изолированных
+non-interactive command cycles и ограничивает каждую команду десятью секундами.
+При timeout он завершает конкретный subprocess и печатает `COMMAND TIMEOUT`,
+команду и длительность. Финальная проверка обычной задачи должна выполняться
+через короткий `npm run git:health`, а не прямой nested `git status` или
+`git rev-list`. Полный двадцатицикловый stress-test нужен для диагностики, не
+после каждой feature-задачи. Перед ответом проверить, что запущенные Codex dev
+server, watcher или test runner завершены.
 
 ---
 

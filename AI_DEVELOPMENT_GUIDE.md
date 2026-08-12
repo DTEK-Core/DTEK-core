@@ -128,8 +128,8 @@ Git-команды выполняются строго отдельно:
 - `git commit` запускать отдельным вызовом и сразу показать hash;
 - `git push` запускать отдельным неинтерактивным вызовом с `--porcelain`, чтобы
   исключить скрытое ожидание credential prompt и получить явный результат;
-- после успешного push выполнять только один короткий `git status --branch`,
-  без дополнительного GitHub/Vercel polling;
+- после успешного push выполнять только один короткий `npm run git:health`,
+  без дополнительного `rev-list` и GitHub/Vercel polling;
 - отсутствие вывода у `git add` или чистого `git status --short` не считать
   зависанием и не повторять команду.
 
@@ -145,16 +145,27 @@ Git-команды выполняются строго отдельно:
   а не как зависший Git; проверить `cell_id`/`session_id` и продолжить только
   существующий процесс.
 
-Короткие Git-команды при диагностике проверять через
-`npm run check:terminal`; он использует новые non-interactive shell-процессы и
-жёсткий timeout 10 секунд. Финализация задачи: проверки, cleanup процессов,
-diff, отдельные commit/push и один `npm run git:health`. Этот runner проверяет
-exit code и непустой branch stdout, поэтому прямой nested `git status` в финале
-не используется. `git log` в финале не обязателен.
+### Terminal Health Gate
 
-Успешный `git push` и чистая синхронизация `origin/develop...develop = 0/0`
-достаточны для подтверждения доставки кода. CI/Vercel в итоговом отчёте можно
-указать как `pending`, не удерживая сессию до перехода в `success`.
+Перед финальными Git-командами выполнить `echo CODEX_TERMINAL_OK` и получить
+ожидаемый stdout с фактическим `exit_code: 0`. Если gate не завершился
+мгновенно, не запускать Git в этой terminal session: завершить только текущий
+`cell_id`/`session_id`, восстановить session штатным способом и повторить gate.
+Не менять `.git`, Git config или код проекта для маскировки дефекта terminal
+execution layer.
+
+Полную A–H диагностику выполнять через `npm run diagnose:terminal`, stress-test
+через `npm run check:terminal`. Runner использует isolated subprocess без
+stdin/PTY, non-interactive environment и жёсткий timeout 10 секунд для каждой
+команды; timeout завершает конкретный subprocess и возвращает явную ошибку.
+Финализация задачи: проверки, cleanup процессов, diff, отдельные commit/push и
+один короткий `npm run git:health`. Прямые nested `git status`, `git log` и
+`git rev-list` после push не нужны.
+
+Успешный `git push` с exit code и `npm run git:health` достаточно для
+подтверждения доставки кода и чистого synchronized working tree. `rev-list`
+используется только при реальной диагностике divergence. CI/Vercel в итоговом
+отчёте можно указать как `pending`, не удерживая сессию до `success`.
 
 ---
 
