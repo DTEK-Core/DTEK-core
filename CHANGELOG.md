@@ -100,6 +100,10 @@
   ответственного, срока/SLA, статуса и добавления комментария. Metadata не
   содержит UUID, неизвестные события не передаются клиенту, старые действия не
   синтезируются. Pure formatter покрыт contract tests и включён в CI.
+- S13-T007: успешные изменения ответственного, срока/SLA и статуса риска
+  фиксируются отдельными tenant-scoped security audit events. Audit metadata
+  ограничена безопасным before/after context без UUID, description, import
+  source и comment body; owner/admin видят локализованные детали в Audit Log.
 
 ## Current Stage Consolidation — 2026-08-03
 

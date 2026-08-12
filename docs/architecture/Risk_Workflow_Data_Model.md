@@ -78,8 +78,28 @@ allowlist и server-side преобразует metadata в безопасный
 неизвестный event не передаётся клиенту.
 
 `risk_activity` является пользовательской историей workflow, а не security
-audit log. Security audit для критичных действий добавляется отдельно в
-S13-T007. События, совершённые до S13-T006, не синтезируются задним числом.
+audit log. События, совершённые до S13-T006, не синтезируются задним числом.
+
+### Security Audit Boundary
+
+S13-T007 отображает критичные workflow mutations в существующем
+`security_events`, не дублируя всю пользовательскую timeline:
+
+| Workflow action | Security event | Audit metadata |
+|---|---|---|
+| Назначение или снятие owner | `risk.owner_changed` | display names до/после |
+| Изменение due date/SLA | `risk.due_date_changed` | даты и SLA до/после |
+| Изменение status | `risk.status_changed` | статусы до/после |
+
+Security event создаётся только после успешной mutation. No-op и отклонённые
+операции не аудируются как успешные. Mapper использует явный allowlist и не
+переносит UUID, description, import source или comment body. Комментарии остаются
+в immutable workflow timeline и не копируются в security audit.
+
+Audit write является best-effort: общий `createSecurityEvent` безопасно
+обрабатывает недоступность журнала, поэтому уже успешная business mutation не
+откатывается. Чтение `security_events` остаётся tenant-scoped и доступно в Audit
+Log только owner/admin.
 
 ## Security And RLS
 
@@ -107,4 +127,4 @@ S13-T007. События, совершённые до S13-T006, не синте�
    `sla_days`.
 2. S13-T004 создаёт migration 018 и comments flow.
 3. S13-T006 использует `risk_activity` для tenant-scoped timeline — завершено.
-4. S13-T007 дополняет workflow действия security audit events.
+4. S13-T007 дополняет workflow действия security audit events — завершено.

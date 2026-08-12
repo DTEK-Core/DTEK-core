@@ -12,6 +12,16 @@ export interface RiskActivityCopy {
   detail: string | null;
 }
 
+export type RiskWorkflowAuditEventType =
+  | 'risk.owner_changed'
+  | 'risk.due_date_changed'
+  | 'risk.status_changed';
+
+export interface RiskWorkflowAuditEvent {
+  eventType: RiskWorkflowAuditEventType;
+  metadata: Record<string, string | number | null>;
+}
+
 const STATUS_LABELS: Record<string, string> = {
   open: 'Открыт',
   in_progress: 'В работе',
@@ -26,6 +36,12 @@ function nullableString(value: unknown): string | null {
 
 function nullableNumber(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function nullableDate(value: unknown): string | null {
+  const raw = nullableString(value);
+  if (!raw) return null;
+  return Number.isNaN(new Date(raw).getTime()) ? null : raw;
 }
 
 function dateLabel(value: unknown): string {
@@ -96,4 +112,45 @@ export function buildRiskActivityCopy(
     title: 'Добавлен комментарий',
     detail: null,
   };
+}
+
+export function buildRiskWorkflowAuditEvent(
+  eventType: RiskActivityEventType,
+  metadata: Record<string, unknown> | null,
+): RiskWorkflowAuditEvent | null {
+  const values = metadata ?? {};
+
+  if (eventType === 'owner_assigned') {
+    return {
+      eventType: 'risk.owner_changed',
+      metadata: {
+        previousOwnerName: nullableString(values.previous_owner_name),
+        ownerName: nullableString(values.owner_name),
+      },
+    };
+  }
+
+  if (eventType === 'due_date_changed') {
+    return {
+      eventType: 'risk.due_date_changed',
+      metadata: {
+        previousDueDate: nullableDate(values.previous_due_date),
+        dueDate: nullableDate(values.due_date),
+        previousSlaDays: nullableNumber(values.previous_sla_days),
+        slaDays: nullableNumber(values.sla_days),
+      },
+    };
+  }
+
+  if (eventType === 'status_changed') {
+    return {
+      eventType: 'risk.status_changed',
+      metadata: {
+        previousStatus: nullableString(values.previous_status),
+        status: nullableString(values.status),
+      },
+    };
+  }
+
+  return null;
 }

@@ -6,6 +6,8 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
 import { recalculateObjectTrust } from '@/lib/trust/engine';
 import { preserveImportSourceDescription } from '@/lib/import/shared';
+import { createSecurityEvent } from '@/lib/security/audit';
+import { buildRiskWorkflowAuditEvent } from '@/lib/utils/risk-activity';
 import {
   AddRiskCommentSchema,
   CreateRiskSchema,
@@ -17,6 +19,7 @@ import {
 
 interface AuthCtx {
   userId: string;
+  actorEmail: string | undefined;
   role: string;
   orgId: string;
   admin: ReturnType<typeof createAdminClient>;
@@ -25,11 +28,16 @@ interface AuthCtx {
 async function getAuthCtx(): Promise<AuthCtx | null> {
   const context = await getCurrentUserContext();
   if (!context) return null;
-  const profile = context?.profile as { role: string; organization_id: string } | null;
+  const profile = context?.profile as {
+    role: string;
+    organization_id: string;
+    email: string | null;
+  } | null;
   if (!profile?.organization_id) return null;
 
   return {
     userId: context.userId,
+    actorEmail: profile.email ?? undefined,
     role: profile.role,
     orgId: profile.organization_id,
     admin: createAdminClient(),
@@ -117,6 +125,26 @@ async function rollbackRiskActivities(
 ): Promise<void> {
   if (activityIds.length === 0) return;
   await admin.from('risk_activity').delete().in('id', activityIds);
+}
+
+async function createRiskWorkflowAuditEvents(
+  ctx: AuthCtx,
+  riskId: string,
+  activities: PendingRiskActivity[],
+): Promise<void> {
+  const events = activities
+    .map(activity => buildRiskWorkflowAuditEvent(activity.eventType, activity.metadata))
+    .filter(event => event !== null);
+
+  await Promise.all(events.map(event => createSecurityEvent({
+    organizationId: ctx.orgId,
+    actorId: ctx.userId,
+    actorEmail: ctx.actorEmail,
+    eventType: event.eventType,
+    targetType: 'risk',
+    targetId: riskId,
+    metadata: event.metadata,
+  })));
 }
 
 // ── Actions ────────────────────────────────────────────────────────────────────
@@ -207,6 +235,8 @@ export async function createRisk(formData: FormData) {
     await admin.from('risks').delete().eq('id', riskId).eq('organization_id', orgId);
     return { error: 'Не удалось зафиксировать историю риска. Попробуйте ещё раз.' };
   }
+
+  await createRiskWorkflowAuditEvents(ctx, riskId, initialActivities);
 
   if (object_id) {
     await admin.from('object_risks').insert({
@@ -329,6 +359,9 @@ export async function updateRisk(id: string, formData: FormData) {
     await rollbackRiskActivities(admin, activityIds);
     return { error: 'Не удалось обновить риск. Попробуйте ещё раз.' };
   }
+
+
+  await createRiskWorkflowAuditEvents(ctx, id, activities);
 
   const { data: links } = await admin
     .from('object_risks')
@@ -470,13 +503,14 @@ export async function updateRiskStatus(id: string, status: string) {
   if (currentRiskError || !currentRisk) return { error: 'Риск не найден' };
   if (currentRisk.status === validStatus) return { success: true };
 
-  const activityIds = await createRiskActivities(admin, orgId, id, userId, [{
+  const statusActivity: PendingRiskActivity = {
     eventType: 'status_changed',
     metadata: {
       previous_status: currentRisk.status,
       status: validStatus,
     },
-  }]);
+  };
+  const activityIds = await createRiskActivities(admin, orgId, id, userId, [statusActivity]);
   if (!activityIds) {
     return { error: 'Не удалось зафиксировать историю изменения статуса.' };
   }
@@ -496,6 +530,9 @@ export async function updateRiskStatus(id: string, status: string) {
     await rollbackRiskActivities(admin, activityIds);
     return { error: 'Не удалось обновить статус риска. Попробуйте ещё раз.' };
   }
+
+
+  await createRiskWorkflowAuditEvents(ctx, id, [statusActivity]);
 
   const { data: links } = await admin
     .from('object_risks')

@@ -19,7 +19,11 @@ function loadActivityModule() {
   return loadedModule.exports;
 }
 
-const { buildRiskActivityCopy, isRiskActivityEventType } = loadActivityModule();
+const {
+  buildRiskActivityCopy,
+  buildRiskWorkflowAuditEvent,
+  isRiskActivityEventType,
+} = loadActivityModule();
 
 test('activity allowlist rejects unknown database events', () => {
   assert.equal(isRiskActivityEventType('comment_added'), true);
@@ -75,4 +79,60 @@ test('malformed metadata falls back without exposing raw values', () => {
       detail: 'Без ответственного → Без ответственного',
     },
   );
+});
+
+test('owner workflow audit strips IDs and keeps display context', () => {
+  assert.deepEqual(
+    buildRiskWorkflowAuditEvent('owner_assigned', {
+      previous_owner_name: 'Иван Петров',
+      owner_name: 'Анна Волкова',
+      owner_id: 'must-not-leak',
+      organization_id: 'must-not-leak',
+    }),
+    {
+      eventType: 'risk.owner_changed',
+      metadata: {
+        previousOwnerName: 'Иван Петров',
+        ownerName: 'Анна Волкова',
+      },
+    },
+  );
+});
+
+test('due date and status workflow audit use explicit safe fields', () => {
+  assert.deepEqual(
+    buildRiskWorkflowAuditEvent('due_date_changed', {
+      previous_due_date: '2026-08-12T23:59:59.999Z',
+      due_date: '2026-08-19T23:59:59.999Z',
+      previous_sla_days: 7,
+      sla_days: 14,
+      description: 'must-not-leak',
+    }),
+    {
+      eventType: 'risk.due_date_changed',
+      metadata: {
+        previousDueDate: '2026-08-12T23:59:59.999Z',
+        dueDate: '2026-08-19T23:59:59.999Z',
+        previousSlaDays: 7,
+        slaDays: 14,
+      },
+    },
+  );
+  assert.deepEqual(
+    buildRiskWorkflowAuditEvent('status_changed', {
+      previous_status: 'in_progress',
+      status: 'closed',
+    }),
+    {
+      eventType: 'risk.status_changed',
+      metadata: {
+        previousStatus: 'in_progress',
+        status: 'closed',
+      },
+    },
+  );
+});
+
+test('comments do not create security audit events', () => {
+  assert.equal(buildRiskWorkflowAuditEvent('comment_added', { body: 'secret' }), null);
 });

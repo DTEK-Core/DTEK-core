@@ -1,7 +1,7 @@
 # SECURITY_OVERVIEW.md — DTEK Core
 
-`Версия: 1.1`
-`Дата: 15.07.2026`
+`Версия: 1.2`
+`Дата: 12.08.2026`
 `Статус: Актуальный`
 
 ---
@@ -65,7 +65,7 @@ ADR-007 добавляет будущие источники данных и к�
 
 ---
 
-## Реализованные меры безопасности (Sprint 01–11)
+## Реализованные меры безопасности (Sprint 01–13)
 
 | Мера | Sprint | Статус |
 |---|---|---|
@@ -80,6 +80,7 @@ ADR-007 добавляет будущие источники данных и к�
 | Security Audit Log | S06 | ✅ |
 | RBAC Fixes (migration 017 + SA changes) | S06 | ✅ |
 | Import Audit Events без raw CSV data | S11 | ✅ |
+| Risk Workflow Audit Events без UUID и comment body | S13 | ✅ |
 
 ---
 
@@ -95,6 +96,11 @@ Sprint 11 добавляет события `import.objects_completed`,
 `import.risks_completed` и `import.failed`. Они содержат источник и
 агрегированные счётчики результата, но не содержимое CSV/XLSX, IP-адреса,
 описания объектов/рисков или source record identifiers.
+
+Sprint 13 добавляет события `risk.owner_changed`, `risk.due_date_changed` и
+`risk.status_changed`. Они создаются после успешной mutation и содержат только
+безопасный before/after context: display names, даты, SLA и статусы. В metadata
+не передаются внутренние UUID, description, import source и текст комментариев.
 
 Экспорт, retention-политики и расширенные расследовательские фильтры
 остаются в плане Sprint 09+.

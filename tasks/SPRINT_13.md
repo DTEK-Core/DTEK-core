@@ -59,9 +59,9 @@
 - Cloud migration chain `001–018` применена и синхронизирована с Supabase Cloud.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- S13-T006 завершена: `risk_activity` отображается в drawer и получает события
-  owner, due date, status и comments через авторизованные Server Actions.
-- Следующая задача: S13-T007 — Audit Events For Risk Workflow.
+- S13-T007 завершена: успешные изменения owner, due date/SLA и status создают
+  отдельные tenant-scoped security audit events с безопасным before/after context.
+- Следующая задача: S13-T008 — Risk Workflow Documentation & QA.
 
 ---
 
@@ -189,6 +189,15 @@ state для рисков без записанной истории. Security a
 
 **Ожидаемый результат:** audit log отражает назначение, изменение срока и закрытие риска.
 
+**Решение:** после успешной business mutation Server Actions создают события
+`risk.owner_changed`, `risk.due_date_changed` и `risk.status_changed` в
+существующей tenant-scoped таблице `security_events`. No-op и неуспешные
+операции события не создают. Отдельный allowlist mapper переносит только
+безопасные display names, даты, SLA и статусы; UUID, description, import source
+и текст комментариев в audit metadata не попадают. Audit Log для owner/admin
+показывает локализованный before/after context. Audit остаётся best-effort и не
+откатывает уже успешное изменение риска при недоступности журнала.
+
 ### S13-T008 — Documentation & QA
 
 **Описание:** обновить пользовательский guide и тестовый чеклист.
@@ -205,7 +214,7 @@ state для рисков без записанной истории. Security a
 - [x] S13-T004: immutable комментарии доступны в risk drawer с RBAC/RLS.
 - [x] S13-T005: manual/imported origin context отображается; auto candidates остаются Post-MVP.
 - [x] Activity timeline отражает ключевые события.
-- [ ] Audit events работают.
+- [x] Audit events работают.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.

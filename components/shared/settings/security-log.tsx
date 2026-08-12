@@ -24,6 +24,9 @@ const EVENT_CONFIG: Record<string, EventConfig> = {
   'object.deleted':         { label: 'Объект удалён', icon: 'objects', category: 'system' },
   'risk.created':           { label: 'Риск добавлен', icon: 'risk', category: 'config' },
   'risk.deleted':           { label: 'Риск удалён', icon: 'risk', category: 'config' },
+  'risk.owner_changed':     { label: 'Ответственный по риску', icon: 'user', category: 'config' },
+  'risk.due_date_changed':  { label: 'Срок риска', icon: 'clock', category: 'config' },
+  'risk.status_changed':    { label: 'Статус риска', icon: 'refresh', category: 'config' },
   'report.passport_exported': { label: 'Trust Passport PDF', icon: 'download', category: 'system' },
   'report.risks_csv_exported': { label: 'Risk Registry CSV', icon: 'download', category: 'system' },
   'report.executive_opened':   { label: 'Executive report открыт', icon: 'doc', category: 'system' },
@@ -74,6 +77,31 @@ function formatMetaValue(value: unknown): string {
   return '—';
 }
 
+const RISK_STATUS_LABELS: Record<string, string> = {
+  open: 'Открыт',
+  in_progress: 'В работе',
+  accepted: 'Принят',
+  mitigated: 'Устранён',
+  closed: 'Закрыт',
+};
+
+function formatAuditDate(value: unknown): string {
+  if (typeof value !== 'string') return 'Без срока';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Без срока';
+  return date.toLocaleDateString('ru-RU', { timeZone: 'UTC' });
+}
+
+function formatRiskStatus(value: unknown): string {
+  if (typeof value !== 'string') return 'Не указан';
+  return RISK_STATUS_LABELS[value] ?? value;
+}
+
+function formatRiskOwner(value: unknown): string {
+  const owner = formatMetaValue(value);
+  return owner === '—' ? 'Без ответственного' : owner;
+}
+
 function formatMeta(row: SecurityEventRow): string {
   const m = row.metadata;
   if (!m) return '—';
@@ -95,6 +123,17 @@ function formatMeta(row: SecurityEventRow): string {
   if (row.event_type === 'org.updated') {
     const fields = m.changedFields;
     return Array.isArray(fields) ? fields.join(', ') : '—';
+  }
+  if (row.event_type === 'risk.owner_changed') {
+    return `${formatRiskOwner(m.previousOwnerName)} → ${formatRiskOwner(m.ownerName)}`;
+  }
+  if (row.event_type === 'risk.due_date_changed') {
+    const dates = `${formatAuditDate(m.previousDueDate)} → ${formatAuditDate(m.dueDate)}`;
+    if (m.previousSlaDays === m.slaDays) return dates;
+    return `${dates} · SLA ${formatMetaValue(m.previousSlaDays)} → ${formatMetaValue(m.slaDays)} дн.`;
+  }
+  if (row.event_type === 'risk.status_changed') {
+    return `${formatRiskStatus(m.previousStatus)} → ${formatRiskStatus(m.status)}`;
   }
   if (row.event_type.startsWith('report.')) {
     const parts = [

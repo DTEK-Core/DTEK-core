@@ -168,7 +168,7 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 13 — Pilot Risk Workflow; S13-T001–T006 завершены, следующая S13-T007 |
+| Текущая разработка | Sprint 13 — Pilot Risk Workflow; S13-T001–T007 завершены, следующая S13-T008 |
 | Gate перед pilot release | Ручная приёмка `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` |
 | Схема БД | Локальная и Cloud-цепочки миграций `001–018` синхронизированы |
 | Автоматический baseline | type-check, ESLint, build, import и explainability contract tests, npm audit |

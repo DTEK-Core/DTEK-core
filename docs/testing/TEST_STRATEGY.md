@@ -23,7 +23,7 @@
 | Production build | `npm run build` | Все Next.js routes и Server Components | Обязательно |
 | Import contracts | `npm run test:import` | Parser, mappings, validation, duplicates, partial success, limits | 18 тестов |
 | Explainability contracts | `npm run test:trust-explainability` | Drivers, reasons, impact, history, source timeline, Dashboard aggregation | 17 тестов |
-| Risk workflow contracts | `npm run test:risk-workflow` | Activity allowlist, safe metadata copy, owner/due/status/comment events | 5 тестов |
+| Risk workflow contracts | `npm run test:risk-workflow` | Activity allowlist, safe UI copy и audit mappings без UUID/comment body | 8 тестов |
 | Dependency audit | `npm audit` | Production и development dependency tree | Обязательно перед release |
 | Runtime smoke | HTTP/browser | Public routes, auth redirect, templates, safe errors | Перед handoff/release |
 | Manual functional | Browser + Supabase test organization | Основные пользовательские сценарии | По Sprint checklist |
