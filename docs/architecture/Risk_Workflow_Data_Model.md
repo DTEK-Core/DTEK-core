@@ -55,6 +55,32 @@ Sprint 13 расширяет ручной и импортированный Risk
 `comment_added`. Для существующих рисков origin отображается как read model и
 не требует отдельного activity event.
 
+### Activity Metadata Contract
+
+| Event | UI metadata |
+|---|---|
+| `owner_assigned` | `previous_owner_name`, `owner_name` |
+| `due_date_changed` | `previous_due_date`, `due_date`, `previous_sla_days`, `sla_days` |
+| `status_changed` | `previous_status`, `status` |
+| `comment_added` | пустой object; текст комментария остаётся в `risk_comments` |
+
+Server Actions не передают в metadata profile, tenant или source UUID. Начальные
+owner/due значения ручного риска записываются сразу после create; при ошибке
+activity новый risk откатывается до object link. При owner/due/status update
+activity создаётся до основной mutation; если mutation не проходит, server-only
+client удаляет подготовленные события. Неизменившиеся значения не создают
+activity. Комментарий и его event используют существующий rollback flow S13-T004.
+
+Read model загружается по `organization_id`, принимает только утверждённый
+allowlist и server-side преобразует metadata в безопасный текст. Drawer получает
+только actor display name, event type, timestamp, title и detail. События
+отображаются newest-first. Повреждённое metadata получает нейтральный fallback,
+неизвестный event не передаётся клиенту.
+
+`risk_activity` является пользовательской историей workflow, а не security
+audit log. Security audit для критичных действий добавляется отдельно в
+S13-T007. События, совершённые до S13-T006, не синтезируются задним числом.
+
 ## Security And RLS
 
 - обе таблицы имеют `organization_id NOT NULL` и RLS;
@@ -80,5 +106,5 @@ Sprint 13 расширяет ручной и импортированный Risk
 1. S13-T002 и S13-T003 используют существующие `owner_id`, `due_date`,
    `sla_days`.
 2. S13-T004 создаёт migration 018 и comments flow.
-3. S13-T006 использует `risk_activity` для timeline.
+3. S13-T006 использует `risk_activity` для tenant-scoped timeline — завершено.
 4. S13-T007 дополняет workflow действия security audit events.

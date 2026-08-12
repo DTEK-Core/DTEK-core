@@ -65,6 +65,13 @@ const CONFIDENCE_LABELS: Record<string, string> = {
   low:    'Низкая',
 };
 
+const ACTIVITY_ICONS: Record<RiskRow['activity'][number]['event_type'], string> = {
+  owner_assigned: 'user',
+  due_date_changed: 'clock',
+  status_changed: 'refresh',
+  comment_added: 'doc',
+};
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function riskAge(createdAt: string): string {
@@ -372,6 +379,36 @@ export function RiskDrawer({ risk, objects, canComment, onClose, onEdit }: RiskD
                 </div>
                 {commentError && <p className="risk-comment-error">{commentError}</p>}
               </form>
+            )}
+          </div>
+
+          {/* Workflow history is separate from the security audit log. */}
+          <div>
+            <h3 className="drawer-sec-title">История работы</h3>
+            {risk.activity.length > 0 ? (
+              <ol className="risk-activity-list">
+                {risk.activity.map(event => (
+                  <li className="risk-activity-item" key={event.id}>
+                    <span className={`risk-activity-marker is-${event.event_type}`}>
+                      <Icon name={ACTIVITY_ICONS[event.event_type]} size={13} />
+                    </span>
+                    <div className="risk-activity-content">
+                      <div className="risk-activity-head">
+                        <strong>{event.title}</strong>
+                        <time dateTime={event.created_at}>{relativeTime(event.created_at)}</time>
+                      </div>
+                      {event.detail && <p>{event.detail}</p>}
+                      <span className="risk-activity-actor">
+                        {event.actor_name ?? 'Бывший участник'}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="drawer-text">
+                История появится после изменения статуса, ответственного, срока или добавления комментария.
+              </p>
             )}
           </div>
 

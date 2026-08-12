@@ -61,22 +61,62 @@ async function validateRiskOwner(
   ownerId: string | null | undefined,
   orgId: string,
   admin: ReturnType<typeof createAdminClient>,
-): Promise<string | null> {
-  if (!ownerId) return null;
+): Promise<{ error: string | null; name: string | null }> {
+  if (!ownerId) return { error: null, name: null };
 
   const { data, error } = await admin
     .from('profiles')
-    .select('id')
+    .select('id, full_name')
     .eq('id', ownerId)
     .eq('organization_id', orgId)
     .eq('status', 'active')
     .maybeSingle();
 
   if (error || !data) {
-    return 'Выберите активного участника текущей организации';
+    return { error: 'Выберите активного участника текущей организации', name: null };
   }
 
-  return null;
+  return {
+    error: null,
+    name: (data as { full_name: string | null }).full_name,
+  };
+}
+
+interface PendingRiskActivity {
+  eventType: 'owner_assigned' | 'due_date_changed' | 'status_changed';
+  metadata: Record<string, string | number | null>;
+}
+
+async function createRiskActivities(
+  admin: ReturnType<typeof createAdminClient>,
+  orgId: string,
+  riskId: string,
+  actorId: string,
+  activities: PendingRiskActivity[],
+): Promise<string[] | null> {
+  if (activities.length === 0) return [];
+
+  const { data, error } = await admin
+    .from('risk_activity')
+    .insert(activities.map(activity => ({
+      organization_id: orgId,
+      risk_id: riskId,
+      actor_id: actorId,
+      event_type: activity.eventType,
+      metadata: activity.metadata,
+    })) as never)
+    .select('id');
+
+  if (error || !data) return null;
+  return (data as { id: string }[]).map(activity => activity.id);
+}
+
+async function rollbackRiskActivities(
+  admin: ReturnType<typeof createAdminClient>,
+  activityIds: string[],
+): Promise<void> {
+  if (activityIds.length === 0) return;
+  await admin.from('risk_activity').delete().in('id', activityIds);
 }
 
 // ── Actions ────────────────────────────────────────────────────────────────────
@@ -112,11 +152,12 @@ export async function createRisk(formData: FormData) {
     return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
   }
 
-  const ownerError = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
-  if (ownerError) return { error: ownerError };
+  const ownerValidation = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
+  if (ownerValidation.error) return { error: ownerValidation.error };
 
   const { sla_days, due_date: dueDateInput, object_id, ...riskFields } = parsed.data;
-  const due_date = calculateDueDate(dueDateInput, sla_days);
+  const normalizedSlaDays = sla_days ?? null;
+  const due_date = calculateDueDate(dueDateInput, normalizedSlaDays);
 
   const { data: risk, error } = await admin
     .from('risks')
@@ -124,17 +165,52 @@ export async function createRisk(formData: FormData) {
       organization_id: orgId,
       author_id:       userId,
       ...riskFields,
-      sla_days,
+      sla_days: normalizedSlaDays,
       due_date,
     } as never)
     .select('id')
     .single();
 
-  if (error) return { error: 'Не удалось создать риск. Попробуйте ещё раз.' };
+  if (error || !risk) return { error: 'Не удалось создать риск. Попробуйте ещё раз.' };
 
-  if (object_id && risk) {
+  const riskId = (risk as { id: string }).id;
+  const initialActivities: PendingRiskActivity[] = [];
+  if (parsed.data.owner_id) {
+    initialActivities.push({
+      eventType: 'owner_assigned',
+      metadata: {
+        previous_owner_name: null,
+        owner_name: ownerValidation.name,
+      },
+    });
+  }
+  if (due_date || normalizedSlaDays) {
+    initialActivities.push({
+      eventType: 'due_date_changed',
+      metadata: {
+        previous_due_date: null,
+        due_date,
+        previous_sla_days: null,
+        sla_days: normalizedSlaDays,
+      },
+    });
+  }
+
+  const activityIds = await createRiskActivities(
+    admin,
+    orgId,
+    riskId,
+    userId,
+    initialActivities,
+  );
+  if (!activityIds) {
+    await admin.from('risks').delete().eq('id', riskId).eq('organization_id', orgId);
+    return { error: 'Не удалось зафиксировать историю риска. Попробуйте ещё раз.' };
+  }
+
+  if (object_id) {
     await admin.from('object_risks').insert({
-      risk_id:   (risk as { id: string }).id,
+      risk_id:   riskId,
       object_id,
       linked_by: userId,
     } as never);
@@ -151,7 +227,7 @@ export async function updateRisk(id: string, formData: FormData) {
   const ctx = await getAuthCtx();
   if (!ctx) redirect('/login');
 
-  const { role, orgId, admin } = ctx;
+  const { userId, role, orgId, admin } = ctx;
 
   if (!['owner', 'analyst'].includes(role)) {
     return { error: 'Недостаточно прав' };
@@ -176,23 +252,65 @@ export async function updateRisk(id: string, formData: FormData) {
 
   const { data: currentRiskRaw, error: currentRiskError } = await admin
     .from('risks')
-    .select('owner_id, description')
+    .select('owner_id, due_date, sla_days, description, owner:profiles!owner_id(full_name)')
     .eq('id', id)
     .eq('organization_id', orgId)
     .maybeSingle();
   const currentRisk = currentRiskRaw as {
     owner_id: string | null;
+    due_date: string | null;
+    sla_days: number | null;
     description: string | null;
+    owner: { full_name: string | null } | { full_name: string | null }[] | null;
   } | null;
 
   if (currentRiskError || !currentRisk) return { error: 'Риск не найден' };
 
+  let nextOwnerName = Array.isArray(currentRisk.owner)
+    ? currentRisk.owner[0]?.full_name ?? null
+    : currentRisk.owner?.full_name ?? null;
+
   if (parsed.data.owner_id !== currentRisk.owner_id) {
-    const ownerError = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
-    if (ownerError) return { error: ownerError };
+    const ownerValidation = await validateRiskOwner(parsed.data.owner_id, orgId, admin);
+    if (ownerValidation.error) return { error: ownerValidation.error };
+    nextOwnerName = ownerValidation.name;
   }
 
   const { due_date: dueDateInput, sla_days, ...riskFields } = parsed.data;
+  const normalizedSlaDays = sla_days ?? null;
+  const dueDate = calculateDueDate(dueDateInput, normalizedSlaDays);
+  const activities: PendingRiskActivity[] = [];
+
+  if (parsed.data.owner_id !== currentRisk.owner_id) {
+    const previousOwnerName = Array.isArray(currentRisk.owner)
+      ? currentRisk.owner[0]?.full_name ?? null
+      : currentRisk.owner?.full_name ?? null;
+    activities.push({
+      eventType: 'owner_assigned',
+      metadata: {
+        previous_owner_name: previousOwnerName,
+        owner_name: nextOwnerName,
+      },
+    });
+  }
+
+  if (dueDate !== currentRisk.due_date || normalizedSlaDays !== currentRisk.sla_days) {
+    activities.push({
+      eventType: 'due_date_changed',
+      metadata: {
+        previous_due_date: currentRisk.due_date,
+        due_date: dueDate,
+        previous_sla_days: currentRisk.sla_days,
+        sla_days: normalizedSlaDays,
+      },
+    });
+  }
+
+  const activityIds = await createRiskActivities(admin, orgId, id, userId, activities);
+  if (!activityIds) {
+    return { error: 'Не удалось зафиксировать историю изменений. Попробуйте ещё раз.' };
+  }
+
   const { error } = await admin
     .from('risks')
     .update({
@@ -201,13 +319,16 @@ export async function updateRisk(id: string, formData: FormData) {
         riskFields.description ?? null,
         currentRisk.description,
       ),
-      sla_days,
-      due_date: calculateDueDate(dueDateInput, sla_days),
+      sla_days: normalizedSlaDays,
+      due_date: dueDate,
     } as never)
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: 'Не удалось обновить риск. Попробуйте ещё раз.' };
+  if (error) {
+    await rollbackRiskActivities(admin, activityIds);
+    return { error: 'Не удалось обновить риск. Попробуйте ещё раз.' };
+  }
 
   const { data: links } = await admin
     .from('object_risks')
@@ -326,7 +447,7 @@ export async function updateRiskStatus(id: string, status: string) {
   const ctx = await getAuthCtx();
   if (!ctx) redirect('/login');
 
-  const { role, orgId, admin } = ctx;
+  const { userId, role, orgId, admin } = ctx;
 
   if (!['owner', 'analyst'].includes(role)) {
     return { error: 'Недостаточно прав' };
@@ -338,6 +459,28 @@ export async function updateRiskStatus(id: string, status: string) {
   }
 
   const validStatus = parsedStatus.data.status;
+  const { data: currentRiskRaw, error: currentRiskError } = await admin
+    .from('risks')
+    .select('status')
+    .eq('id', id)
+    .eq('organization_id', orgId)
+    .maybeSingle();
+  const currentRisk = currentRiskRaw as { status: string } | null;
+
+  if (currentRiskError || !currentRisk) return { error: 'Риск не найден' };
+  if (currentRisk.status === validStatus) return { success: true };
+
+  const activityIds = await createRiskActivities(admin, orgId, id, userId, [{
+    eventType: 'status_changed',
+    metadata: {
+      previous_status: currentRisk.status,
+      status: validStatus,
+    },
+  }]);
+  if (!activityIds) {
+    return { error: 'Не удалось зафиксировать историю изменения статуса.' };
+  }
+
   const updates: Record<string, unknown> = { status: validStatus };
   if (validStatus === 'mitigated' || validStatus === 'closed') {
     updates.resolved_at = new Date().toISOString();
@@ -349,7 +492,10 @@ export async function updateRiskStatus(id: string, status: string) {
     .eq('id', id)
     .eq('organization_id', orgId);
 
-  if (error) return { error: 'Не удалось обновить статус риска. Попробуйте ещё раз.' };
+  if (error) {
+    await rollbackRiskActivities(admin, activityIds);
+    return { error: 'Не удалось обновить статус риска. Попробуйте ещё раз.' };
+  }
 
   const { data: links } = await admin
     .from('object_risks')

@@ -62,7 +62,7 @@
 |---|---|---|---|
 | TD-301 | Нет выбранного первого коннектора | Можно потратить время на неверную интеграцию | Выбирать после интервью |
 | TD-302 | Risk workflow пока базовый | Risk Registry выглядит как список, а не процесс | Sprint 13 |
-| TD-303 | Comments и manual/imported origin реализованы, но activity timeline ещё не завершена; source metadata не является Evidence Layer | История workflow пока неполная, но полноценный Evidence Layer не нужен до пилота | Activity timeline — Sprint 13; Evidence Layer — Post-MVP |
+| TD-303 | Activity timeline реализована без backfill старых действий; source metadata не является Evidence Layer | Старые workflow-события честно отсутствуют, полноценный Evidence Layer не нужен до пилота | Security audit — S13-T007; Evidence Layer — Post-MVP |
 | TD-304 | Отраслевые пресеты пока экспертно-заданы | Требуется калибровка на реальных кейсах | Пилоты |
 | TD-305 | TrustOps термин не валидирован рынком | Может быть непонятен покупателю | Использовать как вторичный термин |
 
@@ -84,7 +84,7 @@
 - source metadata временно хранится в trailing `[Import Source]` text block, а не в Evidence Layer tables;
 - `confidence` является metadata и не влияет на Trust Score;
 - Trust Graph создаётся вручную, автоматическое discovery связей отсутствует;
-- Risk Registry имеет owner, SLA, immutable comments и manual/imported origin context; activity timeline и расширенный audit ещё не завершены;
+- Risk Registry имеет owner, SLA, immutable comments, manual/imported origin context и activity timeline; backfill старых действий отсутствует, расширенный audit ещё не завершён;
 - printable reports сохраняются в PDF средствами браузера;
 - invitation link передаётся вручную без production email delivery;
 - нет E2E automation для authenticated multi-role и multi-tenant сценариев;

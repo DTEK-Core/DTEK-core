@@ -63,6 +63,9 @@ jobs:
       - name: Run trust explainability contract tests
         run: npm run test:trust-explainability
 
+      - name: Run risk workflow contract tests
+        run: npm run test:risk-workflow
+
   build:
     name: Build
     runs-on: ubuntu-latest

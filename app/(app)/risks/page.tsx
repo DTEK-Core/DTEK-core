@@ -16,6 +16,10 @@ import {
 } from '@/lib/trust/calculate';
 import { parseSourceContext } from '@/lib/trust/explainability';
 import { splitImportSourceDescription } from '@/lib/import/shared';
+import {
+  buildRiskActivityCopy,
+  isRiskActivityEventType,
+} from '@/lib/utils/risk-activity';
 import '@/app/risks.css';
 
 export const metadata: Metadata = { title: 'Реестр рисков — DTEK Core' };
@@ -79,6 +83,15 @@ interface RiskCommentRaw {
   author: ProfileLinkRaw | ProfileLinkRaw[] | null;
 }
 
+interface RiskActivityRaw {
+  id: string;
+  risk_id: string;
+  event_type: string;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+  actor: ProfileLinkRaw | ProfileLinkRaw[] | null;
+}
+
 function single<T>(value: T | T[] | null): T | null {
   return Array.isArray(value) ? value[0] ?? null : value;
 }
@@ -100,7 +113,14 @@ export default async function RisksPage({
   const orgId = profile.organization_id;
   const canManageRisks = ['owner', 'analyst'].includes(profile.role);
 
-  const [risksResult, objectsResult, weightsResult, assigneesResult, commentsResult] = await Promise.all([
+  const [
+    risksResult,
+    objectsResult,
+    weightsResult,
+    assigneesResult,
+    commentsResult,
+    activityResult,
+  ] = await Promise.all([
     admin
       .from('risks')
       .select(`
@@ -135,6 +155,11 @@ export default async function RisksPage({
       .select('id, risk_id, body, created_at, author:profiles!author_id(full_name)')
       .eq('organization_id', orgId)
       .order('created_at', { ascending: true }),
+    admin
+      .from('risk_activity')
+      .select('id, risk_id, event_type, metadata, created_at, actor:profiles!actor_id(full_name)')
+      .eq('organization_id', orgId)
+      .order('created_at', { ascending: false }),
   ]);
 
   const rawList = (risksResult.data as unknown as RiskRaw[] | null) ?? [];
@@ -147,7 +172,11 @@ export default async function RisksPage({
   const rawComments = (
     commentsResult.data as unknown as RiskCommentRaw[] | null
   ) ?? [];
+  const rawActivity = (
+    activityResult.data as unknown as RiskActivityRaw[] | null
+  ) ?? [];
   const commentsByRisk = new Map<string, RiskRow['comments']>();
+  const activityByRisk = new Map<string, RiskRow['activity']>();
 
   for (const comment of rawComments) {
     const author = single(comment.author);
@@ -159,6 +188,23 @@ export default async function RisksPage({
       author_name: author?.full_name ?? null,
     });
     commentsByRisk.set(comment.risk_id, riskComments);
+  }
+
+  for (const event of rawActivity) {
+    if (!isRiskActivityEventType(event.event_type)) continue;
+
+    const actor = single(event.actor);
+    const copy = buildRiskActivityCopy(event.event_type, event.metadata);
+    const riskActivity = activityByRisk.get(event.risk_id) ?? [];
+    riskActivity.push({
+      id: event.id,
+      event_type: event.event_type,
+      title: copy.title,
+      detail: copy.detail,
+      created_at: event.created_at,
+      actor_name: actor?.full_name ?? null,
+    });
+    activityByRisk.set(event.risk_id, riskActivity);
   }
   const objectsById = new Map(objectList.map((object) => [object.id, object]));
   const risksByObject = new Map<string, RiskImpactInput[]>();
@@ -227,6 +273,7 @@ export default async function RisksPage({
       author_name:    authorRaw?.full_name ?? null,
       linked_objects: linkedObjects,
       comments:       commentsByRisk.get(raw.id) ?? [],
+      activity:       activityByRisk.get(raw.id) ?? [],
       origin: source.kind === 'import'
         ? {
             kind: 'imported',

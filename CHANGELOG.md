@@ -84,6 +84,10 @@
   безопасный source context без `source_record_id` и честно отделяет metadata
   от Evidence Layer. Редактирование пользовательского описания сохраняет
   trailing import block, не раскрывая его в форме.
+- S13-T006: drawer показывает tenant-scoped activity timeline изменений
+  ответственного, срока/SLA, статуса и добавления комментария. Metadata не
+  содержит UUID, неизвестные события не передаются клиенту, старые действия не
+  синтезируются. Pure formatter покрыт contract tests и включён в CI.
 
 ## Current Stage Consolidation — 2026-08-03
 

@@ -59,7 +59,9 @@
 - Cloud migration chain `001–018` применена и синхронизирована с Supabase Cloud.
 - Sprint 12 реализован; authenticated manual QA честно отложен владельцем до pilot release gate и не отмечен как `PASS`.
 - S13-T001 завершена: assignment и SLA используют существующие поля `risks`; migration `018_risk_workflow.sql` нужна только для comments и activity timeline.
-- Следующая задача: S13-T006 — Risk Activity Timeline.
+- S13-T006 завершена: `risk_activity` отображается в drawer и получает события
+  owner, due date, status и comments через авторизованные Server Actions.
+- Следующая задача: S13-T007 — Audit Events For Risk Workflow.
 
 ---
 
@@ -172,6 +174,15 @@ block при обновлении риска. Новых таблиц, прав,
 
 **Ожидаемый результат:** drawer показывает изменения статуса, владельца, сроков и комментарии.
 
+**Решение:** owner/analyst workflow actions создают immutable
+`owner_assigned`, `due_date_changed` и `status_changed` с безопасным before/after
+metadata без UUID; `comment_added` продолжает создаваться вместе с immutable
+комментарием. Tenant-scoped server read model принимает только allowlist событий,
+преобразует metadata в пользовательский текст и передаёт drawer actor display
+name, timestamp и copy. Timeline показывает новые события сверху и честный empty
+state для рисков без записанной истории. Security audit log остаётся отдельной
+задачей S13-T007; события до включения timeline ретроспективно не создаются.
+
 ### S13-T007 — Audit Events For Risk Workflow
 
 **Описание:** логировать критичные действия по рискам.
@@ -193,7 +204,7 @@ block при обновлении риска. Новых таблиц, прав,
 - [x] S13-T003: SLA/due date редактируются и подсвечиваются по состоянию.
 - [x] S13-T004: immutable комментарии доступны в risk drawer с RBAC/RLS.
 - [x] S13-T005: manual/imported origin context отображается; auto candidates остаются Post-MVP.
-- [ ] Activity timeline отражает ключевые события.
+- [x] Activity timeline отражает ключевые события.
 - [ ] Audit events работают.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.

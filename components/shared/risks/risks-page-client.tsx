@@ -38,6 +38,15 @@ export interface RiskComment {
   author_name: string | null;
 }
 
+export interface RiskActivity {
+  id: string;
+  event_type: 'owner_assigned' | 'due_date_changed' | 'status_changed' | 'comment_added';
+  title: string;
+  detail: string | null;
+  created_at: string;
+  actor_name: string | null;
+}
+
 export interface RiskOrigin {
   kind: 'manual' | 'imported';
   sourceName: string;
@@ -66,6 +75,7 @@ export interface RiskRow {
   author_name: string | null;
   linked_objects: LinkedObj[];
   comments: RiskComment[];
+  activity: RiskActivity[];
   origin: RiskOrigin;
 }
 

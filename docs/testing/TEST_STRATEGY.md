@@ -1,8 +1,8 @@
 # TEST_STRATEGY.md — DTEK Core
 
 `Статус: актуальный`
-`Дата: 03.08.2026`
-`Область: Functional MVP, Market MVP, Evidence Import, Explainability`
+`Дата: 12.08.2026`
+`Область: Functional MVP, Market MVP, Evidence Import, Explainability, Risk Workflow`
 
 ---
 
@@ -21,8 +21,9 @@
 | Type safety | `npm run type-check` | Весь TypeScript-код | Обязательно |
 | Static analysis | `npm run lint` | `app`, `components`, `lib`, `types`, middleware | Обязательно |
 | Production build | `npm run build` | Все Next.js routes и Server Components | Обязательно |
-| Import contracts | `npm run test:import` | Parser, mappings, validation, duplicates, partial success, limits | 17 тестов |
+| Import contracts | `npm run test:import` | Parser, mappings, validation, duplicates, partial success, limits | 18 тестов |
 | Explainability contracts | `npm run test:trust-explainability` | Drivers, reasons, impact, history, source timeline, Dashboard aggregation | 17 тестов |
+| Risk workflow contracts | `npm run test:risk-workflow` | Activity allowlist, safe metadata copy, owner/due/status/comment events | 5 тестов |
 | Dependency audit | `npm audit` | Production и development dependency tree | Обязательно перед release |
 | Runtime smoke | HTTP/browser | Public routes, auth redirect, templates, safe errors | Перед handoff/release |
 | Manual functional | Browser + Supabase test organization | Основные пользовательские сценарии | По Sprint checklist |
@@ -38,7 +39,7 @@ GitHub Actions для `develop` и `main` выполняет:
 ```text
 lint
   -> type-check
-  -> import + explainability contract tests
+  -> import + explainability + risk workflow contract tests
   -> production build
 ```
 
