@@ -10,8 +10,9 @@
 ### Изменено
 
 - Добавлен `npm run git:health`: односессионная финальная проверка требует
-  фактический branch stdout, имеет timeout и печатает явный `PASS`, чтобы UI
-  `No output` не принимался за состояние `git status`.
+  фактический branch stdout, чистый synchronized working tree, имеет timeout и
+  печатает явный `PASS`, чтобы UI `No output` не принимался за состояние
+  `git status`.
 - Финальный workflow Codex больше не вызывает прямой nested `git status`:
   wrapper lifecycle завершается по `cell_id`/`session_id`, а Git health
   подтверждается контролируемым subprocess.

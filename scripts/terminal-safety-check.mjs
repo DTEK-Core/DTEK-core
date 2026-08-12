@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { performance } from 'node:perf_hooks';
 
 const cyclesArgument = process.argv.find(argument => argument.startsWith('--cycles='));
+const requireClean = process.argv.includes('--require-clean');
 const cycles = Number.parseInt(
   cyclesArgument?.slice('--cycles='.length) ?? process.env.TERMINAL_STRESS_CYCLES ?? '10',
   10,
@@ -52,6 +53,19 @@ for (let cycle = 1; cycle <= cycles; cycle += 1) {
     if (expectedOutput && !expectedOutput.test(result.stdout)) {
       console.error(`Session ${cycle} ${name}: expected stdout was not captured`);
       process.exit(1);
+    }
+
+    if (name === 'status' && requireClean) {
+      const statusLines = result.stdout.trim().split('\n');
+      const branchLine = statusLines[0] ?? '';
+      const isSynced = branchLine.includes('...')
+        && !branchLine.includes('[ahead ')
+        && !branchLine.includes('[behind ');
+
+      if (statusLines.length !== 1 || !isSynced) {
+        console.error(`Session ${cycle} status: working tree is dirty or branch is not synchronized`);
+        process.exit(1);
+      }
     }
 
     timings.push(`${name}=${elapsed.toFixed(1)}ms`);
