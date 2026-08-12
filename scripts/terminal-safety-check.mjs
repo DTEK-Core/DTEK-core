@@ -1,13 +1,17 @@
 import { spawnSync } from 'node:child_process';
 import { performance } from 'node:perf_hooks';
 
-const cycles = Number.parseInt(process.env.TERMINAL_STRESS_CYCLES ?? '10', 10);
+const cyclesArgument = process.argv.find(argument => argument.startsWith('--cycles='));
+const cycles = Number.parseInt(
+  cyclesArgument?.slice('--cycles='.length) ?? process.env.TERMINAL_STRESS_CYCLES ?? '10',
+  10,
+);
 const timeout = 10_000;
 const commands = [
-  ['status', 'exec git status --porcelain=v1 --branch </dev/null'],
-  ['log', 'exec git --no-pager log -5 --oneline --decorate </dev/null'],
-  ['diff', 'exec git diff --check </dev/null'],
-  ['branch', 'exec git branch --show-current </dev/null'],
+  ['status', 'exec git status --porcelain=v1 --branch </dev/null', /^## /],
+  ['log', 'exec git --no-pager log -5 --oneline --decorate </dev/null', /\S/],
+  ['diff', 'exec git diff --check </dev/null', null],
+  ['branch', 'exec git branch --show-current </dev/null', /\S/],
 ];
 
 if (!Number.isInteger(cycles) || cycles < 1 || cycles > 100) {
@@ -26,7 +30,7 @@ const environment = {
 for (let cycle = 1; cycle <= cycles; cycle += 1) {
   const timings = [];
 
-  for (const [name, command] of commands) {
+  for (const [name, command, expectedOutput] of commands) {
     const startedAt = performance.now();
     const result = spawnSync('/bin/zsh', ['-f', '-c', command], {
       cwd: process.cwd(),
@@ -45,10 +49,15 @@ for (let cycle = 1; cycle <= cycles; cycle += 1) {
       process.exit(1);
     }
 
+    if (expectedOutput && !expectedOutput.test(result.stdout)) {
+      console.error(`Session ${cycle} ${name}: expected stdout was not captured`);
+      process.exit(1);
+    }
+
     timings.push(`${name}=${elapsed.toFixed(1)}ms`);
   }
 
   console.log(`Session ${cycle}: ${timings.join(' ')}`);
 }
 
-console.log(`Terminal safety check passed: ${cycles} isolated shell sessions`);
+console.log(`Terminal safety check PASS: ${cycles} isolated shell session${cycles === 1 ? '' : 's'}`);
