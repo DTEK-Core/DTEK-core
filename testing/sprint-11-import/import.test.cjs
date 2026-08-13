@@ -95,6 +95,34 @@ test('canonical object and risk templates remain importable', () => {
   assert.equal(risks.warningCount, 1);
 });
 
+test('demo import package creates linked objects and risks without blocking issues', () => {
+  const objectPreview = prepareObjectImport(
+    'dtek-core-demo-objects.csv',
+    fixture('../demo-import/dtek-core-demo-objects.csv'),
+    'owner',
+    [],
+  );
+  assert.equal(objectPreview.totalRows, 15);
+  assert.equal(objectPreview.creatableRows, 15);
+  assert.equal(objectPreview.errorRows, 0);
+
+  const objects = objectPreview.rows.map((row, index) => ({
+    id: `00000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`,
+    name: row.object.name,
+    ip_address: row.object.ip_address,
+  }));
+  const riskPreview = prepareRiskImport(
+    'dtek-core-demo-risks.csv',
+    fixture('../demo-import/dtek-core-demo-risks.csv'),
+    objects,
+    [],
+  );
+  assert.equal(riskPreview.totalRows, 12);
+  assert.equal(riskPreview.creatableRows, 12);
+  assert.equal(riskPreview.errorRows, 0);
+  assert.equal(riskPreview.rows.filter(row => row.risk.linkedObjectId).length, 12);
+});
+
 test('localized object headers map to canonical fields', () => {
   const preview = prepareObjectImport('localized.csv', fixture('objects/objects-localized.csv'), 'owner', []);
   assert.equal(preview.totalRows, 2);
