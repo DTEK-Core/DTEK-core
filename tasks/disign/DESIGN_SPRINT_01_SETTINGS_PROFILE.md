@@ -126,7 +126,17 @@ success feedback.
 
 Figma-файл: `DTEK Core - Design Exploration`  
 File key: `wLVc99tfo5Pbh7xodZN9mk`  
-Frame Settings / Profile: пока не создан или не указан.
+Frame Settings / Profile: `Настройки — Профиль — DTEK Core`
+
+Node ID: `8:2`
+
+Прямая ссылка: `https://www.figma.com/design/wLVc99tfo5Pbh7xodZN9mk?node-id=8-2`
+
+Frame создан как редактируемая структура слоёв на основе существующего DTEK
+App Shell. Готовы Sidebar, активное состояние Settings, header, Settings tabs,
+Profile card, identity block, full-name field и read-only email field. Создание
+поля «Должность / Команда», primary action и финальная screenshot-проверка
+приостановлены из-за достижения лимита Figma MCP Starter plan.
 
 ## 11. Tasks
 
@@ -134,7 +144,8 @@ Frame Settings / Profile: пока не создан или не указан.
 
 - [x] Проанализировать текущую реализацию Settings / Profile.
 - [x] Зафиксировать функциональные ограничения и RBAC-контекст.
-- [ ] Добавить текущий экран Settings / Profile в Figma как редактируемый Frame.
+- [ ] Завершить текущий экран Settings / Profile в Figma как редактируемый Frame
+  (основной Frame создан; ожидаются team field, primary action и visual QA).
 - [ ] Собрать замечания владельца к текущему варианту.
 - [ ] Подготовить и сравнить визуальные варианты.
 - [ ] Зафиксировать утверждённый Frame и его node ID.
