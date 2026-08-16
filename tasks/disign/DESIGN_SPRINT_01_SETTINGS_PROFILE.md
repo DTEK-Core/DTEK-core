@@ -134,9 +134,11 @@ Node ID: `8:2`
 
 Frame создан как редактируемая структура слоёв на основе существующего DTEK
 App Shell. Готовы Sidebar, активное состояние Settings, header, Settings tabs,
-Profile card, identity block, full-name field и read-only email field. Создание
-поля «Должность / Команда», primary action и финальная screenshot-проверка
-приостановлены из-за достижения лимита Figma MCP Starter plan.
+Profile card, identity block, full-name field, read-only email field, поле
+«Должность / Команда» и primary action «Сохранить изменения». Финальная
+автоматическая screenshot/font-проверка не выполнена из-за повторного достижения
+лимита Figma MCP Starter plan; Frame доступен владельцу для ручной визуальной
+проверки и начала дизайн-итераций.
 
 ## 11. Tasks
 
@@ -144,8 +146,9 @@ Profile card, identity block, full-name field и read-only email field. Созд
 
 - [x] Проанализировать текущую реализацию Settings / Profile.
 - [x] Зафиксировать функциональные ограничения и RBAC-контекст.
-- [ ] Завершить текущий экран Settings / Profile в Figma как редактируемый Frame
-  (основной Frame создан; ожидаются team field, primary action и visual QA).
+- [x] Завершить текущий экран Settings / Profile в Figma как редактируемый Frame.
+- [ ] Выполнить финальную screenshot/font-проверку после восстановления лимита
+  Figma MCP либо подтвердить Frame вручную в редакторе.
 - [ ] Собрать замечания владельца к текущему варианту.
 - [ ] Подготовить и сравнить визуальные варианты.
 - [ ] Зафиксировать утверждённый Frame и его node ID.
