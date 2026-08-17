@@ -685,6 +685,10 @@
 
   .app {
     display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
   .app-main,
