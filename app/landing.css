@@ -88,14 +88,6 @@
 .lp-lead { font-size: 16.5px; line-height: 1.62; color: var(--text-dim); max-width: 520px; }
 .lp-lead .hl { color: var(--teal); font-weight: 600; }
 .lp-cta { display: flex; gap: 12px; margin: 28px 0 22px; flex-wrap: wrap; }
-.lp-cta .btn-lg { position: relative; overflow: hidden; }
-.lp-cta .btn-primary::after {
-  content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
-  transform: skewX(-18deg); transition: left .6s ease;
-}
-.lp-cta .btn-primary:hover::after { left: 130%; }
-
 .lp-cat { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
 .lp-cat-x {
   font-size: 11px; font-weight: 600; color: var(--text-mute);

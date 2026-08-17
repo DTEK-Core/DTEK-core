@@ -499,17 +499,49 @@ kbd {
   place-items: center;
   width: 38px;
   height: 38px;
-  border-radius: var(--r-sm);
+  border-radius: 999px;
   color: var(--text-dim);
-  transition: all 0.14s;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    background-color 0.16s ease,
+    color 0.16s ease,
+    opacity 0.16s ease;
 }
-.icon-btn:hover {
+.icon-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px -10px rgba(0, 0, 0, 0.75);
+}
+.icon-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+.icon-btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+.icon-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
 }
 .icon-btn.sm {
   width: 30px;
   height: 30px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn {
+    transition: none;
+  }
+
+  .icon-btn:hover:not(:disabled),
+  .icon-btn:active:not(:disabled) {
+    transform: none;
+  }
 }
 .notif-dot {
   position: absolute;
@@ -678,38 +710,98 @@ kbd {
    ============================================================ */
 
 .btn {
+  --btn-effect-rgb: 125, 142, 164;
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: var(--r-sm);
+  min-height: 40px;
+  padding: 9px 16px;
+  border-radius: 999px;
   font-weight: 600;
   font-size: 13px;
-  transition: all 0.14s;
+  line-height: 1.25;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    opacity 0.18s ease;
   white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 0;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(var(--btn-effect-rgb), 0.26);
+  opacity: 0.26;
+  transform: scale(1);
+  transition:
+    transform 0.34s ease,
+    opacity 0.34s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.btn:hover:not(:disabled):not([aria-disabled='true']) {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 20px -10px rgba(0, 0, 0, 0.72);
+}
+.btn:hover:not(:disabled):not([aria-disabled='true'])::after {
+  opacity: 0;
+  transform: scaleX(1.12) scaleY(1.22);
+}
+.btn:active:not(:disabled):not([aria-disabled='true']) {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px -9px rgba(0, 0, 0, 0.7);
+  transition-duration: 0.08s;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+.btn:disabled::after,
+.btn[aria-disabled='true']::after {
+  display: none;
 }
 .btn-sm {
+  min-height: 34px;
   padding: 7px 13px;
   font-size: 12.5px;
 }
 .btn-md {
+  min-height: 40px;
   padding: 9px 16px;
 }
 .btn-lg {
+  min-height: 46px;
   padding: 13px 22px;
   font-size: 14.5px;
-  border-radius: var(--r);
 }
 .btn-primary {
+  --btn-effect-rgb: 45, 212, 191;
   background: var(--teal);
   color: #04211d;
   box-shadow: 0 4px 14px -4px rgba(45, 212, 191, 0.5);
 }
 .btn-primary:hover {
   background: #45e0cd;
-  transform: translateY(-1px);
 }
 .btn-line {
+  --btn-effect-rgb: 45, 212, 191;
   background: transparent;
   border: 1px solid var(--teal-line);
   color: var(--teal);
@@ -719,6 +811,7 @@ kbd {
   border-color: var(--teal);
 }
 .btn-ghost {
+  --btn-effect-rgb: 125, 142, 164;
   background: var(--surface);
   border: 1px solid var(--border-1);
   color: var(--text-dim);
@@ -729,6 +822,7 @@ kbd {
   border-color: var(--border-2);
 }
 .btn-danger {
+  --btn-effect-rgb: 240, 86, 109;
   background: rgba(240,86,109,.15);
   border: 1px solid rgba(240,86,109,.4);
   color: var(--crit);
@@ -736,6 +830,22 @@ kbd {
 .btn-danger:hover {
   background: rgba(240,86,109,.25);
   border-color: rgba(240,86,109,.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn::after {
+    transition: none;
+  }
+
+  .btn:hover:not(:disabled):not([aria-disabled='true']),
+  .btn:active:not(:disabled):not([aria-disabled='true']) {
+    transform: none;
+  }
+
+  .btn::after {
+    display: none;
+  }
 }
 
 /* ============================================================

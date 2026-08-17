@@ -5,6 +5,21 @@
 
 ---
 
+## Global Button System — 2026-08-17
+
+### Изменено
+
+- Action-кнопки DTEK Core получили единый pill radius, мягкий hover lift,
+  pressed feedback, тень и умеренный расходящийся halo без изменения цветов,
+  обработчиков, ссылок или business logic.
+- Global `.btn` теперь имеет корректный medium-размер по умолчанию; `sm`, `md`
+  и `lg` сохраняют отдельные размеры, а destructive/line/ghost variants — свою
+  цветовую семантику.
+- Shadcn `Button` синхронизирован для Alert Dialog; icon-only actions используют
+  сдержанную анимацию без большого halo.
+- Disabled и `aria-disabled` состояния не анимируются; для
+  `prefers-reduced-motion` transforms и halo отключены.
+
 ## Codex Long Task Stability Policy — 2026-08-12
 
 ### Изменено
