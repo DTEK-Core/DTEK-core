@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/shared/icon';
+import { DownloadButton } from '@/components/shared/download-button';
 import { FilterSelect } from '@/components/shared/filter-select';
 import { RiskDrawer } from './risk-drawer';
 import { RiskFormDialog, type EditableRisk } from './risk-form-dialog';
@@ -218,10 +218,7 @@ export function RisksPageClient({ risks, userRole, objects, assignees, initialIm
         </div>
         <div className="screen-head-actions">
           {canExport ? (
-            <Link className="btn btn-ghost btn-sm" href={exportHref}>
-              <Icon name="download" size={14} />
-              CSV
-            </Link>
+            <DownloadButton label="CSV" loadingLabel="Формирование…" href={exportHref} compact />
           ) : (
             <button className="btn btn-ghost btn-sm" disabled title="Экспорт доступен владельцу и аналитику ИБ">
               <Icon name="download" size={14} />

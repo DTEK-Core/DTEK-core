@@ -5,6 +5,23 @@
 
 ---
 
+## Download & Export Button — 2026-08-17
+
+### Добавлено
+
+- Shared `DownloadButton` с состояниями idle/loading/success/error/disabled,
+  real-operation lifecycle, защитой от повторного запуска и toast retry UX.
+- Анимация download arrow, правая success-область и arrow-to-check transition
+  на текущих DTEK tokens с поддержкой `prefers-reduced-motion`.
+
+### Изменено
+
+- Risk Registry CSV, CSV-шаблоны импорта, validation CSV и printable
+  Passport/Executive reports используют единый download UX.
+- Fetch-based downloads дожидаются фактического Blob, сохраняют исходное имя
+  файла и освобождают object URL; export formats, filters, RBAC и audit не
+  изменены.
+
 ## Global Button System — 2026-08-17
 
 ### Изменено

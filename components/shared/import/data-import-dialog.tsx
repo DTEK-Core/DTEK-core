@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Icon } from '@/components/shared/icon';
+import { DownloadButton } from '@/components/shared/download-button';
 import { downloadImportErrorReport } from '@/lib/import/error-report';
 import {
   DEFAULT_IMPORT_SOURCE,
@@ -231,10 +232,7 @@ export function DataImportDialog<Preview extends ImportPreviewSummary, Result ex
             </div>
             <div className="object-import-section-row object-import-template-row">
               <div className="object-import-section-title">Файл импорта</div>
-              <a className="btn btn-ghost btn-sm" href={templateHref} download>
-                <Icon name="download" size={14} />
-                Шаблон CSV
-              </a>
+              <DownloadButton label="Шаблон CSV" href={templateHref} compact />
             </div>
             <input
               ref={inputRef}
@@ -302,14 +300,12 @@ export function DataImportDialog<Preview extends ImportPreviewSummary, Result ex
               <div className="object-import-issues">
                 <div className="object-import-section-row">
                   <div className="object-import-section-title">Результаты проверки</div>
-                  <button
-                    type="button"
-                    className="btn btn-ghost btn-sm"
-                    onClick={() => downloadImportErrorReport(reportName, preview.fileName, preview.issues)}
-                  >
-                    <Icon name="download" size={14} />
-                    Отчёт CSV
-                  </button>
+                  <DownloadButton
+                    label="Отчёт CSV"
+                    loadingLabel="Формирование…"
+                    onDownload={() => downloadImportErrorReport(reportName, preview.fileName, preview.issues)}
+                    compact
+                  />
                 </div>
                 {issueGroups.map(group => (
                   <div className="object-import-issue-group" key={group.severity}>

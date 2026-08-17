@@ -1,8 +1,8 @@
 'use client';
 
-import { useTransition } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/shared/icon';
+import { DownloadButton } from '@/components/shared/download-button';
 import { logPrintableReportExport } from '@/lib/actions/reports';
 
 interface PassportReportActionsProps {
@@ -10,16 +10,10 @@ interface PassportReportActionsProps {
 }
 
 export function PassportReportActions({ objectId }: PassportReportActionsProps) {
-  const [isPending, startTransition] = useTransition();
-
-  function handlePrint() {
-    startTransition(async () => {
-      try {
-        await logPrintableReportExport({ reportType: 'passport', objectId });
-      } finally {
-        window.print();
-      }
-    });
+  async function handlePrint() {
+    const result = await logPrintableReportExport({ reportType: 'passport', objectId });
+    if ('error' in result) throw new Error(result.error);
+    window.print();
   }
 
   return (
@@ -28,25 +22,21 @@ export function PassportReportActions({ objectId }: PassportReportActionsProps) 
         <Icon name="chevL" size={14} />
         Назад к паспорту
       </Link>
-      <button type="button" className="btn btn-primary btn-sm" onClick={handlePrint} disabled={isPending}>
-        <Icon name="download" size={14} />
-        {isPending ? 'Подготовка…' : 'Сохранить PDF'}
-      </button>
+      <DownloadButton
+        label="Сохранить PDF"
+        loadingLabel="Подготовка…"
+        onDownload={handlePrint}
+        variant="primary"
+      />
     </div>
   );
 }
 
 export function ExecutiveReportActions() {
-  const [isPending, startTransition] = useTransition();
-
-  function handlePrint() {
-    startTransition(async () => {
-      try {
-        await logPrintableReportExport({ reportType: 'executive' });
-      } finally {
-        window.print();
-      }
-    });
+  async function handlePrint() {
+    const result = await logPrintableReportExport({ reportType: 'executive' });
+    if ('error' in result) throw new Error(result.error);
+    window.print();
   }
 
   return (
@@ -55,10 +45,12 @@ export function ExecutiveReportActions() {
         <Icon name="chevL" size={14} />
         Назад к Dashboard
       </Link>
-      <button type="button" className="btn btn-primary btn-sm" onClick={handlePrint} disabled={isPending}>
-        <Icon name="download" size={14} />
-        {isPending ? 'Подготовка…' : 'Сохранить PDF'}
-      </button>
+      <DownloadButton
+        label="Сохранить PDF"
+        loadingLabel="Подготовка…"
+        onDownload={handlePrint}
+        variant="primary"
+      />
     </div>
   );
 }
