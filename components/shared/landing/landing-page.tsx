@@ -117,11 +117,8 @@ export function LandingPage() {
             <span className="lp-eyebrow-text">Digital Trust &amp; Cyber Risk Management</span>
           </div>
           <h1 className="lp-title">
-            <span className="lp-line" style={{ '--i': 1 } as React.CSSProperties}>
-              <span>Цифровое доверие</span>
-            </span>
-            <span className="lp-line lp-title-secondary" style={{ '--i': 2 } as React.CSSProperties}>
-              <span>и киберриски активов</span>
+            <span className="lp-line lp-title-balanced" style={{ '--i': 1 } as React.CSSProperties}>
+              <span>Цифровое доверие и киберриски активов</span>
             </span>
           </h1>
           <p className="lp-lead" style={{ '--i': 4 } as React.CSSProperties}>

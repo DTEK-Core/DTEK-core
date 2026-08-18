@@ -5,6 +5,17 @@
 
 ---
 
+## Homepage Hero Heading Balanced Wrap — 2026-08-18
+
+### Изменено
+
+- Hero heading использует единый семантический текстовый поток и адаптивный
+  `text-wrap: balance` вместо принудительной одинаковой разбивки строк.
+- Кегль, line-height и letter-spacing уточнены для desktop/notebook/mobile, а
+  ширина строго ограничена существующей левой copy-column.
+- Trust Graph, hero grid, CTA, подзаголовок, остальные элементы и
+  функциональность не изменены; задача зарегистрирована как MD-008.
+
 ## Homepage Hero Heading Controlled Two Lines — 2026-08-18
 
 ### Изменено
