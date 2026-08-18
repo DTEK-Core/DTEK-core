@@ -5,6 +5,17 @@
 
 ---
 
+## Homepage Hero Heading Controlled Two Lines — 2026-08-18
+
+### Изменено
+
+- Hero heading использует заданные строки «Цифровое доверие» и «и киберриски
+  активов», устраняя пересечение однострочного варианта с Trust Graph.
+- Wide-title и desktop/notebook `nowrap` удалены; второй ряд получил отдельный
+  адаптивный кегль и line-height, а mobile сохраняет естественный перенос.
+- Trust Graph component, animation, размеры, позиционирование, hero grid, CTA и
+  остальные элементы не изменены; задача зарегистрирована как MD-007.
+
 ## Homepage Hero Heading Single Line — 2026-08-18
 
 ### Изменено
