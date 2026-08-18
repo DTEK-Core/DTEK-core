@@ -98,11 +98,21 @@
 .lp-eyebrow-text { font-size: 12.5px; font-weight: 600; color: var(--text-dim); letter-spacing: .01em; }
 
 .lp-title {
-  font-size: clamp(40px, 5vw, 62px); font-weight: 800;
+  max-width: 620px;
+  font-size: clamp(40px, 4.3vw, 58px); font-weight: 800;
   line-height: 1.02; letter-spacing: -.035em; margin: 22px 0 22px;
 }
 .lp-line { display: block; overflow: hidden; }
 .lp-line > span { display: block; }
+.lp-title-secondary { font-size: .84em; line-height: 1.08; letter-spacing: -.03em; }
+@media (max-width: 1180px) and (min-width: 981px) {
+  .lp-title { font-size: clamp(42px, 4.25vw, 50px); }
+  .lp-title-secondary { font-size: .84em; }
+}
+@media (max-width: 640px) {
+  .lp-title { max-width: 100%; font-size: clamp(38px, 12vw, 48px); line-height: 1.04; }
+  .lp-title-secondary { font-size: .82em; line-height: 1.12; }
+}
 .lp-lead { font-size: 16.5px; line-height: 1.62; color: var(--text-dim); max-width: 520px; }
 .lp-lead .hl { color: var(--teal); font-weight: 600; }
 .lp-cta { display: flex; gap: 12px; margin: 28px 0 22px; flex-wrap: wrap; }

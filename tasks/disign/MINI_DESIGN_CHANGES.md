@@ -2,7 +2,7 @@
 
 `Статус журнала: ACTIVE`  
 `Создан: 18.08.2026`  
-`Следующий ID: MD-005`
+`Следующий ID: MD-006`
 
 Единый журнал небольших UI/UX-изменений. Каждая запись имеет собственный
 baseline и отдельный commit, поэтому последнюю задачу можно отменить без отката
@@ -160,9 +160,58 @@ overlay risk state, horizontal overflow и FPS остаётся pending.
 
 ---
 
+## MD-005 — Homepage Hero Heading Composition
+
+`Статус: DONE / MANUAL VISUAL QA PENDING`
+
+`Дата: 18.08.2026`
+
+`Commit: этот MD-раздел и реализация хранятся в одном task commit`
+
+`Baseline: 05835a1530a222544c2da480567f507895d55aed`
+
+### Проблема
+
+Жёсткое разбиение заголовка на три строки — «Цифровое доверие» / «и киберриски» /
+«активов» — дробило смысл и визуально ломало баланс hero.
+
+### Требовалось
+
+Сохранить исходный текст, Trust Graph, CTA и grid; улучшить только controlled
+line break, typography и responsive перенос без overflow или layout shift.
+
+### Выполнено
+
+- Desktop-композиция объединена в две смысловые строки: «Цифровое доверие» /
+  «и киберриски активов».
+- Второй ряд получил умеренно меньший кегль и отдельный line-height, создавая
+  ясную иерархию без уменьшения Trust Graph.
+- На notebook типографика адаптируется к узкой текстовой колонке.
+- На mobile второй смысловой ряд может естественно перенестись внутри строки;
+  жёсткий третий line break не навязывается.
+
+### Затронуто
+
+`components/shared/landing/landing-page.tsx`, `app/landing.css`, этот журнал и
+`CHANGELOG.md`.
+
+### Functional safety
+
+Текст, CTA href, animation component, canvas logic, hero grid, остальные
+sections, navigation, backend, RBAC/RLS и данные не изменены.
+
+### Проверка и rollback
+
+Type-check/lint/build и contract tests выполняются перед финализацией. Manual
+visual QA на desktop/notebook/tablet/mobile остаётся pending при недоступном
+browser-control. Команда **«Вернись назад»** должна revert только task commit
+MD-005; общий журнал и MD-001–004 остаются благодаря baseline `05835a1…`.
+
+---
+
 ## Правило продолжения
 
-Следующая небольшая UI/UX-задача добавляется сюда как `MD-005`, затем `MD-006`
+Следующая небольшая UI/UX-задача добавляется сюда как `MD-006`, затем `MD-007`
 и далее. Новый отдельный Design Sprint-файл для mini changes не создаётся.
 Отдельный Sprint нужен только для крупного redesign страницы/модуля, новой
 Design System, navigation architecture или существенного нового UX-flow.

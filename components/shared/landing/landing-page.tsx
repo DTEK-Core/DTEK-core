@@ -120,11 +120,8 @@ export function LandingPage() {
             <span className="lp-line" style={{ '--i': 1 } as React.CSSProperties}>
               <span>Цифровое доверие</span>
             </span>
-            <span className="lp-line" style={{ '--i': 2 } as React.CSSProperties}>
-              <span>и киберриски</span>
-            </span>
-            <span className="lp-line" style={{ '--i': 3 } as React.CSSProperties}>
-              <span>активов</span>
+            <span className="lp-line lp-title-secondary" style={{ '--i': 2 } as React.CSSProperties}>
+              <span>и киберриски активов</span>
             </span>
           </h1>
           <p className="lp-lead" style={{ '--i': 4 } as React.CSSProperties}>
