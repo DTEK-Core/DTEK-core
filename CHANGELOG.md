@@ -5,6 +5,17 @@
 
 ---
 
+## Homepage Hero Heading Single Line — 2026-08-18
+
+### Изменено
+
+- Полный заголовок «Цифровое доверие и киберриски активов» использует единую
+  строку на desktop/notebook вместо двух принудительных line wrappers.
+- Заголовок получил отдельную responsive ширину и умеренный desktop/notebook
+  font range; tablet/mobile сохраняют естественный перенос.
+- Trust Graph component, animation, hero grid, CTA и остальные элементы не
+  изменены; правка зарегистрирована в Mini Design журнале как MD-006.
+
 ## Homepage Hero Heading — 2026-08-18
 
 ### Изменено

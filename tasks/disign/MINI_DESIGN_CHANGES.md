@@ -2,7 +2,7 @@
 
 `Статус журнала: ACTIVE`  
 `Создан: 18.08.2026`  
-`Следующий ID: MD-006`
+`Следующий ID: MD-007`
 
 Единый журнал небольших UI/UX-изменений. Каждая запись имеет собственный
 baseline и отдельный commit, поэтому последнюю задачу можно отменить без отката
@@ -209,9 +209,59 @@ MD-005; общий журнал и MD-001–004 остаются благода�
 
 ---
 
+## MD-006 — Homepage Hero Heading Single Line
+
+`Статус: DONE / MANUAL VISUAL QA PENDING`
+
+`Дата: 18.08.2026`
+
+`Commit: этот MD-раздел и реализация хранятся в одном task commit`
+
+`Baseline: a50cbd3793a73e0f0c6ed4761faa252fb418e652`
+
+### Проблема
+
+После MD-005 заголовок всё ещё имел два принудительных `.lp-line`. Левая hero
+колонка шириной около 480–530 px и `max-width: 620px` не позволяли полной фразе
+поместиться крупным кеглем без controlled break.
+
+### Требовалось
+
+На desktop и notebook показывать неизменённый текст одной строкой, сначала
+используя доступную горизонтальную область и лишь умеренно адаптируя typography.
+Tablet/mobile должны сохранять естественный перенос без overflow.
+
+### Выполнено
+
+- Два принудительных смысловых ряда заменены единым текстовым потоком `<h1>`.
+- Заголовок получил независимую от узкой copy-column ширину до 940 px на
+  desktop и до 760 px на notebook, не меняя hero grid columns.
+- Desktop typography ограничена выразительным диапазоном 41–46 px, notebook —
+  34–40 px; `nowrap` действует только при viewport от 981 px.
+- Tablet/mobile используют прежний естественный перенос и ограничения ширины.
+
+### Затронуто
+
+`components/shared/landing/landing-page.tsx`, `app/landing.css`, этот журнал и
+`CHANGELOG.md`.
+
+### Functional safety
+
+Trust Graph component, canvas, animation timing, hero grid, CTA, lead, links,
+остальные sections и функциональность не изменены.
+
+### Проверка и rollback
+
+Целевые точки: 1920, 1440, 1280, notebook, tablet и mobile. Автоматические
+quality gates выполняются перед commit; visual browser QA остаётся pending,
+если browser-control недоступен. **«Вернись назад»** отменяет только commit
+MD-006 и возвращает baseline `a50cbd3…`.
+
+---
+
 ## Правило продолжения
 
-Следующая небольшая UI/UX-задача добавляется сюда как `MD-006`, затем `MD-007`
+Следующая небольшая UI/UX-задача добавляется сюда как `MD-007`, затем `MD-008`
 и далее. Новый отдельный Design Sprint-файл для mini changes не создаётся.
 Отдельный Sprint нужен только для крупного redesign страницы/модуля, новой
 Design System, navigation architecture или существенного нового UX-flow.
