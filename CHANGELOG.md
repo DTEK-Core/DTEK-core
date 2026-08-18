@@ -5,6 +5,19 @@
 
 ---
 
+## Landing Trust Graph Hero — 2026-08-18
+
+### Изменено
+
+- Существующая Trust Graph animation получила большую долю hero, высоту до
+  680 px и общее depth/glow field, связывающее canvas с текстовой композицией.
+- Canvas пропорционально масштабирует nodes, edges, pulses и центральный Trust
+  Score без добавления объектов или изменения risk propagation scenario.
+- На tablet и mobile граф больше не скрывается: используется вертикальная hero
+  композиция, адаптивная высота и компактные overlay cards без horizontal scroll.
+- Reduced-motion режим показывает hero статично, сохраняя всю информацию без
+  entrance, float и pulse animations.
+
 ## Stable Sidebar Layout — 2026-08-17
 
 ### Исправлено

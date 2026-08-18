@@ -154,6 +154,7 @@ export function HeroTrustGraph() {
     const padX = w * 0.12, padY = h * 0.10;
     const mapX = (nx: number) => padX + (nx / 100) * (w - padX * 2);
     const mapY = (ny: number) => padY + (ny / 100) * (h - padY * 2);
+    const renderScale = Math.max(0.82, Math.min(1.22, Math.min(w / 560, h / 540)));
 
     const bandColor = (t: number) => getTrustBand(t).color;
 
@@ -217,7 +218,7 @@ export function HeroTrustGraph() {
         for (const n of M.nodes) {
           const dx = driftAmp * (n.amp ?? 1) * Math.sin(t * (n.spd ?? 0.5) + (n.ph ?? 0));
           const dy = driftAmp * (n.amp ?? 1) * Math.cos(t * (n.spd ?? 0.5) * 0.8 + (n.ph ?? 0));
-          const pz = (n.id === 'core' ? 0 : 1) * 6 * par;
+          const pz = (n.id === 'core' ? 0 : 1) * 6 * renderScale * par;
           n.sx    = mapX(n.x) + dx + ptr.current.x * pz;
           n.sy    = mapY(n.y) + dy + ptr.current.y * pz;
           n.scale = reduced.current ? 1 : smooth(n.appear ?? 0, (n.appear ?? 0) + 0.7, t);
@@ -265,7 +266,7 @@ export function HeroTrustGraph() {
           ctx.strokeStyle = isRiskEdge
             ? hexA(C.crit, 0.28 + 0.25 * riskRamp)
             : hexA(C.text, 0.085 * av);
-          ctx.lineWidth = isRiskEdge ? 1.5 : 1;
+          ctx.lineWidth = (isRiskEdge ? 1.5 : 1) * renderScale;
           ctx.stroke();
         }
 
@@ -282,13 +283,14 @@ export function HeroTrustGraph() {
           const [cx, cy] = ctrl(a.sx!, a.sy!, b.sx!, b.sy!, id);
           const px = bez(a.sx!, cx, b.sx!, p), py = bez(a.sy!, cy, b.sy!, p);
           const fade = Math.sin(p * Math.PI);
-          const g = ctx.createRadialGradient(px, py, 0, px, py, 13);
+          const pulseRadius = 13 * renderScale;
+          const g = ctx.createRadialGradient(px, py, 0, px, py, pulseRadius);
           g.addColorStop(0, hexA(pu.color, 0.9 * fade));
           g.addColorStop(1, hexA(pu.color, 0));
           ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(px, py, 13, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(px, py, pulseRadius, 0, Math.PI * 2); ctx.fill();
           ctx.fillStyle = hexA(pu.color, fade);
-          ctx.beginPath(); ctx.arc(px, py, 2.6, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(px, py, 2.6 * renderScale, 0, Math.PI * 2); ctx.fill();
         }
 
         // draw nodes
@@ -301,17 +303,17 @@ export function HeroTrustGraph() {
             glow = riskRamp;
           }
           const sc = n.scale!;
-          const size = n.size * sc;
+          const size = n.size * sc * renderScale;
           ctx.save();
           ctx.globalAlpha = sc;
           // outer aura
-          ctx.beginPath(); ctx.arc(n.sx!, n.sy!, size + 6, 0, Math.PI * 2);
+          ctx.beginPath(); ctx.arc(n.sx!, n.sy!, size + 6 * renderScale, 0, Math.PI * 2);
           ctx.fillStyle = hexA(col, 0.10 + 0.12 * glow); ctx.fill();
           // risk halo
           if (glow > 0) {
-            const hr = size + 10 + Math.sin(t * 6) * 3;
+            const hr = size + (10 + Math.sin(t * 6) * 3) * renderScale;
             ctx.beginPath(); ctx.arc(n.sx!, n.sy!, hr, 0, Math.PI * 2);
-            ctx.strokeStyle = hexA(C.crit, 0.35 * glow); ctx.lineWidth = 1.4; ctx.stroke();
+            ctx.strokeStyle = hexA(C.crit, 0.35 * glow); ctx.lineWidth = 1.4 * renderScale; ctx.stroke();
           }
           // body
           ctx.beginPath(); ctx.arc(n.sx!, n.sy!, size, 0, Math.PI * 2);
@@ -320,12 +322,12 @@ export function HeroTrustGraph() {
           const sweep = Math.PI * 2 * (n.trust / 100) * (n.fill ?? 0);
           ctx.beginPath();
           ctx.arc(n.sx!, n.sy!, size, -Math.PI / 2, -Math.PI / 2 + sweep);
-          ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.stroke();
+          ctx.strokeStyle = col; ctx.lineWidth = 2 * renderScale; ctx.lineCap = 'round'; ctx.stroke();
           // ring track
           ctx.beginPath(); ctx.arc(n.sx!, n.sy!, size, 0, Math.PI * 2);
-          ctx.strokeStyle = hexA(col, 0.18); ctx.lineWidth = 1; ctx.stroke();
+          ctx.strokeStyle = hexA(col, 0.18); ctx.lineWidth = renderScale; ctx.stroke();
           // centre dot
-          ctx.beginPath(); ctx.arc(n.sx!, n.sy!, 1.6, 0, Math.PI * 2);
+          ctx.beginPath(); ctx.arc(n.sx!, n.sy!, 1.6 * renderScale, 0, Math.PI * 2);
           ctx.fillStyle = col; ctx.fill();
           ctx.restore();
         }
@@ -335,8 +337,8 @@ export function HeroTrustGraph() {
         const cscale = reduced.current ? 1 : smooth(0.05, 0.8, t);
         if (cscale > 0.05) {
           const breath = reduced.current ? 0 : Math.sin(t * 1.4) * 1.2;
-          const R  = Math.max(12, 44 * cscale + breath);
-          const Rg = Math.max(2,  R - 7);
+          const R  = Math.max(12, (44 * cscale + breath) * renderScale);
+          const Rg = Math.max(2, R - 7 * renderScale);
           ctx.save();
           // soft field
           const fg = ctx.createRadialGradient(core.sx!, core.sy!, 0, core.sx!, core.sy!, R * 2.4);
@@ -352,21 +354,21 @@ export function HeroTrustGraph() {
           const gv   = uiRef.current.core / 100;
           const gcol = getTrustBand(uiRef.current.core).color;
           ctx.beginPath(); ctx.arc(core.sx!, core.sy!, Rg, 0, Math.PI * 2);
-          ctx.strokeStyle = hexA(C.text, 0.07); ctx.lineWidth = 5; ctx.stroke();
+          ctx.strokeStyle = hexA(C.text, 0.07); ctx.lineWidth = 5 * renderScale; ctx.stroke();
           ctx.beginPath();
           ctx.arc(core.sx!, core.sy!, Rg, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * gv * cscale);
-          ctx.strokeStyle = gcol; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.stroke();
+          ctx.strokeStyle = gcol; ctx.lineWidth = 5 * renderScale; ctx.lineCap = 'round'; ctx.stroke();
           ctx.shadowColor = hexA(gcol, 0.5); ctx.shadowBlur = 10;
           ctx.stroke(); ctx.shadowBlur = 0;
           // score number
           ctx.fillStyle = gcol;
-          ctx.font = '700 28px "JetBrains Mono", monospace';
+          ctx.font = `700 ${28 * renderScale}px "JetBrains Mono", monospace`;
           ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           ctx.globalAlpha = cscale;
-          ctx.fillText(String(uiRef.current.core), core.sx!, core.sy! - 4);
+          ctx.fillText(String(uiRef.current.core), core.sx!, core.sy! - 4 * renderScale);
           ctx.fillStyle = C.mute;
-          ctx.font = '600 8px "JetBrains Mono", monospace';
-          ctx.fillText('ИНДЕКС', core.sx!, core.sy! + 13);
+          ctx.font = `600 ${8 * renderScale}px "JetBrains Mono", monospace`;
+          ctx.fillText('ИНДЕКС', core.sx!, core.sy! + 13 * renderScale);
           ctx.restore();
         }
       } catch { /* keep loop alive */ }
