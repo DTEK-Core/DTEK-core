@@ -56,14 +56,6 @@ function CountUp({ end, suffix = '', sep = false, dur = 1100 }: CountUpProps) {
   return <span ref={ref} className="mono">{txt}{suffix}</span>;
 }
 
-// ---- features data ----
-const FEATURES: [string, string, string, string][] = [
-  ['passport', '01', 'Паспорт доверия',  'Цифровой паспорт каждого объекта: уровень доверия, риски, связи и история в едином артефакте.'],
-  ['pulse',    '02', 'Оценка доверия',   'Прозрачная формула: факторы × веса. Видно, что снижает доверие и как именно его поднять.'],
-  ['graph',    '03', 'Граф доверия',     'Карта зависимостей. Видно, как риск одного актива влияет на критичные системы и команды.'],
-  ['config',   '04', 'Конфигуратор',     'Отраслевые веса Trust Score адаптируют модель доверия под промышленность, ИТ или сервисную организацию.'],
-];
-
 const STATS = [
   { end: 200, sep: true, label: 'активов в 14-дневном пилоте' },
   { end: 6,              label: 'факторов оценки доверия' },
@@ -150,28 +142,68 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ---- features ---- */}
+      {/* ---- trust model ---- */}
       <section className="lp-features">
-        <div className="lp-sec-head" data-reveal>
-          <span className="lp-sec-kicker mono">ЧЕТЫРЕ ОПОРЫ ПЛАТФОРМЫ</span>
-          <h2 className="lp-sec-title">От активов к executive insight</h2>
+        <div className="lp-model-head" data-reveal>
+          <div>
+            <span className="lp-sec-kicker mono">TRUST INTELLIGENCE MODEL</span>
+            <h2 className="lp-model-title">Доверие — это связанная система, а не отдельная метрика</h2>
+          </div>
+          <p className="lp-model-intro">
+            DTEK Core собирает контекст объекта, объясняет его состояние и показывает,
+            как риск распространяется по зависимостям инфраструктуры.
+          </p>
         </div>
-        <div className="lp-feature-grid">
-          {FEATURES.map(([icon, num, title, text], i) => (
-            <article
-              key={title}
-              className="lp-feature"
-              data-reveal
-              style={{ '--d': `${i * 80}ms` } as React.CSSProperties}
-            >
-              <div className="lp-feature-top">
-                <span className="lp-feature-ico"><Icon name={icon} size={19} /></span>
-                <span className="lp-feature-num mono">{num}</span>
+
+        <div className="lp-model" data-reveal>
+          <div className="lp-model-flow" aria-label="Связь механизмов платформы">
+            <article className="lp-model-stage">
+              <div className="lp-model-stage-head">
+                <span className="lp-model-ico"><Icon name="passport" size={20} /></span>
+                <span className="lp-model-role mono">КОНТЕКСТ ОБЪЕКТА</span>
               </div>
-              <h3 className="lp-feature-title">{title}</h3>
-              <p className="lp-feature-text">{text}</p>
+              <h3>Паспорт доверия</h3>
+              <p>Объединяет уровень доверия, риски, связи и историю объекта в одном представлении, подтверждённом данными.</p>
             </article>
-          ))}
+
+            <span className="lp-model-link" aria-hidden="true"><i /></span>
+
+            <article className="lp-model-stage lp-model-stage-score">
+              <div className="lp-model-stage-head">
+                <span className="lp-model-ico"><Icon name="pulse" size={20} /></span>
+                <span className="lp-model-role mono">ОБЪЯСНИМОЕ СОСТОЯНИЕ</span>
+              </div>
+              <h3>Оценка доверия</h3>
+              <p>Показывает состояние численно и раскрывает факторы, которые снижают или усиливают Trust Score.</p>
+              <div className="lp-model-score" aria-hidden="true">
+                <span className="mono">TRUST SCORE</span>
+                <strong>74</strong>
+                <span className="lp-model-score-line"><i /></span>
+              </div>
+            </article>
+
+            <span className="lp-model-link" aria-hidden="true"><i /></span>
+
+            <article className="lp-model-stage">
+              <div className="lp-model-stage-head">
+                <span className="lp-model-ico"><Icon name="graph" size={20} /></span>
+                <span className="lp-model-role mono">КОНТЕКСТ ЗАВИСИМОСТЕЙ</span>
+              </div>
+              <h3>Граф доверия</h3>
+              <p>Связывает объекты и показывает, как локальный риск влияет на критичные системы и команды.</p>
+            </article>
+          </div>
+
+          <aside className="lp-model-control">
+            <div className="lp-model-control-mark" aria-hidden="true"><span /></div>
+            <span className="lp-model-ico"><Icon name="config" size={20} /></span>
+            <div className="lp-model-control-copy">
+              <span className="lp-model-role mono">УПРАВЛЯЮЩИЙ СЛОЙ МОДЕЛИ</span>
+              <h3>Конфигуратор</h3>
+            </div>
+            <p>Настраивает отраслевые веса факторов Trust Score под контекст организации — без разрыва общей модели.</p>
+            <span className="lp-model-tune mono" aria-hidden="true">FACTORS × WEIGHTS</span>
+          </aside>
         </div>
       </section>
 
