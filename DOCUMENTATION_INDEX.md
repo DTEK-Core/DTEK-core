@@ -174,6 +174,13 @@
 
 Sprint-файлы в `tasks/` сохраняются как исторический журнал разработки.
 
+Design Development хранится отдельно:
+
+| Документ | Назначение |
+|---|---|
+| [tasks/disign/MINI_DESIGN_CHANGES.md](tasks/disign/MINI_DESIGN_CHANGES.md) | Единый журнал небольших UI/UX-изменений с последовательными MD-ID и rollback baseline |
+| [tasks/disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md](tasks/disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md) | Отдельный Figma-first Design Sprint Settings / Profile, ожидает согласования |
+
 | Документ | Статус |
 |---|---|
 | [tasks/SPRINT_01.md](tasks/SPRINT_01.md) | Завершён |

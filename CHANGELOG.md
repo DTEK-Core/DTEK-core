@@ -5,6 +5,21 @@
 
 ---
 
+## Mini Design Journal — 2026-08-18
+
+### Изменено
+
+- Mini Design история Button System, Download UX, Stable Sidebar и Landing
+  Trust Graph объединена в `tasks/disign/MINI_DESIGN_CHANGES.md` как MD-001–004.
+- `AI_DEVELOPMENT_GUIDE.md` закрепляет единый Mini Design журнал и отдельный
+  rollback baseline/commit для каждой последующей небольшой UI/UX-задачи.
+
+### Удалено
+
+- После переноса истории удалены ставшие дублирующими
+  `DESIGN_SPRINT_02–05`; самостоятельный Figma-first Sprint Settings/Profile
+  сохранён отдельно.
+
 ## Landing Trust Graph Hero — 2026-08-18
 
 ### Изменено
