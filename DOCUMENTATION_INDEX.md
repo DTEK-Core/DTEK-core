@@ -165,6 +165,7 @@
 | [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Sprint 11 Data Onboarding manual smoke test |
 | [docs/testing/EXPLAINABILITY_QA_CHECKLIST.md](docs/testing/EXPLAINABILITY_QA_CHECKLIST.md) | Sprint 12 Explainability manual QA: formula, sources, history, RBAC и mobile |
 | [docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md](docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md) | Sprint 13 Risk Workflow manual QA: owner, SLA, comments, origin, timeline, audit, RBAC/RLS и mobile |
+| [docs/testing/PILOT_READINESS_CHECKLIST.md](docs/testing/PILOT_READINESS_CHECKLIST.md) | Sprint 14 master release gate: engineering, QA, migrations, security, operations и решение GO/NO-GO |
 | [testing/sprint-11-import/README.md](testing/sprint-11-import/README.md) | Готовые import fixtures и автоматические contract-тесты Sprint 11 |
 | [docs/testing/BUG_REPORT_TEMPLATE.md](docs/testing/BUG_REPORT_TEMPLATE.md) | Bug report template |
 
@@ -197,7 +198,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, завершён |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
-| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Commercial MVP Pilot Readiness |
+| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Commercial MVP Pilot Readiness в работе, S14-T001 завершена |
 | [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation |
 
 ---

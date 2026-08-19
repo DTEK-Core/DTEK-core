@@ -23,11 +23,11 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.13.0-dev — Sprint 13 implementation complete: manual QA pending.**
+**v0.14.0-dev — Sprint 14 Pilot Readiness в работе; S14-T001 завершена.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 завершена: Risk Registry поддерживает owner, due date/SLA, immutable comments, manual/imported origin, activity timeline и audit events. Authenticated QA Sprint 12 и Sprint 13 остаются обязательными pilot release gates и не отмечены как `PASS`.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 завершена: Risk Registry поддерживает owner, due date/SLA, immutable comments, manual/imported origin, activity timeline и audit events. Sprint 14 начат с единого Pilot Readiness Checklist; authenticated QA Sprint 12 и Sprint 13 остаются обязательными pilot release gates и не отмечены как `PASS`.
 
 ### Реализованные Маршруты
 
@@ -169,8 +169,8 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 13 — S13-T001–T008 реализованы, manual QA pending |
-| Gate перед pilot release | Ручная приёмка Sprint 12 Explainability и Sprint 13 Risk Workflow checklists |
+| Текущая разработка | Sprint 14 — S14-T001 Pilot Readiness Checklist завершена |
+| Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
 | Схема БД | Локальная и Cloud-цепочки миграций `001–019` синхронизированы |
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
 | Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting |
@@ -187,10 +187,11 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. Выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
-2. Выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
-3. Выполнить Sprint 14 — Pilot Readiness и закрыть финальные release gates.
-4. После коммерческого MVP: Sprint 15 — Connector Framework Foundation.
+1. Продолжить Sprint 14 — Pilot Readiness по master checklist.
+2. До решения `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
+3. До решения `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
+4. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready.
+5. После коммерческого MVP: Sprint 15 — Connector Framework Foundation.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 

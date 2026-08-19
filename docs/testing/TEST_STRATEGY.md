@@ -21,7 +21,7 @@
 | Type safety | `npm run type-check` | Весь TypeScript-код | Обязательно |
 | Static analysis | `npm run lint` | `app`, `components`, `lib`, `types`, middleware | Обязательно |
 | Production build | `npm run build` | Все Next.js routes и Server Components | Обязательно |
-| Import contracts | `npm run test:import` | Parser, mappings, validation, duplicates, partial success, limits | 18 тестов |
+| Import contracts | `npm run test:import` | Parser, mappings, validation, duplicates, partial success, limits | 19 тестов |
 | Explainability contracts | `npm run test:trust-explainability` | Drivers, reasons, impact, history, source timeline, Dashboard aggregation | 17 тестов |
 | Risk workflow contracts | `npm run test:risk-workflow` | Activity allowlist, safe UI/audit metadata и privileged Audit Log RLS | 9 тестов |
 | Dependency audit | `npm audit` | Production и development dependency tree | Обязательно перед release |
@@ -58,6 +58,7 @@ Build не должен запускаться после провала type-ch
 | Data Onboarding | `DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md` | Sprint 11 PASS |
 | Explainability | `EXPLAINABILITY_QA_CHECKLIST.md` | Sprint 12 manual QA pending |
 | Risk Workflow | `RISK_WORKFLOW_QA_CHECKLIST.md` | Sprint 13 manual QA pending |
+| Pilot Readiness | `PILOT_READINESS_CHECKLIST.md` | Sprint 14 master release gate pending |
 
 Исторические test plans могут содержать состояния старых экранов. Они не являются источником текущего product status; актуальный статус определяется README, Roadmap и текущим Sprint-документом.
 
@@ -87,6 +88,7 @@ Build не должен запускаться после провала type-ch
 - Sprint 11 fixtures находятся в `testing/sprint-11-import/` и являются утверждёнными тестовыми артефактами.
 - Sprint 12 worked examples определены в `EXPLAINABILITY_QA_CHECKLIST.md`.
 - Sprint 13 workflow data и role matrix определены в `RISK_WORKFLOW_QA_CHECKLIST.md`.
+- Sprint 14 release candidate и итоговое решение фиксируются в `PILOT_READINESS_CHECKLIST.md`.
 - Тестовые данные должны создаваться только в отдельной организации с явным префиксом Sprint.
 - Нельзя использовать реальные клиентские данные, production tenant или service role в браузере.
 - Повторный import проверяется как create-only и не должен изменять существующие записи.

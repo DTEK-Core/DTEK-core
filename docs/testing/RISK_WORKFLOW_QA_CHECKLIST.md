@@ -47,7 +47,7 @@ authenticated UI, Supabase RLS и multi-role проверку. Не отмеча
 | `npm run lint` | `PASS` | ESLint без warnings/errors |
 | `npm run build` | `PASS` | Production build успешен |
 | `npm run test:risk-workflow` | `PASS` | 9/9 workflow contracts |
-| `npm run test:import` | `PASS` | 18/18 import regression contracts |
+| `npm run test:import` | `PASS` | 19/19 import regression contracts |
 | `npm run test:trust-explainability` | `PASS` | 17/17 explainability regression contracts |
 | `npm audit --audit-level=low` | `PASS` | 0 известных уязвимостей |
 

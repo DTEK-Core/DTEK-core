@@ -39,9 +39,9 @@ Sprint 01–08 создали функциональный и визуально
 | Import/export | Реализовано для CSV/XLSX import и ключевых отчётов; import трактуется как evidence ingestion |
 | Reports | Реализовано в Sprint 10 |
 | Explainability | Sprint 12 реализован; QA checklist готов, ручная приёмка отложена владельцем проекта до pilot release gate |
-| Engineering consolidation | Dependency hardening и CI contract tests завершены; новый Sprint не начат |
+| Engineering consolidation | Dependency hardening и CI contract tests завершены; Sprint 14 начат с master readiness checklist |
 | Pilot narrative | Готов |
-| Commercial MVP remaining | Sprint 13 Pilot Risk Workflow и Sprint 14 Pilot Readiness |
+| Commercial MVP remaining | Sprint 14 Pilot Readiness; Sprint 12/13 authenticated QA входят в release gates |
 | Evidence-first architecture | ADR-007 принят; Discovery/Evidence/Connector runtime — Post-MVP |
 
 ---
@@ -85,7 +85,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase C — Commercial MVP Completion
 
-Статус: Sprint 13 реализован, manual QA pending; Sprint 14 запланирован.
+Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001 завершена.
 
 Фокус:
 

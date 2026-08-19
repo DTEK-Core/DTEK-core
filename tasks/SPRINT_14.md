@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 📋 Запланирован`
+`Статус: 🚧 В работе — S14-T001 завершена`
 
 ---
 
@@ -59,16 +59,16 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 
 ## 5. Задачи Спринта
 
-| ID | Задача | Приоритет | Оценка | Зависимости |
-|---|---|---|---|---|
-| S14-T001 | Pilot Readiness Checklist | P1 | S | S13 |
-| S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 |
-| S14-T003 | Invitation Delivery Finalization | P1 | M | T001 |
-| S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 |
-| S14-T005 | Backup & Restore Runbook | P1 | S | T001 |
-| S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 |
-| S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 |
-| S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 |
+| ID | Задача | Приоритет | Оценка | Зависимости | Статус |
+|---|---|---|---|---|---|
+| S14-T001 | Pilot Readiness Checklist | P1 | S | S13 | ✅ Завершено |
+| S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 | ⬜ Запланировано |
+| S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ⬜ Запланировано |
+| S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ⬜ Запланировано |
+| S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ⬜ Запланировано |
+| S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ⬜ Запланировано |
+| S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ⬜ Запланировано |
+| S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 | ⬜ Запланировано |
 
 ---
 
@@ -101,6 +101,16 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 **Описание:** создать единый checklist перед запуском пилота, включая закрытие ручного QA Sprint 12 и сверку Cloud migrations.
 
 **Ожидаемый результат:** команда понимает, что проверить до выдачи доступа.
+
+**Решение:** создан
+`docs/testing/PILOT_READINESS_CHECKLIST.md` — единый release-control документ
+с карточкой кандидата, 11 обязательными gates, evidence/status protocol,
+инженерным baseline, Cloud migration check, authenticated Sprint 12/13 QA,
+Critical Path, RBAC/RLS и tenant-isolation проверками, operations/data/support
+требованиями и финальным решением `GO / CONDITIONAL GO / NO-GO`. Успешная
+стабилизация на commit `cf68601` зафиксирована только как baseline с
+обязательной повторной проверкой release candidate; незавершённые T002–T008 и
+ручные QA не отмечены как `PASS`.
 
 ### S14-T002 — Environment Health Check UI/Runbook
 
@@ -148,7 +158,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 
 ## 8. Definition Of Done
 
-- [ ] Есть pilot readiness checklist.
+- [x] Есть pilot readiness checklist.
 - [ ] Sprint 12 authenticated manual QA и Cloud migration check подтверждены.
 - [ ] Есть runbook диагностики окружения.
 - [ ] Invite flow готов для пилота.

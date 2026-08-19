@@ -65,7 +65,7 @@
 | `npm run lint` | `PASS` | ESLint без ошибок |
 | `npm run build` | `PASS` | Production build успешен |
 | `npm run test:trust-explainability` | `PASS` | 17/17 explainability contract tests проходят |
-| `npm run test:import` | `PASS` | 17/17 import contract tests проходят |
+| `npm run test:import` | `PASS` | 19/19 import contract tests проходят |
 
 Автоматические проверки подтверждают pure calculation contracts, но не заменяют authenticated UI, RBAC и responsive testing.
 

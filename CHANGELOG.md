@@ -5,6 +5,18 @@
 
 ---
 
+## Sprint 14 Pilot Readiness Checklist — 2026-08-19
+
+### Добавлено
+
+- Создан единый master checklist для pilot release candidate с 11 gates,
+  evidence/status protocol и финальным решением `GO / CONDITIONAL GO / NO-GO`.
+- В обязательные gates включены Sprint 12/13 authenticated QA, Cloud migration
+  drift check, Critical Path, RBAC/RLS, tenant isolation, backup/restore,
+  monitoring, invitation delivery, pilot metrics и documentation pack.
+- Предыдущий зелёный baseline фиксируется как `RECHECK`, а не как разрешение на
+  пилот; незавершённые Sprint 14 задачи и ручные проверки остаются `PENDING`.
+
 ## Control Stabilization — 2026-08-19
 
 ### Исправлено
