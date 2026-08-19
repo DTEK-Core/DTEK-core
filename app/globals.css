@@ -392,44 +392,57 @@
 }
 
 /* ── User menu (sidebar-foot) ── */
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: var(--r-sm);
-}
-.user-menu-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--teal-2), var(--teal));
-  color: #04211d;
+.sidebar-profile-trigger {
   display: grid;
   place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 5px 0 0 6px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--text-dim);
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.sidebar-profile-trigger:hover,
+.sidebar-profile-trigger[data-state='open'] {
+  color: var(--teal);
+  border-color: var(--teal-line);
+  background: var(--teal-soft);
+}
+.sidebar-profile-trigger:focus-visible {
+  outline: 2px solid var(--teal-line);
+  outline-offset: 2px;
+}
+.sidebar-profile-avatar { width: 32px; height: 32px; }
+.sidebar-profile-fallback {
+  border: 1px solid var(--border-1);
+  background: var(--surface-2);
+  color: currentColor;
+  font-size: 10.5px;
   font-weight: 800;
-  font-size: 11px;
-  flex-shrink: 0;
+  letter-spacing: .02em;
 }
-.user-menu-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.user-menu-name {
+.sidebar-profile-menu { width: min(260px, calc(100vw - 32px)); padding: 6px; }
+.sidebar-profile-identity { display: flex; min-width: 0; flex-direction: column; gap: 3px; padding: 8px; }
+.sidebar-profile-name {
+  overflow: hidden;
+  color: var(--text);
   font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
+  font-weight: 650;
+  line-height: 1.35;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.user-menu-email {
-  font-size: 11px;
+.sidebar-profile-email {
+  overflow: hidden;
   color: var(--text-mute);
-  white-space: nowrap;
-  overflow: hidden;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
+.sidebar-profile-action { width: 100%; cursor: pointer; }
 
 /* ============================================================
    Topbar

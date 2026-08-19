@@ -4,6 +4,15 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Logo } from '@/components/shared/logo';
 import { Icon } from '@/components/shared/icon';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { logout } from '@/lib/actions/auth';
 
 const NAV_GROUPS = [
@@ -103,19 +112,41 @@ export function AppSidebar({ displayName, email, orgName }: AppSidebarProps) {
           {pathname.startsWith('/settings') && <span className="nav-active-bar" />}
         </Link>
 
-        <div className="user-menu">
-          <div className="user-menu-avatar">{getInitials(displayName || email)}</div>
-          <div className="user-menu-info">
-            <span className="user-menu-name">{displayName || '—'}</span>
-            <span className="user-menu-email">{email}</span>
-          </div>
-        </div>
-        <form action={logout}>
-          <button type="submit" className="nav-item nav-item-button">
-            <Icon name="logout" size={18} />
-            <span className="nav-label">Выйти</span>
-          </button>
-        </form>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className="sidebar-profile-trigger"
+              aria-label="Открыть меню пользователя"
+            >
+              <Avatar className="sidebar-profile-avatar">
+                <AvatarFallback className="sidebar-profile-fallback">
+                  {getInitials(displayName || email) || <Icon name="user" size={17} />}
+                </AvatarFallback>
+              </Avatar>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="right"
+            align="end"
+            sideOffset={10}
+            className="sidebar-profile-menu"
+          >
+            <DropdownMenuLabel className="sidebar-profile-identity">
+              <span className="sidebar-profile-name">{displayName || 'Пользователь'}</span>
+              <span className="sidebar-profile-email" title={email}>{email || 'E-mail не указан'}</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <form action={logout}>
+              <DropdownMenuItem asChild>
+                <button type="submit" className="sidebar-profile-action">
+                  <Icon name="logout" size={16} />
+                  <span>Выйти</span>
+                </button>
+              </DropdownMenuItem>
+            </form>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </aside>
   );

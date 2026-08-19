@@ -2,7 +2,7 @@
 
 `Статус журнала: ACTIVE`  
 `Создан: 18.08.2026`  
-`Следующий ID: MD-010`
+`Следующий ID: MD-011`
 
 Единый журнал небольших UI/UX-изменений. Каждая запись имеет собственный
 baseline и отдельный commit, поэтому последнюю задачу можно отменить без отката
@@ -418,9 +418,64 @@ browser-control недоступен. **«Вернись назад»** отме
 
 ---
 
+## MD-010 — Compact Sidebar User Menu
+
+`Статус: DONE / MANUAL AUTHENTICATED QA PENDING`
+
+`Дата: 19.08.2026`
+
+`Commit: этот MD-раздел и реализация хранятся в одном task commit`
+
+`Baseline: 888cb9be75c44d59b0340a5bff3a35c9693e532f`
+
+### Проблема
+
+В нижней части sidebar одновременно отображались Settings, постоянный блок с
+именем/e-mail и отдельная строка logout. Три равноправных элемента перегружали
+footer-зону и смешивали navigation с account actions.
+
+### Требовалось
+
+Сделать пользовательскую область компактнее и логичнее, сохранив Settings,
+данные профиля, logout Server Action, keyboard accessibility и стабильную
+viewport-архитектуру sidebar.
+
+### Выполнено
+
+- Settings остаётся отдельным navigation item над account control с прежним
+  `/settings`, active-state, hover и focus-visible.
+- Постоянные имя и e-mail заменены круглым avatar-trigger с инициалами; если
+  имя и e-mail отсутствуют, используется нейтральная иконка пользователя.
+- Существующий Radix/Shadcn `DropdownMenu` показывает имя и полный e-mail только
+  по запросу; длинные значения сокращаются визуально и доступны через title.
+- Logout перенесён в account menu и вызывает неизменённый Server Action
+  `logout`; отдельная третья строка из sidebar удалена.
+- Dropdown наследует Radix-поведение: keyboard navigation, Escape, focus
+  management и закрытие по клику вне меню.
+
+### Затронуто
+
+`components/shared/shell/app-sidebar.tsx`, `app/globals.css`, этот журнал и
+`CHANGELOG.md`.
+
+### Functional safety
+
+Ширина, `100dvh`, overflow chain, sidebar navigation, верхняя/основная части,
+organization context, routes, auth, RBAC/RLS и mobile architecture не изменены.
+Новые зависимости и дублирующие UI-компоненты не добавлялись.
+
+### Проверка и rollback
+
+Автоматические quality gates выполняются перед commit. Authenticated ручная
+проверка menu open/close, outside click, Escape, keyboard logout, длинного e-mail
+и desktop/mobile остаётся обязательной приёмкой. **«Вернись назад»** отменяет
+только commit MD-010 и возвращает baseline `888cb9b…`.
+
+---
+
 ## Правило продолжения
 
-Следующая небольшая UI/UX-задача добавляется сюда как `MD-010`, затем `MD-011`
+Следующая небольшая UI/UX-задача добавляется сюда как `MD-011`, затем `MD-012`
 и далее. Новый отдельный Design Sprint-файл для mini changes не создаётся.
 Отдельный Sprint нужен только для крупного redesign страницы/модуля, новой
 Design System, navigation architecture или существенного нового UX-flow.
