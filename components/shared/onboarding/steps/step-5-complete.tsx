@@ -26,8 +26,6 @@ interface Props {
 }
 
 export function Step5Complete({ data, orgName, isPending, onSubmit }: Props) {
-  const validInvites = data.invites.filter((i) => i.email.includes('@'));
-
   return (
     <div className="wiz-step-body">
       <div className="wiz-step-intro">
@@ -68,11 +66,9 @@ export function Step5Complete({ data, orgName, isPending, onSubmit }: Props) {
             </div>
 
             <div className="summary-item">
-              <span className="summary-label">Приглашения</span>
+              <span className="summary-label">Команда</span>
               <span className="summary-value">
-                {validInvites.length > 0
-                  ? `${validInvites.length} участник${validInvites.length > 1 ? 'а' : ''}`
-                  : 'Не добавлены'}
+                Приглашения доступны после запуска в разделе «Пользователи»
               </span>
             </div>
           </div>

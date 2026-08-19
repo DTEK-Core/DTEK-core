@@ -45,7 +45,7 @@
 | # | Угроза | Вектор | Контрмера | Статус |
 |---|---|---|---|---|
 | S-1 | Вход под чужим аккаунтом | Подбор пароля | Auth rate limiting (Supabase) | ✅ |
-| S-2 | Принятие чужого приглашения | Перехват invite-токена | Invite token срок жизни + email | ✅ |
+| S-2 | Принятие чужого приглашения | Перехват invite-токена | 64-hex bearer token, 7-day expiry, invited email auth, trusted manual delivery | ✅ |
 | S-3 | Подделка JWT | Изменение claims | JWT подписан Supabase, проверяется middleware | ✅ |
 
 ### T — Tampering (Нарушение целостности)
@@ -79,7 +79,7 @@
 
 | # | Угроза | Вектор | Контрмера | Статус |
 |---|---|---|---|---|
-| D-1 | Флуд на эндпоинты | Высокочастотные запросы | Rate Limiting: 60 req/60s (API), 10 req/60s (join) | ✅ |
+| D-1 | Флуд на эндпоинты | Высокочастотные запросы | Rate Limiting: 60 req/60s (API), 10 req/60s (invite/join) | ✅ |
 | D-2 | Перегрузка большими payload | Огромные JSON-тела | Payload size limit: 100 KB | ✅ |
 | D-3 | DDoS на Vercel уровне | — | Vercel DDoS protection (встроенная) | ✅ |
 

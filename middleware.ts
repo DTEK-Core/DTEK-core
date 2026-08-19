@@ -17,6 +17,7 @@ interface RateLimitRule {
 
 const RULES: Record<string, RateLimitRule> = {
   '/join': { windowMs: 60_000, maxRequests: 10 },
+  '/invite/': { windowMs: 60_000, maxRequests: 10 },
   '/api/': { windowMs: 60_000, maxRequests: 60 },
 };
 
@@ -44,7 +45,7 @@ function checkRateLimit(key: string, rule: RateLimitRule): boolean {
 
 // ── Path helpers ──────────────────────────────────────────────────────────────
 
-const AUTH_PATHS = ['/login', '/register', '/forgot-password', '/reset-password'];
+const AUTH_PATHS = ['/login', '/register', '/forgot-password', '/reset-password', '/invite'];
 const PUBLIC_PATHS = ['/', '/favicon.ico'];
 const PUBLIC_PREFIXES = ['/_next', '/templates/'];
 

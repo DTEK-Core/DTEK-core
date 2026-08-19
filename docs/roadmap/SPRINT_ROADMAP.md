@@ -64,7 +64,7 @@ Demo Ready
 |---|---|---|---|
 | Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA deferred to pilot release gate | Объяснить Trust Score, impact рисков и источники данных |
 | Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Реализация завершена, manual QA pending | Сделать Risk Registry рабочим процессом для manual/imported risks |
-| Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | В работе: S14-T001–T002 завершены | Закрыть release gates и подготовить продукт к 1–3 пилотам |
+| Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | В работе: S14-T001–T003 завершены | Закрыть release gates и подготовить продукт к 1–3 пилотам |
 | Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Post-MVP Connector Foundation Ready | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
 
 ---
@@ -99,6 +99,11 @@ authenticated QA Sprint 12/13.
 S14-T002 добавляет owner/admin-only on-demand Environment Health Check и
 operations runbook для Supabase/env/DNS/middleware triage без публичного health
 endpoint, автоматического recovery или раскрытия секретов.
+
+S14-T003 фиксирует manual invite link как официальный Commercial MVP
+delivery path, открывает `/invite/{token}` для нового пользователя под
+rate limit, укрепляет accept-flow и убирает скрытые недоставляемые
+invitation из onboarding wizard. Email provider остаётся за границей MVP.
 
 Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Она не закрывает manual QA; старт Sprint 13 отдельно разрешён владельцем 08.08.2026 после восстановления Supabase и сверки Cloud migrations.
 

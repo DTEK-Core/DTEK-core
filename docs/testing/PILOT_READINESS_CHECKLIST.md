@@ -78,7 +78,7 @@ project ref можно фиксировать, но ключи и токены �
 | G-03 Sprint 13 Risk Workflow | Authenticated QA, RBAC/RLS и timeline | `PENDING` | [RISK_WORKFLOW_QA_CHECKLIST.md](RISK_WORKFLOW_QA_CHECKLIST.md) |
 | G-04 Cloud migrations | Local/Cloud цепочки совпадают, drift отсутствует | `BASELINE PASS / RECHECK` | Раздел 7 |
 | G-05 Environment health | Supabase, DNS, env, middleware диагностируются | `IMPLEMENTED / RECHECK` | [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md) |
-| G-06 Invitation delivery | Поддержанный invite path проверен end-to-end | `PENDING / S14-T003` | Решение S14-T003 |
+| G-06 Invitation delivery | Поддержанный invite path проверен end-to-end | `IMPLEMENTED / RECHECK` | [Invitation Delivery Runbook](../operations/INVITATION_DELIVERY_RUNBOOK.md) |
 | G-07 Critical path smoke | Auth → org → data → reports проходит повторяемо | `PENDING / S14-T004` | Baseline S14-T004 |
 | G-08 Backup and restore | Процедура описана и проверена | `PENDING / S14-T005` | Runbook S14-T005 |
 | G-09 Monitoring and errors | Есть минимальная наблюдаемость и escalation path | `PENDING / S14-T006` | План S14-T006 |
@@ -173,9 +173,11 @@ Evidence:
 | INV-02 | Принятие invitation | Пользователь входит в правильную организацию и роль |  |  |
 | INV-03 | Existing/expired/revoked | Все состояния обрабатываются без дублирования |  |  |
 
-Invitation gate закрывается только после решения S14-T003 о поддерживаемом
-delivery path. До этого manual invite link остаётся техническим fallback, но
-не считается финализированным pilot onboarding.
+S14-T003 фиксирует manual invite link как официальный Commercial MVP
+delivery path. Автоматическая email delivery не заявляется. Полный
+gate закрывается только authenticated E2E прогоном по
+[Invitation Delivery Runbook](../operations/INVITATION_DELIVERY_RUNBOOK.md); статус
+`IMPLEMENTED / RECHECK` не равен `PASS`.
 
 ---
 
@@ -328,6 +330,7 @@ Rollback owner:
 ## 16. Связанные Документы
 
 - [SPRINT_14.md](../../tasks/SPRINT_14.md) — задачи Pilot Readiness.
+- [INVITATION_DELIVERY_RUNBOOK.md](../operations/INVITATION_DELIVERY_RUNBOOK.md) — delivery contract и invitation E2E QA.
 - [EXPLAINABILITY_QA_CHECKLIST.md](EXPLAINABILITY_QA_CHECKLIST.md) — gate Sprint 12.
 - [RISK_WORKFLOW_QA_CHECKLIST.md](RISK_WORKFLOW_QA_CHECKLIST.md) — gate Sprint 13.
 - [REPORTING_SMOKE_TEST_CHECKLIST.md](REPORTING_SMOKE_TEST_CHECKLIST.md) — отчёты.

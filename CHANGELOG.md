@@ -5,6 +5,21 @@
 
 ---
 
+## Sprint 14 Invitation Delivery Finalization — 2026-08-19
+
+### Изменено
+
+- Manual invite link зафиксирован как официальный Commercial MVP
+  delivery path; UI больше не имитирует email-отправку.
+- Invite route доступен без auth cookie, ограничен 10 req/60s,
+  исключён из индексации и отклоняет token неверного формата до DB query.
+- Accept-flow валидирует server input, проверяет mutations и не
+  переносит существующий аккаунт между tenant.
+- Onboarding wizard направляет owner в `/users` вместо создания
+  скрытых invitation без доставки.
+- Добавлен Invitation Delivery Runbook с security contract, recovery и
+  authenticated pilot QA checklist.
+
 ## Sprint 14 Environment Health Check — 2026-08-19
 
 ### Добавлено

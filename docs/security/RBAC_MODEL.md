@@ -1,6 +1,6 @@
 # RBAC_MODEL.md — DTEK Core
 
-`Версия: 1.3`
+`Версия: 1.4`
 `Дата: 19.08.2026`
 `Статус: Актуальный`
 `Источник: ARCHITECTURE_DECISIONS.md ADR-003`
@@ -25,6 +25,7 @@ role TEXT CHECK (role IN ('owner', 'analyst', 'admin', 'viewer'))
 
 > Приглашение с ролью `owner` запрещено. Owner создаётся только при создании организации.
 > В текущем MVP invite-ссылки создаёт только `owner`. `admin` — делегированная роль внутри уже созданной организации, а не первый зарегистрированный пользователь.
+> Manual invite link передаётся адресату owner вручную; email provider в Commercial MVP не заявлен.
 
 ---
 
@@ -119,6 +120,7 @@ Client-side скрытие кнопок — дополнительная мер�
 
 | Версия | Дата | Изменение |
 |---|---|---|
+| 1.4 | 19.08.2026 | Manual invite link зафиксирован как MVP delivery path; RBAC не изменён |
 | 1.3 | 19.08.2026 | Environment Health Check ограничен owner/admin в UI и Server Action |
 | 1.2 | 12.08.2026 | Добавлена детализация Pilot Risk Workflow: assignment, deadlines, immutable comments и timeline |
 | 1.1 | 15.07.2026 | Уточнён MVP-flow ролей: первый пользователь — owner, invite-ссылки создаёт owner, admin — делегированная роль |

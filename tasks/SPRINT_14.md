@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001–T002 завершены`
+`Статус: 🚧 В работе — S14-T001–T003 завершены`
 
 ---
 
@@ -63,7 +63,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 |---|---|---|---|---|---|
 | S14-T001 | Pilot Readiness Checklist | P1 | S | S13 | ✅ Завершено |
 | S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 | ✅ Завершено |
-| S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ⬜ Запланировано |
+| S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ✅ Завершено |
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ⬜ Запланировано |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ⬜ Запланировано |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ⬜ Запланировано |
@@ -135,6 +135,17 @@ triage, recovery, evidence и escalation flow. Публичный health endpoin
 
 **Ожидаемый результат:** onboarding пилотной команды не блокируется.
 
+**Решение:** для Commercial MVP официально поддержан manual
+invite link; email provider не имитируется и требует отдельного
+Post-MVP решения. `/invite/{token}` добавлен в public auth path
+middleware с rate limit 10 req/60s; token валидируется до DB query,
+страница исключена из индексации. Accept-flow проверяет server input,
+DB mutations и запрещает перенос аккаунта между tenant. Onboarding wizard
+больше не создаёт скрытые недоставляемые invitation, а направляет
+owner в `/users`. Создан `docs/operations/INVITATION_DELIVERY_RUNBOOK.md`
+с delivery/security contract, recovery и authenticated pilot QA checklist. Сам
+QA остаётся release gate до фактического прогона.
+
 ### S14-T004 — Smoke Test Automation Baseline
 
 **Описание:** автоматизировать или формализовать smoke tests ключевого пути.
@@ -172,7 +183,7 @@ triage, recovery, evidence и escalation flow. Публичный health endpoin
 - [x] Есть pilot readiness checklist.
 - [ ] Sprint 12 authenticated manual QA и Cloud migration check подтверждены.
 - [x] Есть runbook диагностики окружения.
-- [ ] Invite flow готов для пилота.
+- [x] Invite delivery path финализирован; authenticated E2E остаётся release gate.
 - [ ] Smoke test baseline есть.
 - [ ] Backup/restore описан.
 - [ ] Monitoring plan описан.
@@ -188,6 +199,6 @@ triage, recovery, evidence и escalation flow. Публичный health endpoin
 
 | Риск | Вероятность | Влияние | Митигирование |
 |---|---|---|---|
-| Email provider добавит лишнюю сложность | Средняя | Среднее | Manual invite link оставить fallback |
+| Email provider добавит лишнюю сложность | Средняя | Среднее | Manual invite link зафиксирован как MVP path; provider требует отдельного решения |
 | Smoke tests потребуют много инфраструктуры | Средняя | Среднее | Начать с минимального baseline |
 | Пилот начнётся без метрик | Средняя | Высокое | Утвердить metrics до старта |

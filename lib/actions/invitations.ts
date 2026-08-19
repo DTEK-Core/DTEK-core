@@ -4,9 +4,10 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
-import { InviteSchema } from '@/lib/validation/schemas';
+import { AcceptInvitationSchema, InviteSchema } from '@/lib/validation/schemas';
 import { createServiceClient } from '@/lib/supabase/service';
 import { createSecurityEvent } from '@/lib/security/audit';
+import { isValidInvitationToken } from '@/lib/invitations/token';
 
 interface CallerProfile {
   id: string;
@@ -40,9 +41,16 @@ async function getCallerProfile(): Promise<CallerProfile | null> {
 }
 
 function buildInviteUrl(token: string): string | null {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, '');
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   if (!appUrl) return null;
-  return `${appUrl}/invite/${token}`;
+
+  try {
+    const baseUrl = new URL(appUrl);
+    if (baseUrl.protocol !== 'http:' && baseUrl.protocol !== 'https:') return null;
+    return new URL(`/invite/${token}`, baseUrl).toString();
+  } catch {
+    return null;
+  }
 }
 
 export async function sendInvitation(
@@ -62,7 +70,7 @@ export async function sendInvitation(
   const supabase = await createClient();
   const normalizedEmail = parsed.data.email.toLowerCase();
 
-  const { data: existingRaw } = await supabase
+  const { data: existingRaw, error: existingError } = await supabase
     .from('invitations')
     .select('token, email, role, status, expires_at')
     .eq('organization_id', caller.organization_id)
@@ -70,6 +78,10 @@ export async function sendInvitation(
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
+
+  if (existingError) {
+    return { error: 'Не удалось проверить активные приглашения. Попробуйте ещё раз.' };
+  }
 
   const existing = existingRaw as unknown as (
     { token: string; email: string; role: string; status: string; expires_at: string } | null
@@ -121,7 +133,7 @@ export async function sendInvitation(
   const inviteUrl = buildInviteUrl(inv.token);
   if (!inviteUrl) return { error: 'NEXT_PUBLIC_APP_URL не настроен' };
 
-  createSecurityEvent({
+  await createSecurityEvent({
     organizationId: caller.organization_id,
     actorId:        caller.id,
     actorEmail:     caller.email ?? undefined,
@@ -155,16 +167,19 @@ export async function revokeInvitation(invitationId: string): Promise<{ error?: 
 
   const inv = invRaw as unknown as { email: string } | null;
 
-  const { error } = await service
+  const { data: revokedRaw, error } = await service
     .from('invitations')
     .update({ status: 'expired' } as never)
     .eq('id', invitationId)
     .eq('organization_id', caller.organization_id)
-    .eq('status', 'pending');
+    .eq('status', 'pending')
+    .select('id')
+    .maybeSingle();
 
   if (error) return { error: 'Не удалось отозвать приглашение. Попробуйте ещё раз.' };
+  if (!revokedRaw) return { error: 'Активное приглашение не найдено' };
 
-  createSecurityEvent({
+  await createSecurityEvent({
     organizationId: caller.organization_id,
     actorId:        caller.id,
     actorEmail:     caller.email ?? undefined,
@@ -184,6 +199,15 @@ export async function acceptInvitation(
   lastName: string,
   password: string,
 ): Promise<{ error?: string }> {
+  if (!isValidInvitationToken(token)) {
+    return { error: 'Приглашение недействительно или срок действия истёк' };
+  }
+
+  const parsed = AcceptInvitationSchema.safeParse({ firstName, lastName, password });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Некорректные данные' };
+  }
+
   const service = createServiceClient();
 
   const { data: invRaw } = await service
@@ -201,27 +225,69 @@ export async function acceptInvitation(
   // Sign up or sign in
   const supabase = await createClient();
   let userId: string;
+  let profileOrganizationId: string | null;
 
-  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-    email: inv.email,
-    password,
-  });
+  const { data: existingProfileRaw, error: existingProfileError } = await service
+    .from('profiles')
+    .select('id, organization_id')
+    .eq('email', inv.email)
+    .limit(1)
+    .maybeSingle();
 
-  if (signUpError) {
-    // User already exists — try sign in
-    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-      email: inv.email,
-      password,
-    });
-    if (signInError) return { error: 'Неверный пароль для существующего аккаунта' };
-    userId = signInData.user.id;
-  } else {
-    userId = signUpData.user!.id;
+  if (existingProfileError) {
+    return { error: 'Не удалось проверить аккаунт. Попробуйте ещё раз.' };
   }
 
-  const fullName = `${firstName} ${lastName}`.trim();
+  const existingProfile = existingProfileRaw as unknown as (
+    { id: string; organization_id: string | null } | null
+  );
 
-  await service
+  if (existingProfile) {
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      email: inv.email,
+      password: parsed.data.password,
+    });
+    if (signInError) return { error: 'Неверный пароль для существующего аккаунта' };
+    if (signInData.user.id !== existingProfile.id) {
+      return { error: 'Не удалось подтвердить аккаунт' };
+    }
+    userId = signInData.user.id;
+    profileOrganizationId = existingProfile.organization_id;
+  } else {
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email: inv.email,
+      password: parsed.data.password,
+      options: {
+        data: {
+          full_name: `${parsed.data.firstName} ${parsed.data.lastName}`.trim(),
+        },
+      },
+    });
+
+    if (signUpError) return { error: 'Не удалось создать аккаунт. Попробуйте ещё раз.' };
+    if (!signUpData.user) return { error: 'Не удалось создать аккаунт' };
+    userId = signUpData.user.id;
+
+    const { data: profileRaw, error: profileLookupError } = await service
+      .from('profiles')
+      .select('organization_id')
+      .eq('id', userId)
+      .single();
+
+    const profile = profileRaw as unknown as { organization_id: string | null } | null;
+    if (profileLookupError || !profile) {
+      return { error: 'Не удалось подготовить профиль. Попробуйте ещё раз.' };
+    }
+    profileOrganizationId = profile.organization_id;
+  }
+
+  if (profileOrganizationId && profileOrganizationId !== inv.organization_id) {
+    return { error: 'Этот аккаунт уже привязан к другой организации' };
+  }
+
+  const fullName = `${parsed.data.firstName} ${parsed.data.lastName}`.trim();
+
+  const { error: profileUpdateError } = await service
     .from('profiles')
     .update({
       full_name: fullName,
@@ -231,12 +297,23 @@ export async function acceptInvitation(
     } as never)
     .eq('id', userId);
 
-  await service
+  if (profileUpdateError) {
+    return { error: 'Не удалось добавить пользователя в организацию' };
+  }
+
+  const { data: acceptedRaw, error: invitationUpdateError } = await service
     .from('invitations')
     .update({ status: 'accepted' } as never)
-    .eq('id', inv.id);
+    .eq('id', inv.id)
+    .eq('status', 'pending')
+    .select('id')
+    .maybeSingle();
 
-  createSecurityEvent({
+  if (invitationUpdateError || !acceptedRaw) {
+    return { error: 'Не удалось завершить принятие приглашения' };
+  }
+
+  await createSecurityEvent({
     organizationId: inv.organization_id,
     actorId:        userId,
     actorEmail:     inv.email,

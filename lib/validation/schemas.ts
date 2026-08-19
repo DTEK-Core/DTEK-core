@@ -141,6 +141,12 @@ export const InviteSchema = z.object({
   role:  z.enum(INVITATION_ROLES, { message: 'Недопустимая роль' }),
 });
 
+export const AcceptInvitationSchema = z.object({
+  firstName: z.string().trim().min(1, 'Укажите имя').max(100, 'Имя не должно превышать 100 символов'),
+  lastName: z.string().trim().min(1, 'Укажите фамилию').max(100, 'Фамилия не должна превышать 100 символов'),
+  password: z.string().min(8, 'Пароль должен состоять минимум из 8 символов').max(128, 'Пароль не должен превышать 128 символов'),
+});
+
 // ── Relations ─────────────────────────────────────────────────────────────────
 
 export const CreateRelationSchema = z.object({

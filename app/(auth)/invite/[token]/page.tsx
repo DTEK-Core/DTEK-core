@@ -2,9 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createServiceClient } from '@/lib/supabase/service';
 import { AcceptInviteForm } from '@/components/shared/auth/accept-invite-form';
+import { isValidInvitationToken } from '@/lib/invitations/token';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Принять приглашение — DTEK Core',
+  robots: { index: false, follow: false },
 };
 
 interface InvitationRow {
@@ -38,6 +42,11 @@ export default async function InvitePage({
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
+
+  if (!isValidInvitationToken(token)) {
+    return <InviteError message="Приглашение не найдено или уже недействительно." />;
+  }
+
   const service = createServiceClient();
 
   const { data: invRaw } = await service

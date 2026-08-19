@@ -52,25 +52,28 @@ export function InviteDialog({ open, onClose }: Props) {
   }
 
   async function copyInviteUrl(inviteUrl: string) {
+    let fallbackTextarea: HTMLTextAreaElement | null = null;
+
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(inviteUrl);
       } else {
-        const textarea = document.createElement('textarea');
-        textarea.value = inviteUrl;
-        textarea.style.position = 'fixed';
-        textarea.style.left = '-9999px';
-        textarea.setAttribute('readonly', '');
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
+        fallbackTextarea = document.createElement('textarea');
+        fallbackTextarea.value = inviteUrl;
+        fallbackTextarea.style.position = 'fixed';
+        fallbackTextarea.style.left = '-9999px';
+        fallbackTextarea.setAttribute('readonly', '');
+        document.body.appendChild(fallbackTextarea);
+        fallbackTextarea.select();
+        if (!document.execCommand('copy')) throw new Error('Clipboard fallback failed');
       }
 
       setCopied(true);
       toast.success('Ссылка скопирована');
     } catch {
       setError('Не удалось скопировать ссылку. Скопируйте её вручную.');
+    } finally {
+      fallbackTextarea?.remove();
     }
   }
 
@@ -80,18 +83,23 @@ export function InviteDialog({ open, onClose }: Props) {
     setError(null);
     setCopied(false);
 
-    const response = await sendInvitation(email, role, createNewExpired);
-    setPending(false);
+    try {
+      const response = await sendInvitation(email, role, createNewExpired);
 
-    if (response.error) {
-      setError(response.error);
-    } else {
-      setResult({
-        email: response.email ?? email,
-        role: response.role ?? role,
-        inviteUrl: response.inviteUrl ?? null,
-        status: response.status ?? 'created',
-      });
+      if (response.error) {
+        setError(response.error);
+      } else {
+        setResult({
+          email: response.email ?? email,
+          role: response.role ?? role,
+          inviteUrl: response.inviteUrl ?? null,
+          status: response.status ?? 'created',
+        });
+      }
+    } catch {
+      setError('Не удалось создать приглашение. Попробуйте ещё раз.');
+    } finally {
+      setPending(false);
     }
   }
 
@@ -104,7 +112,7 @@ export function InviteDialog({ open, onClose }: Props) {
     <Dialog open={open} onOpenChange={(v) => { if (!v) handleClose(); }}>
       <DialogContent style={{ maxWidth: 440 }}>
         <DialogHeader>
-          <DialogTitle>Пригласить участника</DialogTitle>
+          <DialogTitle>Создать приглашение</DialogTitle>
         </DialogHeader>
 
         {result ? (
@@ -160,6 +168,9 @@ export function InviteDialog({ open, onClose }: Props) {
                     {copied ? 'Скопировано' : 'Копировать'}
                   </button>
                 </div>
+                <p className="card-hint" style={{ margin: '8px 0 0' }}>
+                  Действует 7 дней. Передайте ссылку только адресату по доверенному каналу.
+                </p>
               </div>
             ) : (
               <p style={{ fontSize: 13, color: 'var(--text-mute)', margin: 0 }}>
@@ -193,6 +204,9 @@ export function InviteDialog({ open, onClose }: Props) {
           </div>
         ) : (
         <form onSubmit={handleSubmit}>
+          <p className="card-hint" style={{ margin: '4px 0 14px' }}>
+            DTEK Core создаст персональную ссылку. Email автоматически не отправляется.
+          </p>
           <div className="set-fields" style={{ marginTop: 4 }}>
             <div className="set-field">
               <label className="set-field-label">Email</label>
@@ -229,7 +243,7 @@ export function InviteDialog({ open, onClose }: Props) {
               Отмена
             </button>
             <button type="submit" className="btn btn-primary" disabled={pending}>
-              {pending ? 'Отправка…' : 'Отправить приглашение'}
+              {pending ? 'Создание…' : 'Создать ссылку'}
             </button>
           </div>
         </form>

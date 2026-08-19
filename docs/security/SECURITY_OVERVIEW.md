@@ -1,6 +1,6 @@
 # SECURITY_OVERVIEW.md — DTEK Core
 
-`Версия: 1.3`
+`Версия: 1.4`
 `Дата: 19.08.2026`
 `Статус: Актуальный`
 
@@ -20,14 +20,14 @@ DTEK Core — Evidence-first Trust Intelligence Platform. Поскольку п�
 
 - **TLS/HTTPS** — все соединения зашифрованы (Vercel enforces HTTPS)
 - **Security Headers** — CSP, X-Frame-Options, X-Content-Type-Options, Permissions-Policy, Referrer-Policy (настроены в `next.config.mjs`)
-- **Rate Limiting** — IP-based: `/join` 10 req/60s, `/api/*` 60 req/60s
+- **Rate Limiting** — IP-based: `/invite/*` и `/join` 10 req/60s, `/api/*` 60 req/60s
 - **Payload Limit** — запросы > 100 KB отклоняются (413)
 
 ### Уровень 2 — Аутентификация и сессии
 
 - **Auth Provider**: Supabase Auth (JWT, Email+Password)
 - **Password Reset** — email-подтверждение через Supabase SMTP
-- **Invite Flow** — токены приглашений с ограниченным сроком жизни
+- **Invite Flow** — manual bearer link с 64-hex token, сроком 7 дней, noindex и server-side validation
 - **Session Management** — JWT в httpOnly cookies (Next.js middleware)
 - **Middleware Guard** — все `/app/*` маршруты требуют активной сессии
 
@@ -110,6 +110,13 @@ Environment Health Check в Sprint 14 запускается только по �
 для `owner/admin` и повторно авторизуется в Server Action. Клиент получает
 только allowlisted status/detail/duration: значения env, URL, project ref,
 ключи, cookies, UUID, tenant rows и raw Supabase errors не возвращаются.
+
+Invitation Delivery в Sprint 14 использует manual link как официальный MVP
+path. `/invite/{token}` доступен без auth cookie, но rate-limited; token
+валидируется до DB query и не содержит internal IDs. Accept-flow не
+переносит аккаунт между организациям, а audit metadata не содержит token.
+Полный contract описан в
+[`INVITATION_DELIVERY_RUNBOOK.md`](../operations/INVITATION_DELIVERY_RUNBOOK.md).
 
 Экспорт, retention-политики и расширенные расследовательские фильтры
 остаются в плане Sprint 09+.

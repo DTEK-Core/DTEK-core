@@ -81,11 +81,11 @@ Sprint 01–08 создали функциональный и визуально
 - Trust Score explainability with source/evidence context;
 - risk impact;
 - pilot runbook;
-- email invitation hardening.
+- supported manual invitation delivery с authenticated E2E gate.
 
 ### Phase C — Commercial MVP Completion
 
-Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001–T002 завершены.
+Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001–T003 завершены.
 
 Фокус:
 

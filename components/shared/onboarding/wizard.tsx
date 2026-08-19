@@ -8,7 +8,6 @@ import { Step3TrustWeights } from '@/components/shared/onboarding/steps/step-3-t
 import { Step4InviteTeam } from '@/components/shared/onboarding/steps/step-4-invite-team';
 import { Step5Complete } from '@/components/shared/onboarding/steps/step-5-complete';
 import { completeOnboarding } from '@/lib/actions/onboarding';
-import type { InviteEntry } from '@/lib/actions/onboarding';
 import { Icon } from '@/components/shared/icon';
 
 export interface WizardData {
@@ -24,7 +23,6 @@ export interface WizardData {
     compliance: number;
     incident: number;
   };
-  invites: InviteEntry[];
 }
 
 const INITIAL_DATA: WizardData = {
@@ -33,7 +31,6 @@ const INITIAL_DATA: WizardData = {
   website: '',
   objectTypes: ['server', 'app', 'identity'],
   weights: { vuln: 22, config: 18, access: 18, network: 14, compliance: 16, incident: 12 },
-  invites: [],
 };
 
 interface WizardProps {
@@ -91,7 +88,7 @@ export function Wizard({ orgId, orgName }: WizardProps) {
         {step === 0 && <Step1OrgDetails data={data} setData={setData} />}
         {step === 1 && <Step2ObjectTypes data={data} setData={setData} />}
         {step === 2 && <Step3TrustWeights data={data} setData={setData} />}
-        {step === 3 && <Step4InviteTeam data={data} setData={setData} />}
+        {step === 3 && <Step4InviteTeam />}
         {step === 4 && (
           <Step5Complete
             data={data}
