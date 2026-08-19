@@ -90,10 +90,16 @@ export function LandingPage() {
           <span className="brand-name">DTEK<span className="brand-core">Core</span></span>
         </div>
         <nav className="lp-links" aria-label="Разделы">
-          <a>Платформа</a>
-          <a>Trust Graph</a>
-          <a>Решения</a>
-          <a>Документация</a>
+          <a href="#platform">Платформа</a>
+          <a href="#trust-graph">Trust Graph</a>
+          <a href="#solutions">Решения</a>
+          <a
+            href="https://github.com/DTEK-Core/DTEK-core/tree/develop/docs"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Документация
+          </a>
         </nav>
         <div className="lp-nav-cta">
           <Link href="/login"    className="btn btn-ghost btn-sm">Войти</Link>
@@ -102,7 +108,7 @@ export function LandingPage() {
       </header>
 
       {/* ---- hero ---- */}
-      <section className="lp-hero">
+      <section className="lp-hero" id="trust-graph">
         <div className="lp-hero-text">
           <div className="lp-eyebrow" style={{ '--i': 0 } as React.CSSProperties}>
             <span className="lp-eyebrow-mark mono">DTMP</span>
@@ -143,7 +149,7 @@ export function LandingPage() {
       </section>
 
       {/* ---- trust model ---- */}
-      <section className="lp-features">
+      <section className="lp-features" id="platform">
         <div className="lp-model-head" data-reveal>
           <div>
             <span className="lp-sec-kicker mono">TRUST INTELLIGENCE MODEL</span>
@@ -209,6 +215,7 @@ export function LandingPage() {
 
       {/* ---- stats ---- */}
       <section
+        id="solutions"
         className="lp-stats"
         data-reveal
         style={{ '--d': '0ms' } as React.CSSProperties}

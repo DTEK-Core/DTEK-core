@@ -5,6 +5,22 @@
 
 ---
 
+## Control Stabilization — 2026-08-19
+
+### Исправлено
+
+- Пункты landing navigation получили реальные section links; ссылка
+  «Документация» открывает актуальную документацию ветки `develop`.
+- Мобильная landing-шапка получила compact layout до 520 px, предотвращающий
+  конфликт бренда и CTA на узких viewport.
+- Транзитивный `nanoid` обновлён с `3.3.17` до `3.3.18`, закрывая high severity
+  advisory без изменения прямых зависимостей.
+
+### Проверено
+
+- Supabase доступен, local/cloud migrations `001–019` синхронизированы.
+- Import, explainability и risk workflow contract suites проходят полностью.
+
 ## Compact Sidebar User Menu — 2026-08-19
 
 ### Изменено

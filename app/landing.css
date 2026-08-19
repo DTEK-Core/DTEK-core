@@ -55,6 +55,16 @@
 .lp-links a:hover::after { width: 100%; }
 .lp-nav-cta { display: flex; align-items: center; gap: 10px; }
 @media (max-width: 860px) { .lp-links { display: none; } }
+@media (max-width: 520px) {
+  .lp-nav { gap: 10px; padding: 14px 16px; }
+  .lp-nav.scrolled { padding-top: 11px; padding-bottom: 11px; }
+  .lp-nav-cta .btn-primary { display: none; }
+}
+@media (max-width: 360px) {
+  .lp-brand { gap: 7px; }
+  .lp-brand .brand-name { font-size: 16px; }
+  .lp-nav-cta .btn { padding-inline: 12px; }
+}
 
 /* ---------- Hero ---------- */
 .lp-hero {
@@ -62,6 +72,9 @@
   display: grid; grid-template-columns: minmax(470px, .82fr) minmax(0, 1.18fr); align-items: center; gap: 18px;
   max-width: 1400px; margin: 0 auto; padding: 38px 46px 68px;
 }
+.lp-hero,
+.lp-features,
+.lp-stats { scroll-margin-top: 84px; }
 .lp-hero::before {
   content: '';
   position: absolute;
