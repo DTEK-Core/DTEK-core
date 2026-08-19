@@ -78,7 +78,7 @@ export function SettingsLayout({ profile, org, isOwner, role, auditLogs }: Props
           />
         )}
         {tab === 'notif' && <NotificationsTab />}
-        {tab === 'security' && <SecurityTab />}
+        {tab === 'security' && <SecurityTab canRunEnvironmentHealth={canSeeAudit} />}
         {tab === 'audit' && canSeeAudit && <SecurityLog events={auditLogs} />}
       </div>
     </div>

@@ -1,7 +1,7 @@
 # SECURITY_OVERVIEW.md — DTEK Core
 
-`Версия: 1.2`
-`Дата: 12.08.2026`
+`Версия: 1.3`
+`Дата: 19.08.2026`
 `Статус: Актуальный`
 
 ---
@@ -82,6 +82,7 @@ ADR-007 добавляет будущие источники данных и к�
 | Import Audit Events без raw CSV data | S11 | ✅ |
 | Risk Workflow Audit Events без UUID и comment body | S13 | ✅ |
 | Audit Log privileged-read RLS (migration 019) | S13 | ✅ |
+| Environment Health Check без secrets/raw errors, owner/admin | S14 | ✅ |
 
 ---
 
@@ -104,6 +105,11 @@ Sprint 13 добавляет события `risk.owner_changed`, `risk.due_date
 не передаются внутренние UUID, description, import source и текст комментариев.
 Migration 019 дополнительно ограничивает прямой RLS SELECT журнала ролями
 `owner` и `admin`; одной только скрытой вкладки UI недостаточно для RBAC.
+
+Environment Health Check в Sprint 14 запускается только по запросу в Settings
+для `owner/admin` и повторно авторизуется в Server Action. Клиент получает
+только allowlisted status/detail/duration: значения env, URL, project ref,
+ключи, cookies, UUID, tenant rows и raw Supabase errors не возвращаются.
 
 Экспорт, retention-политики и расширенные расследовательские фильтры
 остаются в плане Sprint 09+.

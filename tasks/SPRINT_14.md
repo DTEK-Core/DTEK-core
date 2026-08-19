@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001 завершена`
+`Статус: 🚧 В работе — S14-T001–T002 завершены`
 
 ---
 
@@ -62,7 +62,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | ID | Задача | Приоритет | Оценка | Зависимости | Статус |
 |---|---|---|---|---|---|
 | S14-T001 | Pilot Readiness Checklist | P1 | S | S13 | ✅ Завершено |
-| S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 | ⬜ Запланировано |
+| S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 | ✅ Завершено |
 | S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ⬜ Запланировано |
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ⬜ Запланировано |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ⬜ Запланировано |
@@ -118,6 +118,17 @@ Critical Path, RBAC/RLS и tenant-isolation проверками, operations/dat
 
 **Ожидаемый результат:** команда может понять, почему продукт недоступен, без долгой отладки.
 
+**Решение:** в Settings → «Безопасность» добавлена on-demand health-карточка
+для `owner/admin` с повторной Server Action авторизацией. Она безопасно
+проверяет наличие обязательной server configuration, текущую сессию и
+organization context, Supabase Auth health endpoint и tenant-scoped DB/RLS
+query; проверки Auth/DB выполняются параллельно и наследуют общий fail-fast
+timeout. UI показывает только фиксированные статусы и длительность без URL,
+ключей, UUID, cookies и raw ошибок. Создан
+`docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md` с DNS/env/Supabase/middleware
+triage, recovery, evidence и escalation flow. Публичный health endpoint,
+автоматические изменения окружения и monitoring не добавлялись.
+
 ### S14-T003 — Invitation Delivery Finalization
 
 **Описание:** принять решение: email provider или официально поддержанный manual invite link.
@@ -160,7 +171,7 @@ Critical Path, RBAC/RLS и tenant-isolation проверками, operations/dat
 
 - [x] Есть pilot readiness checklist.
 - [ ] Sprint 12 authenticated manual QA и Cloud migration check подтверждены.
-- [ ] Есть runbook диагностики окружения.
+- [x] Есть runbook диагностики окружения.
 - [ ] Invite flow готов для пилота.
 - [ ] Smoke test baseline есть.
 - [ ] Backup/restore описан.

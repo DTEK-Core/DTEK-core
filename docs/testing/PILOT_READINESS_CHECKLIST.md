@@ -77,7 +77,7 @@ project ref можно фиксировать, но ключи и токены �
 | G-02 Sprint 12 Explainability | Authenticated QA и четыре роли | `PENDING` | [EXPLAINABILITY_QA_CHECKLIST.md](EXPLAINABILITY_QA_CHECKLIST.md) |
 | G-03 Sprint 13 Risk Workflow | Authenticated QA, RBAC/RLS и timeline | `PENDING` | [RISK_WORKFLOW_QA_CHECKLIST.md](RISK_WORKFLOW_QA_CHECKLIST.md) |
 | G-04 Cloud migrations | Local/Cloud цепочки совпадают, drift отсутствует | `BASELINE PASS / RECHECK` | Раздел 7 |
-| G-05 Environment health | Supabase, DNS, env, middleware диагностируются | `PENDING / S14-T002` | Будущий runbook S14-T002 |
+| G-05 Environment health | Supabase, DNS, env, middleware диагностируются | `IMPLEMENTED / RECHECK` | [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md) |
 | G-06 Invitation delivery | Поддержанный invite path проверен end-to-end | `PENDING / S14-T003` | Решение S14-T003 |
 | G-07 Critical path smoke | Auth → org → data → reports проходит повторяемо | `PENDING / S14-T004` | Baseline S14-T004 |
 | G-08 Backup and restore | Процедура описана и проверена | `PENDING / S14-T005` | Runbook S14-T005 |
@@ -235,7 +235,9 @@ delivery path. До этого manual invite link остаётся технич�
 - [ ] Console не содержит необработанных auth/Supabase/runtime ошибок.
 - [ ] Network не показывает бесконечные повторные запросы.
 - [ ] App Shell, Dashboard, Objects и Risks не имеют заметной деградации после warm load.
-- [ ] Диагностика выполняется по
+- [ ] UI health check и CLI triage выполняются по
+      [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md).
+- [ ] Расширенная локальная диагностика выполняется по
       [TROUBLESHOOTING.md](../development/TROUBLESHOOTING.md).
 
 Пороговые значения и health procedure уточняются в S14-T002 и S14-T006.
@@ -335,6 +337,7 @@ Rollback owner:
 - [SECURITY_OVERVIEW.md](../security/SECURITY_OVERVIEW.md) — security baseline.
 - [TECHNICAL_DEBT.md](../architecture/TECHNICAL_DEBT.md) — известные ограничения.
 - [TROUBLESHOOTING.md](../development/TROUBLESHOOTING.md) — диагностика окружения.
+- [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md) — UI/CLI health triage и recovery.
 
 ---
 

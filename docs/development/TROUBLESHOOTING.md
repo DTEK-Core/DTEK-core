@@ -1,6 +1,6 @@
 # TROUBLESHOOTING.md — DTEK Core
 
-`Дата: 12.08.2026`
+`Дата: 19.08.2026`
 `Область: локальная разработка, Terminal/Git, Supabase, DNS, middleware, CSV/XLSX import`
 
 ---
@@ -18,6 +18,12 @@
 ---
 
 ## Быстрая диагностика
+
+Для pilot/preview triage начните с защищённой UI-проверки и операционного
+[Environment Health Runbook](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md).
+Путь в приложении: Settings → «Безопасность» → «Состояние окружения»; доступ
+имеют `owner/admin`. Этот документ сохраняет расширенную локальную диагностику
+Terminal/Git и импорта.
 
 ### Terminal/Git health
 

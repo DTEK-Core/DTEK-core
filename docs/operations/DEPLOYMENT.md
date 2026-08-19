@@ -1,7 +1,7 @@
 # DEPLOYMENT.md — DTEK Core
 
-`Версия: 1.1`
-`Дата: 12.08.2026`
+`Версия: 1.2`
+`Дата: 19.08.2026`
 
 ---
 
@@ -31,7 +31,7 @@ git push origin main  ← только через PR из develop + CI
 - `main` не содержит реализацию текущего Market MVP;
 - production release текущего состояния не подтверждён;
 - preview `develop` может быть защищён Vercel SSO;
-- production merge/deploy разрешён только после ручного QA Sprint 12 и release checklist; это не блокирует разработку Sprint 13 в `develop` по решению владельца.
+- production merge/deploy разрешён только после ручного QA Sprint 12/13 и решения `GO` по Sprint 14 Pilot Readiness Checklist.
 
 **CI пайплайн** (`.github/workflows/ci.yml`):
 ```
@@ -101,7 +101,7 @@ cp .env.example .env.local
 SUPABASE_ACCESS_TOKEN=<token> npx supabase db push --include-all
 ```
 
-Локальная миграционная цепочка: `001` — `017`.
+Локальная миграционная цепочка: `001` — `019`.
 
 Состояние Cloud нельзя считать подтверждённым только по документации. Перед release выполнить:
 
@@ -109,13 +109,16 @@ SUPABASE_ACCESS_TOKEN=<token> npx supabase db push --include-all
 SUPABASE_ACCESS_TOKEN=<token> npx supabase migration list
 ```
 
-Все локальные и удалённые версии должны совпадать. Только после этого при необходимости разрешён `db push`.
+Все локальные и удалённые версии `001–019` должны совпадать. Только после этого при необходимости разрешён `db push`.
 
 Regenerate TypeScript types после новых миграций:
 
 ```bash
 npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/database.ts
 ```
+
+Перед изменением env или миграций используйте read-only диагностику из
+[ENVIRONMENT_HEALTH_RUNBOOK.md](ENVIRONMENT_HEALTH_RUNBOOK.md).
 
 ---
 

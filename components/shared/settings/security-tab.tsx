@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { EnvironmentHealthCard } from '@/components/shared/settings/environment-health-card';
 
 const ITEMS: [string, boolean][] = [
   ['Двухфакторная аутентификация (2FA)', true],
@@ -10,7 +11,11 @@ const ITEMS: [string, boolean][] = [
   ['Журнал аудита действий', true],
 ];
 
-export function SecurityTab() {
+interface SecurityTabProps {
+  canRunEnvironmentHealth: boolean;
+}
+
+export function SecurityTab({ canRunEnvironmentHealth }: SecurityTabProps) {
   const [states, setStates] = useState<boolean[]>(ITEMS.map(([, d]) => d));
 
   function toggle(i: number) {
@@ -23,27 +28,31 @@ export function SecurityTab() {
   }
 
   return (
-    <div className="card">
-      <div className="card-head">
-        <span className="card-title">Безопасность</span>
-      </div>
-      <div className="card-body">
-        <div className="toggles">
-          {ITEMS.map(([label], i) => (
-            <button
-              key={label}
-              type="button"
-              className="toggle-row"
-              onClick={() => toggle(i)}
-            >
-              <span className="toggle-label">{label}</span>
-              <span className={`toggle ${states[i] ? 'on' : ''}`}>
-                <span className="toggle-knob" />
-              </span>
-            </button>
-          ))}
+    <div className="security-tab-stack">
+      <div className="card">
+        <div className="card-head">
+          <span className="card-title">Безопасность</span>
+        </div>
+        <div className="card-body">
+          <div className="toggles">
+            {ITEMS.map(([label], i) => (
+              <button
+                key={label}
+                type="button"
+                className="toggle-row"
+                onClick={() => toggle(i)}
+              >
+                <span className="toggle-label">{label}</span>
+                <span className={`toggle ${states[i] ? 'on' : ''}`}>
+                  <span className="toggle-knob" />
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
+
+      {canRunEnvironmentHealth && <EnvironmentHealthCard />}
     </div>
   );
 }

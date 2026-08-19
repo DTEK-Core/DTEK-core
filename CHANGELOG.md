@@ -5,6 +5,18 @@
 
 ---
 
+## Sprint 14 Environment Health Check — 2026-08-19
+
+### Добавлено
+
+- В Settings → «Безопасность» добавлена on-demand диагностика окружения для
+  `owner/admin` с повторной Server Action авторизацией.
+- Проверяются server configuration, session/organization context, Supabase Auth
+  API и tenant-scoped database/RLS query; клиент получает только безопасные
+  статусы и длительность без secrets, UUID и raw errors.
+- Создан operations runbook для env/DNS/Supabase/middleware triage, recovery,
+  evidence и escalation; публичный health endpoint и auto-recovery не добавлялись.
+
 ## Sprint 14 Pilot Readiness Checklist — 2026-08-19
 
 ### Добавлено
