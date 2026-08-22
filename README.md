@@ -23,7 +23,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.14.0-dev — Sprint 14 Pilot Readiness в работе; S14-T001–T003 завершены.**
+**v0.14.0-dev — Sprint 14 Pilot Readiness в работе; S14-T001–T004 завершены.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
@@ -169,8 +169,9 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 14 — S14-T001–T003 завершены |
+| Текущая разработка | Sprint 14 — S14-T001–T004 завершены |
 | Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
+| Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Схема БД | Локальная и Cloud-цепочки миграций `001–019` синхронизированы |
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
 | Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting, Environment Health Check |

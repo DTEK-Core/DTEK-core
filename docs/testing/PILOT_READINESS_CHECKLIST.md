@@ -79,7 +79,7 @@ project ref можно фиксировать, но ключи и токены �
 | G-04 Cloud migrations | Local/Cloud цепочки совпадают, drift отсутствует | `BASELINE PASS / RECHECK` | Раздел 7 |
 | G-05 Environment health | Supabase, DNS, env, middleware диагностируются | `IMPLEMENTED / RECHECK` | [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md) |
 | G-06 Invitation delivery | Поддержанный invite path проверен end-to-end | `IMPLEMENTED / RECHECK` | [Invitation Delivery Runbook](../operations/INVITATION_DELIVERY_RUNBOOK.md) |
-| G-07 Critical path smoke | Auth → org → data → reports проходит повторяемо | `PENDING / S14-T004` | Baseline S14-T004 |
+| G-07 Critical path smoke | Auth → org → data → reports проходит повторяемо | `IMPLEMENTED / RECHECK` | [Pilot Smoke Checklist](PILOT_SMOKE_TEST_CHECKLIST.md) |
 | G-08 Backup and restore | Процедура описана и проверена | `PENDING / S14-T005` | Runbook S14-T005 |
 | G-09 Monitoring and errors | Есть минимальная наблюдаемость и escalation path | `PENDING / S14-T006` | План S14-T006 |
 | G-10 Pilot metrics | Success criteria, feedback и source inventory утверждены | `PENDING / S14-T007` | Метрики S14-T007 |
@@ -198,7 +198,10 @@ gate закрывается только authenticated E2E прогоном по
 - [ ] Empty, loading и recoverable error states не блокируют навигацию.
 - [ ] Desktop и mobile не имеют критичных overlap/horizontal overflow.
 
-Детальная автоматизация или формализация этого пути относится к S14-T004.
+S14-T004 автоматизирует production HTTP baseline командой
+`npm run test:smoke` и формализует authenticated path в
+[Pilot Smoke Checklist](PILOT_SMOKE_TEST_CHECKLIST.md). Локальные 18/18
+подтверждают runner, но не закрывают authenticated RC recheck.
 
 ---
 
@@ -330,6 +333,7 @@ Rollback owner:
 ## 16. Связанные Документы
 
 - [SPRINT_14.md](../../tasks/SPRINT_14.md) — задачи Pilot Readiness.
+- [PILOT_SMOKE_TEST_CHECKLIST.md](PILOT_SMOKE_TEST_CHECKLIST.md) — automated HTTP и authenticated critical path smoke.
 - [INVITATION_DELIVERY_RUNBOOK.md](../operations/INVITATION_DELIVERY_RUNBOOK.md) — delivery contract и invitation E2E QA.
 - [EXPLAINABILITY_QA_CHECKLIST.md](EXPLAINABILITY_QA_CHECKLIST.md) — gate Sprint 12.
 - [RISK_WORKFLOW_QA_CHECKLIST.md](RISK_WORKFLOW_QA_CHECKLIST.md) — gate Sprint 13.

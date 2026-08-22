@@ -5,6 +5,21 @@
 
 ---
 
+## Sprint 14 Smoke Test Automation Baseline — 2026-08-22
+
+### Добавлено
+
+- Добавлен dependency-free `npm run test:smoke`: runner сам запускает
+  production Next.js, проверяет 18 HTTP-контрактов и гарантированно
+  завершает дочерний server при PASS, FAIL и terminal signal.
+- Public/auth pages, invalid invitation, CSV templates, security headers и
+  unauthenticated redirects ключевых app/report routes вошли в baseline.
+- Runner поддерживает safe remote GET mode через `SMOKE_BASE_URL` и имеет
+  настраиваемые startup/request/performance timeouts.
+- Production smoke добавлен в CI после build; создан отдельный
+  authenticated Pilot Critical Path checklist для Auth, Organization, imports,
+  Objects, Risks, Graph, Reports, RBAC/RLS и mobile.
+
 ## Sprint 14 Invitation Delivery Finalization — 2026-08-19
 
 ### Изменено

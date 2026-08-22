@@ -88,3 +88,6 @@ jobs:
 
       - name: Build Next.js
         run: npm run build
+
+      - name: Run pilot smoke baseline
+        run: npm run test:smoke

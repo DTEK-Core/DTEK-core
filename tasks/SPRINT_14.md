@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001–T003 завершены`
+`Статус: 🚧 В работе — S14-T001–T004 завершены`
 
 ---
 
@@ -64,7 +64,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T001 | Pilot Readiness Checklist | P1 | S | S13 | ✅ Завершено |
 | S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 | ✅ Завершено |
 | S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ✅ Завершено |
-| S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ⬜ Запланировано |
+| S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ✅ Завершено |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ⬜ Запланировано |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ⬜ Запланировано |
 | S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ⬜ Запланировано |
@@ -152,6 +152,18 @@ QA остаётся release gate до фактического прогона.
 
 **Ожидаемый результат:** регистрация, организация, объекты, риски, граф, отчёты проверяются повторяемо.
 
+**Решение:** добавлен dependency-free runner
+`scripts/pilot-smoke-test.mjs` и команда `npm run test:smoke`. Runner требует
+production build, сам запускает и завершает `next start`, имеет startup/request
+timeouts и может безопасно проверять preview/pilot через
+`SMOKE_BASE_URL`. Автоматизированы 18 GET-контрактов: public/auth pages,
+invalid invitation safe state, CSV templates, security headers и redirects всех
+ключевых protected routes. Smoke подключён в CI после build.
+Создан `docs/testing/PILOT_SMOKE_TEST_CHECKLIST.md` для authenticated
+critical path: Auth/Org, import, Objects, Passport, Risks, Dashboard, Graph,
+Configurator, reports, RBAC/RLS и mobile. Локальный automated baseline прошёл
+18/18; authenticated checklist остаётся release-candidate gate.
+
 ### S14-T005 — Backup & Restore Runbook
 
 **Описание:** описать резервное копирование и восстановление Supabase-проекта.
@@ -184,7 +196,7 @@ QA остаётся release gate до фактического прогона.
 - [ ] Sprint 12 authenticated manual QA и Cloud migration check подтверждены.
 - [x] Есть runbook диагностики окружения.
 - [x] Invite delivery path финализирован; authenticated E2E остаётся release gate.
-- [ ] Smoke test baseline есть.
+- [x] Automated и authenticated/manual smoke baseline определён; RC manual run остаётся gate.
 - [ ] Backup/restore описан.
 - [ ] Monitoring plan описан.
 - [ ] Pilot metrics и source inventory определены.
