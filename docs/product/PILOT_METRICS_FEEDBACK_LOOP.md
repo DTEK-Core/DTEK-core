@@ -484,6 +484,7 @@ pilot scorecard попадает только безопасный итог и �
 - [PILOT_SMOKE_TEST_CHECKLIST.md](../testing/PILOT_SMOKE_TEST_CHECKLIST.md)
 - [MONITORING_ERROR_HANDLING_PLAN.md](../operations/MONITORING_ERROR_HANDLING_PLAN.md)
 - [BACKUP_RESTORE_RUNBOOK.md](../operations/BACKUP_RESTORE_RUNBOOK.md)
+- [PILOT_DOCUMENTATION_PACK.md](../pilot/PILOT_DOCUMENTATION_PACK.md)
 - [Evidence_Import_Schema.md](../architecture/Evidence_Import_Schema.md)
 - [IMPORT_GUIDE.md](../user/IMPORT_GUIDE.md)
 

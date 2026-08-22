@@ -5,6 +5,18 @@
 
 ---
 
+## Sprint 14 Pilot Documentation Pack — 2026-08-22
+
+### Добавлено
+
+- Создан единый pilot hub с launch card и последовательностью qualification,
+  release gate, onboarding, data intake, feedback и closeout.
+- Client-facing руководства отделены от internal operations/release materials;
+  зафиксированы роли, known limitations и безопасный support/escalation flow.
+- Readiness checklist, Sprint, README, Documentation Index и roadmap
+  синхронизированы без преждевременной отметки Pilot GO: реальные контакты,
+  retention, authenticated QA и release evidence остаются pending.
+
 ## Sprint 14 Pilot Metrics & Feedback Loop — 2026-08-22
 
 ### Добавлено

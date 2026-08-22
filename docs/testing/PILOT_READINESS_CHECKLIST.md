@@ -83,7 +83,7 @@ project ref можно фиксировать, но ключи и токены �
 | G-08 Backup and restore | Процедура описана и проверена | `IMPLEMENTED / REHEARSAL PENDING` | [Backup & Restore Runbook](../operations/BACKUP_RESTORE_RUNBOOK.md) |
 | G-09 Monitoring and errors | Есть минимальная наблюдаемость и escalation path | `IMPLEMENTED / ACTIVATION PENDING` | [Monitoring & Error Handling Plan](../operations/MONITORING_ERROR_HANDLING_PLAN.md) |
 | G-10 Pilot metrics | Success criteria, feedback и source inventory утверждены | `IMPLEMENTED / PILOT DATA PENDING` | [Pilot Metrics & Feedback Loop](../product/PILOT_METRICS_FEEDBACK_LOOP.md) |
-| G-11 Pilot documentation | Пользовательский и внутренний пакет собран | `PENDING / S14-T008` | Pack S14-T008 |
+| G-11 Pilot documentation | Пользовательский и внутренний пакет собран | `IMPLEMENTED / PILOT SETUP PENDING` | [Pilot Documentation Pack](../pilot/PILOT_DOCUMENTATION_PACK.md) |
 
 `BASELINE PASS / RECHECK` означает, что проверка была успешна на предыдущем
 commit, но должна быть повторена для release candidate. Это не итоговый `PASS`.
@@ -274,17 +274,20 @@ S14-T004 автоматизирует production HTTP baseline командой
 
 Перед выдачей доступа участнику должны быть доступны:
 
-- [ ] краткое описание цели и границ пилота;
-- [ ] инструкция входа и принятия invitation;
-- [ ] роли и ограничения действий;
-- [ ] импорт Objects/Risks и шаблоны;
-- [ ] Trust Score/Passport/Graph и Risk Workflow guides;
-- [ ] отчёты и экспорт;
-- [ ] известные ограничения MVP;
+- [x] краткое описание цели и границ пилота;
+- [x] инструкция входа и принятия invitation;
+- [x] роли и ограничения действий;
+- [x] импорт Objects/Risks и шаблоны;
+- [x] Trust Score/Passport/Graph и Risk Workflow guides;
+- [x] отчёты и экспорт;
+- [x] известные ограничения MVP;
 - [ ] support/escalation contacts;
-- [ ] порядок обратной связи и завершения пилота.
+- [x] порядок обратной связи и завершения пилота.
 
-Финальный набор и ссылки формируются в S14-T008.
+Структура и ссылки собраны в
+[PILOT_DOCUMENTATION_PACK.md](../pilot/PILOT_DOCUMENTATION_PACK.md). Реальные
+support/escalation contacts, каналы, сроки хранения данных и доступность
+внешнего набора заполняются и проверяются для конкретного pilot candidate.
 
 ---
 
@@ -354,6 +357,7 @@ Rollback owner:
 - [BACKUP_RESTORE_RUNBOOK.md](../operations/BACKUP_RESTORE_RUNBOOK.md) — backup policy, restore rehearsal, RPO/RTO и recovery procedure.
 - [MONITORING_ERROR_HANDLING_PLAN.md](../operations/MONITORING_ERROR_HANDLING_PLAN.md) — signals, thresholds, severity, safe errors и incident response.
 - [PILOT_METRICS_FEEDBACK_LOOP.md](../product/PILOT_METRICS_FEEDBACK_LOOP.md) — scorecard, feedback cadence, WTP и connector demand evidence.
+- [PILOT_DOCUMENTATION_PACK.md](../pilot/PILOT_DOCUMENTATION_PACK.md) — единая точка входа, onboarding, support, operations handoff и closeout.
 
 ---
 

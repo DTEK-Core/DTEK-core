@@ -73,6 +73,7 @@
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO: проблема, решение, ценность и pilot offer |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer: входные данные, план, результаты и success criteria |
 | [docs/product/PILOT_METRICS_FEEDBACK_LOOP.md](docs/product/PILOT_METRICS_FEEDBACK_LOOP.md) | Sprint 14: pilot scorecard, feedback cadence, WTP и source/connector demand model |
+| [docs/pilot/PILOT_DOCUMENTATION_PACK.md](docs/pilot/PILOT_DOCUMENTATION_PACK.md) | Sprint 14: единый пакет запуска пилота для клиента и внутреннего сопровождения |
 | [docs/product/COPY_ALIGNMENT.md](docs/product/COPY_ALIGNMENT.md) | Выравнивание landing/README copy с Market MVP стратегией |
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Финальная синхронизация документации Sprint 09 |
 | [docs/product/Vision.md](docs/product/Vision.md) | Видение и долгосрочная цель |
@@ -204,7 +205,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, завершён |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
-| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Commercial MVP Pilot Readiness в работе, S14-T001–T007 завершены |
+| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
 | [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation |
 
 ---

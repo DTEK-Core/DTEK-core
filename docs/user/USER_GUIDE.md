@@ -189,8 +189,9 @@ DTEK Core создаёт язык, понятный обеим сторонам:
 - [Demo Narrative](../product/DEMO_NARRATIVE.md) — сценарий показа продукта
 - [Product One-Pager](../product/PRODUCT_ONE_PAGER.md) — короткое описание DTEK Core для CISO
 - [Pilot Offer](../product/PILOT_OFFER.md) — 14-дневный сценарий оценки доверия
+- [Pilot Documentation Pack](../pilot/PILOT_DOCUMENTATION_PACK.md) — доступ, onboarding, support, feedback и завершение пилота
 - [Demo Seed Plan](../product/DEMO_SEED_PLAN.md) — безопасный план наполнения demo organization
 
 ---
 
-*Документ актуален для версии DTEK Core v0.12.0+*
+*Документ актуален для версии DTEK Core v0.14.0-dev*

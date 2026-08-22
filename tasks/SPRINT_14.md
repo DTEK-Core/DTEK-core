@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001–T007 завершены`
+`Статус: ✅ Реализация S14-T001–T008 завершена; Pilot GO зависит от release gates`
 
 ---
 
@@ -68,7 +68,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ✅ Завершено |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ✅ Завершено |
 | S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ✅ Завершено |
-| S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 | ⬜ Запланировано |
+| S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 | ✅ Завершено |
 
 ---
 
@@ -216,6 +216,15 @@ minimization. Шаблон реализован; реальные метрики
 
 **Ожидаемый результат:** есть пакет для запуска пилота.
 
+**Решение:** создан
+`docs/pilot/PILOT_DOCUMENTATION_PACK.md` — единая точка входа для pilot team и
+внутреннего сопровождения. Пакет разделяет client-facing и internal-only
+материалы, задаёт launch card, qualification/release/onboarding/data/feedback
+workflow, карту руководств, роли, known limitations, безопасный support и
+escalation flow, operations handoff и closeout checklist. Структура пакета
+готова; реальные контакты, каналы, release evidence и data-retention решения
+заполняются для конкретного пилота после фактического `GO`.
+
 ---
 
 ## 8. Definition Of Done
@@ -228,10 +237,10 @@ minimization. Шаблон реализован; реальные метрики
 - [x] Backup/restore описан; фактический restore rehearsal остаётся release gate.
 - [x] Monitoring/error handling plan описан; provider activation остаётся release gate.
 - [x] Pilot metrics, feedback loop и source inventory определены; pilot data pending.
-- [ ] Документация обновлена.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] Документационный пакет и ссылки обновлены; pilot-specific поля заполняются перед access.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
 
 ---
 

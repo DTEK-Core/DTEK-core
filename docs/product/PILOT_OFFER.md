@@ -428,6 +428,7 @@ Risk Registry, Trust Graph и список первых приоритетов.
 | [DEMO_DATASET_SPEC.md](DEMO_DATASET_SPEC.md) | Пример структуры данных |
 | [DEMO_SEED_PLAN.md](DEMO_SEED_PLAN.md) | Безопасный способ подготовки demo data |
 | [PILOT_METRICS_FEEDBACK_LOOP.md](PILOT_METRICS_FEEDBACK_LOOP.md) | Канонический pilot scorecard, feedback и source/connector demand model |
+| [PILOT_DOCUMENTATION_PACK.md](../pilot/PILOT_DOCUMENTATION_PACK.md) | Единая точка входа для запуска, сопровождения и завершения пилота |
 
 ---
 
