@@ -157,6 +157,7 @@
 | [docs/operations/DEPLOYMENT.md](docs/operations/DEPLOYMENT.md) | Деплой и переменные окружения |
 | [docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md](docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md) | Sprint 14: безопасная UI/CLI диагностика Supabase, env, DNS, middleware и recovery |
 | [docs/operations/INVITATION_DELIVERY_RUNBOOK.md](docs/operations/INVITATION_DELIVERY_RUNBOOK.md) | Sprint 14: manual invite delivery contract, security, recovery и pilot QA |
+| [docs/operations/BACKUP_RESTORE_RUNBOOK.md](docs/operations/BACKUP_RESTORE_RUNBOOK.md) | Sprint 14: Supabase backup policy, restore-to-new-project, rehearsal, RPO/RTO и recovery evidence |
 | [docs/testing/TEST_STRATEGY.md](docs/testing/TEST_STRATEGY.md) | Актуальная стратегия автоматического, ручного, security и release-тестирования |
 | [docs/testing/TEST_PLAN_SPRINT_01_03.md](docs/testing/TEST_PLAN_SPRINT_01_03.md) | Test plan Sprint 01–03 |
 | [docs/testing/TEST_PLAN_SPRINT_05_07.md](docs/testing/TEST_PLAN_SPRINT_05_07.md) | Test plan Sprint 05–07 |
@@ -201,7 +202,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, завершён |
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
-| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Commercial MVP Pilot Readiness в работе, S14-T001–T004 завершены |
+| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: Commercial MVP Pilot Readiness в работе, S14-T001–T005 завершены |
 | [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation |
 
 ---

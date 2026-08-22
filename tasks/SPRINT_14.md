@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001–T004 завершены`
+`Статус: 🚧 В работе — S14-T001–T005 завершены`
 
 ---
 
@@ -65,7 +65,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T002 | Environment Health Check UI/Runbook | P1 | M | T001 | ✅ Завершено |
 | S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ✅ Завершено |
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ✅ Завершено |
-| S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ⬜ Запланировано |
+| S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ✅ Завершено |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ⬜ Запланировано |
 | S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ⬜ Запланировано |
 | S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 | ⬜ Запланировано |
@@ -170,6 +170,15 @@ Configurator, reports, RBAC/RLS и mobile. Локальный automated baseline
 
 **Ожидаемый результат:** есть процедура восстановления пилотного окружения.
 
+**Решение:** создан
+`docs/operations/BACKUP_RESTORE_RUNBOOK.md` с backup scope, pilot RPO/RTO
+targets, managed и portable logical backup paths, безопасным восстановлением в
+новый Supabase project, logical fallback, in-place safeguards, configuration
+inventory, validation, controlled cutover и evidence form. Документационная
+часть реализована; Dashboard backup state и фактический restore rehearsal на
+отдельном disposable project остаются обязательным release gate и не отмечены
+как `PASS`.
+
 ### S14-T006 — Monitoring & Error Handling Plan
 
 **Описание:** определить минимальный мониторинг ошибок и производительности.
@@ -197,7 +206,7 @@ Configurator, reports, RBAC/RLS и mobile. Локальный automated baseline
 - [x] Есть runbook диагностики окружения.
 - [x] Invite delivery path финализирован; authenticated E2E остаётся release gate.
 - [x] Automated и authenticated/manual smoke baseline определён; RC manual run остаётся gate.
-- [ ] Backup/restore описан.
+- [x] Backup/restore описан; фактический restore rehearsal остаётся release gate.
 - [ ] Monitoring plan описан.
 - [ ] Pilot metrics и source inventory определены.
 - [ ] Документация обновлена.

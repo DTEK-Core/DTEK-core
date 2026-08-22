@@ -1,7 +1,7 @@
 # DEPLOYMENT.md — DTEK Core
 
-`Версия: 1.2`
-`Дата: 19.08.2026`
+`Версия: 1.3`
+`Дата: 22.08.2026`
 
 ---
 
@@ -35,7 +35,7 @@ git push origin main  ← только через PR из develop + CI
 
 **CI пайплайн** (`.github/workflows/ci.yml`):
 ```
-lint → type-check + contract tests → build
+lint → type-check + contract tests → build → production HTTP smoke
 ```
 
 Ручной деплой (при необходимости):
@@ -122,6 +122,18 @@ npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/data
 
 ---
 
+## Backup И Restore
+
+Git migrations восстанавливают схему, но не являются резервной копией данных и
+Supabase Auth users. Перед pilot release необходимо подтвердить current plan,
+backup type, retention и recent restore point в Supabase Dashboard, а также
+выполнить безопасный restore rehearsal в отдельный project.
+
+Полная процедура, logical export, RPO/RTO, validation и controlled cutover:
+[BACKUP_RESTORE_RUNBOOK.md](BACKUP_RESTORE_RUNBOOK.md).
+
+---
+
 ## Мониторинг
 
 | Что | Где смотреть |
@@ -159,9 +171,13 @@ npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/data
 [ ] npm run build — успешная сборка
 [ ] npm run test:import — все тесты проходят
 [ ] npm run test:trust-explainability — все тесты проходят
+[ ] npm run test:risk-workflow — все тесты проходят
+[ ] npm run test:smoke — 18/18 HTTP-контрактов проходят
 [ ] npm audit — 0 известных уязвимостей
 [ ] Переменные окружения настроены в Vercel
 [ ] `supabase migration list --linked` подтверждает миграции `001–019` на Cloud
 [ ] Ручной QA Sprint 12 завершён без Blocker/Critical
+[ ] Ручной QA Sprint 13 завершён без Blocker/Critical
+[ ] Backup state подтверждён; restore rehearsal выполнен по runbook
 [ ] PR одобрен и CI прошёл
 ```

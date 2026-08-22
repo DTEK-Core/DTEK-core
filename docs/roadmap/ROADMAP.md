@@ -1,7 +1,7 @@
 # ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 07.08.2026`
+`Дата: 22.08.2026`
 `Основа: Strategic Product & Market Analysis + Sprint 08 + ADR-007`
 
 ---
@@ -85,7 +85,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase C — Commercial MVP Completion
 
-Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001–T004 завершены.
+Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001–T005 завершены.
 
 Фокус:
 

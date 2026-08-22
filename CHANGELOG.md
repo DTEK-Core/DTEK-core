@@ -5,6 +5,18 @@
 
 ---
 
+## Sprint 14 Backup & Restore Runbook — 2026-08-22
+
+### Добавлено
+
+- Создан Supabase Backup & Restore Runbook с backup scope, pilot RPO/RTO
+  targets, managed и portable logical backup procedures.
+- Описаны безопасный restore-to-new-project, logical fallback, in-place
+  safeguards, configuration inventory, validation и controlled cutover.
+- Добавлены evidence form и release gate: документация реализована, а
+  Dashboard backup verification и disposable-project rehearsal остаются
+  `PENDING` до фактического выполнения.
+
 ## Sprint 14 Smoke Test Automation Baseline — 2026-08-22
 
 ### Добавлено
