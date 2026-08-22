@@ -138,10 +138,19 @@ backup type, retention и recent restore point в Supabase Dashboard, а так�
 
 | Что | Где смотреть |
 |---|---|
-| Логи приложения | Vercel Dashboard → Functions → Logs |
-| Ошибки БД | Supabase Dashboard → Logs → Edge Logs |
-| Auth события | Supabase Dashboard → Authentication → Logs |
+| Build/deploy failures | GitHub Actions и Vercel Dashboard → Deployments → Build Logs |
+| Runtime 4xx/5xx и latency | Vercel Dashboard → Logs / Observability |
+| Supabase API/Auth/Postgres | Supabase Dashboard → Logs Explorer |
+| Provider outage | Vercel Status и Supabase Status |
+| Environment health | `/settings` → «Безопасность» → «Состояние окружения» |
 | Аудит безопасности | `/settings` → «Журнал аудита» (в платформе) |
+
+Thresholds, severity, safe error contract, cadence и incident response:
+[MONITORING_ERROR_HANDLING_PLAN.md](MONITORING_ERROR_HANDLING_PLAN.md).
+
+Security Audit Log фиксирует критичные бизнес-операции, но не является
+operational error tracker. Provider log retention и alerts зависят от текущего
+plan и подтверждаются перед pilot release.
 
 ---
 
@@ -179,5 +188,7 @@ backup type, retention и recent restore point в Supabase Dashboard, а так�
 [ ] Ручной QA Sprint 12 завершён без Blocker/Critical
 [ ] Ручной QA Sprint 13 завершён без Blocker/Critical
 [ ] Backup state подтверждён; restore rehearsal выполнен по runbook
+[ ] Monitoring owner/channels назначены; provider notifications проверены
+[ ] Tabletop P1 incident rehearsal выполнен по monitoring plan
 [ ] PR одобрен и CI прошёл
 ```

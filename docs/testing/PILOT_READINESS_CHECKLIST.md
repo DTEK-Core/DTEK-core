@@ -81,7 +81,7 @@ project ref можно фиксировать, но ключи и токены �
 | G-06 Invitation delivery | Поддержанный invite path проверен end-to-end | `IMPLEMENTED / RECHECK` | [Invitation Delivery Runbook](../operations/INVITATION_DELIVERY_RUNBOOK.md) |
 | G-07 Critical path smoke | Auth → org → data → reports проходит повторяемо | `IMPLEMENTED / RECHECK` | [Pilot Smoke Checklist](PILOT_SMOKE_TEST_CHECKLIST.md) |
 | G-08 Backup and restore | Процедура описана и проверена | `IMPLEMENTED / REHEARSAL PENDING` | [Backup & Restore Runbook](../operations/BACKUP_RESTORE_RUNBOOK.md) |
-| G-09 Monitoring and errors | Есть минимальная наблюдаемость и escalation path | `PENDING / S14-T006` | План S14-T006 |
+| G-09 Monitoring and errors | Есть минимальная наблюдаемость и escalation path | `IMPLEMENTED / ACTIVATION PENDING` | [Monitoring & Error Handling Plan](../operations/MONITORING_ERROR_HANDLING_PLAN.md) |
 | G-10 Pilot metrics | Success criteria, feedback и source inventory утверждены | `PENDING / S14-T007` | Метрики S14-T007 |
 | G-11 Pilot documentation | Пользовательский и внутренний пакет собран | `PENDING / S14-T008` | Pack S14-T008 |
 
@@ -255,7 +255,9 @@ S14-T004 автоматизирует production HTTP baseline командой
 - [ ] В Dashboard подтверждены plan, backup type, retention и recent restore point.
 - [ ] Restore rehearsal выполнен в новом disposable project без production loss.
 - [ ] Назначены владелец backup и допустимые RPO/RTO пилота.
-- [ ] Monitoring/error plan S14-T006 содержит каналы и escalation severity.
+- [x] Monitoring/error plan S14-T006 определяет signals, thresholds, severity и triage.
+- [ ] Назначены monitoring owner/incident commander и support channels.
+- [ ] Provider notifications и tabletop P1 rehearsal фактически проверены.
 - [ ] Зафиксирован способ остановить доступ и отозвать invitations.
 - [ ] Определены срок хранения и удаление тестовых данных после пилота.
 - [ ] В pilot dataset нет секретов и лишних персональных данных.
@@ -348,6 +350,7 @@ Rollback owner:
 - [TROUBLESHOOTING.md](../development/TROUBLESHOOTING.md) — диагностика окружения.
 - [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md) — UI/CLI health triage и recovery.
 - [BACKUP_RESTORE_RUNBOOK.md](../operations/BACKUP_RESTORE_RUNBOOK.md) — backup policy, restore rehearsal, RPO/RTO и recovery procedure.
+- [MONITORING_ERROR_HANDLING_PLAN.md](../operations/MONITORING_ERROR_HANDLING_PLAN.md) — signals, thresholds, severity, safe errors и incident response.
 
 ---
 

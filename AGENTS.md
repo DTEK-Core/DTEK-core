@@ -50,7 +50,7 @@
 * **Sprint 13** — Pilot Risk Workflow; S13-T001–T008 реализованы, QA checklist подготовлен, authenticated manual QA ожидается.
 * **Консолидация 03.08.2026** — dependency baseline усилен, contract tests включены в CI, Supabase seed config и документация синхронизированы.
 * **Roadmap фиксация 07.08.2026** — коммерческий MVP ограничен Sprint 13 (Pilot Risk Workflow) и Sprint 14 (Pilot Readiness); Sprint 15 и Discovery/Evidence/Connector инициативы — Post-MVP.
-* **Sprint 14** — S14-T001–T005 реализованы: master readiness checklist, environment health, manual invitation delivery, production HTTP smoke baseline и Backup & Restore Runbook; restore rehearsal и authenticated release-candidate gates не отмечать `PASS` без фактического прогона.
+* **Sprint 14** — S14-T001–T006 реализованы: master readiness checklist, environment health, manual invitation delivery, production HTTP smoke baseline, Backup & Restore Runbook и Monitoring/Error Handling Plan; provider activation, restore rehearsal и authenticated release-candidate gates не отмечать `PASS` без фактического прогона.
 * Cloud migrations `001–019` применены и сверены с Supabase Cloud; migration 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Ручные Sprint 12/13 QA остаются обязательными pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
 
 Sprint 13 развивает Market MVP без изменения продуктовой границы: добавляет

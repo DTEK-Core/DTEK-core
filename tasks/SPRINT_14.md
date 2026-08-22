@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001–T005 завершены`
+`Статус: 🚧 В работе — S14-T001–T006 завершены`
 
 ---
 
@@ -66,7 +66,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T003 | Invitation Delivery Finalization | P1 | M | T001 | ✅ Завершено |
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ✅ Завершено |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ✅ Завершено |
-| S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ⬜ Запланировано |
+| S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ✅ Завершено |
 | S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ⬜ Запланировано |
 | S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 | ⬜ Запланировано |
 
@@ -185,6 +185,15 @@ inventory, validation, controlled cutover и evidence form. Документац
 
 **Ожидаемый результат:** команда видит падения Server Actions, build/deploy failures и Supabase outages.
 
+**Решение:** создан
+`docs/operations/MONITORING_ERROR_HANDLING_PLAN.md` с фактической картой
+GitHub/Vercel/Supabase/application signals, pilot performance thresholds,
+severity и response targets, monitoring cadence, safe UI/runtime error
+contract, retry rules, triage/component playbooks и incident evidence. Новый
+monitoring vendor и telemetry SDK не добавлялись. Provider notifications,
+назначение monitoring owner и tabletop P1 rehearsal остаются обязательным
+release gate и не отмечены как `PASS` без фактической активации.
+
 ### S14-T007 — Pilot Metrics & Feedback Loop
 
 **Описание:** определить метрики успешности пилота и собрать feedback о востребованных источниках клиента для Post-MVP приоритизации коннекторов.
@@ -207,7 +216,7 @@ inventory, validation, controlled cutover и evidence form. Документац
 - [x] Invite delivery path финализирован; authenticated E2E остаётся release gate.
 - [x] Automated и authenticated/manual smoke baseline определён; RC manual run остаётся gate.
 - [x] Backup/restore описан; фактический restore rehearsal остаётся release gate.
-- [ ] Monitoring plan описан.
+- [x] Monitoring/error handling plan описан; provider activation остаётся release gate.
 - [ ] Pilot metrics и source inventory определены.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.

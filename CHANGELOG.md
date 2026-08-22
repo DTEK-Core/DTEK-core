@@ -5,6 +5,19 @@
 
 ---
 
+## Sprint 14 Monitoring & Error Handling Plan — 2026-08-22
+
+### Добавлено
+
+- Создан минимальный pilot monitoring baseline на существующих
+  GitHub/Vercel/Supabase signals, Environment Health UI и smoke tests.
+- Определены performance/error thresholds, P0-P3 severity, response targets,
+  review cadence, triage и component incident playbooks.
+- Зафиксированы safe UI/runtime logging, redaction и retry contracts без нового
+  telemetry vendor; provider activation и P1 rehearsal остаются release gate.
+- Bug report template дополнен operational context и запретом secrets,
+  customer payload и internal IDs в evidence.
+
 ## Sprint 14 Backup & Restore Runbook — 2026-08-22
 
 ### Добавлено

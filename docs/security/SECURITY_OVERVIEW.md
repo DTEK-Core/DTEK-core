@@ -65,7 +65,7 @@ ADR-007 добавляет будущие источники данных и к�
 
 ---
 
-## Реализованные меры безопасности (Sprint 01–13)
+## Реализованные меры безопасности (Sprint 01–14)
 
 | Мера | Sprint | Статус |
 |---|---|---|
@@ -83,6 +83,7 @@ ADR-007 добавляет будущие источники данных и к�
 | Risk Workflow Audit Events без UUID и comment body | S13 | ✅ |
 | Audit Log privileged-read RLS (migration 019) | S13 | ✅ |
 | Environment Health Check без secrets/raw errors, owner/admin | S14 | ✅ |
+| Monitoring/Error Handling Plan с redaction и incident severity | S14 | ✅ |
 
 ---
 
@@ -117,6 +118,13 @@ path. `/invite/{token}` доступен без auth cookie, но rate-limited; 
 переносит аккаунт между организациям, а audit metadata не содержит token.
 Полный contract описан в
 [`INVITATION_DELIVERY_RUNBOOK.md`](../operations/INVITATION_DELIVERY_RUNBOOK.md).
+
+Sprint 14 Monitoring & Error Handling Plan разделяет operational provider logs
+и Security Audit Log, запрещает payload/secrets/tenant IDs в incident evidence,
+определяет safe error categories, severity и response flow. Подключение
+стороннего telemetry SDK не выполнялось; provider notifications и incident
+rehearsal проверяются как отдельный release gate. Полный план:
+[`MONITORING_ERROR_HANDLING_PLAN.md`](../operations/MONITORING_ERROR_HANDLING_PLAN.md).
 
 Экспорт, retention-политики и расширенные расследовательские фильтры
 остаются в плане Sprint 09+.
