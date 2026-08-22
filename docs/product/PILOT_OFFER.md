@@ -2,7 +2,7 @@
 
 `Sprint: S09-T007`  
 `Статус: актуальный`  
-`Дата: 03.08.2026`
+`Дата: 22.08.2026`
 `Назначение: 14-дневное pilot offer для первых CISO и ИБ-команд`
 
 ---
@@ -338,6 +338,15 @@
 | CISO usefulness score | 4/5 или выше |
 | Готовность к следующему шагу | Да / нет |
 
+Эта таблица остаётся кратким offer-level summary. Канонические определения,
+источники evidence, data completeness, usage, product value, operational
+quality, willingness-to-pay ladder, feedback cadence и connector demand model
+описаны в [PILOT_METRICS_FEEDBACK_LOOP.md](PILOT_METRICS_FEEDBACK_LOOP.md).
+
+Метрика не получает `PASS` без даты и evidence. Готовность к следующему шагу
+уточняется через commitment stage, named owner и decision date, а не только
+через положительный отзыв.
+
 ---
 
 ## 10. Обязательные Ограничения Безопасности
@@ -418,6 +427,7 @@ Risk Registry, Trust Graph и список первых приоритетов.
 | [DEMO_NARRATIVE.md](DEMO_NARRATIVE.md) | Демонстрационный сценарий |
 | [DEMO_DATASET_SPEC.md](DEMO_DATASET_SPEC.md) | Пример структуры данных |
 | [DEMO_SEED_PLAN.md](DEMO_SEED_PLAN.md) | Безопасный способ подготовки demo data |
+| [PILOT_METRICS_FEEDBACK_LOOP.md](PILOT_METRICS_FEEDBACK_LOOP.md) | Канонический pilot scorecard, feedback и source/connector demand model |
 
 ---
 

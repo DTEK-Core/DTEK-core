@@ -4,7 +4,7 @@
 `Спринт: 14`  
 `Тип: Commercial MVP Release Readiness`<br>
 `Основа: Sprint 13, TECHNICAL_DEBT.md, SECURITY_OVERVIEW.md, ADR-007`  
-`Статус: 🚧 В работе — S14-T001–T006 завершены`
+`Статус: 🚧 В работе — S14-T001–T007 завершены`
 
 ---
 
@@ -67,7 +67,7 @@ Sprint 14 закрывает эксплуатационные, стабильн�
 | S14-T004 | Smoke Test Automation Baseline | P1 | M | T001 | ✅ Завершено |
 | S14-T005 | Backup & Restore Runbook | P1 | S | T001 | ✅ Завершено |
 | S14-T006 | Monitoring & Error Handling Plan | P1 | M | T001 | ✅ Завершено |
-| S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ⬜ Запланировано |
+| S14-T007 | Pilot Metrics & Feedback Loop | P1 | S | T001 | ✅ Завершено |
 | S14-T008 | Pilot Documentation Pack | P1 | S | T001–T007 | ⬜ Запланировано |
 
 ---
@@ -200,6 +200,16 @@ release gate и не отмечены как `PASS` без фактическо�
 
 **Ожидаемый результат:** пилот измеряется через usage, data completeness, reports, feedback, willingness to pay и connector demand без обещания интеграций в MVP.
 
+**Решение:** создан
+`docs/product/PILOT_METRICS_FEEDBACK_LOOP.md` с pilot hypotheses, core
+scorecard для qualification/time-to-value/data completeness/usage/product
+value/operations/commercial signal, feedback cadence и interview questions.
+Willingness to pay измеряется наблюдаемой лестницей commitment, а source
+inventory разделяет connector demand и feasibility с отдельными security и
+architecture gates. Добавлены outcome rules, cross-pilot synthesis и data
+minimization. Шаблон реализован; реальные метрики не отмечаются как `PASS` до
+фактического пилота.
+
 ### S14-T008 — Pilot Documentation Pack
 
 **Описание:** собрать документацию для пилотной команды и внутреннего сопровождения.
@@ -217,7 +227,7 @@ release gate и не отмечены как `PASS` без фактическо�
 - [x] Automated и authenticated/manual smoke baseline определён; RC manual run остаётся gate.
 - [x] Backup/restore описан; фактический restore rehearsal остаётся release gate.
 - [x] Monitoring/error handling plan описан; provider activation остаётся release gate.
-- [ ] Pilot metrics и source inventory определены.
+- [x] Pilot metrics, feedback loop и source inventory определены; pilot data pending.
 - [ ] Документация обновлена.
 - [ ] `npm run type-check` проходит.
 - [ ] `npm run lint` проходит.

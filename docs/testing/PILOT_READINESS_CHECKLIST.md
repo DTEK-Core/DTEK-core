@@ -82,7 +82,7 @@ project ref можно фиксировать, но ключи и токены �
 | G-07 Critical path smoke | Auth → org → data → reports проходит повторяемо | `IMPLEMENTED / RECHECK` | [Pilot Smoke Checklist](PILOT_SMOKE_TEST_CHECKLIST.md) |
 | G-08 Backup and restore | Процедура описана и проверена | `IMPLEMENTED / REHEARSAL PENDING` | [Backup & Restore Runbook](../operations/BACKUP_RESTORE_RUNBOOK.md) |
 | G-09 Monitoring and errors | Есть минимальная наблюдаемость и escalation path | `IMPLEMENTED / ACTIVATION PENDING` | [Monitoring & Error Handling Plan](../operations/MONITORING_ERROR_HANDLING_PLAN.md) |
-| G-10 Pilot metrics | Success criteria, feedback и source inventory утверждены | `PENDING / S14-T007` | Метрики S14-T007 |
+| G-10 Pilot metrics | Success criteria, feedback и source inventory утверждены | `IMPLEMENTED / PILOT DATA PENDING` | [Pilot Metrics & Feedback Loop](../product/PILOT_METRICS_FEEDBACK_LOOP.md) |
 | G-11 Pilot documentation | Пользовательский и внутренний пакет собран | `PENDING / S14-T008` | Pack S14-T008 |
 
 `BASELINE PASS / RECHECK` означает, что проверка была успешна на предыдущем
@@ -263,8 +263,10 @@ S14-T004 автоматизирует production HTTP baseline командой
 - [ ] В pilot dataset нет секретов и лишних персональных данных.
 - [ ] Известно, как сообщить о дефекте по
       [BUG_REPORT_TEMPLATE.md](BUG_REPORT_TEMPLATE.md).
-- [ ] Pilot success metrics и feedback cadence утверждены в S14-T007.
-- [ ] Зафиксирован source inventory без обещания Post-MVP connectors.
+- [x] Pilot success metrics, feedback cadence и decision outcomes определены в S14-T007.
+- [x] Source inventory и connector demand/feasibility template определены без обещания Post-MVP connectors.
+- [ ] Kickoff scorecard/source inventory заполнены для фактического pilot candidate.
+- [ ] Midpoint/final feedback и commercial commitment подтверждены evidence.
 
 ---
 
@@ -351,6 +353,7 @@ Rollback owner:
 - [ENVIRONMENT_HEALTH_RUNBOOK.md](../operations/ENVIRONMENT_HEALTH_RUNBOOK.md) — UI/CLI health triage и recovery.
 - [BACKUP_RESTORE_RUNBOOK.md](../operations/BACKUP_RESTORE_RUNBOOK.md) — backup policy, restore rehearsal, RPO/RTO и recovery procedure.
 - [MONITORING_ERROR_HANDLING_PLAN.md](../operations/MONITORING_ERROR_HANDLING_PLAN.md) — signals, thresholds, severity, safe errors и incident response.
+- [PILOT_METRICS_FEEDBACK_LOOP.md](../product/PILOT_METRICS_FEEDBACK_LOOP.md) — scorecard, feedback cadence, WTP и connector demand evidence.
 
 ---
 

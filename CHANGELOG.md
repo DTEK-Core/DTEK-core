@@ -5,6 +5,19 @@
 
 ---
 
+## Sprint 14 Pilot Metrics & Feedback Loop — 2026-08-22
+
+### Добавлено
+
+- Создан канонический pilot scorecard для qualification, time-to-value, data
+  completeness, usage, product value, operations и commercial signal.
+- Определены feedback cadence, midpoint/final questions, commitment-based WTP
+  ladder, outcome rules и обезличенный cross-pilot synthesis.
+- Source inventory дополнен раздельными demand/feasibility scores и gates для
+  Sprint 15 connector shortlist без обещания интеграций в MVP.
+- Pilot Offer, readiness gates, product strategy и roadmap синхронизированы;
+  фактические pilot metrics остаются `PILOT DATA PENDING`.
+
 ## Sprint 14 Monitoring & Error Handling Plan — 2026-08-22
 
 ### Добавлено

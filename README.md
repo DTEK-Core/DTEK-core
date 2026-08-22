@@ -23,7 +23,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.14.0-dev — Sprint 14 Pilot Readiness в работе; S14-T001–T006 завершены.**
+**v0.14.0-dev — Sprint 14 Pilot Readiness в работе; S14-T001–T007 завершены.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
@@ -151,6 +151,7 @@ diploma/             Учебная база автора и подготовк�
 | [docs/user/IMPORT_GUIDE.md](docs/user/IMPORT_GUIDE.md) | Руководство по импорту, preview, source metadata и ошибкам |
 | [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO и первых пилотов |
 | [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer для первых CISO-пилотов |
+| [docs/product/PILOT_METRICS_FEEDBACK_LOOP.md](docs/product/PILOT_METRICS_FEEDBACK_LOOP.md) | Pilot scorecard, feedback cadence, WTP и connector demand evidence |
 | [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Итоговая синхронизация Sprint 09 |
 | [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Пользовательское руководство по отчётам и экспорту |
 | [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Ручная приёмка Data Onboarding Sprint 11 |
@@ -173,10 +174,11 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 14 — S14-T001–T006 завершены |
+| Текущая разработка | Sprint 14 — S14-T001–T007 завершены |
 | Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
+| Pilot measurement | Scorecard, feedback loop и source inventory готовы; фактические pilot data pending |
 | Схема БД | Локальная и Cloud-цепочки миграций `001–019` синхронизированы |
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
 | Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting, Environment Health Check |

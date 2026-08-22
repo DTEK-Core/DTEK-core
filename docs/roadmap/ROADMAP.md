@@ -85,7 +85,7 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase C — Commercial MVP Completion
 
-Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001–T006 завершены.
+Статус: Sprint 13 реализован, manual QA pending; Sprint 14 начат, S14-T001–T007 завершены.
 
 Фокус:
 

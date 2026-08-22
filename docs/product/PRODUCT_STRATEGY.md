@@ -191,6 +191,12 @@ DTEK Core — Trust Intelligence layer над активами, evidence, рис
 - итоговый отчёт для CISO;
 - измерение готовности платить.
 
+Метрики, evidence protocol, feedback cadence и source demand для первых
+пилотов определены в
+[PILOT_METRICS_FEEDBACK_LOOP.md](PILOT_METRICS_FEEDBACK_LOOP.md). Запрос на
+интеграцию не становится roadmap commitment без demand, feasibility, security
+и architecture оценки.
+
 ---
 
 ## 10. Продуктовые Запреты На Ближайший Этап
