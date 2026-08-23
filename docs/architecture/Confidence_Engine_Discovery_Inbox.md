@@ -527,8 +527,8 @@ risk owner/SLA после создания Risk. Эти значения явл�
 
 ## 14. RBAC Baseline
 
-Окончательная security matrix подтверждается S15-T005. T004 не может расширить
-текущие business permissions.
+Окончательная security matrix подтверждена S15-T005. T004 не расширяет текущие
+business permissions.
 
 | Действие | owner | analyst | admin | viewer |
 |---|:---:|:---:|:---:|:---:|
@@ -540,7 +540,7 @@ risk owner/SLA после создания Risk. Эти значения явл�
 | Merge/alias Objects | Да | Нет | Нет | Нет |
 | Назначить business owner/criticality | Да | Да | Нет | Нет |
 | Настроить auto-policy | Да | Нет | Нет | Нет |
-| Просмотреть raw evidence | По T005 | По T005 | Diagnostics scope по T005 | Нет |
+| Просмотреть raw evidence | Да | Да | Redacted diagnostics | Нет |
 
 Merge и business `object.archive` являются structural mutations и в baseline
 доступны owner. Архивирование самого candidate остаётся доступно reviewer в
@@ -757,7 +757,7 @@ High-volume recalculation создаёт aggregate operational event, не audit
 | Archived candidate | 365 дней после archive |
 | Superseded candidate/events | 365 дней |
 
-Retention override и legal hold подтверждаются S15-T005. Purge:
+Retention override и legal hold определены S15-T005. Purge:
 
 - не удаляет business entity/evidence binding;
 - сохраняет минимальный audited suppression digest, если срок suppression ещё
@@ -939,8 +939,8 @@ history. DROP или откат business data автоматически не в
 
 | Решение | Владелец |
 |---|---|
-| Secret backend, final raw access/RLS, connector operation RBAC | S15-T005 |
-| Deployment-specific retention/legal hold | S15-T005 |
+| Secret backend, final raw access/RLS, connector operation RBAC | Определены в S15-T005 |
+| Deployment-specific retention/legal hold | Owner-controlled contract определён в S15-T005; срок задаётся deployment/customer policy |
 | Source-specific `max_age`, assurance и authoritative fields | First connector task |
 | Final visual design и route implementation | Future Discovery UI task |
 | Field provenance/projector SQL | Future implementation migration |

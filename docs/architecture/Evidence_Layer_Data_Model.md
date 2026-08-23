@@ -21,7 +21,7 @@ Trust Score.
 - запускает Connector Runtime;
 - переводит Trust Score Engine на evidence;
 - реализует match/merge runtime, confidence thresholds или Discovery Inbox;
-- выбирает secret backend и окончательную connector RBAC policy.
+- реализует выбранный S15-T005 secret backend и connector RBAC policy.
 
 Эти границы сохраняют рабочий Market MVP и последовательность Sprint 15.
 
@@ -392,7 +392,7 @@ Foundation defaults:
 
 Retention является server-side policy. Tenant UI не получает произвольный
 DELETE raw evidence. Конкретные deployment overrides и право legal hold
-утверждаются в S15-T005; они могут увеличивать сроки, но не обходить isolation.
+определены S15-T005; они могут увеличивать сроки, но не обходить isolation.
 
 Первоначальная migration только записывает `retention_until` и индексы. Purge
 job не включается, пока не реализованы:
@@ -410,16 +410,16 @@ tenant evidence chain.
 
 ## 12. RLS И RBAC Requirements
 
-Окончательная policy matrix проходит security review в S15-T005. Следующие
-требования уже обязательны и не могут быть ослаблены:
+Окончательная policy matrix утверждена S15-T005. Следующие требования
+обязательны и не могут быть ослаблены:
 
 | Data | owner | analyst | admin | viewer |
 |---|:---:|:---:|:---:|:---:|
-| Safe source metadata | read | read | read | read |
-| Batch summary | read | read | read | read |
-| Normalized assertions/confirmed bindings | read | read | read | read |
-| Raw observations/source record IDs | read | read | read for diagnostics | no access |
-| Connector operational configuration | read/manage | read/use by policy | manage | no access |
+| Safe source metadata | read | read | read technical context | no direct connector access |
+| Batch summary | read | read | read technical context | no direct connector access |
+| Normalized assertions/confirmed bindings | read | read | safe technical context | no direct connector access |
+| Raw observations/source record IDs | read | read | redacted diagnostics | no access |
+| Connector operational configuration | manage | draft/use by policy | technical scope only | no access |
 | Direct table mutation | denied | denied | denied | denied |
 
 Правила:
@@ -436,8 +436,10 @@ tenant evidence chain.
 - raw payload никогда не попадает в client props без отдельного authorized
   detail action и redaction.
 
-`FORCE ROW LEVEL SECURITY` рассматривается для repository tests, но применение
-к service-role execution согласуется в S15-T005 с выбранным runtime.
+`FORCE ROW LEVEL SECURITY` оценивается per table вместе с repository tests. Оно
+не заменяет application authorization, потому что Supabase server credential
+может обходить RLS. Полный contract:
+[`CONNECTOR_SECURITY_MODEL.md`](../security/CONNECTOR_SECURITY_MODEL.md).
 
 ---
 
@@ -631,7 +633,7 @@ Cloud migration не запускается без backup/restore gate из Spri
 |---|---|
 | Canonical fields, identity keys, match/merge/manual override | Определены в S15-T003 |
 | Confidence formula, thresholds, candidate transitions, Inbox UX | Определены в S15-T004 |
-| Secret backend, final RBAC matrix, FORCE RLS/runtime, SSRF controls | S15-T005 |
+| Secret backend, final RBAC matrix, FORCE RLS/runtime, SSRF controls | Определены в S15-T005 |
 | Первый vendor/source и connector-specific schema | S15-T006/T007 |
 | Scheduler/queue and retention worker implementation | Future runtime task |
 | Trust Score projection from confirmed evidence | Separate post-foundation ADR/task |

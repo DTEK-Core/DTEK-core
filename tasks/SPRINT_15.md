@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 🚧 В работе — S15-T001–T004 завершены; Post-MVP, не входит в коммерческий MVP`
+`Статус: 🚧 В работе — S15-T001–T005 завершены; Post-MVP, не входит в коммерческий MVP`
 
 ---
 
@@ -85,7 +85,7 @@ Shortlist для первых connector candidates:
 | S15-T002 | Evidence Layer Data Model Specification | P1 | L | T001 | ✅ Завершено |
 | S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 | ✅ Завершено |
 | S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 | ✅ Завершено |
-| S15-T005 | Connector Security Model | P1 | M | T001–T004 | ⬜ Запланировано |
+| S15-T005 | Connector Security Model | P1 | M | T001–T004 | ✅ Завершено |
 | S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ⬜ Ожидает pilot signals |
 | S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ⬜ Ожидает T006 |
 | S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 | ⬜ Запланировано |
@@ -190,6 +190,16 @@ retention, concurrency, performance и Inbox UX. High означает eligibili
 
 **Ожидаемый результат:** connector foundation не создаёт риск утечки инфраструктурных данных.
 
+**Решение:** создан
+`docs/security/CONNECTOR_SECURITY_MODEL.md`. Для dynamic per-tenant credentials
+выбран Supabase Vault с opaque `secret_ref`, write-only create/replace/rotate и
+fail-closed access через private server boundary. Утверждены connector/evidence
+RBAC, explicit grants + RLS + composite tenant FKs, service-credential boundary,
+allowlisted public egress и SSRF controls, hostile-source validation, runtime
+limits, safe errors, audit events, incident response, backup/Vault recovery и
+обязательные two-tenant/security acceptance gates. Runtime, Vault provisioning,
+SQL migration, UI, dependencies и первый connector не реализовывались.
+
 ### S15-T006 — Russian Market Connector Shortlist
 
 **Описание:** на основе пилотов и ICP подтвердить приоритеты источников для российского рынка.
@@ -216,7 +226,7 @@ retention, concurrency, performance и Inbox UX. High означает eligibili
 - [x] Evidence Layer data model specification готова.
 - [x] Normalization и Identity Resolution описаны.
 - [x] Confidence Engine и Discovery Inbox описаны.
-- [ ] Connector security model готова.
+- [x] Connector security model готова.
 - [ ] Российский connector shortlist утверждён.
 - [ ] Первый connector candidate выбран или явно отложен.
 - [ ] Документация обновлена.

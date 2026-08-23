@@ -1,7 +1,7 @@
 # RBAC_MODEL.md — DTEK Core
 
-`Версия: 1.4`
-`Дата: 19.08.2026`
+`Версия: 1.5`
+`Дата: 23.08.2026`
 `Статус: Актуальный`
 `Источник: ARCHITECTURE_DECISIONS.md ADR-003`
 
@@ -69,6 +69,26 @@ role TEXT CHECK (role IN ('owner', 'analyst', 'admin', 'viewer'))
 | Запускать диагностику окружения | ✅ | ❌ | ✅ | ❌ |
 | Редактировать профиль (свой) | ✅ | ✅ | ✅ | ✅ |
 
+### Post-MVP Connector Framework
+
+Connector permissions не расширяют права существующих модулей и начинают
+действовать только после реализации runtime. Итоговая матрица S15-T005:
+
+| Действие | owner | analyst | admin | viewer |
+|---|:---:|:---:|:---:|:---:|
+| Safe installation health/status | ✅ | ✅ | ✅ | ❌ |
+| Draft/non-secret config | ✅ | ✅ | Только technical Object scope | ❌ |
+| Credential create/replace, без reveal | ✅ | ✅ | ❌ | ❌ |
+| Test/manual run/pause/resume | ✅ | ✅ | Только technical Object scope | ❌ |
+| First activation, schedule, authority/policy | ✅ | ❌ | ❌ | ❌ |
+| Disconnect/delete installation | ✅ | ❌ | ❌ | ❌ |
+| Normalized evidence/source context | ✅ | ✅ | Safe technical context | ❌ |
+| Raw evidence detail | ✅ | ✅ | Redacted diagnostics | ❌ |
+| Connector Audit Log | ✅ | ❌ | ✅ | ❌ |
+
+Полная модель, включая ограничения admin scope и Discovery actions:
+[CONNECTOR_SECURITY_MODEL.md](CONNECTOR_SECURITY_MODEL.md).
+
 > ¹ Admin управляет только пользователями, которые не являются `owner`. Назначение роли `owner` запрещено.
 > ² Инфраструктурные типы: `server`, `workstation`, `laptop`, `network`, `ot`
 
@@ -120,6 +140,7 @@ Client-side скрытие кнопок — дополнительная мер�
 
 | Версия | Дата | Изменение |
 |---|---|---|
+| 1.5 | 23.08.2026 | Добавлена утверждённая Post-MVP connector/evidence RBAC matrix S15-T005 |
 | 1.4 | 19.08.2026 | Manual invite link зафиксирован как MVP delivery path; RBAC не изменён |
 | 1.3 | 19.08.2026 | Environment Health Check ограничен owner/admin в UI и Server Action |
 | 1.2 | 12.08.2026 | Добавлена детализация Pilot Risk Workflow: assignment, deadlines, immutable comments и timeline |

@@ -54,12 +54,21 @@ point и проверки target project. Для rehearsal и анализа в�
 | API keys | Привязаны к Supabase-проекту | Получить новые в target project, не копировать из backup |
 | Vercel configuration | Environment variables и deployment settings | Перенастроить после проверки target project |
 | Application code | GitHub, ветки `develop`/`main` | Git release commit/tag и штатный deploy |
+| Connector credentials (future) | Supabase Vault, после отдельной runtime migration | Same-project managed restore rehearsal; для new project по умолчанию re-entry + rotation |
 
 Supabase database backup не содержит фактические Storage objects. Restore to a
 new project переносит database/Auth data, но требует ручной настройки Storage,
 Edge Functions, Auth/API keys, Realtime и части project settings. Поэтому
 database backup не считается полной копией Supabase-проекта без configuration
 inventory.
+
+После реализации Connector Framework Vault root encryption key становится
+отдельной recovery boundary. Encrypted Vault rows нельзя считать переносимыми
+при logical restore в новый project без утверждённой процедуры переноса root
+key. Безопасный fallback: восстановить installations в paused/
+`credentials_required`, повторно ввести credentials и выполнить rotation/test.
+Decrypted secret values не включаются в backup или recovery evidence. Полный
+contract: [CONNECTOR_SECURITY_MODEL.md](../security/CONNECTOR_SECURITY_MODEL.md).
 
 ---
 

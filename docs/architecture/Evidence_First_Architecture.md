@@ -60,6 +60,8 @@ Source
 
 Foundation contract утверждён ADR-009 и детализирован в
 [Connector_Framework_Architecture.md](Connector_Framework_Architecture.md).
+Secret, RBAC/RLS, tenant isolation, outbound SSRF и audit gates утверждены в
+[CONNECTOR_SECURITY_MODEL.md](../security/CONNECTOR_SECURITY_MODEL.md).
 Connector реализуется как versioned allowlisted adapter, работает через
 server-only Orchestrator и Ingestion Gateway и не пишет напрямую в
 `objects`, `relations` или `risks`.

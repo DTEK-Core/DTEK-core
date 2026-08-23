@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 22.08.2026`
+`Дата: 23.08.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -28,7 +28,7 @@
 | Документ | Назначение |
 |---|---|
 | [README.md](README.md) | Краткое описание продукта, запуск, статус, структура |
-| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR-001–008, высший источник архитектурных решений |
+| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR-001–009, высший источник архитектурных решений |
 | [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
 | [AGENTS.md](AGENTS.md) | Постоянный контекст Codex/AI-агентов |
 | [CLAUDE.md](CLAUDE.md) | Legacy-контекст Claude workflow, сохраняется для совместимости |
@@ -127,6 +127,7 @@
 | Документ | Назначение |
 |---|---|
 | [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности |
+| [docs/security/CONNECTOR_SECURITY_MODEL.md](docs/security/CONNECTOR_SECURITY_MODEL.md) | Sprint 15: Vault, RBAC/RLS, tenant isolation, SSRF, audit и connector security gates |
 | [docs/security/RBAC_MODEL.md](docs/security/RBAC_MODEL.md) | RBAC модель |
 | [docs/security/RLS_MODEL.md](docs/security/RLS_MODEL.md) | RLS модель |
 | [docs/security/THREAT_MODEL.md](docs/security/THREAT_MODEL.md) | Threat model |
@@ -210,7 +211,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation в работе, S15-T001–T004 завершены |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation в работе, S15-T001–T005 завершены |
 
 ---
 

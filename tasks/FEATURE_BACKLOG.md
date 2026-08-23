@@ -167,7 +167,7 @@ Post-MVP architecture specifications; runtime/UI не реализованы. M-
 | M-062 | Post-MVP S15 | Normalization & Identity Resolution Specification | P1 | M |
 | M-063 | Post-MVP S15 | Confidence Engine & Discovery Inbox Specification | P1 | M |
 | M-064 | Post-MVP S15 | Connector Shortlist & First-source Selection Report | P1 | S |
-| M-065 | Post-MVP S15 | Connector Security Model | P1 | M |
+| M-065 | Post-MVP S15 | Connector Security Model — specification complete | P1 | M |
 
 ---
 

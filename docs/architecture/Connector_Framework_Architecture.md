@@ -336,19 +336,21 @@ evidence/risk candidate, а не активный Risk Registry record.
 
 ## 9. Authorization И Tenant Isolation
 
-S15-T001 не меняет текущую RBAC-модель. Foundation baseline:
+S15-T005 утвердил итоговую foundation matrix:
 
-| Действие | owner | admin | analyst | viewer |
+| Действие | owner | analyst | admin | viewer |
 |---|:---:|:---:|:---:|:---:|
-| Создать/configure/disconnect installation | Да | Нет | Нет | Нет |
-| Записать или заменить credential | Да | Нет | Нет | Нет |
-| Test connection / manual run | Да | Да, после T005 review | Нет | Нет |
-| Pause/resume | Да | Да, после T005 review | Нет | Нет |
-| Видеть health и safe run status | Да | Да | По решению T005 | Нет |
-| Видеть approved evidence/source context | Да | Да | Да | Read-only по продуктовой политике |
+| Видеть health и safe run status | Да | Да | Да | Нет |
+| Создать draft / non-secret config | Да | Да | Technical Object scope | Нет |
+| Записать/заменить credential, без reveal | Да | Да | Нет | Нет |
+| Test connection / manual run / pause | Да | Да | Technical Object scope | Нет |
+| First activation/schedule/authority | Да | Нет | Нет | Нет |
+| Disconnect/delete installation | Да | Нет | Нет | Нет |
+| Видеть normalized evidence context | Да | Да | Safe technical context | Нет |
+| Видеть raw evidence | Да | Да | Redacted diagnostics | Нет |
 
-T005 утверждает финальную матрицу. До этого новые connector mutations не
-реализуются.
+Полная матрица, secret lifecycle и runtime controls определены в
+[`CONNECTOR_SECURITY_MODEL.md`](../security/CONNECTOR_SECURITY_MODEL.md).
 
 Обязательные tenant controls:
 
@@ -382,10 +384,11 @@ Connector credentials доступны только через `ConnectorSecretA
 - logs, audit, error metadata и test result проходят redaction;
 - key rotation и access audit обязательны до production connector.
 
-Конкретный backend (Supabase Vault, provider secret store или отдельный
-server-side mechanism) выбирается в S15-T005 после threat review. Хранение
-plaintext/encrypted-by-application secret в обычном tenant JSON запрещено без
-отдельного ADR.
+S15-T005 выбрал Supabase Vault для dynamic per-tenant credentials. Environment
+secrets остаются только platform-level механизмом. Vault provisioning,
+private-schema helpers и root-key restore test выполняются отдельной
+migration/runtime task. Хранение plaintext/encrypted-by-application secret в
+обычном tenant JSON запрещено без отдельного ADR.
 
 ---
 
@@ -550,7 +553,7 @@ Vendor fixtures должны быть synthetic/redacted и не содержа�
 | S15-T002 | Evidence Layer schema specification и migration plan |
 | S15-T003 | normalization, identity keys, merge/manual override policy |
 | S15-T004 | confidence и Discovery Inbox state/actions |
-| S15-T005 | secret backend, RBAC, RLS, SSRF и audit model утверждены |
+| S15-T005 | Supabase Vault, RBAC/RLS, SSRF, audit и security gates утверждены |
 | S15-T006/T007 | connector candidate выбран по pilot evidence или отложен |
 | Future prototype | manual pull adapter на общем contract |
 | After validation | scheduled pull и controlled compatibility migration |
@@ -582,8 +585,8 @@ T001 намеренно не фиксирует:
 - SQL tables, constraints, retention и evidence revision model — S15-T002;
 - canonical fields, match priority и merge rules — S15-T003;
 - confidence thresholds и Discovery Inbox UX — S15-T004;
-- secret backend, окончательный RBAC и deployment-specific network controls —
-  S15-T005;
+- connector-specific endpoint/scopes/limits поверх утверждённой S15-T005
+  security model — future prototype task;
 - первый российский connector — S15-T006/T007 после pilot signals;
 - scheduler/queue vendor — первый runtime/prototype decision.
 

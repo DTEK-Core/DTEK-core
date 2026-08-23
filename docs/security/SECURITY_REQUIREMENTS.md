@@ -1,7 +1,7 @@
 # SECURITY_REQUIREMENTS.md — DTEK Core
 
-`Версия: 1.0`  
-`Дата: 25.06.2026`  
+`Версия: 1.1`
+`Дата: 23.08.2026`
 `Статус: MVP — базовые требования`
 
 ---
@@ -88,7 +88,26 @@
 | SEC-03 | Service Role Key только в Server Actions | P1 | ✅ |
 | SEC-04 | Ротация ключей при подозрении на компрометацию | P1 | Процедура |
 
-### 8. Требования ФСТЭК (планируется)
+### 8. Connector Framework (Post-MVP)
+
+Эти требования специфицированы S15-T005, но считаются реализованными только
+после runtime/migration и фактических acceptance tests.
+
+| ID | Требование | Приоритет | Статус |
+|---|---|---|---|
+| CONN-01 | Dynamic tenant credentials хранятся в Supabase Vault через opaque reference, без reveal | P1 | 📐 Специфицировано |
+| CONN-02 | Connector actions имеют server-side RBAC и immutable tenant context | P1 | 📐 Специфицировано |
+| CONN-03 | Connector/evidence tables используют explicit grants, RLS и composite tenant FKs | P1 | 📐 Специфицировано |
+| CONN-04 | Server credential boundary не использует RLS bypass как authorization | P1 | 📐 Специфицировано |
+| CONN-05 | Outbound requests ограничены allowlist, HTTPS/TLS и SSRF/DNS/redirect policy | P1 | 📐 Специфицировано |
+| CONN-06 | Source responses валидируются и ограничиваются по size/time/pages/records | P1 | 📐 Специфицировано |
+| CONN-07 | Logs, errors и audit не содержат secrets/raw infrastructure data | P1 | 📐 Специфицировано |
+| CONN-08 | Two-tenant, Vault, SSRF, poisoning, replay и restore tests блокируют production activation | P1 | 📐 Специфицировано |
+
+Источник требований:
+[CONNECTOR_SECURITY_MODEL.md](CONNECTOR_SECURITY_MODEL.md).
+
+### 9. Требования ФСТЭК (планируется)
 
 | ID | Требование | НПА | Статус |
 |---|---|---|---|

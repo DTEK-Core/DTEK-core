@@ -65,8 +65,8 @@
 ### Evidence-first Market MVP Epics После Sprint 08
 
 Статус на 23.08.2026: Epic 12–17 реализованы; authenticated QA Sprint 12/13 и
-остальные Pilot GO gates остаются pending. В Epic 18 завершены S15-T001–T004:
-Connector, Evidence, Identity и Confidence/Discovery specifications; Epic
+остальные Pilot GO gates остаются pending. В Epic 18 завершены S15-T001–T005:
+Connector, Evidence, Identity, Confidence/Discovery и Security specifications; Epic
 19–24 и connector runtime остаются Post-MVP.
 
 | # | Epic | Sprint | Цель |

@@ -1,7 +1,7 @@
 # SECURITY_OVERVIEW.md — DTEK Core
 
-`Версия: 1.4`
-`Дата: 19.08.2026`
+`Версия: 1.5`
+`Дата: 23.08.2026`
 `Статус: Актуальный`
 
 ---
@@ -65,10 +65,15 @@ ADR-007 добавляет будущие источники данных и к�
 
 ADR-009 дополнительно запрещает connector direct write в бизнес-таблицы,
 фиксирует opaque secret reference, bounded/idempotent runs, safe error contract,
-system-actor audit и обязательные SSRF/two-tenant gates. Конкретный secret
-backend и окончательная RBAC/RLS модель утверждаются в S15-T005 до runtime.
-Полный foundation contract:
-[`Connector_Framework_Architecture.md`](../architecture/Connector_Framework_Architecture.md).
+system-actor audit и обязательные SSRF/two-tenant gates. S15-T005 выбирает
+Supabase Vault для dynamic tenant credentials и утверждает write-only secret
+lifecycle, connector RBAC/RLS, service-credential boundary, allowlisted public
+egress, hostile-source validation, safe audit и security acceptance gates.
+
+Полные contracts:
+
+- [`Connector_Framework_Architecture.md`](../architecture/Connector_Framework_Architecture.md);
+- [`CONNECTOR_SECURITY_MODEL.md`](CONNECTOR_SECURITY_MODEL.md).
 
 ---
 
@@ -91,6 +96,7 @@ backend и окончательная RBAC/RLS модель утверждают
 | Audit Log privileged-read RLS (migration 019) | S13 | ✅ |
 | Environment Health Check без secrets/raw errors, owner/admin | S14 | ✅ |
 | Monitoring/Error Handling Plan с redaction и incident severity | S14 | ✅ |
+| Connector Security Model specification | S15 | ✅; runtime gates pending |
 
 ---
 
@@ -143,6 +149,7 @@ rehearsal проверяются как отдельный release gate. Пол�
 | Документ | Содержание |
 |---|---|
 | [RBAC_MODEL.md](RBAC_MODEL.md) | Подробная матрица прав доступа |
+| [CONNECTOR_SECURITY_MODEL.md](CONNECTOR_SECURITY_MODEL.md) | Secret storage, connector RBAC/RLS, SSRF, audit и acceptance gates |
 | [RLS_MODEL.md](RLS_MODEL.md) | RLS-политики для каждой таблицы |
 | [THREAT_MODEL.md](THREAT_MODEL.md) | Угрозы и контрмеры |
 | [SECURE_SDLC.md](SECURE_SDLC.md) | Процесс безопасной разработки |
@@ -161,6 +168,6 @@ rehearsal проверяются как отдельный release gate. Пол�
 - 2FA (TOTP)
 - Audit Log расширение (экспорт, фильтры, retention)
 - Secure SDLC в CI/CD
-- Connector security model для Sprint 15
+- Реализация Connector Security Model только вместе с выбранным pilot-backed source и прохождением gates
 
 *Подробнее: [SECURE_SDLC.md](SECURE_SDLC.md)*

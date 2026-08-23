@@ -5,6 +5,27 @@
 
 ---
 
+## Sprint 15 Connector Security Model — 2026-08-23
+
+### Добавлено
+
+- Для dynamic per-tenant connector credentials выбран Supabase Vault с opaque
+  `secret_ref`, write-only lifecycle, rotation и fail-closed recovery boundary.
+- Утверждены connector/evidence RBAC, explicit grants + RLS + composite tenant
+  FKs и отдельный service-credential authorization boundary.
+- Зафиксированы allowlisted public egress, SSRF/DNS/redirect/TLS controls,
+  hostile-source validation, bounded runtime, safe errors и redacted audit.
+- Подготовлены incident procedures и обязательные two-tenant, Vault, SSRF,
+  poisoning, replay, restore и log-redaction acceptance gates.
+
+### Изменено
+
+- Sprint 15, roadmap, backlogs, README, Documentation Index, architecture,
+  security, RBAC и backup docs синхронизированы; следующими остаются T006/T007
+  только после подтверждённых pilot source signals.
+- Runtime, UI, SQL migrations, Vault provisioning, dependencies и первый
+  connector не создавались.
+
 ## Sprint 15 Confidence Engine & Discovery Inbox — 2026-08-23
 
 ### Добавлено

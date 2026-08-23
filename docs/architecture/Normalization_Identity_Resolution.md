@@ -744,7 +744,7 @@ supporting/strong proposal с audit trail.
 4. Запустить resolver в shadow mode без business writes.
 5. Сравнить результаты с ручной разметкой двух tenant datasets.
 6. После S15-T004 сохранять candidates/decisions в Discovery Inbox.
-7. После S15-T005 включить authorized confirmed bindings.
+7. После выполнения S15-T005 gates включить authorized confirmed bindings.
 8. Реализовать field provenance/override ledger до projection.
 9. Реализовать alias/merge ledger и restore test до merge action.
 10. Только затем рассматривать policy-approved automated projection.
@@ -785,8 +785,8 @@ supporting/strong proposal с audit trail.
 |---|---|
 | Числовая confidence formula и thresholds | S15-T004 |
 | Candidate persistence, states, actions и Discovery Inbox UX | S15-T004 |
-| Final resolver/merge RBAC и raw identity access | S15-T005 |
-| Secret/endpoint namespaces и connector security | S15-T005 |
+| Final resolver/merge RBAC и raw identity access | Определены в S15-T005 |
+| Secret/endpoint namespaces и connector security | Определены в S15-T005 |
 | Vendor-specific aliases, IDs и authoritative field matrix | First connector task |
 | Field provenance, alias/merge ledger SQL | Future implementation migration |
 | Automated business projection/Trust effect | Separate ADR/task after validation |

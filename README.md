@@ -23,11 +23,11 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.15.0-dev — Sprint 15 Connector Framework Foundation; S15-T001–T004 завершены.**
+**v0.15.0-dev — Sprint 15 Connector Framework Foundation; S15-T001–T005 завершены.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 зафиксировал ADR-009, Evidence Layer, Normalization/Identity Resolution и Confidence/Discovery contracts: score formula, hard gates, candidate lifecycle и human-control boundaries определены без преждевременного runtime, UI, SQL migration или выбора vendor.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 зафиксировал ADR-009, Evidence Layer, Normalization/Identity Resolution, Confidence/Discovery и Connector Security contracts: Supabase Vault, role/tenant boundaries, SSRF controls, safe audit и security gates определены без преждевременного runtime, UI, SQL migration или выбора vendor.
 
 ### Реализованные Маршруты
 
@@ -148,6 +148,7 @@ diploma/             Учебная база автора и подготовк�
 | [docs/architecture/Evidence_Layer_Data_Model.md](docs/architecture/Evidence_Layer_Data_Model.md) | Спецификация Evidence Layer и план будущей migration Sprint 15 |
 | [docs/architecture/Normalization_Identity_Resolution.md](docs/architecture/Normalization_Identity_Resolution.md) | Спецификация canonical normalization, identity resolver и merge policy Sprint 15 |
 | [docs/architecture/Confidence_Engine_Discovery_Inbox.md](docs/architecture/Confidence_Engine_Discovery_Inbox.md) | Спецификация Confidence Engine, candidates и Discovery Inbox Sprint 15 |
+| [docs/security/CONNECTOR_SECURITY_MODEL.md](docs/security/CONNECTOR_SECURITY_MODEL.md) | Secret, RBAC/RLS, tenant, SSRF, audit и runtime security contract Sprint 15 |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Спецификация объяснимости Trust Score Sprint 12 |
 | [docs/architecture/Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Минимальная модель Pilot Risk Workflow Sprint 13 |
@@ -178,7 +179,7 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 15 — S15-T001–T004 завершены; следующая S15-T005 Connector Security Model |
+| Текущая разработка | Sprint 15 — S15-T001–T005 завершены; S15-T006/T007 ожидают подтверждённых pilot signals |
 | Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
@@ -200,7 +201,7 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. Продолжить Sprint 15 — Connector Security Model specification.
+1. Собрать подтверждённые pilot source signals для S15-T006/T007; не выбирать connector по предположениям.
 2. До решения Pilot `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
 3. До решения Pilot `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
 4. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready отдельно от Post-MVP разработки.
