@@ -554,7 +554,8 @@ Vendor fixtures должны быть synthetic/redacted и не содержа�
 | S15-T003 | normalization, identity keys, merge/manual override policy |
 | S15-T004 | confidence и Discovery Inbox state/actions |
 | S15-T005 | Supabase Vault, RBAC/RLS, SSRF, audit и security gates утверждены |
-| S15-T006/T007 | connector candidate выбран по pilot evidence или отложен |
+| S15-T006 | Russian Market research shortlist и admission gates подготовлены; pilot validation pending |
+| S15-T007 | первый candidate выбран по pilot evidence или явно отложен |
 | Future prototype | manual pull adapter на общем contract |
 | After validation | scheduled pull и controlled compatibility migration |
 
@@ -587,7 +588,7 @@ T001 намеренно не фиксирует:
 - confidence thresholds и Discovery Inbox UX — S15-T004;
 - connector-specific endpoint/scopes/limits поверх утверждённой S15-T005
   security model — future prototype task;
-- первый российский connector — S15-T006/T007 после pilot signals;
+- первый российский connector — S15-T007 после pilot signals и T006 admission gate;
 - scheduler/queue vendor — первый runtime/prototype decision.
 
 ---

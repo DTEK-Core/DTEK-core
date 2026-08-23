@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 🚧 В работе — S15-T001–T005 завершены; Post-MVP, не входит в коммерческий MVP`
+`Статус: 🚧 В работе — S15-T001–T006 завершены; T006 pilot validation pending; Post-MVP`
 
 ---
 
@@ -60,20 +60,11 @@ Sprint 15 не должен реализовывать много коннект
 
 ## 5. Приоритетные Источники
 
-Shortlist для первых connector candidates:
-
-1. CSV/XLSX structured import.
-2. Active Directory / LDAP / FreeIPA.
-3. Zabbix.
-4. MaxPatrol VM.
-5. Kaspersky Security Center.
-6. Wazuh.
-7. UserGate / firewall export.
-8. OpenSearch / ELK.
-9. VMware / Proxmox.
-10. Kubernetes / cloud APIs.
-
-Первым production/prototype connector становится источник, подтверждённый pilot feedback.
+Research shortlist и validation gates зафиксированы в
+`docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md`. Первая validation wave:
+Zabbix, Kaspersky Security Center, MaxPatrol VM и Wazuh. Pilot-backed ranking
+остаётся пустым до заполнения source cards; первым production/prototype
+connector становится только источник, подтверждённый pilot feedback.
 
 ---
 
@@ -86,8 +77,8 @@ Shortlist для первых connector candidates:
 | S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 | ✅ Завершено |
 | S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 | ✅ Завершено |
 | S15-T005 | Connector Security Model | P1 | M | T001–T004 | ✅ Завершено |
-| S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ⬜ Ожидает pilot signals |
-| S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ⬜ Ожидает T006 |
+| S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ✅ Research завершён; pilot validation pending |
+| S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ⬜ Ожидает pilot admission evidence |
 | S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 | ⬜ Запланировано |
 
 ---
@@ -108,8 +99,10 @@ Shortlist для первых connector candidates:
 День 4
   S15-T005 Connector Security Model
 
-После подтверждённых pilot signals
+Research preparation
   S15-T006 Russian Market Connector Shortlist
+
+После подтверждённых pilot signals
   S15-T007 First Connector Candidate Decision
   S15-T008 Documentation Sync
 ```
@@ -206,6 +199,17 @@ SQL migration, UI, dependencies и первый connector не реализов�
 
 **Ожидаемый результат:** shortlist ранжирован по коммерческой ценности и сложности.
 
+**Решение:** создан
+`docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md`. Сформирован research
+ranking для российского рынка: CSV/XLSX остаётся baseline; первая validation
+wave включает Zabbix, Kaspersky Security Center, MaxPatrol VM и Wazuh; отдельно
+оценены AD/FreeIPA, Yandex Cloud, UserGate, VMware/Proxmox, OpenSearch/ELK и
+Kubernetes. Для каждого кандидата описаны data contract, stable identity,
+documented API, security/deployment constraints, complexity и pilot evidence
+gate. Поскольку source inventory имеет статус `PILOT DATA PENDING`, demand
+scores не выдуманы, pilot-backed shortlist остаётся пустым, а T007 не получает
+автоматического выбора vendor.
+
 ### S15-T007 — First Connector Candidate Decision
 
 **Описание:** выбрать первый connector prototype или принять решение продолжить через CSV/XLSX evidence import.
@@ -227,7 +231,7 @@ SQL migration, UI, dependencies и первый connector не реализов�
 - [x] Normalization и Identity Resolution описаны.
 - [x] Confidence Engine и Discovery Inbox описаны.
 - [x] Connector security model готова.
-- [ ] Российский connector shortlist утверждён.
+- [x] Российский research shortlist подготовлен; pilot validation явно pending.
 - [ ] Первый connector candidate выбран или явно отложен.
 - [ ] Документация обновлена.
 - [x] `npm run type-check` проходит.

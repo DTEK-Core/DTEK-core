@@ -127,6 +127,12 @@ Existing tools and infrastructure
 | 6 | OpenSearch/ELK, RuSIEM, MaxPatrol SIEM | события ИБ и incident factor |
 | 7 | VMware, Proxmox, Kubernetes, cloud APIs | инфраструктурная топология и workload discovery |
 
+S15-T006 уточняет этот long-term порядок через
+[RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md).
+Research wave начинается с Zabbix, Kaspersky Security Center, MaxPatrol VM и
+Wazuh, но pilot-backed ranking не сформирован: фактические source cards и demand
+scores остаются `PILOT DATA PENDING`.
+
 ---
 
 ## 7. Как Меняется Market MVP

@@ -282,15 +282,12 @@ Evidence-first архитектура усиливает требования б
 
 ## 9. Первые Connector Candidates
 
-Первые источники выбираются по пилотным данным, но архитектурный shortlist:
-
-1. CSV/XLSX structured import.
-2. Active Directory / LDAP / FreeIPA.
-3. Zabbix.
-4. MaxPatrol VM.
-5. Kaspersky Security Center.
-6. Wazuh.
-7. UserGate / firewall export.
+S15-T006 сформировал research shortlist в
+[RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](../product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md).
+Первая validation wave включает Zabbix, Kaspersky Security Center, MaxPatrol VM
+и Wazuh; AD/FreeIPA, Yandex Cloud и UserGate остаются сильными segment/
+deployment candidates. Research ranking не является pilot-backed выбором:
+source cards и demand scores пока `PENDING`.
 
 Для Sprint 11 CSV/XLSX structured import является первым evidence ingestion path. Его контракт, поля, validation preview, source metadata и RBAC описаны в [Evidence_Import_Schema.md](Evidence_Import_Schema.md).
 

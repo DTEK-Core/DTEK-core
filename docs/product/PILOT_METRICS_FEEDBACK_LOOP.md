@@ -347,7 +347,9 @@ Demand и feasibility оцениваются отдельно по `0-3`.
 | No action | Нет decision value или existing import достаточно |
 | Enterprise requirement | On-prem/certification/custom runtime вне текущего boundary |
 
-Источник попадает в Sprint 15 shortlist только если:
+Research pool и техническая feasibility подготовлены в
+[RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md).
+Источник попадает в **pilot-backed** Sprint 15 shortlist только если:
 
 - есть минимум два независимых pilot signals; или
 - один стратегически сильный pilot signal с высоким decision value и явным

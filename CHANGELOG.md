@@ -5,6 +5,25 @@
 
 ---
 
+## Sprint 15 Russian Market Connector Shortlist — 2026-08-23
+
+### Добавлено
+
+- Сформирован research ranking российских connector candidates по product
+  value hypothesis, documented API, stable identity, security fit и complexity.
+- Первая validation wave включает Zabbix, Kaspersky Security Center, MaxPatrol
+  VM и Wazuh; отдельно оценены AD/FreeIPA, Yandex Cloud, UserGate,
+  VMware/Proxmox, OpenSearch/ELK и Kubernetes.
+- Для каждого candidate определены narrow first contract, non-scope, deployment
+  risks, required pilot evidence и admission gate S15-T007.
+
+### Изменено
+
+- Sprint 15, README, Documentation Index, Evidence-first docs, roadmap,
+  backlogs, technical debt и agent context синхронизированы с T006.
+- Pilot demand не выдуман: source inventory остаётся `PILOT DATA PENDING`,
+  поэтому vendor/runtime не выбран и CSV/XLSX сохраняется как baseline.
+
 ## Sprint 15 Connector Security Model — 2026-08-23
 
 ### Добавлено

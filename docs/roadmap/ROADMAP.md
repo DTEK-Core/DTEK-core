@@ -98,11 +98,12 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase D — Evidence-first Integrations
 
-Статус: Sprint 15 начат; S15-T001–T005 завершены. Connector Framework,
+Статус: Sprint 15 начат; S15-T001–T006 завершены. Connector Framework,
 Evidence Layer, Identity Resolution, Confidence/Discovery Inbox и Connector
 Security Model специфицированы без runtime/UI/migrations. Supabase Vault,
-RBAC/RLS, SSRF, audit и security gates утверждены; первый connector остаётся
-зависимым от подтверждённых pilot signals.
+RBAC/RLS, SSRF, audit и security gates утверждены. Russian Market research
+shortlist ранжирован, но source cards/demand scores остаются pending; первый
+connector зависит от подтверждённых pilot signals.
 
 Возможные направления:
 
@@ -192,7 +193,7 @@ RBAC/RLS, SSRF, audit и security gates утверждены; первый conne
 | Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability — реализация завершена, manual QA pending |
 | Sprint 13 | `tasks/SPRINT_13.md` | Commercial MVP: Pilot Risk Workflow |
 | Sprint 14 | `tasks/SPRINT_14.md` | Commercial MVP: Pilot Readiness и release gates |
-| Sprint 15 | `tasks/SPRINT_15.md` | Post-MVP: Connector Framework Foundation в работе, S15-T001–T005 завершены |
+| Sprint 15 | `tasks/SPRINT_15.md` | Post-MVP: Connector Framework Foundation в работе, S15-T001–T006 завершены; pilot validation pending |
 
 ---
 
