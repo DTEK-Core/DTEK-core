@@ -162,7 +162,9 @@ Trust Score рассчитывается в TypeScript:
 1. Market MVP.
 2. Pilot readiness.
 3. Evidence import as first ingestion path.
-4. Connector Framework Foundation — ADR-009 принят, data/security specifications продолжаются в Sprint 15.
+4. Connector Framework Foundation — ADR-009, Evidence Layer и Identity
+   Resolution specifications готовы; Confidence/Discovery и security
+   specifications продолжаются в Sprint 15.
 5. First connector prototypes based on pilot evidence.
 6. API/webhooks.
 7. Enterprise security features.

@@ -5,6 +5,24 @@
 
 ---
 
+## Sprint 15 Normalization & Identity Resolution — 2026-08-23
+
+### Добавлено
+
+- Определены versioned canonical normalization и identity taxonomy для
+  hostname/FQDN/IP/MAC, agent, cloud, directory, hardware и manual external ID.
+- Зафиксирован tenant-scoped resolver с deterministic match, proposal,
+  ambiguity/conflict outcomes и запретом auto-merge по слабым сигналам.
+- Описаны field authority, manual override, source priority, non-destructive
+  merge/relation policy, safe audit и runtime acceptance tests.
+
+### Изменено
+
+- Sprint 15, roadmap, backlogs, README, Documentation Index и architecture
+  cross-links синхронизированы; следующей задачей является S15-T004.
+- SQL migration, resolver runtime, Discovery Inbox, Trust Engine и текущий
+  create-only import не изменялись.
+
 ## Sprint 15 Evidence Layer Data Model — 2026-08-23
 
 ### Добавлено

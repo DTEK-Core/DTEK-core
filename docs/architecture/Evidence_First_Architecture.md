@@ -292,6 +292,11 @@ Evidence-first архитектура усиливает требования б
 
 Для Sprint 11 CSV/XLSX structured import является первым evidence ingestion path. Его контракт, поля, validation preview, source metadata и RBAC описаны в [Evidence_Import_Schema.md](Evidence_Import_Schema.md).
 
+Post-MVP foundation детализирован в
+[Connector_Framework_Architecture.md](Connector_Framework_Architecture.md),
+[Evidence_Layer_Data_Model.md](Evidence_Layer_Data_Model.md) и
+[Normalization_Identity_Resolution.md](Normalization_Identity_Resolution.md).
+
 ---
 
 ## 10. Non-Goals До Подтверждения Pilot MVP

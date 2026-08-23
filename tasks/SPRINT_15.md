@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 🚧 В работе — S15-T001 завершена; Post-MVP, не входит в коммерческий MVP`
+`Статус: 🚧 В работе — S15-T001–T003 завершены; Post-MVP, не входит в коммерческий MVP`
 
 ---
 
@@ -156,6 +156,17 @@ runtime, backfill и изменение текущего CSV/XLSX path не вы
 
 **Ожидаемый результат:** есть стратегия deduplication: hostname/FQDN/IP/MAC/agent id/cloud id/manual external id.
 
+**Решение:** создан
+`docs/architecture/Normalization_Identity_Resolution.md`. Зафиксированы
+versioned deterministic normalization, canonical assertion/identity keys,
+tenant-scoped resolver outcomes, strength и conflict semantics без подмены
+будущего Confidence Engine. IP/short hostname/name не выполняют auto-merge;
+strong identifiers учитывают provider/account, directory, product/deployment и
+source namespaces. Определены field authority, manual override, source
+priority, non-destructive merge plan, relation/risk boundaries, safe audit и
+runtime acceptance tests. SQL migration, resolver runtime, Discovery Inbox и
+business projection не создавались.
+
 ### S15-T004 — Confidence Engine & Discovery Inbox Specification
 
 **Описание:** определить шкалу confidence и UX очереди неподтверждённых объектов, связей и рисков.
@@ -192,7 +203,7 @@ runtime, backfill и изменение текущего CSV/XLSX path не вы
 
 - [x] Connector Framework architecture зафиксирована в ADR-009.
 - [x] Evidence Layer data model specification готова.
-- [ ] Normalization и Identity Resolution описаны.
+- [x] Normalization и Identity Resolution описаны.
 - [ ] Confidence Engine и Discovery Inbox описаны.
 - [ ] Connector security model готова.
 - [ ] Российский connector shortlist утверждён.

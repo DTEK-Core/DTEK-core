@@ -20,7 +20,7 @@ Trust Score.
 - меняет текущий CSV/XLSX import;
 - запускает Connector Runtime;
 - переводит Trust Score Engine на evidence;
-- определяет match/merge алгоритм, confidence thresholds или Discovery Inbox;
+- реализует match/merge runtime, confidence thresholds или Discovery Inbox;
 - выбирает secret backend и окончательную connector RBAC policy.
 
 Эти границы сохраняют рабочий Market MVP и последовательность Sprint 15.
@@ -629,7 +629,7 @@ Cloud migration не запускается без backup/restore gate из Spri
 
 | Решение | Владелец |
 |---|---|
-| Canonical fields, identity keys, match/merge/manual override | S15-T003 |
+| Canonical fields, identity keys, match/merge/manual override | Определены в S15-T003 |
 | Confidence formula, thresholds, candidate transitions, Inbox UX | S15-T004 |
 | Secret backend, final RBAC matrix, FORCE RLS/runtime, SSRF controls | S15-T005 |
 | Первый vendor/source и connector-specific schema | S15-T006/T007 |
@@ -662,6 +662,8 @@ revision, explicit provenance, idempotency и отсутствие direct connec
   ADR-009.
 - [Connector_Framework_Architecture.md](Connector_Framework_Architecture.md) —
   adapter, orchestrator и ingestion boundaries.
+- [Normalization_Identity_Resolution.md](Normalization_Identity_Resolution.md)
+  — canonical normalization, identity keys, resolver и merge policy.
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая
   Evidence-first архитектура.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий CSV/XLSX

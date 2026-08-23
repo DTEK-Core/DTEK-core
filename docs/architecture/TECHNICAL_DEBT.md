@@ -91,9 +91,9 @@
 - invitation link передаётся вручную без production email delivery;
 - нет E2E automation для authenticated multi-role и multi-tenant сценариев;
 - demo seed автоматизированно не воспроизводится;
-- Connector Framework contract зафиксирован ADR-009, но connector runtime,
-  Evidence Layer, Discovery Inbox, Identity Resolution, Drift Detection и Auto
-  Risk Mapper пока не реализованы.
+- Connector Framework, Evidence Layer и Identity Resolution contracts
+  специфицированы в Sprint 15, но connector runtime/migrations, Discovery
+  Inbox, Drift Detection и Auto Risk Mapper пока не реализованы.
 
 ---
 

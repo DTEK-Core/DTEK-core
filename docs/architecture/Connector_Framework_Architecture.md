@@ -610,6 +610,8 @@ T001 намеренно не фиксирует:
   Evidence-first модель.
 - [Evidence_Layer_Data_Model.md](Evidence_Layer_Data_Model.md) — source,
   batch, raw observation, normalized assertion и binding schema contract.
+- [Normalization_Identity_Resolution.md](Normalization_Identity_Resolution.md)
+  — canonical mapping, identity keys, conflict и merge policy.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий import
   contract и source metadata.
 - [System_Architecture.md](System_Architecture.md) — фактическая архитектура.

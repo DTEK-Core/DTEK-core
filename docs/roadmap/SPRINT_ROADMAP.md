@@ -65,7 +65,7 @@ Demo Ready
 | Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA deferred to pilot release gate | Объяснить Trust Score, impact рисков и источники данных |
 | Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Реализация завершена, manual QA pending | Сделать Risk Registry рабочим процессом для manual/imported risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Реализация S14-T001–T008 завершена; Pilot GO gates pending | Закрыть release gates и подготовить продукт к 1–3 пилотам |
-| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | В работе: S15-T001/ADR-009 завершены | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
+| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | В работе: S15-T001–T003 завершены | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
 
 ---
 
@@ -133,11 +133,12 @@ intake до support, feedback, operations handoff и closeout. Пакет реа
 Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Она не закрывает manual QA; старт Sprint 13 отдельно разрешён владельцем 08.08.2026 после восстановления Supabase и сверки Cloud migrations.
 
 Sprint 15 создаёт foundation для безопасных коннекторов и выбирает первые
-candidates по пилотным сигналам, но не входит в коммерческий MVP. S15-T001
-завершена 23.08.2026: ADR-009 фиксирует versioned adapter layer, server-only
-orchestration, единый Ingestion Gateway, bounded/idempotent runs, lifecycle,
-safe errors, secret reference и tenant controls. Runtime, migration, scheduler
-и конкретный connector не создавались.
+candidates по пилотным сигналам, но не входит в коммерческий MVP. S15-T001–T003
+завершены 23.08.2026: ADR-009 фиксирует versioned adapter layer и Ingestion
+Gateway; Evidence Layer определяет source/raw/assertion/binding model; Identity
+Resolution — canonical keys, tenant resolver, conflicts, manual authority и
+non-destructive merge policy. Runtime, migration, scheduler и конкретный
+connector не создавались.
 
 ---
 
