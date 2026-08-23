@@ -1,14 +1,18 @@
 # DTEK Core — Импорт объектов и рисков
 
-`Версия: 1.1`
-`Дата: 16.07.2026`
-`Актуально для: Sprint 11 — Evidence Import & Data Onboarding`
+`Версия: 1.2`
+`Дата: 23.08.2026`
+`Актуально для: Sprint 11 import runtime + Sprint 15 connector decision`
 
 ---
 
 ## Назначение
 
 Импорт CSV/XLSX позволяет быстро наполнить DTEK Core исходными данными организации без ручного создания каждой записи.
+
+После Sprint 15 import остаётся основным рабочим evidence onboarding path.
+Connector Foundation специфицирован, но первый connector, Evidence Layer
+runtime и Discovery Inbox не реализованы до появления pilot admission evidence.
 
 В текущем MVP можно импортировать:
 
@@ -401,6 +405,10 @@ Owner и admin видят событие, инициатора и агрегир
 - [Data Onboarding Smoke Test](../testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) — ручная приёмка полного import flow.
 - [Sprint 11 Import Test Data](../../testing/sprint-11-import/README.md) — готовые valid, invalid, duplicate, partial и performance fixtures.
 - [Sprint 11](../../tasks/SPRINT_11.md) — scope и статус реализации.
+- [First Connector Candidate Decision](../product/FIRST_CONNECTOR_CANDIDATE_DECISION.md)
+  — почему CSV/XLSX остаётся active path.
+- [Connector Foundation Handoff](../development/CONNECTOR_FOUNDATION_HANDOFF.md)
+  — границы будущей connector реализации.
 
 ---
 

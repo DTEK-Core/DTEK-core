@@ -1,7 +1,7 @@
 # AI_DEVELOPMENT_GUIDE.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 13.08.2026`
+`Дата: 23.08.2026`
 `Назначение: инженерный регламент для AI-агентов и разработчиков`
 
 ---
@@ -87,6 +87,12 @@ Market MVP должен доказать ценность через:
 - foundation Connector Framework после pilot readiness.
 
 После ADR-007 автоматическое наполнение является стратегическим направлением. При этом любые интеграции должны развиваться через Evidence Layer, Discovery Inbox, RLS/RBAC и audit trail, а не через ad hoc импорт прямо в бизнес-таблицы.
+
+Sprint 15 завершён как `Connector Foundation Ready / Runtime Deferred`. Перед
+любой connector implementation task обязательно прочитать
+`docs/development/CONNECTOR_FOUNDATION_HANDOFF.md` и проверить reopening gate
+S15-T007. Research ranking без pilot admission evidence не разрешает runtime,
+UI, migration или vendor commitment.
 
 ---
 

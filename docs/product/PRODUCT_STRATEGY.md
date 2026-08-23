@@ -1,8 +1,8 @@
 # PRODUCT_STRATEGY.md — DTEK Core
 
 `Статус: источник истины`  
-`Дата: 07.08.2026`<br>
-`Этап: Strategic Consolidation после Sprint 08`
+`Дата: 23.08.2026`<br>
+`Этап: Connector Foundation завершён после Sprint 15`
 
 ---
 
@@ -154,7 +154,9 @@ DTEK Core — Trust Intelligence layer над активами, evidence, рис
 этот разрыв через import, explainability, risk workflow и pilot readiness.
 Post-MVP Connector Framework, Evidence Layer, Identity Resolution и
 Confidence/Discovery contracts специфицированы, но runtime/UI/migrations и
-первый connector ещё не реализованы.
+первый connector ещё не реализованы. Sprint 15 закрыт как `Connector Foundation
+Ready / Runtime Deferred`: CSV/XLSX остаётся active ingestion path, а выбор
+vendor пересматривается только после pilot admission evidence.
 
 ---
 

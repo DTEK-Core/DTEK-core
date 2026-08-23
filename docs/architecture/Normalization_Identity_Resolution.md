@@ -827,3 +827,5 @@ supporting/strong proposal с audit trail.
   Trust boundaries.
 - [SECURITY_OVERVIEW.md](../security/SECURITY_OVERVIEW.md) — RBAC/RLS baseline.
 - [SPRINT_15.md](../../tasks/SPRINT_15.md) — порядок Connector Foundation.
+- [CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md)
+  — итоговый implementation order и gates Sprint 15.

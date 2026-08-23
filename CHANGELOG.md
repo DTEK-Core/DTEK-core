@@ -5,6 +5,22 @@
 
 ---
 
+## Sprint 15 Connector Foundation Documentation Sync — 2026-08-23
+
+### Добавлено
+
+- Создан единый Connector Foundation developer handoff: карта contracts,
+  фактический и будущий scope, runtime admission gate, implementation sequence,
+  security invariants, acceptance baseline и documentation matrix.
+
+### Изменено
+
+- Sprint 15 закрыт с milestone `Connector Foundation Ready / Runtime Deferred`.
+- Architecture, security, product, user, roadmap, backlog, README,
+  Documentation Index и agent context синхронизированы с решением T007.
+- CSV/XLSX подтверждён как действующий ingestion path; connector runtime, UI,
+  migrations и vendor остаются deferred до pilot admission evidence.
+
 ## Sprint 15 First Connector Candidate Decision — 2026-08-23
 
 ### Добавлено

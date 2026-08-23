@@ -163,6 +163,7 @@
 | Документ | Назначение |
 |---|---|
 | [docs/development/TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md) | Диагностика локального окружения и Supabase |
+| [docs/development/CONNECTOR_FOUNDATION_HANDOFF.md](docs/development/CONNECTOR_FOUNDATION_HANDOFF.md) | Sprint 15: единый developer handoff, runtime gates, implementation sequence и acceptance baseline |
 | [docs/operations/DEPLOYMENT.md](docs/operations/DEPLOYMENT.md) | Деплой и переменные окружения |
 | [docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md](docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md) | Sprint 14: безопасная UI/CLI диагностика Supabase, env, DNS, middleware и recovery |
 | [docs/operations/INVITATION_DELIVERY_RUNBOOK.md](docs/operations/INVITATION_DELIVERY_RUNBOOK.md) | Sprint 14: manual invite delivery contract, security, recovery и pilot QA |
@@ -213,7 +214,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation в работе, S15-T001–T007 завершены; connector deferred |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: завершён — Connector Foundation Ready / Runtime Deferred |
 
 ---
 

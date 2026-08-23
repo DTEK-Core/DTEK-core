@@ -23,11 +23,11 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.15.0-dev — Sprint 15 Connector Framework Foundation; S15-T001–T007 завершены.**
+**v0.15.0-dev — Sprint 15 завершён: Connector Foundation Ready / Runtime Deferred.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 зафиксировал architecture/security contracts и Russian Market research shortlist. S15-T007 формально отложил выбор первого connector до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 завершил architecture/security foundation и developer handoff. Первый connector формально отложен до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
 
 ### Реализованные Маршруты
 
@@ -151,6 +151,7 @@ diploma/             Учебная база автора и подготовк�
 | [docs/security/CONNECTOR_SECURITY_MODEL.md](docs/security/CONNECTOR_SECURITY_MODEL.md) | Secret, RBAC/RLS, tenant, SSRF, audit и runtime security contract Sprint 15 |
 | [docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md) | Research ranking, feasibility и pilot admission gates российских connector candidates |
 | [docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md](docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md) | S15-T007: DEFER, CSV/XLSX baseline и условия пересмотра первого connector |
+| [docs/development/CONNECTOR_FOUNDATION_HANDOFF.md](docs/development/CONNECTOR_FOUNDATION_HANDOFF.md) | S15-T008: единый implementation handoff и gates Connector Foundation |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Спецификация объяснимости Trust Score Sprint 12 |
 | [docs/architecture/Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Минимальная модель Pilot Risk Workflow Sprint 13 |
@@ -180,8 +181,8 @@ diploma/             Учебная база автора и подготовк�
 | Область | Состояние |
 |---|---|
 | Активная ветка | `develop` |
-| Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 15 — S15-T001–T007 завершены; следующий шаг S15-T008 Documentation Sync |
+| Последний завершённый Sprint | Sprint 15 — Connector Foundation Ready / Runtime Deferred |
+| Текущая разработка | Sprint 15 завершён; новый connector scope не открыт |
 | Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
@@ -191,7 +192,7 @@ diploma/             Учебная база автора и подготовк�
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
 | Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting, Environment Health Check |
 | Частичные области | Sprint 12/13 manual QA, source metadata как text block, автоматизация authenticated QA |
-| Будущая архитектура | Connector, Evidence, Identity и Confidence/Discovery специфицированы, но runtime/UI/migrations не реализованы |
+| Будущая архитектура | Connector Foundation Ready; runtime/UI/migrations deferred до admission evidence |
 
 Перед продолжением разработки обязательно прочитать `AGENTS.md`, `AI_DEVELOPMENT_GUIDE.md`, `ARCHITECTURE_DECISIONS.md`, `docs/product/PRODUCT_STRATEGY.md`, `docs/roadmap/ROADMAP.md`, текущий Sprint-документ и `docs/architecture/TECHNICAL_DEBT.md`.
 
@@ -203,11 +204,11 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. Завершить S15-T008 Connector Foundation Documentation Sync без запуска connector runtime.
-2. До решения Pilot `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
-3. До решения Pilot `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
-4. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready отдельно от Post-MVP разработки.
-5. Пересмотреть решение `DEFER` только после подтверждённых pilot source signals.
+1. До решения Pilot `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
+2. До решения Pilot `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
+3. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready отдельно от Post-MVP разработки.
+4. Собирать source cards, manual burden и freshness evidence в реальных pilots.
+5. Пересмотреть решение `DEFER` только после подтверждённых pilot source signals; новый runtime начинать отдельной задачей по Connector Foundation Handoff.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 

@@ -272,15 +272,17 @@ KSC и Wazuh имеют разные protocols, identities и security boundarie
 
 ## 12. Handoff
 
-Следующая задача Sprint 15 — S15-T008 Documentation Sync. Она должна:
+S15-T008 Documentation Sync завершена. Она:
 
 - связать все T001–T007 contracts и decision records;
 - зафиксировать milestone `Connector Foundation Ready / Runtime Deferred`;
 - сохранить `PILOT DATA PENDING` без ложного PASS;
 - не создавать implementation Sprint без reopening evidence.
 
-После T008 Sprint 15 может завершиться архитектурно, даже если первый connector
-не выбран: его отсутствие является утверждённым результатом T007.
+Sprint 15 завершён архитектурно, даже если первый connector не выбран: его
+отсутствие является утверждённым результатом T007. Единый дальнейший порядок
+зафиксирован в
+[CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md).
 
 ---
 
@@ -297,6 +299,8 @@ KSC и Wazuh имеют разные protocols, identities и security boundarie
   security gates.
 - [IMPORT_GUIDE.md](../user/IMPORT_GUIDE.md) — действующий onboarding path.
 - [SPRINT_15.md](../../tasks/SPRINT_15.md) — Sprint status и Definition of Done.
+- [CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md)
+  — итоговый implementation order и gates.
 
 ---
 

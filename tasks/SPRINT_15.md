@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 🚧 В работе — S15-T001–T007 завершены; first connector deferred; Post-MVP`
+`Статус: ✅ Завершён — Connector Foundation Ready / Runtime Deferred; Post-MVP`
 
 ---
 
@@ -79,7 +79,7 @@ connector становится только источник, подтвержд
 | S15-T005 | Connector Security Model | P1 | M | T001–T004 | ✅ Завершено |
 | S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ✅ Research завершён; pilot validation pending |
 | S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ✅ Завершено — DEFER / keep import path |
-| S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 | ⬜ Запланировано |
+| S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 | ✅ Завершено |
 
 ---
 
@@ -234,6 +234,15 @@ collector, UI и vendor dependency не создавались.
 
 **Ожидаемый результат:** документация не противоречит ADR-007 и готова к первой интеграционной задаче.
 
+**Решение:** создан
+`docs/development/CONNECTOR_FOUNDATION_HANDOFF.md` — единая точка входа в
+артефакты T001–T007, фактический/специфицированный scope, runtime admission
+gate, implementation sequence, security invariants, acceptance baseline и
+documentation matrix. Architecture, security, product, user, roadmap, backlog,
+README и agent context синхронизированы. Sprint закрыт как `Connector
+Foundation Ready / Runtime Deferred`: CSV/XLSX остаётся active path, решение
+T007 `DEFER` сохраняется, а runtime/UI/migrations не реализованы.
+
 ---
 
 ## 9. Definition Of Done
@@ -245,7 +254,7 @@ collector, UI и vendor dependency не создавались.
 - [x] Connector security model готова.
 - [x] Российский research shortlist подготовлен; pilot validation явно pending.
 - [x] Первый connector candidate явно отложен до pilot admission evidence.
-- [ ] Документация обновлена.
+- [x] Документация обновлена.
 - [x] `npm run type-check` проходит.
 - [x] `npm run lint` проходит.
 - [x] `npm run build` проходит.

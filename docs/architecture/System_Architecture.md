@@ -1,8 +1,8 @@
 # System_Architecture.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`  
-`ADR: ADR-004, ADR-007`
+`Дата: 23.08.2026`<br>
+`ADR: ADR-004, ADR-007, ADR-009`
 
 ---
 
@@ -72,6 +72,10 @@ layer с server-only orchestration и единым Ingestion Gateway. Connector 
 storage не являются частью текущей схемы до отдельных задач и миграций.
 Подробно:
 [Connector_Framework_Architecture.md](Connector_Framework_Architecture.md).
+
+Sprint 15 завершён как `Connector Foundation Ready / Runtime Deferred`.
+Implementation sequence и обязательные gates собраны в
+[Connector Foundation Handoff](../development/CONNECTOR_FOUNDATION_HANDOFF.md).
 
 Reporting Sprint 10 использует Next.js Server Components, route handlers и server-side report modules. Подробно: [Reporting_Architecture.md](Reporting_Architecture.md).
 
@@ -149,7 +153,7 @@ Trust Score рассчитывается в TypeScript:
 - Agent runtime.
 - On-prem runtime.
 - Event streaming.
-- Heavy connector framework до Sprint 15 foundation.
+- Connector runtime без pilot admission evidence и отдельной задачи.
 - AI/ML scoring.
 - Custom RBAC roles.
 
@@ -163,9 +167,9 @@ Trust Score рассчитывается в TypeScript:
 2. Pilot readiness.
 3. Evidence import as first ingestion path.
 4. Connector Framework Foundation — ADR-009, Evidence Layer, Identity
-   Resolution и Confidence/Discovery specifications готовы; security
-   specification продолжается в Sprint 15.
-5. First connector prototypes based on pilot evidence.
+   Resolution, Confidence/Discovery и Security specifications готовы; runtime
+   отложен решением S15-T007.
+5. First connector review после pilot admission evidence.
 6. API/webhooks.
 7. Enterprise security features.
 8. On-prem/private cloud only after commercial validation.

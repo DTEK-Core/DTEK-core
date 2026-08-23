@@ -120,9 +120,9 @@
 Этот раздел дополняет исходный MVP backlog после ADR-007. Коммерческий MVP заканчивается Sprint 14; Sprint 15 и следующие инициативы относятся к Post-MVP.
 
 Статус на 23.08.2026: M-001–M-057 реализованы на уровне Sprint-задач;
-authenticated QA и Pilot GO gates остаются pending. M-060–M-063 завершены как
-Post-MVP architecture specifications; runtime/UI не реализованы. M-064+ —
-последующий foundation.
+authenticated QA и Pilot GO gates остаются pending. M-060–M-065 завершены как
+Post-MVP architecture/security specifications и source decision; Sprint 15
+documentation handoff готов. Runtime/UI/migrations не реализованы.
 
 | ID | Sprint | Feature | Приоритет | Размер |
 |---|---|---|---|---|

@@ -983,3 +983,5 @@ history. DROP или откат business data автоматически не в
 - [User_Roles.md](User_Roles.md) — текущая бизнес-матрица ролей.
 - [SECURITY_OVERVIEW.md](../security/SECURITY_OVERVIEW.md) — security baseline.
 - [SPRINT_15.md](../../tasks/SPRINT_15.md) — порядок foundation.
+- [CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md)
+  — итоговый implementation order и gates Sprint 15.

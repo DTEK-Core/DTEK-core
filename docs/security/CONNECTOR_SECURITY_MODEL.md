@@ -548,3 +548,6 @@ Connector Foundation теперь имеет полный security contract. Э�
 что Vault, runtime или первый connector уже реализованы: они остаются
 заблокированы решением S15-T007 до pilot admission evidence, отдельной
 migration/runtime task и фактического прохождения acceptance gates.
+
+Единый порядок будущей реализации и документационный handoff:
+[CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md).

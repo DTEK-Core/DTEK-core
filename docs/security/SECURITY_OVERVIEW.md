@@ -73,7 +73,14 @@ egress, hostile-source validation, safe audit и security acceptance gates.
 Полные contracts:
 
 - [`Connector_Framework_Architecture.md`](../architecture/Connector_Framework_Architecture.md);
-- [`CONNECTOR_SECURITY_MODEL.md`](CONNECTOR_SECURITY_MODEL.md).
+- [`CONNECTOR_SECURITY_MODEL.md`](CONNECTOR_SECURITY_MODEL.md);
+- [`CONNECTOR_FOUNDATION_HANDOFF.md`](../development/CONNECTOR_FOUNDATION_HANDOFF.md).
+
+Sprint 15 закрыт как `Connector Foundation Ready / Runtime Deferred`. Ни Vault,
+ни connector/evidence tables, ни egress runtime не развёрнуты. Решение T007
+`DEFER` может быть пересмотрено только после pilot admission evidence; затем
+каждая реализация отдельно проходит migration, two-tenant, SSRF, hostile-input,
+audit и recovery gates.
 
 ---
 
@@ -168,6 +175,7 @@ rehearsal проверяются как отдельный release gate. Пол�
 - 2FA (TOTP)
 - Audit Log расширение (экспорт, фильтры, retention)
 - Secure SDLC в CI/CD
-- Реализация Connector Security Model только вместе с выбранным pilot-backed source и прохождением gates
+- Реализация Connector Security Model только после пересмотра T007, выбора
+  pilot-backed source и прохождения gates
 
 *Подробнее: [SECURE_SDLC.md](SECURE_SDLC.md)*

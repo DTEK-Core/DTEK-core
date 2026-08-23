@@ -138,6 +138,9 @@ S15-T007 не выбрал vendor по research ranking и зафиксиров�
 появления admission evidence. Это сохраняет Evidence-first направление без
 преждевременного runtime.
 
+Итоговый implementation boundary Sprint 15 собран в
+[CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md).
+
 ---
 
 ## 7. Как Меняется Market MVP
