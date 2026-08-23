@@ -3,7 +3,7 @@
 `Версия: 1.0`
 `Дата: 23.08.2026`
 `Задача: S15-T006 — Russian Market Connector Shortlist`
-`Статус: MARKET RESEARCH COMPLETE / PILOT VALIDATION PENDING`
+`Статус: MARKET RESEARCH COMPLETE / S15-T007 DEFER / PILOT VALIDATION PENDING`
 
 ---
 
@@ -453,3 +453,7 @@ candidates; virtualization, OpenSearch и Kubernetes идут после под�
 Это корректный результат, а не пропуск задачи. T007 не должен выбирать первый
 connector до admission evidence; допустимо явно сохранить CSV/XLSX как основной
 ingestion path.
+
+S15-T007 выполнил этот gate и принял решение `DEFER / KEEP CSV-XLSX IMPORT
+PATH`. Условия пересмотра зафиксированы в
+[FIRST_CONNECTOR_CANDIDATE_DECISION.md](FIRST_CONNECTOR_CANDIDATE_DECISION.md).

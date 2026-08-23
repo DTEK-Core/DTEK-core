@@ -23,11 +23,11 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.15.0-dev — Sprint 15 Connector Framework Foundation; S15-T001–T006 завершены.**
+**v0.15.0-dev — Sprint 15 Connector Framework Foundation; S15-T001–T007 завершены.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 зафиксировал ADR-009, Evidence Layer, Normalization/Identity Resolution, Confidence/Discovery, Connector Security и Russian Market research shortlist. Pilot-backed source ranking всё ещё `PENDING`; runtime, UI, SQL migration и vendor не выбраны.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 зафиксировал architecture/security contracts и Russian Market research shortlist. S15-T007 формально отложил выбор первого connector до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
 
 ### Реализованные Маршруты
 
@@ -150,6 +150,7 @@ diploma/             Учебная база автора и подготовк�
 | [docs/architecture/Confidence_Engine_Discovery_Inbox.md](docs/architecture/Confidence_Engine_Discovery_Inbox.md) | Спецификация Confidence Engine, candidates и Discovery Inbox Sprint 15 |
 | [docs/security/CONNECTOR_SECURITY_MODEL.md](docs/security/CONNECTOR_SECURITY_MODEL.md) | Secret, RBAC/RLS, tenant, SSRF, audit и runtime security contract Sprint 15 |
 | [docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md) | Research ranking, feasibility и pilot admission gates российских connector candidates |
+| [docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md](docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md) | S15-T007: DEFER, CSV/XLSX baseline и условия пересмотра первого connector |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Спецификация объяснимости Trust Score Sprint 12 |
 | [docs/architecture/Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Минимальная модель Pilot Risk Workflow Sprint 13 |
@@ -180,7 +181,7 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 15 — S15-T001–T006 завершены; T007 ожидает подтверждённых pilot source signals |
+| Текущая разработка | Sprint 15 — S15-T001–T007 завершены; следующий шаг S15-T008 Documentation Sync |
 | Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
@@ -202,11 +203,11 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. Собрать подтверждённые pilot source signals для S15-T007; не выбирать connector по research ranking без admission evidence.
+1. Завершить S15-T008 Connector Foundation Documentation Sync без запуска connector runtime.
 2. До решения Pilot `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
 3. До решения Pilot `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
 4. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready отдельно от Post-MVP разработки.
-5. Выбирать первый connector только после подтверждённых pilot source signals.
+5. Пересмотреть решение `DEFER` только после подтверждённых pilot source signals.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 

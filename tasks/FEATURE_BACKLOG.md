@@ -166,7 +166,7 @@ Post-MVP architecture specifications; runtime/UI не реализованы. M-
 | M-061 | Post-MVP S15 | Evidence Layer Data Model Specification | P1 | L |
 | M-062 | Post-MVP S15 | Normalization & Identity Resolution Specification | P1 | M |
 | M-063 | Post-MVP S15 | Confidence Engine & Discovery Inbox Specification | P1 | M |
-| M-064 | Post-MVP S15 | Connector Shortlist complete; first-source selection pending pilot signals | P1 | S |
+| M-064 | Post-MVP S15 | Connector Shortlist & First-source Decision — complete, DEFER | P1 | S |
 | M-065 | Post-MVP S15 | Connector Security Model — specification complete | P1 | M |
 
 ---

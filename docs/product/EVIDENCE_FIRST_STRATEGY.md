@@ -133,6 +133,11 @@ Research wave начинается с Zabbix, Kaspersky Security Center, MaxPatr
 Wazuh, но pilot-backed ranking не сформирован: фактические source cards и demand
 scores остаются `PILOT DATA PENDING`.
 
+S15-T007 не выбрал vendor по research ranking и зафиксировал
+[`DEFER / KEEP CSV-XLSX IMPORT PATH`](FIRST_CONNECTOR_CANDIDATE_DECISION.md) до
+появления admission evidence. Это сохраняет Evidence-first направление без
+преждевременного runtime.
+
 ---
 
 ## 7. Как Меняется Market MVP

@@ -506,7 +506,7 @@ Vault/network failure всегда fail closed. Plaintext fallback запрещ�
 
 ## 14. Implementation Sequence
 
-1. Выбрать первый source по S15-T006/T007 pilot evidence.
+1. Пересмотреть S15-T007 `DEFER` и выбрать source только после pilot admission evidence.
 2. Зафиксировать connector-specific endpoints, scopes, auth и payload limits.
 3. Создать reviewed migration для private schema/Vault, connector/evidence
    tables, composite FKs, explicit grants и RLS.
@@ -546,5 +546,5 @@ egress, strict SSRF/runtime limits, hostile-source validation, redacted audit и
 
 Connector Foundation теперь имеет полный security contract. Это не означает,
 что Vault, runtime или первый connector уже реализованы: они остаются
-заблокированы до S15-T006/T007, отдельной migration/runtime task и фактического
-прохождения acceptance gates.
+заблокированы решением S15-T007 до pilot admission evidence, отдельной
+migration/runtime task и фактического прохождения acceptance gates.

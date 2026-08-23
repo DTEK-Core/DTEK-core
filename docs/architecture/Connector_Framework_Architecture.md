@@ -555,7 +555,7 @@ Vendor fixtures должны быть synthetic/redacted и не содержа�
 | S15-T004 | confidence и Discovery Inbox state/actions |
 | S15-T005 | Supabase Vault, RBAC/RLS, SSRF, audit и security gates утверждены |
 | S15-T006 | Russian Market research shortlist и admission gates подготовлены; pilot validation pending |
-| S15-T007 | первый candidate выбран по pilot evidence или явно отложен |
+| S15-T007 | принято `DEFER`; CSV/XLSX остаётся active path до pilot evidence |
 | Future prototype | manual pull adapter на общем contract |
 | After validation | scheduled pull и controlled compatibility migration |
 
@@ -588,7 +588,8 @@ T001 намеренно не фиксирует:
 - confidence thresholds и Discovery Inbox UX — S15-T004;
 - connector-specific endpoint/scopes/limits поверх утверждённой S15-T005
   security model — future prototype task;
-- первый российский connector — S15-T007 после pilot signals и T006 admission gate;
+- первый российский connector — deferred S15-T007; review только после pilot
+  signals и T006 admission gate;
 - scheduler/queue vendor — первый runtime/prototype decision.
 
 ---
@@ -625,3 +626,5 @@ T001 намеренно не фиксирует:
 - [SPRINT_15.md](../../tasks/SPRINT_15.md) — последовательность foundation.
 - [PILOT_METRICS_FEEDBACK_LOOP.md](../product/PILOT_METRICS_FEEDBACK_LOOP.md) —
   gates для выбора первого source.
+- [FIRST_CONNECTOR_CANDIDATE_DECISION.md](../product/FIRST_CONNECTOR_CANDIDATE_DECISION.md)
+  — решение S15-T007 `DEFER / KEEP CSV-XLSX IMPORT PATH`.

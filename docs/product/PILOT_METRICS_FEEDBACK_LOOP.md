@@ -358,6 +358,10 @@ Research pool и техническая feasibility подготовлены в
 - feasibility/security оценены;
 - решение не превращает DTEK Core в SIEM/EDR/CMDB replacement.
 
+На decision point S15-T007 gate не был пройден ни одним source. Решение
+`DEFER / KEEP CSV-XLSX IMPORT PATH` и reopening triggers описаны в
+[FIRST_CONNECTOR_CANDIDATE_DECISION.md](FIRST_CONNECTOR_CANDIDATE_DECISION.md).
+
 ---
 
 ## 9. Feature Feedback И Backlog Evidence

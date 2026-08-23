@@ -65,9 +65,10 @@
 ### Evidence-first Market MVP Epics После Sprint 08
 
 Статус на 23.08.2026: Epic 12–17 реализованы; authenticated QA Sprint 12/13 и
-остальные Pilot GO gates остаются pending. В Epic 18 завершены S15-T001–T006:
+остальные Pilot GO gates остаются pending. В Epic 18 завершены S15-T001–T007:
 Connector, Evidence, Identity, Confidence/Discovery, Security specifications и
-Russian Market research shortlist; pilot source validation pending. Epic
+Russian Market research shortlist; first connector формально deferred до pilot
+admission evidence. Epic
 19–24 и connector runtime остаются Post-MVP.
 
 | # | Epic | Sprint | Цель |
@@ -93,7 +94,8 @@ Russian Market research shortlist; pilot source validation pending. Epic
 
 Эти Epic не заменяют исходные Epic 1–17. Они являются Post-MVP слоем после
 коммерческого MVP. Архитектурный foundation начат в Sprint 15; выбор первого
-connector по-прежнему требует pilot signals.
+connector decision S15-T007 имеет статус `DEFER` и пересматривается только после
+pilot signals.
 
 ---
 

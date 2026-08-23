@@ -5,6 +5,24 @@
 
 ---
 
+## Sprint 15 First Connector Candidate Decision — 2026-08-23
+
+### Добавлено
+
+- Создан decision record S15-T007 с полным admission audit, рассмотренными
+  alternatives, reopening triggers, evidence package и review algorithm.
+- Формально принято решение `DEFER / KEEP CSV-XLSX IMPORT PATH`: первый
+  connector не выбран до подтверждённых pilot source signals.
+
+### Изменено
+
+- Sprint 15, README, Documentation Index, Evidence-first/Connector/Evidence/
+  Security docs, roadmap, backlogs, technical debt и agent context
+  синхронизированы; следующая задача — S15-T008 Documentation Sync.
+- Zabbix/KSC/MaxPatrol VM/Wazuh остаются research validation wave, а не
+  implementation commitment. Runtime, Vault, migration, collector и UI не
+  создавались.
+
 ## Sprint 15 Russian Market Connector Shortlist — 2026-08-23
 
 ### Добавлено

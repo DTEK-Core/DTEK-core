@@ -289,6 +289,10 @@ S15-T006 сформировал research shortlist в
 deployment candidates. Research ranking не является pilot-backed выбором:
 source cards и demand scores пока `PENDING`.
 
+S15-T007 формально отложил выбор первого connector и сохранил CSV/XLSX path.
+Decision record:
+[FIRST_CONNECTOR_CANDIDATE_DECISION.md](../product/FIRST_CONNECTOR_CANDIDATE_DECISION.md).
+
 Для Sprint 11 CSV/XLSX structured import является первым evidence ingestion path. Его контракт, поля, validation preview, source metadata и RBAC описаны в [Evidence_Import_Schema.md](Evidence_Import_Schema.md).
 
 Post-MVP foundation детализирован в

@@ -635,7 +635,7 @@ Cloud migration не запускается без backup/restore gate из Spri
 | Confidence formula, thresholds, candidate transitions, Inbox UX | Определены в S15-T004 |
 | Secret backend, final RBAC matrix, FORCE RLS/runtime, SSRF controls | Определены в S15-T005 |
 | Research shortlist/admission gates | Определены в S15-T006 |
-| Первый vendor/source и connector-specific schema | S15-T007 / future prototype task |
+| Первый vendor/source и connector-specific schema | Deferred S15-T007; future review после admission evidence |
 | Scheduler/queue and retention worker implementation | Future runtime task |
 | Trust Score projection from confirmed evidence | Separate post-foundation ADR/task |
 

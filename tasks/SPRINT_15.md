@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 🚧 В работе — S15-T001–T006 завершены; T006 pilot validation pending; Post-MVP`
+`Статус: 🚧 В работе — S15-T001–T007 завершены; first connector deferred; Post-MVP`
 
 ---
 
@@ -78,7 +78,7 @@ connector становится только источник, подтвержд
 | S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 | ✅ Завершено |
 | S15-T005 | Connector Security Model | P1 | M | T001–T004 | ✅ Завершено |
 | S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ✅ Research завершён; pilot validation pending |
-| S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ⬜ Ожидает pilot admission evidence |
+| S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ✅ Завершено — DEFER / keep import path |
 | S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 | ⬜ Запланировано |
 
 ---
@@ -102,8 +102,10 @@ connector становится только источник, подтвержд
 Research preparation
   S15-T006 Russian Market Connector Shortlist
 
-После подтверждённых pilot signals
+Decision gate
   S15-T007 First Connector Candidate Decision
+
+Финализация
   S15-T008 Documentation Sync
 ```
 
@@ -216,6 +218,16 @@ scores не выдуманы, pilot-backed shortlist остаётся пусты
 
 **Ожидаемый результат:** следующий Sprint получает конкретный источник и обоснование.
 
+**Решение:** создан
+`docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md`. Admission gate проверен по
+всем критериям T006: source cards, demand score, manual burden, customer
+deployment boundary, test environment, read-only access и acceptance owner
+отсутствуют. Принято допустимое решение `DEFER / KEEP CSV-XLSX IMPORT PATH`:
+ни Zabbix, ни KSC, ни MaxPatrol VM, ни Wazuh не объявлены первым connector по
+desk ranking. Определены reopening triggers, required evidence package,
+decision algorithm и interim pilot workflow. Runtime, migration, Vault,
+collector, UI и vendor dependency не создавались.
+
 ### S15-T008 — Connector Foundation Documentation Sync
 
 **Описание:** синхронизировать architecture, product, roadmap, user/dev docs.
@@ -232,7 +244,7 @@ scores не выдуманы, pilot-backed shortlist остаётся пусты
 - [x] Confidence Engine и Discovery Inbox описаны.
 - [x] Connector security model готова.
 - [x] Российский research shortlist подготовлен; pilot validation явно pending.
-- [ ] Первый connector candidate выбран или явно отложен.
+- [x] Первый connector candidate явно отложен до pilot admission evidence.
 - [ ] Документация обновлена.
 - [x] `npm run type-check` проходит.
 - [x] `npm run lint` проходит.

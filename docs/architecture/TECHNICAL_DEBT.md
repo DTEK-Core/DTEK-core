@@ -62,7 +62,7 @@
 
 | ID | Проблема | Риск | Решение |
 |---|---|---|---|
-| TD-301 | Research shortlist готов, но pilot-backed ranking и первый connector не выбраны | Можно потратить время на неверную интеграцию | T007 только после source cards/admission evidence; иначе сохранить import path |
+| TD-301 | S15-T007 отложил первый connector: pilot-backed ranking отсутствует | Automatic freshness недоступна, но преждевременный выбор дороже | Сохранять import path; reopen decision только после source cards/admission evidence |
 | TD-302 | Pilot Risk Workflow реализован, но остаётся intentionally minimal | Не покрывает approvals, reminders и custom states | Не расширять до task manager без pilot signal |
 | TD-303 | Activity timeline и security audit реализованы без backfill старых действий; source metadata не является Evidence Layer | Старые workflow-события честно отсутствуют; новый connector contract ещё не имеет runtime | Evidence Layer specification — S15-T002 |
 | TD-304 | Отраслевые пресеты пока экспертно-заданы | Требуется калибровка на реальных кейсах | Пилоты |
