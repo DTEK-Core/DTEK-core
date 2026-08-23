@@ -58,6 +58,12 @@ Source
 
 Единая модель подключения внешних источников.
 
+Foundation contract утверждён ADR-009 и детализирован в
+[Connector_Framework_Architecture.md](Connector_Framework_Architecture.md).
+Connector реализуется как versioned allowlisted adapter, работает через
+server-only Orchestrator и Ingestion Gateway и не пишет напрямую в
+`objects`, `relations` или `risks`.
+
 Минимальный контракт будущего коннектора:
 
 - источник;

@@ -149,7 +149,11 @@ DTEK Core — Trust Intelligence layer над активами, evidence, рис
 - RBAC/RLS/security docs присутствуют;
 - UI отполирован до demo-ready состояния.
 
-Ограничение: платформа пока сильнее как демонстрационный и import-driven MVP, чем как автоматизированный evidence-first продукт. Для первого коммерческого релиза этот разрыв закрывается import, evidence-backed explainability, risk workflow и pilot readiness; Connector Framework относится к Post-MVP.
+Ограничение: платформа пока сильнее как демонстрационный и import-driven MVP,
+чем как автоматизированный evidence-first продукт. Commercial MVP закрывает
+этот разрыв через import, explainability, risk workflow и pilot readiness.
+Post-MVP Connector Framework начат с ADR-009, но runtime, Evidence Layer и
+первый connector ещё не реализованы.
 
 ---
 

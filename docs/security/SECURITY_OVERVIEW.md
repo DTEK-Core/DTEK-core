@@ -63,6 +63,13 @@ ADR-007 добавляет будущие источники данных и к�
 - idempotent sync;
 - отдельный security review до первого production connector.
 
+ADR-009 дополнительно запрещает connector direct write в бизнес-таблицы,
+фиксирует opaque secret reference, bounded/idempotent runs, safe error contract,
+system-actor audit и обязательные SSRF/two-tenant gates. Конкретный secret
+backend и окончательная RBAC/RLS модель утверждаются в S15-T005 до runtime.
+Полный foundation contract:
+[`Connector_Framework_Architecture.md`](../architecture/Connector_Framework_Architecture.md).
+
 ---
 
 ## Реализованные меры безопасности (Sprint 01–14)

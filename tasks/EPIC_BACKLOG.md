@@ -64,7 +64,9 @@
 
 ### Evidence-first Market MVP Epics После Sprint 08
 
-Статус на 07.08.2026: Epic 12–14 завершены, реализация Epic 15 (Sprint 12) завершена и ожидает ручной приёмки. Epic 16–17 составляют оставшийся commercial MVP; Epic 18–24 — Post-MVP.
+Статус на 23.08.2026: Epic 12–17 реализованы; authenticated QA Sprint 12/13 и
+остальные Pilot GO gates остаются pending. Epic 18 начат с S15-T001/ADR-009;
+Epic 19–24 и connector runtime остаются Post-MVP.
 
 | # | Epic | Sprint | Цель |
 |---|---|---|---|
@@ -87,7 +89,9 @@
 | 23 | Auto Risk Mapper | Создание risk candidates на основе evidence |
 | 24 | Drift Detection | Отслеживание изменений инфраструктуры и их влияния на Trust Score |
 
-Эти Epic не заменяют исходные Epic 1–17. Они являются Post-MVP слоем после коммерческого MVP и пилотных сигналов; до Sprint 14 их реализация не начинается.
+Эти Epic не заменяют исходные Epic 1–17. Они являются Post-MVP слоем после
+коммерческого MVP. Архитектурный foundation начат в Sprint 15; выбор первого
+connector по-прежнему требует pilot signals.
 
 ---
 

@@ -29,6 +29,7 @@ Architecture Decision Records (ADR) — это журнал ключевых а�
 | ADR-006 | Продуктовая граница Market MVP | Утверждён |
 | ADR-007 | Evidence-first Trust Platform | Утверждён |
 | ADR-008 | Reporting Architecture | Утверждён |
+| ADR-009 | Connector Framework Architecture | Утверждён |
 
 ---
 
@@ -504,6 +505,83 @@ Sprint 10 должен дать CISO экспортируемые артефак
 - Первый PDF UX может зависеть от browser print-to-PDF.
 - Если пилоты потребуют server-generated binary PDF, потребуется отдельное решение и сравнение вариантов.
 - Bulk export доступен не всем ролям: viewer и admin не получают Risk Registry CSV / Executive Report export в Market MVP.
+
+---
+
+## ADR-009 — Connector Framework Architecture
+
+**Статус:** Утверждён<br>
+**Дата:** 23.08.2026<br>
+**Sprint:** S15-T001<br>
+**Затрагивает документы:** `docs/architecture/Connector_Framework_Architecture.md`, `docs/architecture/System_Architecture.md`, `docs/security/SECURITY_OVERVIEW.md`, `tasks/SPRINT_15.md`
+
+### Контекст
+
+CSV/XLSX import стал первым evidence ingestion path, но текущий commit-flow
+напрямую создаёт `objects` и `risks`, а source metadata временно хранится в
+text block. Копирование такого подхода в отдельные vendor integrations создаст
+несовместимые auth, mapping, retry, audit и tenant-isolation реализации.
+
+Первый production connector ещё не подтверждён pilot feedback. При этом до
+его выбора необходимо определить устойчивую границу между внешним источником,
+raw evidence, normalization, identity resolution и финальной Trust model.
+
+### Решение
+
+**Connector Framework строится как versioned adapter layer внутри текущего
+Next.js + Supabase приложения с единым server-only ingestion contract.**
+
+- Connector Definition является code-owned allowlisted manifest.
+- Connector Installation является tenant-scoped configuration с opaque
+  `secret_ref`; raw credentials в обычных таблицах и клиенте запрещены.
+- Adapter отвечает только за source-specific validation, connection test,
+  bounded pull, pagination/cursor и error classification.
+- Adapter не записывает напрямую в `objects`, `relations`, `risks`, Trust
+  Passport или Trust Score.
+- Все records проходят через Ingestion Gateway и будущий Evidence Layer.
+- Foundation поддерживает manual/scheduled pull; realtime, agent и marketplace
+  остаются non-scope.
+- Execution является bounded, idempotent и resumable; checkpoint продвигается
+  только после durable write.
+- Ambiguous/low-confidence data не влияет на Trust Score до review.
+- Manual override имеет приоритет над connector update.
+- Tenant context фиксируется на installation/run и проверяется для каждой
+  записи; service role не считается механизмом авторизации.
+- Первый connector и конкретный scheduler/worker выбираются отдельным решением
+  после pilot evidence.
+
+Полный контракт:
+`docs/architecture/Connector_Framework_Architecture.md`.
+
+### Обоснование
+
+1. **Сохраняет текущий стек.** Первый framework не требует отдельного
+   microservice, queue, streaming platform или plugin marketplace.
+2. **Не допускает ad hoc integrations.** Общие lifecycle, errors, audit,
+   idempotency и ingestion применяются ко всем sources.
+3. **Поддерживает ADR-007.** Source data сначала становится evidence, а не
+   безусловной бизнес-сущностью.
+4. **Снижает security risk.** Secrets, SSRF, service-role bypass и cross-tenant
+   jobs являются явными gates до runtime.
+5. **Сохраняет контроль пользователя.** Discovery/Confidence boundary не даёт
+   connector незаметно перезаписать manual model.
+6. **Позволяет выбирать source по рынку.** Framework не зависит от AD, Zabbix,
+   MaxPatrol VM или другого конкретного vendor.
+
+### Последствия
+
+- S15-T002 проектирует Evidence Layer data model до любых connector migrations.
+- S15-T003 определяет canonical normalization и identity keys.
+- S15-T004 определяет confidence policy и Discovery Inbox.
+- S15-T005 утверждает secret backend, окончательный RBAC, RLS, SSRF и runtime
+  security controls.
+- S15-T006/T007 нельзя закрыть без pilot source evidence или явного решения
+  владельца отложить первый connector.
+- CSV/XLSX остаётся стабильным current path до controlled compatibility
+  migration.
+- Future connector runtime должен иметь общий contract test suite, включая
+  retries, redaction и two-tenant isolation.
+- T001 не создаёт таблицы, UI, dependencies или production integrations.
 
 ---
 

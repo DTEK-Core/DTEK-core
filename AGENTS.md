@@ -51,6 +51,7 @@
 * **Консолидация 03.08.2026** — dependency baseline усилен, contract tests включены в CI, Supabase seed config и документация синхронизированы.
 * **Roadmap фиксация 07.08.2026** — коммерческий MVP ограничен Sprint 13 (Pilot Risk Workflow) и Sprint 14 (Pilot Readiness); Sprint 15 и Discovery/Evidence/Connector инициативы — Post-MVP.
 * **Sprint 14** — S14-T001–T008 реализованы: master readiness checklist, environment health, manual invitation delivery, production HTTP smoke baseline, Backup & Restore Runbook, Monitoring/Error Handling Plan, Pilot Metrics/Feedback Loop и единый Pilot Documentation Pack; pilot data, provider activation, restore rehearsal и authenticated release-candidate gates не отмечать `PASS` без фактического прогона.
+* **Sprint 15** — Post-MVP Connector Framework Foundation начат; S15-T001 завершена и ADR-009 фиксирует versioned adapter, server-only orchestration, Ingestion Gateway, idempotency, lifecycle, secret-reference и tenant boundaries. Runtime, миграции и первый connector ещё не реализованы; T006/T007 зависят от pilot signals.
 * Cloud migrations `001–019` применены и сверены с Supabase Cloud; migration 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Ручные Sprint 12/13 QA остаются обязательными pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
 
 Sprint 13 развивает Market MVP без изменения продуктовой границы: добавляет
@@ -191,9 +192,9 @@ connector framework развивается поэтапно.
 * улучшать микроанимации;
 * делать интерфейс более профессиональным.
 
-Главное правило после ADR-007:
+Главное правило после ADR-007 и ADR-009:
 
-**Развивать DTEK Core как слой доверительной интерпретации данных, не превращая продукт в SIEM/EDR/DLP/CMDB/GRC. Следующий приоритет — отчёты, evidence import, explainability, pilot readiness и foundation Connector Framework.**
+**Развивать DTEK Core как слой доверительной интерпретации данных, не превращая продукт в SIEM/EDR/DLP/CMDB/GRC. Любой connector работает через общий adapter/ingestion contract и не пишет напрямую в бизнес-таблицы.**
 
 ---
 

@@ -106,6 +106,7 @@
 |---|---|
 | [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) | Архитектура Next.js + Supabase Cloud |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery Layer, Connector Framework, Evidence Layer и автоматического наполнения |
+| [docs/architecture/Connector_Framework_Architecture.md](docs/architecture/Connector_Framework_Architecture.md) | ADR-009: adapter contract, lifecycle, ingestion, idempotency, secrets и tenant boundaries Sprint 15 |
 | [docs/architecture/Reporting_Architecture.md](docs/architecture/Reporting_Architecture.md) | Архитектура отчётов и экспорта Sprint 10 |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Модель объяснимости Trust Score, drivers, impact и source context Sprint 12 |
@@ -206,7 +207,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation в работе, S15-T001 завершена |
 
 ---
 

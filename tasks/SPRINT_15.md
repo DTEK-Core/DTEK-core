@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 📋 Post-MVP, не входит в коммерческий MVP`
+`Статус: 🚧 В работе — S15-T001 завершена; Post-MVP, не входит в коммерческий MVP`
 
 ---
 
@@ -79,16 +79,16 @@ Shortlist для первых connector candidates:
 
 ## 6. Задачи Спринта
 
-| ID | Задача | Приоритет | Оценка | Зависимости |
-|---|---|---|---|---|
-| S15-T001 | Connector Framework Architecture Decision | P1 | M | S14 + ADR-007 |
-| S15-T002 | Evidence Layer Data Model Specification | P1 | L | T001 |
-| S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 |
-| S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 |
-| S15-T005 | Connector Security Model | P1 | M | T001–T004 |
-| S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback |
-| S15-T007 | First Connector Candidate Decision | P1 | S | T006 |
-| S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 |
+| ID | Задача | Приоритет | Оценка | Зависимости | Статус |
+|---|---|---|---|---|---|
+| S15-T001 | Connector Framework Architecture Decision | P1 | M | S14 + ADR-007 | ✅ Завершено |
+| S15-T002 | Evidence Layer Data Model Specification | P1 | L | T001 | ⬜ Запланировано |
+| S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 | ⬜ Запланировано |
+| S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 | ⬜ Запланировано |
+| S15-T005 | Connector Security Model | P1 | M | T001–T004 | ⬜ Запланировано |
+| S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ⬜ Ожидает pilot signals |
+| S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ⬜ Ожидает T006 |
+| S15-T008 | Connector Foundation Documentation Sync | P1 | S | T001–T007 | ⬜ Запланировано |
 
 ---
 
@@ -97,7 +97,6 @@ Shortlist для первых connector candidates:
 ```text
 День 1
   S15-T001 Connector Framework Architecture Decision
-  S15-T006 Russian Market Connector Shortlist
 
 День 2
   S15-T002 Evidence Layer Data Model Specification
@@ -108,6 +107,9 @@ Shortlist для первых connector candidates:
 
 День 4
   S15-T005 Connector Security Model
+
+После подтверждённых pilot signals
+  S15-T006 Russian Market Connector Shortlist
   S15-T007 First Connector Candidate Decision
   S15-T008 Documentation Sync
 ```
@@ -121,6 +123,16 @@ Shortlist для первых connector candidates:
 **Описание:** определить единый контракт коннектора: source type, auth, sync mode, mapping, status, errors, audit events, tenant isolation.
 
 **Ожидаемый результат:** ADR/architecture document описывает, как подключать источники без хаотичных интеграций.
+
+**Решение:** принят ADR-009 и создан
+`docs/architecture/Connector_Framework_Architecture.md`. Framework определён
+как versioned allowlisted adapter layer внутри текущего Next.js + Supabase
+приложения. Зафиксированы Connector Definition/Installation/Adapter,
+server-only Orchestrator и Ingestion Gateway, manual/scheduled bounded pull,
+installation/run lifecycle, cursor/idempotency/freshness, safe errors, audit,
+tenant isolation, secret-reference и SSRF gates. Connector не может напрямую
+писать в Objects/Relations/Risks или Trust model. Runtime, миграции, vault,
+scheduler и первый vendor не реализованы преждевременно.
 
 ### S15-T002 — Evidence Layer Data Model Specification
 
@@ -168,7 +180,7 @@ Shortlist для первых connector candidates:
 
 ## 9. Definition Of Done
 
-- [ ] Connector Framework architecture зафиксирована.
+- [x] Connector Framework architecture зафиксирована в ADR-009.
 - [ ] Evidence Layer data model specification готова.
 - [ ] Normalization и Identity Resolution описаны.
 - [ ] Confidence Engine и Discovery Inbox описаны.
@@ -176,9 +188,9 @@ Shortlist для первых connector candidates:
 - [ ] Российский connector shortlist утверждён.
 - [ ] Первый connector candidate выбран или явно отложен.
 - [ ] Документация обновлена.
-- [ ] `npm run type-check` проходит.
-- [ ] `npm run lint` проходит.
-- [ ] `npm run build` проходит.
+- [x] `npm run type-check` проходит.
+- [x] `npm run lint` проходит.
+- [x] `npm run build` проходит.
 
 ---
 

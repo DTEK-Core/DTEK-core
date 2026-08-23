@@ -41,8 +41,8 @@ Sprint 01–08 создали функциональный и визуально
 | Explainability | Sprint 12 реализован; QA checklist готов, ручная приёмка отложена владельцем проекта до pilot release gate |
 | Engineering consolidation | Dependency hardening и CI contract tests завершены; реализация Sprint 14 завершена, Pilot GO gates pending |
 | Pilot narrative | Готов |
-| Commercial MVP remaining | Sprint 14 Pilot Readiness; Sprint 12/13 authenticated QA входят в release gates |
-| Evidence-first architecture | ADR-007 принят; Discovery/Evidence/Connector runtime — Post-MVP |
+| Commercial MVP remaining | Реализация Sprint 14 завершена; Sprint 12/13 authenticated QA и остальные Pilot GO gates pending |
+| Evidence-first architecture | ADR-007 и Connector Framework ADR-009 приняты; Evidence/runtime остаются Post-MVP work |
 
 ---
 
@@ -98,7 +98,8 @@ Sprint 01–08 создали функциональный и визуально
 
 ### Phase D — Evidence-first Integrations
 
-Статус: после подтверждения пилотов.
+Статус: Sprint 15 начат; S15-T001/ADR-009 завершены. Первый connector остаётся
+зависимым от подтверждённых pilot signals.
 
 Возможные направления:
 
@@ -188,7 +189,7 @@ Sprint 01–08 создали функциональный и визуально
 | Sprint 12 | `tasks/SPRINT_12.md` | Evidence-backed Trust Explainability — реализация завершена, manual QA pending |
 | Sprint 13 | `tasks/SPRINT_13.md` | Commercial MVP: Pilot Risk Workflow |
 | Sprint 14 | `tasks/SPRINT_14.md` | Commercial MVP: Pilot Readiness и release gates |
-| Sprint 15 | `tasks/SPRINT_15.md` | Post-MVP: Connector Framework Foundation |
+| Sprint 15 | `tasks/SPRINT_15.md` | Post-MVP: Connector Framework Foundation в работе, S15-T001 завершена |
 
 ---
 

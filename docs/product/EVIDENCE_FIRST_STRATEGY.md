@@ -140,6 +140,11 @@ Market MVP остаётся пошаговым, но теперь каждый �
 5. **Pilot Readiness** проверяет, какие источники реально есть у клиентов.
 6. **Connector Framework Foundation** создаёт основу для первых коннекторов.
 
+Архитектурный контракт foundation утверждён ADR-009 и описан в
+[Connector_Framework_Architecture.md](../architecture/Connector_Framework_Architecture.md):
+vendor adapters работают через общий ingestion boundary и не пишут напрямую в
+Trust-модель.
+
 ---
 
 ## 8. Конечная Цель

@@ -23,11 +23,11 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.14.0-dev — реализация Sprint 14 завершена; фактические Pilot GO gates ожидаются.**
+**v0.15.0-dev — Sprint 15 Connector Framework Foundation начат; S15-T001 завершена.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 завершена: Risk Registry поддерживает owner, due date/SLA, immutable comments, manual/imported origin, activity timeline и audit events. Sprint 14 начат с единого Pilot Readiness Checklist; authenticated QA Sprint 12 и Sprint 13 остаются обязательными pilot release gates и не отмечены как `PASS`.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 начат с ADR-009: Connector Framework получает единый adapter/ingestion contract без преждевременного runtime или выбора vendor.
 
 ### Реализованные Маршруты
 
@@ -144,6 +144,7 @@ diploma/             Учебная база автора и подготовк�
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
 | [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Evidence-first стратегия и новая роль автоматического наполнения |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery, Connector и Evidence layers |
+| [docs/architecture/Connector_Framework_Architecture.md](docs/architecture/Connector_Framework_Architecture.md) | ADR-009 и единый adapter/ingestion contract Sprint 15 |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Спецификация объяснимости Trust Score Sprint 12 |
 | [docs/architecture/Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Минимальная модель Pilot Risk Workflow Sprint 13 |
@@ -174,7 +175,7 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний полностью закрытый Sprint | Sprint 11 — Evidence Import & Data Onboarding |
-| Текущая разработка | Sprint 14 — S14-T001–T008 реализованы; release gates pending |
+| Текущая разработка | Sprint 15 — S15-T001 Connector Framework Architecture Decision завершена |
 | Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
@@ -196,11 +197,11 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. Продолжить Sprint 14 — Pilot Readiness по master checklist.
-2. До решения `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
-3. До решения `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
-4. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready.
-5. После коммерческого MVP: Sprint 15 — Connector Framework Foundation.
+1. Продолжить Sprint 15 — Evidence Layer, normalization, Discovery и connector security specifications.
+2. До решения Pilot `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
+3. До решения Pilot `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
+4. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready отдельно от Post-MVP разработки.
+5. Выбирать первый connector только после подтверждённых pilot source signals.
 
 Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
 
@@ -225,4 +226,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.14.0-dev / Sprint 14 Pilot Readiness**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.15.0-dev / Sprint 15 Connector Foundation**

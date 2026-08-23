@@ -119,7 +119,9 @@
 
 Этот раздел дополняет исходный MVP backlog после ADR-007. Коммерческий MVP заканчивается Sprint 14; Sprint 15 и следующие инициативы относятся к Post-MVP.
 
-Статус на 07.08.2026: M-001–M-034 реализованы; M-030–M-034 ожидают итоговой ручной приёмки Sprint 12. M-040–M-055 составляют оставшийся commercial MVP; M-060+ — Post-MVP.
+Статус на 23.08.2026: M-001–M-057 реализованы на уровне Sprint-задач;
+authenticated QA и Pilot GO gates остаются pending. M-060 (S15-T001/ADR-009)
+реализована; M-061+ — последующий Post-MVP foundation.
 
 | ID | Sprint | Feature | Приоритет | Размер |
 |---|---|---|---|---|
@@ -157,10 +159,12 @@
 | M-053 | S14 | Smoke Test Automation Baseline | P1 | M |
 | M-054 | S14 | Backup & Restore Runbook | P1 | S |
 | M-055 | S14 | Pilot Metrics & Feedback Loop | P1 | S |
+| M-056 | S14 | Monitoring & Error Handling Plan | P1 | M |
+| M-057 | S14 | Pilot Documentation Pack | P1 | S |
 | M-060 | Post-MVP S15 | Connector Framework Architecture Decision | P1 | M |
 | M-061 | Post-MVP S15 | Evidence Layer Data Model Specification | P1 | L |
 | M-062 | Post-MVP S15 | Normalization & Identity Resolution Specification | P1 | M |
-| M-063 | Post-MVP S15 | Discovery Inbox UX Specification | P1 | M |
+| M-063 | Post-MVP S15 | Confidence Engine & Discovery Inbox Specification | P1 | M |
 | M-064 | Post-MVP S15 | Connector Shortlist & First-source Selection Report | P1 | S |
 | M-065 | Post-MVP S15 | Connector Security Model | P1 | M |
 

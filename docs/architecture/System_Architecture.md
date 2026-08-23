@@ -66,7 +66,12 @@ External sources / CSV / Connectors
 
 Edge Functions и Supabase Storage не являются обязательной частью текущего MVP. Они могут быть добавлены в Post-MVP при появлении подтверждённой задачи.
 
-Connector runtime, background sync и evidence storage проектируются как следующий архитектурный слой. До отдельной миграции они не являются частью текущей схемы БД.
+Connector Framework foundation зафиксирован ADR-009 как versioned adapter
+layer с server-only orchestration и единым Ingestion Gateway. Connector не
+пишет напрямую в Objects/Risks/Relations; runtime, background sync и evidence
+storage не являются частью текущей схемы до отдельных задач и миграций.
+Подробно:
+[Connector_Framework_Architecture.md](Connector_Framework_Architecture.md).
 
 Reporting Sprint 10 использует Next.js Server Components, route handlers и server-side report modules. Подробно: [Reporting_Architecture.md](Reporting_Architecture.md).
 
@@ -157,7 +162,7 @@ Trust Score рассчитывается в TypeScript:
 1. Market MVP.
 2. Pilot readiness.
 3. Evidence import as first ingestion path.
-4. Connector Framework Foundation.
+4. Connector Framework Foundation — ADR-009 принят, data/security specifications продолжаются в Sprint 15.
 5. First connector prototypes based on pilot evidence.
 6. API/webhooks.
 7. Enterprise security features.

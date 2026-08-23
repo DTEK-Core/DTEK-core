@@ -1,14 +1,15 @@
 # TECHNICAL_DEBT.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 12.08.2026`
+`Дата: 23.08.2026`
 `Область: архитектура, масштабирование, эксплуатация`
 
 ---
 
 ## 1. Цель
 
-Документ фиксирует известный технический долг, ограничения и эксплуатационные риски после реализации Sprint 13 и финальной консолидации текущего этапа.
+Документ фиксирует известный технический долг, ограничения и эксплуатационные
+риски после реализации Sprint 14 и принятия Connector Framework ADR-009.
 
 Технический долг не означает, что продукт сломан. Это список решений, которые приемлемы для MVP, но требуют контроля перед пилотами и enterprise-развитием.
 
@@ -61,9 +62,9 @@
 
 | ID | Проблема | Риск | Решение |
 |---|---|---|---|
-| TD-301 | Нет выбранного первого коннектора | Можно потратить время на неверную интеграцию | Выбирать после интервью |
+| TD-301 | Нет выбранного первого коннектора; общий framework contract утверждён ADR-009 | Можно потратить время на неверную интеграцию | Выбирать в S15-T006/T007 только по pilot source evidence |
 | TD-302 | Pilot Risk Workflow реализован, но остаётся intentionally minimal | Не покрывает approvals, reminders и custom states | Не расширять до task manager без pilot signal |
-| TD-303 | Activity timeline и security audit реализованы без backfill старых действий; source metadata не является Evidence Layer | Старые workflow-события честно отсутствуют, полноценный Evidence Layer не нужен до пилота | Evidence Layer — Post-MVP |
+| TD-303 | Activity timeline и security audit реализованы без backfill старых действий; source metadata не является Evidence Layer | Старые workflow-события честно отсутствуют; новый connector contract ещё не имеет runtime | Evidence Layer specification — S15-T002 |
 | TD-304 | Отраслевые пресеты пока экспертно-заданы | Требуется калибровка на реальных кейсах | Пилоты |
 | TD-305 | TrustOps термин не валидирован рынком | Может быть непонятен покупателю | Использовать как вторичный термин |
 
@@ -75,7 +76,7 @@
 |---|---|
 | TD-401 | Исторические Sprint-документы содержат старые статусы | Оставлены как history, не source of truth |
 | TD-402 | `.claude/` содержит legacy workflow | Сохранено для совместимости, актуальные правила в root |
-| TD-403 | `CLAUDE.md` и `AGENTS.md` частично пересекаются | До следующего этапа Codex environment consolidation |
+| TD-403 | `CLAUDE.md` и `AGENTS.md` частично пересекаются | Критичный ADR/migration/positioning context синхронизирован 23.08.2026; избегать дальнейшего расхождения |
 
 ---
 
@@ -90,7 +91,9 @@
 - invitation link передаётся вручную без production email delivery;
 - нет E2E automation для authenticated multi-role и multi-tenant сценариев;
 - demo seed автоматизированно не воспроизводится;
-- Evidence Layer, Discovery Inbox, Identity Resolution, Drift Detection и Auto Risk Mapper пока являются целевой архитектурой, а не runtime-функциональностью.
+- Connector Framework contract зафиксирован ADR-009, но connector runtime,
+  Evidence Layer, Discovery Inbox, Identity Resolution, Drift Detection и Auto
+  Risk Mapper пока не реализованы.
 
 ---
 

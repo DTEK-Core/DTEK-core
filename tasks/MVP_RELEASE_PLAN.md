@@ -380,8 +380,8 @@ PDF Export (F-028) и CSV Export (F-035) становятся обязатель
 | Sprint 11 | R6 Market MVP Foundation | Evidence Onboarding Ready |
 | Sprint 12 | R6 Market MVP Foundation | Реализация Explainability Ready завершена, manual QA pending |
 | Sprint 13 | R6 Commercial MVP | Реализация Pilot Risk Workflow завершена, manual QA pending |
-| Sprint 14 | R6 Commercial MVP | Commercial MVP / Pilot Ready |
-| Sprint 15 | Post-MVP | Connector Foundation Ready |
+| Sprint 14 | R6 Commercial MVP | Реализация завершена; Pilot GO gates pending |
+| Sprint 15 | Post-MVP | В работе: S15-T001 Connector Architecture завершена |
 
 ### Milestone-карта
 

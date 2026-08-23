@@ -5,6 +5,24 @@
 
 ---
 
+## Sprint 15 Connector Framework Architecture — 2026-08-23
+
+### Добавлено
+
+- Принят ADR-009 и создан единый Connector Framework contract: versioned
+  allowlisted adapters, tenant installations, bounded sync runs, server-only
+  orchestration и Ingestion Gateway.
+- Зафиксированы lifecycle, idempotency/cursor/freshness, mapping boundary,
+  manual override, safe errors, audit и observability.
+- Secret reference, SSRF protection, service-role boundary и two-tenant tests
+  определены как обязательные gates до connector runtime.
+
+### Изменено
+
+- Sprint 15, roadmap, backlogs, architecture/security overview и agent context
+  синхронизированы; T006/T007 явно оставлены зависимыми от pilot signals.
+- Runtime, migrations, dependencies, UI и конкретный connector не добавлялись.
+
 ## Sprint 14 Pilot Documentation Pack — 2026-08-22
 
 ### Добавлено

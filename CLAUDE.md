@@ -7,7 +7,7 @@
 
 ## Обзор проекта
 
-**DTEK Core** — Digital Trust Management Platform (DTMP).
+**DTEK Core** — Evidence-first Trust Intelligence Platform.
 
 Платформа создаёт цифровую модель доверия организации как слой над существующими инструментами безопасности. Помогает CISO и аналитикам ИБ понять реальный уровень киберзащищённости организации через единый показатель — Trust Score.
 
@@ -56,12 +56,12 @@
 │   └── database.ts         — TypeScript-типы схемы БД (регенерировать после миграций)
 ├── supabase/
 │   ├── config.toml         — project_id = "ehqpijmbtavfacqogtoe", PG 15
-│   ├── migrations/         — 001–017 SQL-миграции (применены на Cloud)
+│   ├── migrations/         — 001–019 SQL-миграции (применены на Cloud)
 │   └── functions/          — Edge Functions (Sprint 08+)
 ├── design/                 — утверждённый дизайн-прототип (HTML + JSX + скриншоты)
 ├── docs/                   — вся проектная документация
 ├── tasks/                  — бэклоги, планы, спринты
-├── ARCHITECTURE_DECISIONS.md — 5 ADR (приоритет над остальными документами)
+├── ARCHITECTURE_DECISIONS.md — 9 ADR (приоритет над остальными документами)
 └── CLAUDE.md               — этот файл
 ```
 
@@ -71,7 +71,7 @@
 
 ---
 
-## Ключевые архитектурные решения (ADR-001–005)
+## Ключевые архитектурные решения (ADR-001–009)
 
 Полный текст: [`ARCHITECTURE_DECISIONS.md`](ARCHITECTURE_DECISIONS.md). При конфликте документов ADR имеют приоритет.
 
@@ -97,6 +97,18 @@ On-premise (Enterprise Runtime) запланирован на v2.0.
 **Решение:** 10 таблиц с типами PostgreSQL, CHECK-ограничениями, индексами и RLS-политиками.  
 Документ-источник: `docs/architecture/Database_Design_Full.md` (заменяет устаревший `docs/archive/Database_Design.md`).
 
+### ADR-006 — Продуктовая граница Market MVP
+**Решение:** DTEK Core остаётся слоем доверительной интерпретации и не превращается в SIEM/EDR/DLP/CMDB/GRC. Интеграции следуют за pilot evidence.
+
+### ADR-007 — Evidence-first Trust Platform
+**Решение:** import/connectors создают evidence; normalization, identity resolution, confidence и Discovery Inbox предшествуют автоматическому обновлению Trust-модели.
+
+### ADR-008 — Reporting Architecture
+**Решение:** printable server-side report pages и защищённый Risk CSV route без тяжёлого PDF runtime.
+
+### ADR-009 — Connector Framework Architecture
+**Решение:** versioned allowlisted adapters работают через server-only Orchestrator и Ingestion Gateway, не пишут напрямую в Objects/Risks/Relations, используют opaque secret references, idempotency и tenant-scoped runs. Runtime и первый connector ещё не реализованы.
+
 ---
 
 ## Обязательные соглашения
@@ -115,6 +127,8 @@ On-premise (Enterprise Runtime) запланирован на v2.0.
 ### Безопасность
 - `SUPABASE_SERVICE_ROLE_KEY` обходит RLS — **никогда не использовать на клиенте, никогда не коммитить**.
 - `.env.local` в `.gitignore` — не коммитить.
+- Connector credentials доступны только server-side через утверждённый secret reference; service role не является механизмом авторизации.
+- Connector adapter не пишет напрямую в бизнес-таблицы и не обходит Evidence/Discovery boundary.
 
 ### Дизайн
 - Финальный дизайн в папке `design/`. Все UI-решения должны точно соответствовать прототипу.
@@ -162,7 +176,8 @@ npx supabase gen types typescript --project-id ehqpijmbtavfacqogtoe > types/data
 
 | Документ | Назначение |
 |---|---|
-| [`ARCHITECTURE_DECISIONS.md`](ARCHITECTURE_DECISIONS.md) | 5 ADR — приоритетный источник истины |
+| [`ARCHITECTURE_DECISIONS.md`](ARCHITECTURE_DECISIONS.md) | 9 ADR — приоритетный источник истины |
+| [`docs/architecture/Connector_Framework_Architecture.md`](docs/architecture/Connector_Framework_Architecture.md) | ADR-009: единый контракт будущих коннекторов |
 | [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) | Навигационный индекс всей документации |
 | [`docs/architecture/Database_Design_Full.md`](docs/architecture/Database_Design_Full.md) | Полная схема БД: 10 таблиц, типы, индексы, RLS |
 | [`docs/architecture/Trust_Score_Model_v2.md`](docs/architecture/Trust_Score_Model_v2.md) | Формула и расчёт Trust Score (актуальная версия) |
