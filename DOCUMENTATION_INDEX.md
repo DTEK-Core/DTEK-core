@@ -109,6 +109,7 @@
 | [docs/architecture/Connector_Framework_Architecture.md](docs/architecture/Connector_Framework_Architecture.md) | ADR-009: adapter contract, lifecycle, ingestion, idempotency, secrets и tenant boundaries Sprint 15 |
 | [docs/architecture/Evidence_Layer_Data_Model.md](docs/architecture/Evidence_Layer_Data_Model.md) | Модель source, batch, raw observations, normalized assertions, bindings, retention и будущей migration Sprint 15 |
 | [docs/architecture/Normalization_Identity_Resolution.md](docs/architecture/Normalization_Identity_Resolution.md) | Canonical normalization, identity keys, resolver, conflict, manual override и merge policy Sprint 15 |
+| [docs/architecture/Confidence_Engine_Discovery_Inbox.md](docs/architecture/Confidence_Engine_Discovery_Inbox.md) | Confidence formula, hard gates, candidate lifecycle, RBAC и Discovery Inbox UX Sprint 15 |
 | [docs/architecture/Reporting_Architecture.md](docs/architecture/Reporting_Architecture.md) | Архитектура отчётов и экспорта Sprint 10 |
 | [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
 | [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Модель объяснимости Trust Score, drivers, impact и source context Sprint 12 |
@@ -209,7 +210,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation в работе, S15-T001–T003 завершены |
+| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: Post-MVP Connector Framework Foundation в работе, S15-T001–T004 завершены |
 
 ---
 

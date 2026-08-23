@@ -572,6 +572,7 @@ potential gain = +6
 - [Trust_Score_Model_v2.md](Trust_Score_Model_v2.md) — утверждённая формула Trust Score.
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая Evidence Layer и Evidence Timeline.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий source metadata contract.
+- [Confidence_Engine_Discovery_Inbox.md](Confidence_Engine_Discovery_Inbox.md) — будущий engine confidence, decisions и Trust effect boundary.
 - [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) — ограничения MVP и Pilot readiness.
 - [EXPLAINABILITY_QA_CHECKLIST.md](../testing/EXPLAINABILITY_QA_CHECKLIST.md) — ручная сверка UI, формулы, sources, RBAC и responsive states.
 - [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) — задачи реализации explainability.

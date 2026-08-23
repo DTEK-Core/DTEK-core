@@ -817,6 +817,8 @@ supporting/strong proposal с audit trail.
   adapter/orchestrator/ingestion boundaries.
 - [Evidence_Layer_Data_Model.md](Evidence_Layer_Data_Model.md) — source,
   observation, assertion и binding schema.
+- [Confidence_Engine_Discovery_Inbox.md](Confidence_Engine_Discovery_Inbox.md)
+  — score bands, hard gates, candidate states/actions и Inbox UX.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий import и
   compatibility duplicate rules.
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая

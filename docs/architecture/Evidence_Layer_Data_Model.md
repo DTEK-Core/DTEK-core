@@ -630,7 +630,7 @@ Cloud migration не запускается без backup/restore gate из Spri
 | Решение | Владелец |
 |---|---|
 | Canonical fields, identity keys, match/merge/manual override | Определены в S15-T003 |
-| Confidence formula, thresholds, candidate transitions, Inbox UX | S15-T004 |
+| Confidence formula, thresholds, candidate transitions, Inbox UX | Определены в S15-T004 |
 | Secret backend, final RBAC matrix, FORCE RLS/runtime, SSRF controls | S15-T005 |
 | Первый vendor/source и connector-specific schema | S15-T006/T007 |
 | Scheduler/queue and retention worker implementation | Future runtime task |
@@ -664,6 +664,8 @@ revision, explicit provenance, idempotency и отсутствие direct connec
   adapter, orchestrator и ingestion boundaries.
 - [Normalization_Identity_Resolution.md](Normalization_Identity_Resolution.md)
   — canonical normalization, identity keys, resolver и merge policy.
+- [Confidence_Engine_Discovery_Inbox.md](Confidence_Engine_Discovery_Inbox.md)
+  — confidence formula, candidate lifecycle, actions и review UX.
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая
   Evidence-first архитектура.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий CSV/XLSX

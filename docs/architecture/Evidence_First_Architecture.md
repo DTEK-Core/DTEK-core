@@ -295,7 +295,9 @@ Evidence-first архитектура усиливает требования б
 Post-MVP foundation детализирован в
 [Connector_Framework_Architecture.md](Connector_Framework_Architecture.md),
 [Evidence_Layer_Data_Model.md](Evidence_Layer_Data_Model.md) и
-[Normalization_Identity_Resolution.md](Normalization_Identity_Resolution.md).
+[Normalization_Identity_Resolution.md](Normalization_Identity_Resolution.md),
+а Confidence/Discovery contract — в
+[Confidence_Engine_Discovery_Inbox.md](Confidence_Engine_Discovery_Inbox.md).
 
 ---
 

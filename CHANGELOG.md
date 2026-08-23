@@ -5,6 +5,23 @@
 
 ---
 
+## Sprint 15 Confidence Engine & Discovery Inbox — 2026-08-23
+
+### Добавлено
+
+- Определена versioned confidence formula 0–100: identity/subject resolution,
+  source assurance, corroboration, freshness, quality, penalties и caps.
+- Зафиксированы hard gates и allowlisted auto-policy: merge, Risks,
+  destructive и business-context actions остаются human-only.
+- Спроектированы candidate fingerprint, persistence, lifecycle, suppression,
+  projection status, actions, RBAC/RLS, audit и Discovery Inbox UX.
+
+### Изменено
+
+- Sprint 15, roadmap, backlogs, README, architecture/product docs и agent
+  context синхронизированы; следующей задачей является S15-T005.
+- Runtime, UI, SQL migrations, Trust Engine и текущий import не изменялись.
+
 ## Sprint 15 Normalization & Identity Resolution — 2026-08-23
 
 ### Добавлено

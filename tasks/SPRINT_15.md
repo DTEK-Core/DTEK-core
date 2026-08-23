@@ -4,7 +4,7 @@
 `Спринт: 15`  
 `Тип: Post-MVP Architecture Sprint`<br>
 `Основа: Sprint 14, ADR-007, Evidence_First_Architecture.md, pilot feedback`  
-`Статус: 🚧 В работе — S15-T001–T003 завершены; Post-MVP, не входит в коммерческий MVP`
+`Статус: 🚧 В работе — S15-T001–T004 завершены; Post-MVP, не входит в коммерческий MVP`
 
 ---
 
@@ -82,9 +82,9 @@ Shortlist для первых connector candidates:
 | ID | Задача | Приоритет | Оценка | Зависимости | Статус |
 |---|---|---|---|---|---|
 | S15-T001 | Connector Framework Architecture Decision | P1 | M | S14 + ADR-007 | ✅ Завершено |
-| S15-T002 | Evidence Layer Data Model Specification | P1 | L | T001 | ⬜ Запланировано |
-| S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 | ⬜ Запланировано |
-| S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 | ⬜ Запланировано |
+| S15-T002 | Evidence Layer Data Model Specification | P1 | L | T001 | ✅ Завершено |
+| S15-T003 | Normalization & Identity Resolution Specification | P1 | M | T001, T002 | ✅ Завершено |
+| S15-T004 | Confidence Engine & Discovery Inbox Specification | P1 | M | T002, T003 | ✅ Завершено |
 | S15-T005 | Connector Security Model | P1 | M | T001–T004 | ⬜ Запланировано |
 | S15-T006 | Russian Market Connector Shortlist | P1 | S | S14 feedback | ⬜ Ожидает pilot signals |
 | S15-T007 | First Connector Candidate Decision | P1 | S | T006 | ⬜ Ожидает T006 |
@@ -173,6 +173,17 @@ business projection не создавались.
 
 **Ожидаемый результат:** пользователь может подтверждать, объединять, отклонять и архивировать candidates.
 
+**Решение:** создан
+`docs/architecture/Confidence_Engine_Discovery_Inbox.md`. Разделены
+source-declared confidence, вычисленный score и user/policy decision.
+Зафиксирована versioned formula 0–100 из identity/source/corroboration/
+freshness/quality, penalties, conservative caps и hard gates. Описаны Object,
+Relation и Risk candidates, fingerprint/suppression, lifecycle, projection
+status, confirm/create/link/merge/reject/archive actions, RBAC/RLS, audit,
+retention, concurrency, performance и Inbox UX. High означает eligibility для
+узкой allowlisted policy, но merge, Risk и destructive/business-context actions
+остаются human-only. Runtime, UI, migration и Trust integration не создавались.
+
 ### S15-T005 — Connector Security Model
 
 **Описание:** описать хранение секретов, RBAC, RLS, audit events, safe error handling и tenant isolation для коннекторов.
@@ -204,7 +215,7 @@ business projection не создавались.
 - [x] Connector Framework architecture зафиксирована в ADR-009.
 - [x] Evidence Layer data model specification готова.
 - [x] Normalization и Identity Resolution описаны.
-- [ ] Confidence Engine и Discovery Inbox описаны.
+- [x] Confidence Engine и Discovery Inbox описаны.
 - [ ] Connector security model готова.
 - [ ] Российский connector shortlist утверждён.
 - [ ] Первый connector candidate выбран или явно отложен.

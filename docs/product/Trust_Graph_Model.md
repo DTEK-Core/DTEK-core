@@ -148,6 +148,11 @@ Trust Graph представляет организацию в виде граф
 
 Автоматические связи должны иметь source, confidence и возможность подтверждения или отклонения в Discovery Inbox.
 
+Confidence formula, human-only conflict/merge boundaries и review lifecycle
+определены в
+[Confidence_Engine_Discovery_Inbox.md](../architecture/Confidence_Engine_Discovery_Inbox.md);
+автоматическое построение графа по-прежнему не реализовано.
+
 # Будущее развитие
 
 **В будущих версиях система должна:**

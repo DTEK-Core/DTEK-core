@@ -152,7 +152,8 @@ DTEK Core — Trust Intelligence layer над активами, evidence, рис
 Ограничение: платформа пока сильнее как демонстрационный и import-driven MVP,
 чем как автоматизированный evidence-first продукт. Commercial MVP закрывает
 этот разрыв через import, explainability, risk workflow и pilot readiness.
-Post-MVP Connector Framework начат с ADR-009, но runtime, Evidence Layer и
+Post-MVP Connector Framework, Evidence Layer, Identity Resolution и
+Confidence/Discovery contracts специфицированы, но runtime/UI/migrations и
 первый connector ещё не реализованы.
 
 ---
