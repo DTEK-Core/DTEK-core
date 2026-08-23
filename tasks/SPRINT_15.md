@@ -140,6 +140,16 @@ scheduler и первый vendor не реализованы преждевре�
 
 **Ожидаемый результат:** готова спецификация будущей миграции с RLS и audit requirements.
 
+**Решение:** создан
+`docs/architecture/Evidence_Layer_Data_Model.md`. Модель разделяет tenant
+source, ingestion batch, stable source record, immutable raw observation,
+versioned normalized assertion и binding к Objects/Risks/Relations/Trust
+factors. Зафиксированы replay/revision/freshness/tombstone semantics,
+confidence storage без преждевременного влияния на Trust Score, composite
+tenant FKs, RLS/RBAC baseline, safe audit metadata, retention defaults,
+индексы, transaction boundaries и staged migration plan. SQL migration,
+runtime, backfill и изменение текущего CSV/XLSX path не выполнялись.
+
 ### S15-T003 — Normalization & Identity Resolution Specification
 
 **Описание:** определить правила нормализации и сопоставления объектов из разных источников.
@@ -181,7 +191,7 @@ scheduler и первый vendor не реализованы преждевре�
 ## 9. Definition Of Done
 
 - [x] Connector Framework architecture зафиксирована в ADR-009.
-- [ ] Evidence Layer data model specification готова.
+- [x] Evidence Layer data model specification готова.
 - [ ] Normalization и Identity Resolution описаны.
 - [ ] Confidence Engine и Discovery Inbox описаны.
 - [ ] Connector security model готова.

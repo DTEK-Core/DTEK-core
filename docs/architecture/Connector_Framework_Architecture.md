@@ -608,6 +608,8 @@ T001 намеренно не фиксирует:
   ADR-007 и ADR-009.
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая
   Evidence-first модель.
+- [Evidence_Layer_Data_Model.md](Evidence_Layer_Data_Model.md) — source,
+  batch, raw observation, normalized assertion и binding schema contract.
 - [Evidence_Import_Schema.md](Evidence_Import_Schema.md) — текущий import
   contract и source metadata.
 - [System_Architecture.md](System_Architecture.md) — фактическая архитектура.

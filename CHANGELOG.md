@@ -5,6 +5,25 @@
 
 ---
 
+## Sprint 15 Evidence Layer Data Model — 2026-08-23
+
+### Добавлено
+
+- Спроектированы tenant-scoped `evidence_sources`, `evidence_batches`,
+  `evidence_records`, immutable `evidence_observations`, normalized
+  `evidence_assertions` и bindings к Objects, Risks, Relations и Trust factors.
+- Зафиксированы source metadata, replay/revision, `last_seen_at`, stale/tombstone,
+  confidence storage, retention, indexes и transaction/idempotency contracts.
+- Подготовлены RLS/RBAC и safe audit requirements, staged migration plan и
+  обязательные two-tenant/migration acceptance tests.
+
+### Изменено
+
+- Sprint 15, README, Documentation Index и Connector Framework связаны с новой
+  спецификацией; следующей задачей зафиксирована S15-T003.
+- Текущий CSV/XLSX import, Trust Engine, SQL migrations, runtime и зависимости
+  не изменялись.
+
 ## Sprint 15 Connector Framework Architecture — 2026-08-23
 
 ### Добавлено
