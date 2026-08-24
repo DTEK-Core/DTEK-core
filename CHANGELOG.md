@@ -5,6 +5,22 @@
 
 ---
 
+## Security & Stabilization Gate Preparation — 2026-08-24
+
+### Добавлено
+
+- Зафиксирован официальный full-audit checkpoint `Functional pre-pilot MVP` и
+  blocking Gate со статусом `PREPARED / NOT STARTED`.
+- Подготовлены SEC-01–SEC-04, STAB-01–STAB-05, dependency order, RLS/authenticated
+  QA matrices, rollback strategy и критерии `PILOT READY`.
+
+### Изменено
+
+- README, agent context, Roadmap, Sprint Roadmap, Documentation Index и
+  Technical Debt синхронизированы без открытия нового Sprint.
+- Security migrations, RLS/RBAC, auth, Server Actions, production types и
+  продуктовая функциональность не изменялись.
+
 ## Sprint 15 Connector Foundation Documentation Sync — 2026-08-23
 
 ### Добавлено

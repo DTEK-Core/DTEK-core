@@ -1,7 +1,7 @@
 # ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 23.08.2026`
+`Дата: 24.08.2026`
 `Основа: Strategic Product & Market Analysis + Sprint 08 + ADR-007`
 
 ---
@@ -33,7 +33,7 @@ Sprint 01–08 создали функциональный и визуально
 | Trust Graph | Реализовано |
 | Dashboard | Реализовано |
 | Configurator | Реализовано |
-| RBAC/RLS/Security Audit | Реализовано на MVP-уровне |
+| RBAC/RLS/Security Audit | PARTIAL: базовая модель есть, blocking findings SEC-01–04 ожидают Gate |
 | UX polish | Sprint 08 завершён |
 | Demo data | Спецификация и manual seed plan готовы |
 | Import/export | Реализовано для CSV/XLSX import и ключевых отчётов; import трактуется как evidence ingestion |
@@ -43,6 +43,8 @@ Sprint 01–08 создали функциональный и визуально
 | Pilot narrative | Готов |
 | Commercial MVP remaining | Реализация Sprint 14 завершена; Sprint 12/13 authenticated QA и остальные Pilot GO gates pending |
 | Evidence-first architecture | ADR-007 и Connector Framework ADR-009 приняты; Evidence/runtime остаются Post-MVP work |
+| Security audit checkpoint | Functional pre-pilot MVP; blocking Gate подготовлен, исправления не начаты |
+| Next required release gate | `tasks/SECURITY_STABILIZATION_GATE.md` — PREPARED / NOT STARTED |
 
 ---
 
@@ -136,6 +138,17 @@ shortlist ранжирован, но source cards/demand scores остаются
 - procurement/security pack;
 - regulatory alignment.
 
+### Blocking Gate — Security & Stabilization
+
+Статус: `PREPARED / NOT STARTED`. Это не новая Roadmap phase и не продуктовый
+Sprint. Gate добавлен после контрольного аудита 24.08.2026 и блокирует pilot
+release до устранения profile privilege escalation, неисполняемой блокировки
+пользователя, cross-tenant Object/Risk и Trust Graph relations, а также
+связанных stabilization tasks.
+
+Полный scope, порядок и evidence criteria:
+[`tasks/SECURITY_STABILIZATION_GATE.md`](../../tasks/SECURITY_STABILIZATION_GATE.md).
+
 ---
 
 ## 4. Что Переносится В Post-MVP
@@ -196,6 +209,7 @@ shortlist ранжирован, но source cards/demand scores остаются
 | Sprint 13 | `tasks/SPRINT_13.md` | Commercial MVP: Pilot Risk Workflow |
 | Sprint 14 | `tasks/SPRINT_14.md` | Commercial MVP: Pilot Readiness и release gates |
 | Sprint 15 | `tasks/SPRINT_15.md` | Post-MVP: завершён — Connector Foundation Ready / Runtime Deferred |
+| Release Gate | `tasks/SECURITY_STABILIZATION_GATE.md` | Blocking: PREPARED / NOT STARTED, не Sprint |
 
 ---
 

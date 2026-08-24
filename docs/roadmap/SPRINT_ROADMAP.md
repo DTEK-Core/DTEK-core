@@ -1,7 +1,7 @@
 # SPRINT_ROADMAP.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 23.08.2026`
+`Дата: 24.08.2026`
 `Назначение: официально зафиксированный план до коммерческого MVP`
 
 ---
@@ -16,8 +16,9 @@ Demo Ready
   -> Evidence Onboarding Ready
   -> Evidence-backed Explainability Ready
   -> Pilot Risk Workflow Ready
-  -> Pilot Ready / Commercial MVP
   -> Post-MVP Connector Foundation Ready
+  -> Security & Stabilization Gate before pilot release
+  -> Pilot Ready decision
 ```
 
 ---
@@ -66,6 +67,11 @@ Demo Ready
 | Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Реализация завершена, manual QA pending | Сделать Risk Registry рабочим процессом для manual/imported risks |
 | Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Реализация S14-T001–T008 завершена; Pilot GO gates pending | Закрыть release gates и подготовить продукт к 1–3 пилотам |
 | Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Завершён: Connector Foundation Ready / Runtime Deferred | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
+
+Следующий продуктовый Sprint не начат. Контрольный аудит 24.08.2026 добавил
+обязательный [Security & Stabilization Gate](../../tasks/SECURITY_STABILIZATION_GATE.md)
+со статусом `PREPARED / NOT STARTED`. Gate не меняет Sprint Roadmap и должен
+быть закрыт до решения `PILOT READY`.
 
 ---
 
@@ -145,6 +151,11 @@ T006 ранжирует российский research pool и validation wave, �
 CSV/XLSX path. Runtime, UI, migration, scheduler и конкретный connector не
 создавались; T008 синхронизировал документацию и implementation handoff.
 Решение пересматривается только после admission evidence.
+
+После Sprint 15 дальнейшая последовательность временно заблокирована
+контрольным Security & Stabilization Gate. Его реализация начинается только по
+явной команде владельца; до этого ни следующий Sprint, ни Connector Runtime не
+считаются начатыми.
 
 ---
 

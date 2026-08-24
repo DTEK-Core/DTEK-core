@@ -52,13 +52,20 @@
 * **Roadmap фиксация 07.08.2026** — коммерческий MVP ограничен Sprint 13 (Pilot Risk Workflow) и Sprint 14 (Pilot Readiness); Sprint 15 и Discovery/Evidence/Connector инициативы — Post-MVP.
 * **Sprint 14** — S14-T001–T008 реализованы: master readiness checklist, environment health, manual invitation delivery, production HTTP smoke baseline, Backup & Restore Runbook, Monitoring/Error Handling Plan, Pilot Metrics/Feedback Loop и единый Pilot Documentation Pack; pilot data, provider activation, restore rehearsal и authenticated release-candidate gates не отмечать `PASS` без фактического прогона.
 * **Sprint 15** — Post-MVP Connector Framework Foundation завершён; S15-T001–T008 закрыты с milestone `Connector Foundation Ready / Runtime Deferred`. Architecture/security contracts, Russian Market research shortlist и developer handoff готовы. S15-T007 сохраняет решение `DEFER / KEEP CSV-XLSX IMPORT PATH`: source cards/demand scores остаются `PILOT DATA PENDING`, первый connector, runtime, UI и migrations не выбраны. Новый connector scope разрешён только после admission evidence и отдельной задачи.
-* Cloud migrations `001–019` применены и сверены с Supabase Cloud; migration 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Ручные Sprint 12/13 QA остаются обязательными pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
+* **Контрольный аудит 24.08.2026** — стадия зафиксирована как `Functional pre-pilot MVP`; четыре blocking security finding и пять stabilization tasks подготовлены в `tasks/SECURITY_STABILIZATION_GATE.md`. Gate имеет статус `PREPARED / NOT STARTED`, не является новым Sprint и обязателен до `PILOT READY`. До команды владельца исправления не применять.
+* Локально присутствуют migrations `001–019`; ранее Cloud parity был документирован, но контрольный аудит 24.08.2026 не подтвердил его повторно. Перед Gate migrations обязательна новая linked-сверка. Migration 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Ручные Sprint 12/13 QA остаются обязательными pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
 
 Sprint 13 развивает Market MVP без изменения продуктовой границы: добавляет
 pilot-ready workflow поверх manual/imported Risk Registry. Все последующие
 Sprint должны учитывать Evidence-first стратегию: import является первым
 evidence ingestion path, explainability показывает источники данных, а
 connector framework развивается поэтапно.
+
+Если владелец пишет `Переходим к Security & Stabilization Gate по последнему
+аудиту`, открыть `tasks/SECURITY_STABILIZATION_GATE.md`, коротко сверить только
+изменения затрагиваемых файлов после 24.08.2026 и начать подготовленный Gate без
+повторного полного стратегического аудита. Следующий продуктовый Sprint до
+закрытия Gate не начинать.
 
 ---
 

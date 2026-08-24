@@ -23,11 +23,18 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.15.0-dev — Sprint 15 завершён: Connector Foundation Ready / Runtime Deferred.**
+**v0.15.0-dev — Functional pre-pilot MVP; Security & Stabilization Gate подготовлен, но не начат.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Cloud migrations `001–019` применены и сверены; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 завершил architecture/security foundation и developer handoff. Первый connector формально отложен до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Последний документированный Cloud baseline содержит migrations `001–019`; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Контрольный аудит 24.08.2026 не смог повторно подтвердить linked parity, поэтому новая сверка обязательна перед Gate migrations. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 завершил architecture/security foundation и developer handoff. Первый connector формально отложен до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
+
+Контрольный аудит от 24.08.2026 зафиксировал четыре blocking finding в profile
+privilege boundaries, blocked-user enforcement и cross-tenant связях Risk/Graph.
+До их устранения коммерческий pilot запрещён. Следующий обязательный этап —
+[Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) со статусом
+`PREPARED / NOT STARTED`; это не новый продуктовый Sprint, security/functional
+исправления ещё не применялись.
 
 ### Реализованные Маршруты
 
@@ -182,15 +189,16 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний завершённый Sprint | Sprint 15 — Connector Foundation Ready / Runtime Deferred |
-| Текущая разработка | Sprint 15 завершён; новый connector scope не открыт |
-| Gate перед pilot release | Master Pilot Readiness Checklist, включая ручную приёмку Sprint 12/13 |
+| Текущая разработка | Новая разработка не начата; Security & Stabilization Gate подготовлен |
+| Gate перед pilot release | [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md), затем Master Pilot Readiness Checklist и ручная приёмка Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
 | Pilot measurement | Scorecard, feedback loop и source inventory готовы; фактические pilot data pending |
 | Pilot documentation | [Единый client/internal pack](docs/pilot/PILOT_DOCUMENTATION_PACK.md) готов; контакты и release evidence заполняются для кандидата |
-| Схема БД | Локальная и Cloud-цепочки миграций `001–019` синхронизированы |
+| Схема БД | Локально `001–019`; Cloud parity документировался ранее и требует повторной linked-сверки перед Gate |
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
-| Стабильное ядро | Auth, organizations, RBAC/RLS, Objects, Passport, Score, Graph, Configurator, Dashboard, import/export/reporting, Environment Health Check |
+| Стабильное функциональное ядро | Objects, Passport, Score, Risk Workflow, Dashboard, Configurator, import/export/reporting и Environment Health Check |
+| Blocking области | Profile/RBAC boundaries, blocked-user enforcement, cross-tenant Object/Risk и Graph constraints, atomic organization/invitation flows |
 | Частичные области | Sprint 12/13 manual QA, source metadata как text block, автоматизация authenticated QA |
 | Будущая архитектура | Connector Foundation Ready; runtime/UI/migrations deferred до admission evidence |
 
@@ -204,9 +212,9 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. До решения Pilot `GO` выполнить ручную приёмку Sprint 12 по Explainability QA Checklist.
-2. До решения Pilot `GO` выполнить ручную приёмку Sprint 13 по Risk Workflow QA Checklist.
-3. Закрыть остальные release gates Sprint 14 и зафиксировать Pilot Ready отдельно от Post-MVP разработки.
+1. По отдельной команде выполнить подготовленный Security & Stabilization Gate.
+2. После исправлений выполнить authenticated QA Sprint 12–14 и полный regression.
+3. Закрыть остальные release gates Sprint 14 и отдельно принять решение `PILOT READY`.
 4. Собирать source cards, manual burden и freshness evidence в реальных pilots.
 5. Пересмотреть решение `DEFER` только после подтверждённых pilot source signals; новый runtime начинать отдельной задачей по Connector Foundation Handoff.
 
@@ -233,4 +241,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.15.0-dev / Sprint 15 Connector Foundation**
+`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.15.0-dev / Functional pre-pilot MVP**

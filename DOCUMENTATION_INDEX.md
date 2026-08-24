@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 23.08.2026`
+`Дата: 24.08.2026`
 
 Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
 
@@ -20,6 +20,7 @@
 9. [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) — Discovery, Connector и Evidence layers.
 10. [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) — модель безопасности.
 11. [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md) — правила работы AI/разработчиков.
+12. [tasks/SECURITY_STABILIZATION_GATE.md](tasks/SECURITY_STABILIZATION_GATE.md) — следующий обязательный release gate, подготовлен и не начат.
 
 ---
 
@@ -215,6 +216,7 @@ Design Development хранится отдельно:
 | [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
 | [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
 | [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: завершён — Connector Foundation Ready / Runtime Deferred |
+| [tasks/SECURITY_STABILIZATION_GATE.md](tasks/SECURITY_STABILIZATION_GATE.md) | Blocking Security & Stabilization Gate: PREPARED / NOT STARTED, не Sprint |
 
 ---
 
