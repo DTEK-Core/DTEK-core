@@ -341,7 +341,7 @@ Rollback owner:
 
 ## 16. Связанные Документы
 
-- [SPRINT_14.md](../../tasks/SPRINT_14.md) — задачи Pilot Readiness.
+- [SPRINT_14.md](../../tasks/archive/SPRINT_14.md) — исторические задачи Pilot Readiness.
 - [PILOT_SMOKE_TEST_CHECKLIST.md](PILOT_SMOKE_TEST_CHECKLIST.md) — automated HTTP и authenticated critical path smoke.
 - [INVITATION_DELIVERY_RUNBOOK.md](../operations/INVITATION_DELIVERY_RUNBOOK.md) — delivery contract и invitation E2E QA.
 - [EXPLAINABILITY_QA_CHECKLIST.md](EXPLAINABILITY_QA_CHECKLIST.md) — gate Sprint 12.

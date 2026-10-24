@@ -623,7 +623,7 @@ T001 намеренно не фиксирует:
   contract и source metadata.
 - [System_Architecture.md](System_Architecture.md) — фактическая архитектура.
 - [SECURITY_OVERVIEW.md](../security/SECURITY_OVERVIEW.md) — security baseline.
-- [SPRINT_15.md](../../tasks/SPRINT_15.md) — последовательность foundation.
+- [SPRINT_15.md](../../tasks/archive/SPRINT_15.md) — историческая последовательность foundation.
 - [PILOT_METRICS_FEEDBACK_LOOP.md](../product/PILOT_METRICS_FEEDBACK_LOOP.md) —
   gates для выбора первого source.
 - [FIRST_CONNECTOR_CANDIDATE_DECISION.md](../product/FIRST_CONNECTOR_CANDIDATE_DECISION.md)

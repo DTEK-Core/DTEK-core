@@ -1,8 +1,8 @@
 # ARCHITECTURE DECISIONS — DTEK Core
 
 `Проект: DTEK Core`
-`Версия: 1.0`
-`Дата: 08.06.2026`
+`Версия: 1.1`
+`Дата: 24.10.2026`
 `Статус: Утверждён`
 
 ---
@@ -30,6 +30,7 @@ Architecture Decision Records (ADR) — это журнал ключевых а�
 | ADR-007 | Evidence-first Trust Platform | Утверждён |
 | ADR-008 | Reporting Architecture | Утверждён |
 | ADR-009 | Connector Framework Architecture | Утверждён |
+| ADR-010 | DTEK Platform и общий Trust Core | Утверждён как направление; реализация отложена |
 
 ---
 
@@ -317,8 +318,8 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 
 ## ADR-006 — Продуктовая граница Market MVP
 
-**Статус:** Утверждён  
-**Дата:** 08.07.2026  
+**Статус:** Утверждён
+**Дата:** 08.07.2026
 **Затрагивает документы:** `docs/product/PRODUCT_STRATEGY.md`, `docs/roadmap/ROADMAP.md`, `docs/roadmap/SPRINT_ROADMAP.md`
 
 ### Контекст
@@ -377,8 +378,8 @@ On-premise развертывание (Enterprise Runtime) — запланир�
 
 ## ADR-007 — Evidence-first Trust Platform
 
-**Статус:** Утверждён  
-**Дата:** 09.07.2026  
+**Статус:** Утверждён
+**Дата:** 09.07.2026
 **Затрагивает документы:** `docs/product/EVIDENCE_FIRST_STRATEGY.md`, `docs/architecture/Evidence_First_Architecture.md`, `docs/roadmap/ROADMAP.md`, `docs/roadmap/SPRINT_ROADMAP.md`
 
 ### Контекст
@@ -459,10 +460,10 @@ Functional MVP DTEK Core реализовал ручную модель рабо
 
 ## ADR-008 — Reporting Architecture
 
-**Статус:** Утверждён  
-**Дата:** 09.07.2026  
-**Sprint:** S10-T001  
-**Затрагивает документы:** `docs/architecture/Reporting_Architecture.md`, `tasks/SPRINT_10.md`, `docs/roadmap/ROADMAP.md`
+**Статус:** Утверждён
+**Дата:** 09.07.2026
+**Sprint:** S10-T001
+**Затрагивает документы:** `docs/architecture/Reporting_Architecture.md`, `tasks/archive/SPRINT_10.md`, `docs/roadmap/ROADMAP.md`
 
 ### Контекст
 
@@ -513,7 +514,7 @@ Sprint 10 должен дать CISO экспортируемые артефак
 **Статус:** Утверждён<br>
 **Дата:** 23.08.2026<br>
 **Sprint:** S15-T001<br>
-**Затрагивает документы:** `docs/architecture/Connector_Framework_Architecture.md`, `docs/architecture/System_Architecture.md`, `docs/security/SECURITY_OVERVIEW.md`, `tasks/SPRINT_15.md`
+**Затрагивает документы:** `docs/architecture/Connector_Framework_Architecture.md`, `docs/architecture/System_Architecture.md`, `docs/security/SECURITY_OVERVIEW.md`, `tasks/archive/SPRINT_15.md`
 
 ### Контекст
 
@@ -582,6 +583,91 @@ Next.js + Supabase приложения с единым server-only ingestion co
 - Future connector runtime должен иметь общий contract test suite, включая
   retries, redaction и two-tenant isolation.
 - T001 не создаёт таблицы, UI, dependencies или production integrations.
+
+---
+
+## ADR-010 — DTEK Platform и общий Trust Core
+
+**Статус:** Утверждён как стратегическое направление; реализация отложена
+**Дата:** 24.10.2026
+**Затрагивает документы:** `docs/product/DTEK_PLATFORM_VISION.md`, `docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md`, `docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md`, `docs/security/DTEK_PLATFORM_SECURITY_PRINCIPLES.md`, `tasks/SPRINT_16.md`–`tasks/SPRINT_35.md`
+
+### Контекст
+
+DTEK Core уже реализует B2B Trust Intelligence workflow для организаций:
+объекты, риски, Trust Passport, Trust Score, Trust Graph, импорт, отчётность и
+pilot workflow. Evidence и Connector foundation специфицированы, но connector
+runtime и Discovery Layer ещё не реализованы.
+
+Следующая продуктовая гипотеза расширяет этот подход до платформы цифрового
+доверия для трёх контекстов: организации, дома и отдельного человека. Прямое
+добавление Home/Personal сущностей в существующую `organizations` model создало
+бы путаницу tenant boundaries, ролей, consent и score semantics.
+
+### Решение
+
+**DTEK Core эволюционирует в DTEK Platform через общий Trust Core, без
+переписывания существующего Business-продукта.**
+
+- Текущий DTEK Core становится режимом **DTEK Business**.
+- Будущие продуктовые режимы: **DTEK Home**, **DTEK Personal** и общий
+  **Knowledge & Remediation Center**.
+- Публичные defensive проверки собственных идентификаторов объединяются под
+  пользовательским названием **DTEK Exposure**; `OSINT` остаётся техническим
+  термином и не является разрешением на people search или doxxing.
+- Общими остаются Evidence, Finding, Trust Passport, Trust Graph, Trust Score
+  orchestration, Recommendation/Remediation, audit и security controls.
+- `Workspace` вводится как будущая надстройка над tenant context. Существующая
+  `Organization` не переименовывается и не мигрируется до отдельной Sprint-задачи,
+  threat model, migration plan и rollback plan.
+- Trust Score рассчитывается по mode-specific моделям. Формула ADR-001 остаётся
+  источником истины для Business; оценки разных режимов нельзя сравнивать как
+  одну универсальную шкалу без отдельной методологии.
+- `Finding` означает наблюдаемое evidence-backed состояние, `Risk` — его
+  контекстуальное последствие и решение, `Remediation` — действие и проверку
+  результата. Автоматическое наблюдение не создаёт безусловный Risk.
+- Home discovery допускается только через явно сопряжённый локальный collector
+  с подтверждённой областью сети. Облачное произвольное сканирование запрещено.
+- Personal/Exposure работает только с подтверждёнными пользователем
+  идентификаторами, явным consent, минимизацией, retention и удалением.
+- Любые scanner, collector, provider или connector capabilities проходят
+  отдельные security/privacy/legal admission gates.
+
+### Порядок Реализации
+
+1. Закрыть существующий `Security & Stabilization Gate` и подтвердить Business
+   tenant isolation. Sprint 16 до этого не начинается.
+2. Реализовать shared Workspace/Evidence/Finding/Remediation/Assessment
+   foundations в Sprint 16–19 без массового rewrite.
+3. Довести Business evolution до отдельного release gate в Sprint 20–24.
+4. Добавлять Home и Personal только после собственных security/privacy gates.
+5. Завершить единый Platform MVP через Knowledge, Continuous Trust, unified UX
+   и итоговый release gate в Sprint 32–35.
+
+### Обоснование
+
+1. **Сохраняется созданная ценность.** Business routes, data model и Trust
+   Score не выбрасываются ради новой идеи.
+2. **Изоляция важнее общего UI.** Workspace contract проектируется до новых
+   режимов, а не восстанавливается после появления смешанных данных.
+3. **Evidence-first остаётся ядром.** Все режимы используют наблюдения и
+   объяснимость вместо непроверяемых универсальных рейтингов.
+4. **Риски автоматизации ограничены.** Сканирование, OSINT и breach providers
+   не становятся неограниченными пользовательскими инструментами.
+5. **Roadmap допускает остановку.** Каждый mode имеет собственный admission и
+   release gate; слабая гипотеза не блокирует поддержку DTEK Business.
+
+### Последствия
+
+- Название репозитория и текущего приложения остаётся `DTEK Core` до отдельного
+  branding/release решения.
+- Sprint 16–35 являются планом, а не подтверждением готовой функциональности.
+- Новые таблицы, RLS, runtime, provider agreements и dependencies в рамках
+  этого ADR не создаются.
+- Исторические Sprint 01–15 хранятся в `tasks/archive/`; активный Gate и
+  будущие Sprint остаются в `tasks/`.
+- Enterprise on-prem, SSO, native mobile, general-purpose endpoint agent,
+  marketplace и autonomous remediation остаются за границей первого Platform MVP.
 
 ---
 

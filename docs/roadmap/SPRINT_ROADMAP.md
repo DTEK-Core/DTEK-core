@@ -1,191 +1,162 @@
-# SPRINT_ROADMAP.md — DTEK Core
+# DTEK Platform Sprint Roadmap
 
-`Статус: актуальный`  
-`Дата: 24.08.2026`
-`Назначение: официально зафиксированный план до коммерческого MVP`
+`Статус: PLANNED / NOT STARTED`
+`Дата: 24.10.2026`
+`Точка продолжения: после завершённого Sprint 15`
 
 ---
 
-## 1. Логика Sprint Roadmap
+## 1. Статусы
 
-Sprint 01–08 закрыли Functional MVP и UX refinement. Sprint 09 упаковал продукт для демонстрации. После ADR-007 дальнейшая разработка идёт по пути Evidence-first коммерческого MVP:
+| Класс | Значение |
+|---|---|
+| `COMPLETED` | Функциональная работа исторического Sprint завершена |
+| `REFERENCE` | Исторический документ; незакрытая ручная приёмка перенесена в Gate |
+| `ACTIVE GATE` | Обязательный blocking stage, подготовлен, но не начат |
+| `PLANNED` | Scope описан; реализация не начиналась |
+| `FUTURE` | За границей первого Platform MVP |
+
+Sprint 01–15 находятся в [архиве](../../tasks/archive/README.md). Их содержание
+не переписано. Активным остаётся только
+[Security & Stabilization Gate](../../tasks/SECURITY_STABILIZATION_GATE.md).
+
+---
+
+## 2. Полная Цепочка
 
 ```text
-Demo Ready
-  -> Reporting Ready
-  -> Evidence Onboarding Ready
-  -> Evidence-backed Explainability Ready
-  -> Pilot Risk Workflow Ready
-  -> Post-MVP Connector Foundation Ready
-  -> Security & Stabilization Gate before pilot release
-  -> Pilot Ready decision
+CURRENT: DTEK Business Functional pre-pilot MVP
+  -> SECURITY & STABILIZATION GATE
+  -> S16 Workspace & Account Foundation
+  -> S17 Unified Evidence & Finding Layer
+  -> S18 Recommendation, Remediation & Knowledge Core
+  -> S19 Scoped Assessment Execution Foundation
+  -> FOUNDATION READY
+  -> S20 Connector Runtime & Discovery Inbox
+  -> S21 Business Source Admission & Infrastructure Discovery
+  -> S22 Business Security Findings & Trust Impact
+  -> S23 Dependency, Exposure Path & Resilience Analysis
+  -> S24 Business Remediation & Pilot Release
+  -> BUSINESS MVP
+  -> S25 Home Workspace & Privacy Foundation
+  -> S26 Paired Home Collector & Device Discovery
+  -> S27 Home Trust Model & Safe Recommendations
+  -> HOME MVP
+  -> S28 Personal Workspace, Consent & Privacy
+  -> S29 Personal Trust Passport & Score
+  -> S30 DTEK Exposure: Breach & Digital Footprint
+  -> S31 Safe Public Intelligence Toolkit
+  -> PERSONAL MVP
+  -> S32 Knowledge & Remediation Center
+  -> S33 Continuous Trust, History & Notifications
+  -> S34 Unified Platform Experience & Governance
+  -> S35 DTEK Platform MVP Validation & Release
+  -> PLATFORM MVP GO / NO-GO
 ```
 
 ---
 
-## 2. Формат Sprint-Документов
+## 3. Blocking Gate
 
-Для Sprint 09+ используется единый формат, совместимый со Sprint 08:
-
-1. Цель Sprint.
-2. Место в Roadmap.
-3. Бизнес-ценность.
-4. Scope / Non-scope.
-5. Задачи Sprint.
-6. Порядок выполнения.
-7. Детализация задач.
-8. Definition of Done.
-9. Риски.
-
-Формат сохраняет стиль проекта и делает каждый Sprint самодостаточным для новой команды.
-
----
-
-## 3. Выполненные Sprint
-
-| Sprint | Документ | Результат |
+| Этап | Статус | Цель |
 |---|---|---|
-| Sprint 01 | [tasks/SPRINT_01.md](../../tasks/SPRINT_01.md) | Foundation, Supabase, auth base, CI/CD |
-| Sprint 02 | [tasks/SPRINT_02.md](../../tasks/SPRINT_02.md) | Organizations, onboarding, users, invitations, app shell |
-| Sprint 03 | [tasks/SPRINT_03.md](../../tasks/SPRINT_03.md) | Objects, Trust Passport, Risk Registry |
-| Sprint 04 | [tasks/SPRINT_04.md](../../tasks/SPRINT_04.md) | Manual testing and stabilization |
-| Sprint 05 | [tasks/SPRINT_05.md](../../tasks/SPRINT_05.md) | Trust Score Engine, Dashboard, Trust Graph, Configurator |
-| Sprint 06 | [tasks/SPRINT_06.md](../../tasks/SPRINT_06.md) | Security hardening, RBAC/RLS audit, security docs |
-| Sprint 07 | [tasks/SPRINT_07.md](../../tasks/SPRINT_07.md) | QA and platform testing |
-| Sprint 08 | [tasks/SPRINT_08_IMPLEMENTATION.md](../../tasks/SPRINT_08_IMPLEMENTATION.md) | UX refinement, loading states, invite link, role info, settings polish |
-| Sprint 09 | [tasks/SPRINT_09.md](../../tasks/SPRINT_09.md) | Market MVP packaging: demo narrative, dataset, seed plan, ICP, one-pager, pilot offer |
-| Sprint 10 | [tasks/SPRINT_10.md](../../tasks/SPRINT_10.md) | Reporting & Export: Trust Passport report, Risk CSV, Executive Organization Report, RBAC/audit, smoke checklist |
-| Sprint 11 | [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) | Evidence Import & Data Onboarding: CSV/XLSX import, preview, source metadata, duplicate detection, partial success, audit events, fixtures, smoke PASS |
+| [Security & Stabilization Gate](../../tasks/SECURITY_STABILIZATION_GATE.md) | `PREPARED / NOT STARTED` | Закрыть известные security/stability blockers и подтвердить Business baseline |
+
+Gate включает profile privilege boundary, blocked-user enforcement,
+cross-tenant Object/Risk и Graph constraints, atomic flows, generated database
+types, DB-level RLS tests, authenticated role QA и release evidence. Он не
+помечается выполненным до фактических проверок.
 
 ---
 
-## 4. Current Sprint Roadmap
+## 4. Platform Foundation
 
-| Sprint | Документ | Milestone | Цель |
-|---|---|---|---|
-| Sprint 12 | [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) | Реализация завершена, manual QA deferred to pilot release gate | Объяснить Trust Score, impact рисков и источники данных |
-| Sprint 13 | [tasks/SPRINT_13.md](../../tasks/SPRINT_13.md) | Реализация завершена, manual QA pending | Сделать Risk Registry рабочим процессом для manual/imported risks |
-| Sprint 14 | [tasks/SPRINT_14.md](../../tasks/SPRINT_14.md) | Реализация S14-T001–T008 завершена; Pilot GO gates pending | Закрыть release gates и подготовить продукт к 1–3 пилотам |
-| Sprint 15 | [tasks/SPRINT_15.md](../../tasks/SPRINT_15.md) | Завершён: Connector Foundation Ready / Runtime Deferred | Спроектировать Connector Framework, Evidence Layer и Discovery Inbox после пилотов |
+| Sprint | Документ | Одна Цель |
+|---:|---|---|
+| 16 | [Workspace & Account Foundation](../../tasks/SPRINT_16.md) | Ввести additive Workspace boundary без разрушения Organization/RLS |
+| 17 | [Unified Evidence & Finding Layer](../../tasks/SPRINT_17.md) | Разделить raw observations, assertions, findings и business risks |
+| 18 | [Recommendation, Remediation & Knowledge Core](../../tasks/SPRINT_18.md) | Связать finding с безопасным действием и verification result |
+| 19 | [Scoped Assessment Execution Foundation](../../tasks/SPRINT_19.md) | Создать bounded, authorized, auditable execution contract |
 
-Следующий продуктовый Sprint не начат. Контрольный аудит 24.08.2026 добавил
-обязательный [Security & Stabilization Gate](../../tasks/SECURITY_STABILIZATION_GATE.md)
-со статусом `PREPARED / NOT STARTED`. Gate не меняет Sprint Roadmap и должен
-быть закрыт до решения `PILOT READY`.
+Milestone: **Foundation Ready**. Техническое ядро поддерживает новые mode, но
+Home/Personal user-facing functionality ещё отсутствует.
 
 ---
 
-## 5. Dependency Graph
+## 5. Business Evolution
 
-```text
-Sprint 08 UX Refinement
-    -> Sprint 09 Market MVP Packaging
-        -> Sprint 10 Reporting & Export
-            -> Sprint 11 Evidence Import & Data Onboarding
-                -> Sprint 12 Evidence-backed Trust Explainability
-                    -> Sprint 13 Pilot Risk Workflow
-                        -> Sprint 14 Pilot Readiness
-                            -> Commercial MVP fixed
-                                -> Post-MVP Sprint 15 Connector Framework Foundation
-```
+| Sprint | Документ | Одна Цель |
+|---:|---|---|
+| 20 | [Connector Runtime & Discovery Inbox](../../tasks/SPRINT_20.md) | Реализовать ADR-009 runtime через ingestion и human review |
+| 21 | [Business Source Admission & Infrastructure Discovery](../../tasks/SPRINT_21.md) | Допустить первый подтверждённый source и построить asset discovery |
+| 22 | [Business Security Findings & Trust Impact](../../tasks/SPRINT_22.md) | Превратить evidence в explainable findings и score impact |
+| 23 | [Dependency, Exposure Path & Resilience Analysis](../../tasks/SPRINT_23.md) | Выявлять dangerous paths, SPOF и cascade consequences |
+| 24 | [Business Remediation & Pilot Release](../../tasks/SPRINT_24.md) | Закрыть remediation workflow и Business release gate |
 
-Sprint 11 завершён и даёт Evidence Onboarding Ready baseline. Все задачи реализации Sprint 12 завершены, включая пользовательскую документацию и итоговый QA checklist. Ручной прогон `docs/testing/EXPLAINABILITY_QA_CHECKLIST.md` остаётся обязательным pilot release gate. По явному решению владельца от 08.08.2026 он отложен и не блокирует старт Sprint 13; Sprint 12 при этом не помечается закрытым или `PASS`.
-
-Все задачи реализации Sprint 13 завершены, включая документацию и
-`docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md`. Authenticated multi-role QA Sprint
-13 остаётся `PENDING`; только фактический прогон может перевести milestone в
-`PASS`. Sprint 14 объединяет оставшиеся Sprint 12/13 manual gates с общей Pilot
-Readiness проверкой.
-
-S14-T001 завершена 19.08.2026: создан
-`docs/testing/PILOT_READINESS_CHECKLIST.md`. Он является master release gate,
-но не переводит продукт в `Pilot Ready` до выполнения T002–T008 и фактического
-authenticated QA Sprint 12/13.
-
-S14-T002 добавляет owner/admin-only on-demand Environment Health Check и
-operations runbook для Supabase/env/DNS/middleware triage без публичного health
-endpoint, автоматического recovery или раскрытия секретов.
-
-S14-T003 фиксирует manual invite link как официальный Commercial MVP
-delivery path, открывает `/invite/{token}` для нового пользователя под
-rate limit, укрепляет accept-flow и убирает скрытые недоставляемые
-invitation из onboarding wizard. Email provider остаётся за границей MVP.
-
-S14-T004 добавляет dependency-free production HTTP smoke runner с 18
-контрактами и CI gate после build. Authenticated Auth/Org/Data/Reports/RBAC/mobile
-critical path формализован отдельным checklist и остаётся RC gate.
-
-S14-T005 фиксирует Supabase backup scope, pilot RPO/RTO targets, managed и
-logical backup paths, безопасный restore-to-new-project и controlled cutover.
-Runbook реализован, но Dashboard backup state и restore rehearsal на отдельном
-target остаются обязательным RC gate.
-
-S14-T006 определяет минимальный monitoring baseline на существующих
-GitHub/Vercel/Supabase signals: thresholds, severity, safe error handling,
-triage и escalation. Provider notifications, owners и incident rehearsal
-активируются и проверяются на release candidate до `GO`.
-
-S14-T007 определяет pilot hypotheses, scorecard, feedback cadence,
-willingness-to-pay commitment и source inventory. Connector demand и
-feasibility оцениваются отдельно; реальные результаты появляются только после
-pilot observations и не подменяются шаблонным `PASS`.
-
-S14-T008 собирает client-facing и internal-only материалы в
-`docs/pilot/PILOT_DOCUMENTATION_PACK.md`: от qualification, access и data
-intake до support, feedback, operations handoff и closeout. Пакет реализован,
-но контакты, каналы, retention и release evidence заполняются для каждого
-реального pilot candidate после решения `GO`.
-
-Финальная инженерная консолидация выполнена 03.08.2026: dependency audit очищен, contract tests добавлены в CI, документация синхронизирована. Она не закрывает manual QA; старт Sprint 13 отдельно разрешён владельцем 08.08.2026 после восстановления Supabase и сверки Cloud migrations.
-
-Sprint 15 создаёт foundation для безопасных коннекторов и выбирает первые
-candidates по пилотным сигналам, но не входит в коммерческий MVP. S15-T001–T008
-завершены 23.08.2026: ADR-009 фиксирует versioned adapter layer и Ingestion
-Gateway; Evidence Layer определяет source/raw/assertion/binding model; Identity
-Resolution — canonical keys, tenant resolver, conflicts, manual authority и
-non-destructive merge policy; Confidence/Discovery — formula, hard gates,
-candidate lifecycle, human decisions и review UX; Connector Security Model —
-Supabase Vault, RBAC/RLS, service boundary, SSRF, safe audit и acceptance gates.
-T006 ранжирует российский research pool и validation wave, но не подменяет
-отсутствующие pilot source cards. T007 формально принял `DEFER` и сохранил
-CSV/XLSX path. Runtime, UI, migration, scheduler и конкретный connector не
-создавались; T008 синхронизировал документацию и implementation handoff.
-Решение пересматривается только после admission evidence.
-
-После Sprint 15 дальнейшая последовательность временно заблокирована
-контрольным Security & Stabilization Gate. Его реализация начинается только по
-явной команде владельца; до этого ни следующий Sprint, ни Connector Runtime не
-считаются начатыми.
+Milestone: **Business MVP**. DTEK Business становится evidence-driven, но не
+пытается заменить исходные sensors или автоматически исправлять инфраструктуру.
 
 ---
 
-## 6. Commercial MVP Boundary
+## 6. Home MVP
 
-Коммерческий MVP считается спланированным до состояния:
+| Sprint | Документ | Одна Цель |
+|---:|---|---|
+| 25 | [Home Workspace & Privacy Foundation](../../tasks/SPRINT_25.md) | Создать household tenant/consent model и безопасный onboarding |
+| 26 | [Paired Home Collector & Device Discovery](../../tasks/SPRINT_26.md) | Обнаруживать устройства только из локального явно разрешённого scope |
+| 27 | [Home Trust Model & Safe Recommendations](../../tasks/SPRINT_27.md) | Дать device passports, Home Trust Score и practical safe actions |
 
-- продукт можно показать CISO без пустых экранов;
-- данные можно загрузить без интеграций как первый evidence ingestion path;
-- отчёты можно передать руководству;
-- Trust Score объясним;
-- риски имеют workflow;
-- пилот можно запустить и измерить;
-
-После Sprint 14 начинается Post-MVP: Connector Framework, Evidence Layer, Discovery Inbox, Identity Resolution и первый connector prototype требуют отдельного решения на основе pilot feedback.
-
-Enterprise-функции (`SSO`, `on-prem`, `custom roles`, `marketplace`, агент) остаются за пределами этой Sprint Roadmap.
+Milestone: **Home MVP**. Mobile app, continuous broad agent и remote arbitrary
+scanner остаются `FUTURE`.
 
 ---
 
-## 7. Definition Of Done Для Любого Sprint
+## 7. Personal MVP
 
-Каждый Sprint должен завершаться:
+| Sprint | Документ | Одна Цель |
+|---:|---|---|
+| 28 | [Personal Workspace, Consent & Privacy](../../tasks/SPRINT_28.md) | Изолировать personal data и lifecycle verified identifiers |
+| 29 | [Personal Trust Passport & Score](../../tasks/SPRINT_29.md) | Объяснимо оценивать identity/account/device/network posture |
+| 30 | [DTEK Exposure: Breach & Digital Footprint](../../tasks/SPRINT_30.md) | Показывать безопасные breach/exposure результаты без раскрытия секретов |
+| 31 | [Safe Public Intelligence Toolkit](../../tasks/SPRINT_31.md) | Дать bounded defensive checks для собственных domains/URLs/hashes/metadata |
 
-- обновлённой документацией;
-- актуальным статусом Sprint-документа;
-- `npm run type-check`;
-- `npm run lint`;
-- `npm run build`;
-- smoke test ключевого сценария;
-- Conventional Commit;
-- push в `develop`;
-- итоговым отчётом.
+Milestone: **Personal MVP**. People search, phone/address lookup, face
+recognition, private-profile scraping и bulk enumeration запрещены.
+
+---
+
+## 8. Shared Platform
+
+| Sprint | Документ | Одна Цель |
+|---:|---|---|
+| 32 | [Knowledge & Remediation Center](../../tasks/SPRINT_32.md) | Дать единый verified explanation/remediation/verification experience |
+| 33 | [Continuous Trust, History & Notifications](../../tasks/SPRINT_33.md) | Показывать изменения и полезные bounded alerts без dark patterns |
+| 34 | [Unified Platform Experience & Governance](../../tasks/SPRINT_34.md) | Объединить modes без смешивания данных, ролей и score semantics |
+| 35 | [DTEK Platform MVP Validation & Release](../../tasks/SPRINT_35.md) | Провести security/privacy/operations GO/NO-GO |
+
+Milestone: **DTEK Platform MVP**.
+
+---
+
+## 9. Общий Definition Of Done
+
+Каждый Sprint:
+
+- сохраняет существующую архитектуру или имеет ADR;
+- включает RBAC/RLS/tenant/privacy threat analysis;
+- не помечает документацию как evidence фактического теста;
+- имеет unit/contract/integration/E2E tests соразмерно риску;
+- проверяет two-tenant или two-workspace isolation;
+- обновляет Sprint, Architecture, Security, User docs и Changelog;
+- проходит `npm run type-check`, `npm run lint`, `npm run build` и релевантные tests;
+- завершается Conventional Commit и push в `develop`;
+- не начинает следующий Sprint автоматически.
+
+---
+
+## 10. Future После Platform MVP
+
+Отдельного решения потребуют native mobile app, desktop/general-purpose agent,
+always-on Home agent, on-prem/private cloud, SSO/SAML, custom roles,
+marketplace, advanced policy packs, autonomous remediation и enterprise-scale
+streaming. Они не являются скрытыми задачами Sprint 16–35.

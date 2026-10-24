@@ -575,4 +575,4 @@ potential gain = +6
 - [Confidence_Engine_Discovery_Inbox.md](Confidence_Engine_Discovery_Inbox.md) — будущий engine confidence, decisions и Trust effect boundary.
 - [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) — ограничения MVP и Pilot readiness.
 - [EXPLAINABILITY_QA_CHECKLIST.md](../testing/EXPLAINABILITY_QA_CHECKLIST.md) — ручная сверка UI, формулы, sources, RBAC и responsive states.
-- [tasks/SPRINT_12.md](../../tasks/SPRINT_12.md) — задачи реализации explainability.
+- [tasks/archive/SPRINT_12.md](../../tasks/archive/SPRINT_12.md) — исторические задачи реализации explainability.

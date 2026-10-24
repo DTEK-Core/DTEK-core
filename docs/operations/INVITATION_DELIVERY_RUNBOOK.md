@@ -207,4 +207,4 @@ Email delivery рассматривается отдельной Post-MVP зад
 - [RBAC Model](../security/RBAC_MODEL.md)
 - [Security Overview](../security/SECURITY_OVERVIEW.md)
 - [User Guide](../user/USER_GUIDE.md)
-- [Sprint 14](../../tasks/SPRINT_14.md)
+- [Sprint 14](../../tasks/archive/SPRINT_14.md)

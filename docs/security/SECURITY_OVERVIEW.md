@@ -1,7 +1,7 @@
 # SECURITY_OVERVIEW.md — DTEK Core
 
-`Версия: 1.5`
-`Дата: 23.08.2026`
+`Версия: 1.6`
+`Дата: 24.10.2026`
 `Статус: Актуальный`
 
 ---
@@ -9,6 +9,13 @@
 ## Обзор безопасности платформы
 
 DTEK Core — Evidence-first Trust Intelligence Platform. Поскольку платформа хранит чувствительные данные об инфраструктуре, уязвимостях, источниках данных и инцидентах безопасности, безопасность является неотъемлемым требованием, а не дополнительной опцией.
+
+Расширение в Home, Personal, DTEK Exposure и scanning увеличивает attack
+surface, но пока существует только в planning documentation. До новой
+реализации обязательны consent, ownership, scan scope, workspace isolation,
+PII/breach minimization, provider review, SSRF/command-injection controls,
+collector authentication, resource limits, audit и deletion. Полный contract:
+[DTEK_PLATFORM_SECURITY_PRINCIPLES.md](DTEK_PLATFORM_SECURITY_PRINCIPLES.md).
 
 ---
 
@@ -157,6 +164,7 @@ rehearsal проверяются как отдельный release gate. Пол�
 |---|---|
 | [RBAC_MODEL.md](RBAC_MODEL.md) | Подробная матрица прав доступа |
 | [CONNECTOR_SECURITY_MODEL.md](CONNECTOR_SECURITY_MODEL.md) | Secret storage, connector RBAC/RLS, SSRF, audit и acceptance gates |
+| [DTEK_PLATFORM_SECURITY_PRINCIPLES.md](DTEK_PLATFORM_SECURITY_PRINCIPLES.md) | Security/privacy boundaries Business, Home, Personal, Exposure и Knowledge |
 | [RLS_MODEL.md](RLS_MODEL.md) | RLS-политики для каждой таблицы |
 | [THREAT_MODEL.md](THREAT_MODEL.md) | Угрозы и контрмеры |
 | [SECURE_SDLC.md](SECURE_SDLC.md) | Процесс безопасной разработки |
@@ -177,5 +185,9 @@ rehearsal проверяются как отдельный release gate. Пол�
 - Secure SDLC в CI/CD
 - Реализация Connector Security Model только после пересмотра T007, выбора
   pilot-backed source и прохождения gates
+- Security & Stabilization Gate до Sprint 16
+- workspace isolation и assessment execution threat model в Sprint 16–19
+- отдельные Business, Home, Personal и Platform release gates
+- ownership/consent, anti-doxxing, SSRF, scanner sandbox/resource controls
 
 *Подробнее: [SECURE_SDLC.md](SECURE_SDLC.md)*

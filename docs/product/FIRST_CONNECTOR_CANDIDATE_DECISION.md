@@ -298,7 +298,7 @@ Sprint 15 завершён архитектурно, даже если перв�
 - [CONNECTOR_SECURITY_MODEL.md](../security/CONNECTOR_SECURITY_MODEL.md) —
   security gates.
 - [IMPORT_GUIDE.md](../user/IMPORT_GUIDE.md) — действующий onboarding path.
-- [SPRINT_15.md](../../tasks/SPRINT_15.md) — Sprint status и Definition of Done.
+- [SPRINT_15.md](../../tasks/archive/SPRINT_15.md) — исторический Sprint status и Definition of Done.
 - [CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md)
   — итоговый implementation order и gates.
 

@@ -805,7 +805,7 @@ Sprint 12 готов к закрытию / Требуются исправлен
 - [DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) — regression baseline импорта.
 - [RBAC_TESTING_GUIDE.md](RBAC_TESTING_GUIDE.md) — подготовка ролей.
 - [BUG_REPORT_TEMPLATE.md](BUG_REPORT_TEMPLATE.md) — оформление дефекта.
-- [SPRINT_12.md](../../tasks/SPRINT_12.md) — scope и статус Sprint 12.
+- [SPRINT_12.md](../../tasks/archive/SPRINT_12.md) — исторический scope и статус Sprint 12.
 
 ---
 

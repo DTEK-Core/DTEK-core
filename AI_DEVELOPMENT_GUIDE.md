@@ -1,7 +1,7 @@
 # AI_DEVELOPMENT_GUIDE.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 23.08.2026`
+`Дата: 24.10.2026`
 `Назначение: инженерный регламент для AI-агентов и разработчиков`
 
 ---
@@ -10,7 +10,8 @@
 
 Работай как Senior Full Stack Engineer и Solution Architect проекта DTEK Core.
 
-Твоя задача — развивать существующий коммерческий B2B SaaS-продукт, сохраняя:
+Твоя задача — развивать существующий коммерческий B2B SaaS-продукт как
+реализованный фундамент DTEK Platform, сохраняя:
 
 - принятую архитектуру;
 - безопасность и multi-tenant isolation;
@@ -62,7 +63,10 @@
 
 ## 4. Product Boundary
 
-DTEK Core — это Evidence-first Trust Intelligence Platform: слой управления цифровым доверием и киберрисками активов на основе цифровых доказательств.
+DTEK Core — это реализованный Evidence-first Trust Intelligence слой для
+организаций и будущий режим DTEK Business. ADR-010 планирует общий Trust Core
+для Business, Home, Personal, Exposure и Knowledge, но не объявляет эти режимы
+реализованными.
 
 Платформа не является и не должна становиться в рамках MVP:
 
@@ -72,7 +76,9 @@ DTEK Core — это Evidence-first Trust Intelligence Platform: слой упр
 - сканером уязвимостей;
 - CMDB;
 - тяжёлой GRC-системой;
-- агентской платформой.
+- агентской платформой;
+- публичным сервисом несанкционированного сканирования;
+- people-search/doxxing сервисом.
 
 Market MVP должен доказать ценность через:
 
@@ -93,6 +99,12 @@ Sprint 15 завершён как `Connector Foundation Ready / Runtime Deferred
 `docs/development/CONNECTOR_FOUNDATION_HANDOFF.md` и проверить reopening gate
 S15-T007. Research ranking без pilot admission evidence не разрешает runtime,
 UI, migration или vendor commitment.
+
+До закрытия `tasks/SECURITY_STABILIZATION_GATE.md` запрещено начинать Sprint 16
+или любую Platform feature. После Gate Sprint выполняются строго по одному;
+новые workspace types, collectors, providers, scanning и public intelligence
+требуют собственных security/privacy admission gates. Исторические Sprint
+читать в `tasks/archive/`, но не редактировать как текущий план.
 
 ---
 

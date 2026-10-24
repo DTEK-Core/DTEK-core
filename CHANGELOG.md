@@ -5,6 +5,27 @@
 
 ---
 
+## DTEK Platform Planning Consolidation — 2026-10-24
+
+### Добавлено
+
+- ADR-010 и единая Product Vision для эволюции DTEK Core в DTEK Platform без rewrite.
+- Target Platform Architecture, capability gap analysis и security/privacy principles.
+- Полный план Sprint 16–35 до первого Platform MVP с отдельными Foundation,
+  Business, Home, Personal, Knowledge и release milestones.
+- Task map и архивный manifest завершённых Sprint.
+
+### Изменено
+
+- Sprint 01–15 перенесены без переписывания в `tasks/archive/`.
+- README, Roadmap, release plan, Epic/Feature backlogs, Product/Architecture/
+  Security docs, Documentation Index и agent context синхронизированы.
+- Security & Stabilization Gate сохранён как первый blocking stage со статусом
+  `PREPARED / NOT STARTED`; production code, schema, RLS и функциональность не
+  изменялись.
+
+---
+
 ## Security & Stabilization Gate Preparation — 2026-08-24
 
 ### Добавлено

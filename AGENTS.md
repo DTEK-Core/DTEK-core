@@ -54,12 +54,19 @@
 * **Sprint 15** — Post-MVP Connector Framework Foundation завершён; S15-T001–T008 закрыты с milestone `Connector Foundation Ready / Runtime Deferred`. Architecture/security contracts, Russian Market research shortlist и developer handoff готовы. S15-T007 сохраняет решение `DEFER / KEEP CSV-XLSX IMPORT PATH`: source cards/demand scores остаются `PILOT DATA PENDING`, первый connector, runtime, UI и migrations не выбраны. Новый connector scope разрешён только после admission evidence и отдельной задачи.
 * **Контрольный аудит 24.08.2026** — стадия зафиксирована как `Functional pre-pilot MVP`; четыре blocking security finding и пять stabilization tasks подготовлены в `tasks/SECURITY_STABILIZATION_GATE.md`. Gate имеет статус `PREPARED / NOT STARTED`, не является новым Sprint и обязателен до `PILOT READY`. До команды владельца исправления не применять.
 * Локально присутствуют migrations `001–019`; ранее Cloud parity был документирован, но контрольный аудит 24.08.2026 не подтвердил его повторно. Перед Gate migrations обязательна новая linked-сверка. Migration 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Ручные Sprint 12/13 QA остаются обязательными pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
+* **Platform planning 24.10.2026** — ADR-010 фиксирует эволюцию DTEK Core в
+  DTEK Platform без rewrite. Исторические Sprint 01–15 перенесены без изменения
+  в `tasks/archive/`; Sprint 16–35 созданы со статусом `PLANNED / NOT STARTED`.
+  Home, Personal, Exposure, Knowledge, Workspace runtime и новые таблицы не
+  реализованы. Security & Stabilization Gate остаётся первым этапом.
 
 Sprint 13 развивает Market MVP без изменения продуктовой границы: добавляет
 pilot-ready workflow поверх manual/imported Risk Registry. Все последующие
 Sprint должны учитывать Evidence-first стратегию: import является первым
 evidence ingestion path, explainability показывает источники данных, а
-connector framework развивается поэтапно.
+connector framework развивается поэтапно. Целевые Platform boundaries описаны
+в `docs/product/DTEK_PLATFORM_VISION.md`, а текущий/целевой разрыв — в
+`docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md`.
 
 Если владелец пишет `Переходим к Security & Stabilization Gate по последнему
 аудиту`, открыть `tasks/SECURITY_STABILIZATION_GATE.md`, коротко сверить только

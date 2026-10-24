@@ -1,13 +1,15 @@
-# Product_Concept.md — DTEK Core
+# Product_Concept.md — DTEK Platform / DTEK Core
 
 `Статус: актуальный`  
-`Дата: 08.07.2026`
+`Дата: 24.10.2026`
 
 ---
 
 ## Основная Идея
 
-DTEK Core — Evidence-first Trust Intelligence Platform для управления цифровым доверием и киберрисками активов организации.
+DTEK Core — реализованное Evidence-first Trust Intelligence ядро для
+управления цифровым доверием и киберрисками активов организации. В целевой
+модели ADR-010 оно становится DTEK Business внутри DTEK Platform.
 
 Система описывает организацию как цифровую модель, которая в текущем MVP может наполняться вручную, а в целевой архитектуре строится из цифровых доказательств:
 
@@ -26,6 +28,13 @@ DTEK Core — Evidence-first Trust Intelligence Platform для управлен
 ### Organization
 
 Тенант платформы. Все объекты, риски, связи, пользователи и настройки принадлежат организации.
+
+### Workspace (planned)
+
+Будущая безопасная надстройка над tenant context для режимов `business`, `home`
+и `personal`. Workspace не заменяет Organization напрямую и не существует в
+production schema. Его ввод требует additive migration, RLS/RBAC review,
+two-workspace tests и rollback plan в Sprint 16.
 
 ### Object
 
@@ -94,6 +103,17 @@ Evidence-backed цифровой паспорт доверия объекта.
 
 Реестр рисков, связанных с объектами. Риски могут быть созданы вручную, импортированы или предложены Auto Risk Mapper на основе evidence.
 
+В целевой модели `Finding` и `Risk` разделяются: Finding является наблюдаемым
+evidence-backed состоянием, а Risk — контекстуальным последствием, требующим
+оценки или решения. Автоматическое наблюдение не должно создавать безусловный
+Risk.
+
+### Recommendation / Remediation (planned)
+
+Recommendation объясняет безопасное действие, Remediation отслеживает его
+выполнение, а Verification подтверждает результат новым evidence. Эти сущности
+не реализованы в текущей production schema.
+
 ### Configurator
 
 Инструмент настройки модели доверия. В MVP включает веса факторов и отраслевые пресеты.
@@ -133,16 +153,16 @@ MVP подтверждает базовую гипотезу:
 
 ## Следующий Этап
 
-Следующий этап — Market MVP.
+Market MVP и Connector Foundation реализованы на уровне Sprint 09–15, но
+пилотный release заблокирован незакрытыми security/stability findings.
 
-Фокус:
+Порядок продолжения:
 
-- демо-данные;
-- импорт/экспорт;
-- отчёты;
-- объяснимость Trust Score;
-- risk impact;
-- workflow рисков;
-- подготовка к первым пилотам.
-- evidence-first import;
-- foundation Connector Framework.
+1. Security & Stabilization Gate.
+2. Platform Foundation (Sprint 16–19).
+3. Business evolution (Sprint 20–24).
+4. Home, Personal, Knowledge и unified Platform только через собственные gates.
+
+Текущий продукт, целевые сущности и gap подробно описаны в
+[DTEK Platform Vision](DTEK_PLATFORM_VISION.md) и
+[Platform Gap Analysis](../architecture/DTEK_PLATFORM_GAP_ANALYSIS.md).

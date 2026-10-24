@@ -1,10 +1,20 @@
-# DTEK Core
+# DTEK Platform / DTEK Core
 
-**Evidence-first Trust Intelligence Platform**
+**Evidence-first Cybersecurity & Digital Trust Platform**
 
-DTEK Core — B2B SaaS-платформа управления цифровым доверием активов. Она собирает цифровые доказательства из инфраструктуры организации, строит цифровую модель доверия и помогает CISO, аналитикам ИБ и IT-администраторам видеть, каким объектам можно доверять, какие риски снижают доверие и какие действия важнее выполнить первыми.
+DTEK Core — реализованное B2B-ядро платформы управления цифровым доверием
+активов. Оно собирает цифровые доказательства из инфраструктуры организации,
+строит цифровую модель доверия и помогает CISO, аналитикам ИБ и
+IT-администраторам видеть, каким объектам можно доверять, какие риски снижают
+доверие и какие действия важнее выполнить первыми.
 
 Платформа не заменяет SIEM, EDR, DLP, VM, CMDB или GRC. DTEK Core работает как Trust Intelligence layer поверх существующих процессов, выгрузок и инструментов безопасности.
+
+Стратегическое продолжение зафиксировано в ADR-010: DTEK Core становится
+режимом **DTEK Business**, а общий Trust Core поэтапно расширяется режимами
+**DTEK Home**, **DTEK Personal**, **DTEK Exposure** и единым
+**Knowledge & Remediation Center**. Это целевой Roadmap, а не описание уже
+реализованных функций. Подробности: [DTEK Platform Vision](docs/product/DTEK_PLATFORM_VISION.md).
 
 ---
 
@@ -23,7 +33,7 @@ DTEK Core — B2B SaaS-платформа управления цифровым 
 
 ## Текущий Статус
 
-**v0.15.0-dev — Functional pre-pilot MVP; Security & Stabilization Gate подготовлен, но не начат.**
+**v0.15.0-dev — DTEK Business Functional pre-pilot MVP; Security & Stabilization Gate подготовлен, но не начат.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
@@ -35,6 +45,12 @@ privilege boundaries, blocked-user enforcement и cross-tenant связях Risk
 [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) со статусом
 `PREPARED / NOT STARTED`; это не новый продуктовый Sprint, security/functional
 исправления ещё не применялись.
+
+Документы Sprint 01–15 перенесены без изменения содержания в
+[`tasks/archive/`](tasks/archive/README.md). Sprint 16–35 описывают план
+эволюции до первого DTEK Platform MVP и имеют статус `PLANNED / NOT STARTED`.
+Они не отменяют blocking Gate и не разрешают начинать новую функциональность
+до его фактического закрытия.
 
 ### Реализованные Маршруты
 
@@ -135,7 +151,8 @@ types/               TypeScript DB types
 supabase/migrations/ PostgreSQL schema and RLS
 design/              Approved visual prototype
 docs/                Product, architecture, security, user docs
-tasks/               Backlog and sprint history
+tasks/               Active gate, backlogs and planned Sprint 16–35
+tasks/archive/       Immutable Sprint 01–15 history
 diploma/             Учебная база автора и подготовка к защите
 ```
 
@@ -148,6 +165,10 @@ diploma/             Учебная база автора и подготовк�
 | [diploma/README.md](diploma/README.md) | Полная учебная документация проекта: от основ до защиты диплома |
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Навигация по всей документации |
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
+| [docs/product/DTEK_PLATFORM_VISION.md](docs/product/DTEK_PLATFORM_VISION.md) | Целевая продуктовая модель Business/Home/Personal/Knowledge |
+| [docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md](docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md) | Целевая архитектура общего Trust Core и Workspace evolution |
+| [docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md](docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md) | Разрыв между текущей реализацией и Platform MVP |
+| [docs/security/DTEK_PLATFORM_SECURITY_PRINCIPLES.md](docs/security/DTEK_PLATFORM_SECURITY_PRINCIPLES.md) | Security/privacy boundaries новых режимов |
 | [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Новая продуктовая стратегия и позиционирование |
 | [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Evidence-first стратегия и новая роль автоматического наполнения |
 | [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery, Connector и Evidence layers |
@@ -174,8 +195,8 @@ diploma/             Учебная база автора и подготовк�
 | [docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md](docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md) | Ручная authenticated приёмка Pilot Risk Workflow Sprint 13 |
 | [docs/operations/BACKUP_RESTORE_RUNBOOK.md](docs/operations/BACKUP_RESTORE_RUNBOOK.md) | Backup/restore процедура Supabase, rehearsal и pilot RPO/RTO |
 | [docs/operations/MONITORING_ERROR_HANDLING_PLAN.md](docs/operations/MONITORING_ERROR_HANDLING_PLAN.md) | Monitoring baseline, safe error handling, severity и incident response для пилота |
-| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Зафиксированный Roadmap до коммерческого MVP и Post-MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | План Sprint 09–14 до MVP; Sprint 15 — Post-MVP |
+| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Roadmap от текущего Gate до первого Platform MVP |
+| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Полная последовательность Sprint 16–35 |
 | [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг и архитектурные риски |
 | [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности |
 | [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
@@ -200,7 +221,7 @@ diploma/             Учебная база автора и подготовк�
 | Стабильное функциональное ядро | Objects, Passport, Score, Risk Workflow, Dashboard, Configurator, import/export/reporting и Environment Health Check |
 | Blocking области | Profile/RBAC boundaries, blocked-user enforcement, cross-tenant Object/Risk и Graph constraints, atomic organization/invitation flows |
 | Частичные области | Sprint 12/13 manual QA, source metadata как text block, автоматизация authenticated QA |
-| Будущая архитектура | Connector Foundation Ready; runtime/UI/migrations deferred до admission evidence |
+| Будущая архитектура | ADR-010 и Sprint 16–35 запланированы; runtime/UI/migrations не начаты |
 
 Перед продолжением разработки обязательно прочитать `AGENTS.md`, `AI_DEVELOPMENT_GUIDE.md`, `ARCHITECTURE_DECISIONS.md`, `docs/product/PRODUCT_STRATEGY.md`, `docs/roadmap/ROADMAP.md`, текущий Sprint-документ и `docs/architecture/TECHNICAL_DEBT.md`.
 
@@ -213,12 +234,17 @@ diploma/             Учебная база автора и подготовк�
 Текущие обязательства и утверждённая последовательность:
 
 1. По отдельной команде выполнить подготовленный Security & Stabilization Gate.
-2. После исправлений выполнить authenticated QA Sprint 12–14 и полный regression.
-3. Закрыть остальные release gates Sprint 14 и отдельно принять решение `PILOT READY`.
-4. Собирать source cards, manual burden и freshness evidence в реальных pilots.
-5. Пересмотреть решение `DEFER` только после подтверждённых pilot source signals; новый runtime начинать отдельной задачей по Connector Foundation Handoff.
+2. Подтвердить Business baseline, authenticated QA и pilot release evidence.
+3. Sprint 16–19: Workspace, Evidence/Finding, Remediation/Knowledge и scoped assessment foundations.
+4. Sprint 20–24: Connector Runtime, Business discovery, findings, exposure paths и Business release.
+5. Sprint 25–27: Home MVP через paired local collector и отдельный privacy/security gate.
+6. Sprint 28–31: Personal MVP и ограниченный DTEK Exposure для собственных идентификаторов.
+7. Sprint 32–35: Knowledge Center, continuous trust, unified governance и итоговый Platform release gate.
 
-Агенты, marketplace, SIEM/EDR replacement, SSO, on-prem и расширенный GRC остаются Post-MVP/Enterprise. Коннекторы развиваются поэтапно через evidence-first архитектуру и пилотные сигналы.
+Native apps, general-purpose endpoint agent, marketplace, SIEM/EDR replacement,
+SSO, on-prem и расширенный GRC остаются за границей первого Platform MVP.
+Коннекторы, collectors, scanning и public intelligence развиваются только через
+evidence-first архитектуру и capability-specific security gates.
 
 Полный план: [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md).
 
@@ -241,4 +267,4 @@ DTEK Core хранит чувствительную информацию об и
 
 ---
 
-`DTEK Core` · Evidence-first Trust Intelligence Platform · **v0.15.0-dev / Functional pre-pilot MVP**
+`DTEK Core` · implemented Business foundation of DTEK Platform · **v0.15.0-dev / Functional pre-pilot MVP**

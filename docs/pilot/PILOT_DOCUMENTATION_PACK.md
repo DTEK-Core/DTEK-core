@@ -350,7 +350,7 @@ Pilot Lead проверяет пакет:
 
 ## 12. Связанные Документы
 
-- [Sprint 14](../../tasks/SPRINT_14.md) — план Pilot Readiness.
+- [Sprint 14](../../tasks/archive/SPRINT_14.md) — исторический план Pilot Readiness.
 - [Documentation Index](../../DOCUMENTATION_INDEX.md) — полный каталог проекта.
 - [MVP Scope](../product/MVP_Scope.md) — границы Commercial MVP и Post-MVP.
 - [Security Overview](../security/SECURITY_OVERVIEW.md) — security baseline.

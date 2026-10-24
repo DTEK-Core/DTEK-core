@@ -1,9 +1,9 @@
-# FEATURE BACKLOG — DTEK Core MVP
+# FEATURE BACKLOG — DTEK Core And Platform
 
 `Проект: DTEK Core`
 `Версия: 1.0`
-`Дата: 09.06.2026`
-`Статус: Утверждён`
+`Дата: 24.10.2026`
+`Статус: F/M series historical; Platform capability series PLANNED`
 
 ---
 
@@ -716,6 +716,37 @@ PostgreSQL DB Triggers на таблицах `objects`, `risks`, `object_risks`,
 |---|---|---|---|
 | F-028 | PDF Export | Trust Passport | Высокая сложность (L), нет готовой инфраструктуры |
 | F-035 | CSV Export | Risk Registry | Простая (S), но не блокирует работу аналитика |
+
+---
+
+## Platform Capability Backlog
+
+| ID | Capability | Sprint | Priority | Статус |
+|---|---|---:|---|---|
+| P-001 | Additive Workspace boundary and mode permissions | 16 | P1 | PLANNED |
+| P-002 | Unified Evidence, Assertion and Finding lifecycle | 17 | P1 | PLANNED |
+| P-003 | Recommendation, Remediation and Verification model | 18 | P1 | PLANNED |
+| P-004 | Authorized bounded Assessment execution | 19 | P1 | PLANNED |
+| P-005 | Connector Runtime and Discovery Inbox | 20 | P1 | PLANNED |
+| P-006 | Admitted Business source and asset discovery | 21 | P1 | PLANNED |
+| P-007 | Business findings and Trust impact | 22 | P1 | PLANNED |
+| P-008 | Dependency, exposure path and resilience analysis | 23 | P2 | PLANNED |
+| P-009 | Business remediation and release gate | 24 | P1 | PLANNED |
+| P-010 | Home workspace, household consent and privacy | 25 | P1 | PLANNED |
+| P-011 | Paired local Home collector and device discovery | 26 | P1 | PLANNED |
+| P-012 | Device Passport, Home Trust Score and safe actions | 27 | P1 | PLANNED |
+| P-013 | Personal workspace and verified identifier lifecycle | 28 | P1 | PLANNED |
+| P-014 | Personal Trust Passport and mode-specific score | 29 | P1 | PLANNED |
+| P-015 | Breach exposure and digital footprint | 30 | P1 | PLANNED |
+| P-016 | Bounded domain/URL/hash/metadata intelligence | 31 | P2 | PLANNED |
+| P-017 | Finding Knowledge and Remediation Center | 32 | P1 | PLANNED |
+| P-018 | Change history, useful notifications and retention | 33 | P2 | PLANNED |
+| P-019 | Unified mode navigation, governance and data lifecycle | 34 | P1 | PLANNED |
+| P-020 | Platform security/privacy/operations release evidence | 35 | P1 | PLANNED |
+
+`FUTURE`: native mobile app, general-purpose endpoint/Home agent, on-prem,
+SSO/SAML, marketplace, custom roles, autonomous remediation and unrestricted
+people intelligence. Их нельзя подтягивать в P-001–P-020 без отдельного решения.
 
 ---
 

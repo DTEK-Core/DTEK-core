@@ -404,7 +404,7 @@ Owner и admin видят событие, инициатора и агрегир
 - [Troubleshooting](../development/TROUBLESHOOTING.md) — диагностика проблем.
 - [Data Onboarding Smoke Test](../testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) — ручная приёмка полного import flow.
 - [Sprint 11 Import Test Data](../../testing/sprint-11-import/README.md) — готовые valid, invalid, duplicate, partial и performance fixtures.
-- [Sprint 11](../../tasks/SPRINT_11.md) — scope и статус реализации.
+- [Sprint 11](../../tasks/archive/SPRINT_11.md) — исторический scope и статус реализации.
 - [First Connector Candidate Decision](../product/FIRST_CONNECTOR_CANDIDATE_DECISION.md)
   — почему CSV/XLSX остаётся active path.
 - [Connector Foundation Handoff](../development/CONNECTOR_FOUNDATION_HANDOFF.md)

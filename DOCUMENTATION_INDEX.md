@@ -1,227 +1,163 @@
-# DOCUMENTATION_INDEX.md — DTEK Core
+# DOCUMENTATION_INDEX.md — DTEK Platform / DTEK Core
 
 `Статус: актуальный`  
-`Дата: 24.08.2026`
+`Дата: 24.10.2026`
 
-Единая карта документации DTEK Core. Начинайте отсюда, если подключаетесь к проекту впервые.
+Единая карта источников истины. Статусы возможностей всегда проверять по коду,
+миграциям и этому разделению:
 
----
-
-## 1. Быстрый Маршрут Для Нового Участника
-
-1. [README.md](README.md) — что такое продукт и как запустить проект.
-2. [diploma/README.md](diploma/README.md) — учебный маршрут автора от основ до защиты.
-3. [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) — утверждённые ADR.
-4. [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) — стратегия и позиционирование.
-5. [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) — Evidence-first концепция после ADR-007.
-6. [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) — дальнейшее развитие.
-7. [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) — будущая последовательность спринтов.
-8. [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) — техническая архитектура MVP.
-9. [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) — Discovery, Connector и Evidence layers.
-10. [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) — модель безопасности.
-11. [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md) — правила работы AI/разработчиков.
-12. [tasks/SECURITY_STABILIZATION_GATE.md](tasks/SECURITY_STABILIZATION_GATE.md) — следующий обязательный release gate, подготовлен и не начат.
+- **IMPLEMENTED** — DTEK Business foundation Sprint 01–15;
+- **CURRENT** — Security & Stabilization Gate, prepared/not started;
+- **PLANNED** — Sprint 16–35 и DTEK Platform evolution;
+- **FUTURE** — capabilities вне первого Platform MVP.
 
 ---
 
-## 2. Корневые Документы
+## 1. Быстрый Маршрут
+
+1. [README.md](README.md) — продукт, текущая стадия и запуск.
+2. [DTEK Platform Vision](docs/product/DTEK_PLATFORM_VISION.md) — единая новая концепция.
+3. [Architecture Decisions](ARCHITECTURE_DECISIONS.md) — ADR-001–010.
+4. [Current System Architecture](docs/architecture/System_Architecture.md) — фактический Next.js/Supabase MVP.
+5. [Target Platform Architecture](docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md) — план расширения Trust Core.
+6. [Gap Analysis](docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md) — reuse/extension/new matrix.
+7. [Platform Security Principles](docs/security/DTEK_PLATFORM_SECURITY_PRINCIPLES.md) — новые security/privacy boundaries.
+8. [Roadmap](docs/roadmap/ROADMAP.md) и [Sprint Roadmap](docs/roadmap/SPRINT_ROADMAP.md).
+9. [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) — следующий blocking stage.
+10. [AI Development Guide](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md).
+
+---
+
+## 2. Root Sources
 
 | Документ | Назначение |
 |---|---|
-| [README.md](README.md) | Краткое описание продукта, запуск, статус, структура |
-| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR-001–009, высший источник архитектурных решений |
-| [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный регламент для AI-разработки |
-| [AGENTS.md](AGENTS.md) | Постоянный контекст Codex/AI-агентов |
-| [CLAUDE.md](CLAUDE.md) | Legacy-контекст Claude workflow, сохраняется для совместимости |
+| [README.md](README.md) | Статус, реализованные routes, запуск и handoff |
+| [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | Приоритетный реестр ADR-001–010 |
+| [AGENTS.md](AGENTS.md) | Постоянный контекст Codex |
+| [AI_DEVELOPMENT_GUIDE.md](AI_DEVELOPMENT_GUIDE.md) | Инженерный workflow |
 | [CHANGELOG.md](CHANGELOG.md) | История изменений |
-| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Этот индекс |
-
----
-
-## 2.1. Учебная Документация Автора
-
-| Документ | Назначение |
-|---|---|
-| [diploma/README.md](diploma/README.md) | Точка входа и маршруты изучения |
-| [diploma/00_PROJECT_LEARNING_MAP.md](diploma/00_PROJECT_LEARNING_MAP.md) | Карта знаний и обязательное ядро |
-| [diploma/01_PROJECT_FROM_ZERO.md](diploma/01_PROJECT_FROM_ZERO.md) | Web-разработка и термины с абсолютного нуля |
-| [diploma/05_PRODUCT_FUNCTIONALITY.md](diploma/05_PRODUCT_FUNCTIONALITY.md) | Фактическая карта реализованных и будущих модулей |
-| [diploma/07_SYSTEM_ARCHITECTURE.md](diploma/07_SYSTEM_ARCHITECTURE.md) | Архитектура простыми словами и технически |
-| [diploma/11_AUTH_RBAC_RLS_AND_MULTITENANCY.md](diploma/11_AUTH_RBAC_RLS_AND_MULTITENANCY.md) | Ключевая модель доступа и tenant isolation |
-| [diploma/18_SECURITY_MODEL.md](diploma/18_SECURITY_MODEL.md) | Учебная модель угроз и остаточных рисков |
-| [diploma/23_CURRENT_STATE_AND_ROADMAP.md](diploma/23_CURRENT_STATE_AND_ROADMAP.md) | Честное состояние MVP и Roadmap |
-| [diploma/24_DIPLOMA_POSITIONING.md](diploma/24_DIPLOMA_POSITIONING.md) | Основа позиционирования диплома |
-| [diploma/25_DEFENSE_QUESTIONS_AND_ANSWERS.md](diploma/25_DEFENSE_QUESTIONS_AND_ANSWERS.md) | 60 вопросов комиссии с опорными ответами |
-| [diploma/26_GLOSSARY.md](diploma/26_GLOSSARY.md) | Словарь терминов |
-| [diploma/27_CODE_NAVIGATION_GUIDE.md](diploma/27_CODE_NAVIGATION_GUIDE.md) | Путеводитель по репозиторию |
-| [diploma/28_PRACTICAL_STUDY_PLAN.md](diploma/28_PRACTICAL_STUDY_PLAN.md) | Практический план на шесть недель |
-| [diploma/diagrams/README.md](diploma/diagrams/README.md) | Mermaid-диаграммы основных потоков |
-
-Полная последовательность документов `00–28` находится в [diploma/README.md](diploma/README.md). Учебная папка объясняет существующие источники истины, но не заменяет ADR, код, миграции и актуальный Sprint.
+| [CLAUDE.md](CLAUDE.md) | Legacy workflow reference |
 
 ---
 
 ## 3. Product
 
-| Документ | Назначение |
+| Документ | Статус / назначение |
 |---|---|
-| [docs/product/PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Источник истины по стратегии, ICP, позиционированию и Market MVP |
-| [docs/product/EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | Новая Evidence-first стратегия: автоматическое наполнение, evidence, Discovery Inbox и Connector Framework |
-| [docs/product/DEMO_NARRATIVE.md](docs/product/DEMO_NARRATIVE.md) | Сценарий демонстрации DTEK Core для CISO и первых интервью |
-| [docs/product/DEMO_DATASET_SPEC.md](docs/product/DEMO_DATASET_SPEC.md) | Спецификация demo dataset для демонстрационной организации Sprint 09 |
-| [docs/product/DEMO_SEED_PLAN.md](docs/product/DEMO_SEED_PLAN.md) | План безопасного ручного наполнения demo organization без миграций и seed-скриптов |
-| [docs/product/ICP_INTERVIEW_SCRIPT.md](docs/product/ICP_INTERVIEW_SCRIPT.md) | ICP и сценарий discovery-интервью для российского рынка ИБ |
-| [docs/product/PRODUCT_ONE_PAGER.md](docs/product/PRODUCT_ONE_PAGER.md) | One-pager DTEK Core для CISO: проблема, решение, ценность и pilot offer |
-| [docs/product/PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | 14-дневный pilot offer: входные данные, план, результаты и success criteria |
-| [docs/product/PILOT_METRICS_FEEDBACK_LOOP.md](docs/product/PILOT_METRICS_FEEDBACK_LOOP.md) | Sprint 14: pilot scorecard, feedback cadence, WTP и source/connector demand model |
-| [docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md) | Sprint 15: research ranking источников РФ, API feasibility, complexity и pilot admission gates |
-| [docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md](docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md) | Sprint 15: решение DEFER, действующий import path и reopening evidence первого connector |
-| [docs/pilot/PILOT_DOCUMENTATION_PACK.md](docs/pilot/PILOT_DOCUMENTATION_PACK.md) | Sprint 14: единый пакет запуска пилота для клиента и внутреннего сопровождения |
-| [docs/product/COPY_ALIGNMENT.md](docs/product/COPY_ALIGNMENT.md) | Выравнивание landing/README copy с Market MVP стратегией |
-| [docs/product/SPRINT09_DOCUMENTATION_SYNC.md](docs/product/SPRINT09_DOCUMENTATION_SYNC.md) | Финальная синхронизация документации Sprint 09 |
-| [docs/product/Vision.md](docs/product/Vision.md) | Видение и долгосрочная цель |
-| [docs/product/Product_Concept.md](docs/product/Product_Concept.md) | Концепция продукта и ключевые сущности |
-| [docs/product/MVP_Scope.md](docs/product/MVP_Scope.md) | Границы текущего MVP и Market MVP |
-| [docs/product/User_Stories.md](docs/product/User_Stories.md) | Пользовательские истории |
-| [docs/product/PRD_Core_Modules.md](docs/product/PRD_Core_Modules.md) | PRD ключевых модулей |
-| [docs/product/PRD_Modules.md](docs/product/PRD_Modules.md) | Детализация PRD по модулям |
-| [docs/product/Risk_Model.md](docs/product/Risk_Model.md) | Модель рисков |
-| [docs/product/Trust_Graph_Model.md](docs/product/Trust_Graph_Model.md) | Модель Trust Graph |
-| [docs/product/Trust_Passport_Model.md](docs/product/Trust_Passport_Model.md) | Модель Trust Passport |
+| [DTEK_PLATFORM_VISION.md](docs/product/DTEK_PLATFORM_VISION.md) | PLANNED product evolution: Business/Home/Personal/Exposure/Knowledge |
+| [Vision.md](docs/product/Vision.md) | Краткое долгосрочное видение |
+| [PRODUCT_STRATEGY.md](docs/product/PRODUCT_STRATEGY.md) | Позиционирование, ICP и product boundaries |
+| [Product_Concept.md](docs/product/Product_Concept.md) | Текущие и planned domain concepts |
+| [MVP_Scope.md](docs/product/MVP_Scope.md) | Business и Platform MVP boundaries |
+| [EVIDENCE_FIRST_STRATEGY.md](docs/product/EVIDENCE_FIRST_STRATEGY.md) | ADR-007 evidence-first foundation |
+| [User_Stories.md](docs/product/User_Stories.md) | Исторические Business user stories |
+| [PRD_Core_Modules.md](docs/product/PRD_Core_Modules.md) | Реализованное Business ядро |
+| [RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md](docs/product/RUSSIAN_MARKET_CONNECTOR_SHORTLIST.md) | Research shortlist, не runtime commitment |
+| [FIRST_CONNECTOR_CANDIDATE_DECISION.md](docs/product/FIRST_CONNECTOR_CANDIDATE_DECISION.md) | `DEFER / KEEP CSV-XLSX IMPORT PATH` |
+| [PILOT_OFFER.md](docs/product/PILOT_OFFER.md) | Business pilot offer |
+| [PILOT_METRICS_FEEDBACK_LOOP.md](docs/product/PILOT_METRICS_FEEDBACK_LOOP.md) | Pilot evidence protocol |
 
 ---
 
-## 4. Roadmap
+## 4. Architecture
 
 | Документ | Назначение |
 |---|---|
-| [docs/roadmap/ROADMAP.md](docs/roadmap/ROADMAP.md) | Зафиксированная дорожная карта до коммерческого MVP и Post-MVP |
-| [docs/roadmap/SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Единый план: Sprint 09–14 — MVP, Sprint 15 — Post-MVP |
-| [tasks/MVP_RELEASE_PLAN.md](tasks/MVP_RELEASE_PLAN.md) | Исторический release plan R0–R6, дополнен новым Market MVP направлением |
-| [tasks/EPIC_BACKLOG.md](tasks/EPIC_BACKLOG.md) | Epic backlog MVP |
-| [tasks/FEATURE_BACKLOG.md](tasks/FEATURE_BACKLOG.md) | Feature backlog MVP |
+| [System_Architecture.md](docs/architecture/System_Architecture.md) | CURRENT architecture |
+| [DTEK_PLATFORM_ARCHITECTURE.md](docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md) | PLANNED shared Trust Core и Workspace evolution |
+| [DTEK_PLATFORM_GAP_ANALYSIS.md](docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md) | Capability gap matrix |
+| [Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Target ingestion/discovery layers |
+| [Connector_Framework_Architecture.md](docs/architecture/Connector_Framework_Architecture.md) | ADR-009 adapter/ingestion contract |
+| [Evidence_Layer_Data_Model.md](docs/architecture/Evidence_Layer_Data_Model.md) | SPEC only; production tables absent |
+| [Normalization_Identity_Resolution.md](docs/architecture/Normalization_Identity_Resolution.md) | SPEC only |
+| [Confidence_Engine_Discovery_Inbox.md](docs/architecture/Confidence_Engine_Discovery_Inbox.md) | SPEC only |
+| [Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Current Business schema baseline |
+| [Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Business score source of truth |
+| [Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Implemented CSV/XLSX contract |
+| [Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Implemented explainability contract |
+| [Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Implemented pilot risk workflow |
+| [TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Known limitations and debt |
 
 ---
 
-## 5. Architecture
+## 5. Security
 
 | Документ | Назначение |
 |---|---|
-| [docs/architecture/System_Architecture.md](docs/architecture/System_Architecture.md) | Архитектура Next.js + Supabase Cloud |
-| [docs/architecture/Evidence_First_Architecture.md](docs/architecture/Evidence_First_Architecture.md) | Целевая архитектура Discovery Layer, Connector Framework, Evidence Layer и автоматического наполнения |
-| [docs/architecture/Connector_Framework_Architecture.md](docs/architecture/Connector_Framework_Architecture.md) | ADR-009: adapter contract, lifecycle, ingestion, idempotency, secrets и tenant boundaries Sprint 15 |
-| [docs/architecture/Evidence_Layer_Data_Model.md](docs/architecture/Evidence_Layer_Data_Model.md) | Модель source, batch, raw observations, normalized assertions, bindings, retention и будущей migration Sprint 15 |
-| [docs/architecture/Normalization_Identity_Resolution.md](docs/architecture/Normalization_Identity_Resolution.md) | Canonical normalization, identity keys, resolver, conflict, manual override и merge policy Sprint 15 |
-| [docs/architecture/Confidence_Engine_Discovery_Inbox.md](docs/architecture/Confidence_Engine_Discovery_Inbox.md) | Confidence formula, hard gates, candidate lifecycle, RBAC и Discovery Inbox UX Sprint 15 |
-| [docs/architecture/Reporting_Architecture.md](docs/architecture/Reporting_Architecture.md) | Архитектура отчётов и экспорта Sprint 10 |
-| [docs/architecture/Evidence_Import_Schema.md](docs/architecture/Evidence_Import_Schema.md) | Контракт CSV/XLSX импорта объектов и рисков Sprint 11 |
-| [docs/architecture/Evidence_Explainability_Model.md](docs/architecture/Evidence_Explainability_Model.md) | Модель объяснимости Trust Score, drivers, impact и source context Sprint 12 |
-| [docs/architecture/Risk_Workflow_Data_Model.md](docs/architecture/Risk_Workflow_Data_Model.md) | Минимальная модель owner, SLA, comments и activity timeline Sprint 13 |
-| [docs/architecture/Database_Design_Full.md](docs/architecture/Database_Design_Full.md) | Полная схема БД, индексы, RLS |
-| [docs/architecture/Trust_Score_Model_v2.md](docs/architecture/Trust_Score_Model_v2.md) | Формула Trust Score |
-| [docs/architecture/Configurator_Concept_Final.md](docs/architecture/Configurator_Concept_Final.md) | Концепция Конфигуратора |
-| [docs/architecture/User_Roles.md](docs/architecture/User_Roles.md) | Роли и матрица доступа |
-| [docs/architecture/TECHNICAL_DEBT.md](docs/architecture/TECHNICAL_DEBT.md) | Технический долг, Known Limitations и архитектурные риски |
+| [SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Current security architecture and limitations |
+| [DTEK_PLATFORM_SECURITY_PRINCIPLES.md](docs/security/DTEK_PLATFORM_SECURITY_PRINCIPLES.md) | Planned workspace/scanning/Home/Personal/Exposure controls |
+| [CONNECTOR_SECURITY_MODEL.md](docs/security/CONNECTOR_SECURITY_MODEL.md) | Connector secret, SSRF, audit and tenant gates |
+| [RBAC_MODEL.md](docs/security/RBAC_MODEL.md) | Business RBAC |
+| [RLS_MODEL.md](docs/security/RLS_MODEL.md) | Business RLS model |
+| [THREAT_MODEL.md](docs/security/THREAT_MODEL.md) | Current threat model |
+| [SECURE_SDLC.md](docs/security/SECURE_SDLC.md) | Secure development lifecycle |
+| [SECURITY_TESTING_PLAN.md](docs/security/SECURITY_TESTING_PLAN.md) | Security test strategy |
+| [VULNERABILITY_MANAGEMENT.md](docs/security/VULNERABILITY_MANAGEMENT.md) | Product vulnerability process |
 
 ---
 
-## 6. Security
-
-| Документ | Назначение |
-|---|---|
-| [docs/security/SECURITY_OVERVIEW.md](docs/security/SECURITY_OVERVIEW.md) | Обзор безопасности |
-| [docs/security/CONNECTOR_SECURITY_MODEL.md](docs/security/CONNECTOR_SECURITY_MODEL.md) | Sprint 15: Vault, RBAC/RLS, tenant isolation, SSRF, audit и connector security gates |
-| [docs/security/RBAC_MODEL.md](docs/security/RBAC_MODEL.md) | RBAC модель |
-| [docs/security/RLS_MODEL.md](docs/security/RLS_MODEL.md) | RLS модель |
-| [docs/security/THREAT_MODEL.md](docs/security/THREAT_MODEL.md) | Threat model |
-| [docs/security/SECURE_SDLC.md](docs/security/SECURE_SDLC.md) | Secure SDLC |
-| [docs/security/SECURITY_REQUIREMENTS.md](docs/security/SECURITY_REQUIREMENTS.md) | Security requirements |
-| [docs/security/SECURITY_TESTING_PLAN.md](docs/security/SECURITY_TESTING_PLAN.md) | Security testing plan |
-| [docs/security/VULNERABILITY_MANAGEMENT.md](docs/security/VULNERABILITY_MANAGEMENT.md) | Vulnerability management |
-| [docs/security/DEPENDENCY_MANAGEMENT.md](docs/security/DEPENDENCY_MANAGEMENT.md) | Dependency management |
-| [docs/security/DEPENDENCY_AUDIT_S06.md](docs/security/DEPENDENCY_AUDIT_S06.md) | Historical dependency audit |
-
----
-
-## 7. User Docs
-
-| Документ | Назначение |
-|---|---|
-| [docs/user/USER_GUIDE.md](docs/user/USER_GUIDE.md) | Руководство пользователя |
-| [docs/user/PLATFORM_WORKFLOW.md](docs/user/PLATFORM_WORKFLOW.md) | Рабочий процесс платформы |
-| [docs/user/TRUST_SCORE_GUIDE.md](docs/user/TRUST_SCORE_GUIDE.md) | Trust Score guide, explainability, reason cards, impact hint и Dashboard summary |
-| [docs/user/OBJECT_MODEL_GUIDE.md](docs/user/OBJECT_MODEL_GUIDE.md) | Object model guide |
-| [docs/user/RISK_REGISTRY_GUIDE.md](docs/user/RISK_REGISTRY_GUIDE.md) | Risk Registry guide |
-| [docs/user/IMPORT_GUIDE.md](docs/user/IMPORT_GUIDE.md) | CSV/XLSX import объектов и рисков, preview и диагностика |
-| [docs/user/CONFIGURATOR_GUIDE.md](docs/user/CONFIGURATOR_GUIDE.md) | Configurator guide |
-| [docs/user/REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Reports and export guide |
-| [docs/user/FAQ.md](docs/user/FAQ.md) | FAQ |
-
----
-
-## 8. Development, Operations, Testing
-
-| Документ | Назначение |
-|---|---|
-| [docs/development/TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md) | Диагностика локального окружения и Supabase |
-| [docs/development/CONNECTOR_FOUNDATION_HANDOFF.md](docs/development/CONNECTOR_FOUNDATION_HANDOFF.md) | Sprint 15: единый developer handoff, runtime gates, implementation sequence и acceptance baseline |
-| [docs/operations/DEPLOYMENT.md](docs/operations/DEPLOYMENT.md) | Деплой и переменные окружения |
-| [docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md](docs/operations/ENVIRONMENT_HEALTH_RUNBOOK.md) | Sprint 14: безопасная UI/CLI диагностика Supabase, env, DNS, middleware и recovery |
-| [docs/operations/INVITATION_DELIVERY_RUNBOOK.md](docs/operations/INVITATION_DELIVERY_RUNBOOK.md) | Sprint 14: manual invite delivery contract, security, recovery и pilot QA |
-| [docs/operations/BACKUP_RESTORE_RUNBOOK.md](docs/operations/BACKUP_RESTORE_RUNBOOK.md) | Sprint 14: Supabase backup policy, restore-to-new-project, rehearsal, RPO/RTO и recovery evidence |
-| [docs/operations/MONITORING_ERROR_HANDLING_PLAN.md](docs/operations/MONITORING_ERROR_HANDLING_PLAN.md) | Sprint 14: pilot signals, performance thresholds, safe errors, severity, triage и escalation |
-| [docs/testing/TEST_STRATEGY.md](docs/testing/TEST_STRATEGY.md) | Актуальная стратегия автоматического, ручного, security и release-тестирования |
-| [docs/testing/TEST_PLAN_SPRINT_01_03.md](docs/testing/TEST_PLAN_SPRINT_01_03.md) | Test plan Sprint 01–03 |
-| [docs/testing/TEST_PLAN_SPRINT_05_07.md](docs/testing/TEST_PLAN_SPRINT_05_07.md) | Test plan Sprint 05–07 |
-| [docs/testing/MANUAL_TESTING_GUIDE.md](docs/testing/MANUAL_TESTING_GUIDE.md) | Manual testing guide |
-| [docs/testing/MANUAL_TESTING_GUIDE_S07.md](docs/testing/MANUAL_TESTING_GUIDE_S07.md) | Sprint 07 manual testing |
-| [docs/testing/RBAC_TESTING_GUIDE.md](docs/testing/RBAC_TESTING_GUIDE.md) | RBAC testing |
-| [docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md](docs/testing/REPORTING_SMOKE_TEST_CHECKLIST.md) | Sprint 10 Reporting manual smoke test |
-| [docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md](docs/testing/DATA_ONBOARDING_SMOKE_TEST_CHECKLIST.md) | Sprint 11 Data Onboarding manual smoke test |
-| [docs/testing/EXPLAINABILITY_QA_CHECKLIST.md](docs/testing/EXPLAINABILITY_QA_CHECKLIST.md) | Sprint 12 Explainability manual QA: formula, sources, history, RBAC и mobile |
-| [docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md](docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md) | Sprint 13 Risk Workflow manual QA: owner, SLA, comments, origin, timeline, audit, RBAC/RLS и mobile |
-| [docs/testing/PILOT_READINESS_CHECKLIST.md](docs/testing/PILOT_READINESS_CHECKLIST.md) | Sprint 14 master release gate: engineering, QA, migrations, security, operations и решение GO/NO-GO |
-| [docs/testing/PILOT_SMOKE_TEST_CHECKLIST.md](docs/testing/PILOT_SMOKE_TEST_CHECKLIST.md) | Sprint 14: automated production HTTP и authenticated critical path smoke baseline |
-| [testing/sprint-11-import/README.md](testing/sprint-11-import/README.md) | Готовые import fixtures и автоматические contract-тесты Sprint 11 |
-| [docs/testing/BUG_REPORT_TEMPLATE.md](docs/testing/BUG_REPORT_TEMPLATE.md) | Bug report template |
-
----
-
-## 9. Sprint History
-
-Sprint-файлы в `tasks/` сохраняются как исторический журнал разработки.
-
-Design Development хранится отдельно:
-
-| Документ | Назначение |
-|---|---|
-| [tasks/disign/MINI_DESIGN_CHANGES.md](tasks/disign/MINI_DESIGN_CHANGES.md) | Единый журнал небольших UI/UX-изменений с последовательными MD-ID и rollback baseline |
-| [tasks/disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md](tasks/disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md) | Отдельный Figma-first Design Sprint Settings / Profile, ожидает согласования |
+## 6. Roadmap And Tasks
 
 | Документ | Статус |
 |---|---|
-| [tasks/SPRINT_01.md](tasks/SPRINT_01.md) | Завершён |
-| [tasks/SPRINT_02.md](tasks/SPRINT_02.md) | Завершён |
-| [tasks/SPRINT_03.md](tasks/SPRINT_03.md) | Завершён |
-| [tasks/SPRINT_04.md](tasks/SPRINT_04.md) | Завершён |
-| [tasks/SPRINT_05.md](tasks/SPRINT_05.md) | Завершён |
-| [tasks/SPRINT_06.md](tasks/SPRINT_06.md) | Завершён |
-| [tasks/SPRINT_07.md](tasks/SPRINT_07.md) | Завершён, документ содержит исторические pending-чеклисты |
-| [tasks/SPRINT_08.md](tasks/SPRINT_08.md) | Product Review, исторический источник обратной связи |
-| [tasks/SPRINT_08_IMPLEMENTATION.md](tasks/SPRINT_08_IMPLEMENTATION.md) | Sprint 08 Implementation, завершён функционально |
-| [tasks/SPRINT_09.md](tasks/SPRINT_09.md) | Sprint 09: Market MVP Packaging, завершён |
-| [tasks/SPRINT_10.md](tasks/SPRINT_10.md) | Sprint 10: Reporting & Export, завершён |
-| [tasks/SPRINT_11.md](tasks/SPRINT_11.md) | Sprint 11: Evidence Import & Data Onboarding, завершён |
-| [tasks/SPRINT_12.md](tasks/SPRINT_12.md) | Sprint 12: реализация Evidence-backed Trust Explainability завершена, ожидается ручная приёмка |
-| [tasks/SPRINT_13.md](tasks/SPRINT_13.md) | Sprint 13: реализация Pilot Risk Workflow завершена, manual QA pending |
-| [tasks/SPRINT_14.md](tasks/SPRINT_14.md) | Sprint 14: S14-T001–T008 реализованы, фактические Pilot GO gates ожидаются |
-| [tasks/SPRINT_15.md](tasks/SPRINT_15.md) | Sprint 15: завершён — Connector Foundation Ready / Runtime Deferred |
-| [tasks/SECURITY_STABILIZATION_GATE.md](tasks/SECURITY_STABILIZATION_GATE.md) | Blocking Security & Stabilization Gate: PREPARED / NOT STARTED, не Sprint |
+| [tasks/README.md](tasks/README.md) | Current task map |
+| [ROADMAP.md](docs/roadmap/ROADMAP.md) | Current milestone roadmap |
+| [SPRINT_ROADMAP.md](docs/roadmap/SPRINT_ROADMAP.md) | Gate + Sprint 16–35 sequence |
+| [MVP_RELEASE_PLAN.md](tasks/MVP_RELEASE_PLAN.md) | Historical R0–R6 and planned R7–R12 |
+| [EPIC_BACKLOG.md](tasks/EPIC_BACKLOG.md) | Historical and Platform epics |
+| [FEATURE_BACKLOG.md](tasks/FEATURE_BACKLOG.md) | Historical and Platform capabilities |
+| [SECURITY_STABILIZATION_GATE.md](tasks/SECURITY_STABILIZATION_GATE.md) | CURRENT blocking gate, not started |
+| [tasks/archive/README.md](tasks/archive/README.md) | Sprint 01–15 archive manifest |
+
+Planned Sprint documents:
+
+| Phase | Documents |
+|---|---|
+| Platform Foundation | [S16](tasks/SPRINT_16.md), [S17](tasks/SPRINT_17.md), [S18](tasks/SPRINT_18.md), [S19](tasks/SPRINT_19.md) |
+| Business Evolution | [S20](tasks/SPRINT_20.md), [S21](tasks/SPRINT_21.md), [S22](tasks/SPRINT_22.md), [S23](tasks/SPRINT_23.md), [S24](tasks/SPRINT_24.md) |
+| Home MVP | [S25](tasks/SPRINT_25.md), [S26](tasks/SPRINT_26.md), [S27](tasks/SPRINT_27.md) |
+| Personal MVP | [S28](tasks/SPRINT_28.md), [S29](tasks/SPRINT_29.md), [S30](tasks/SPRINT_30.md), [S31](tasks/SPRINT_31.md) |
+| Shared Platform | [S32](tasks/SPRINT_32.md), [S33](tasks/SPRINT_33.md), [S34](tasks/SPRINT_34.md) |
+| Platform Release | [S35](tasks/SPRINT_35.md) |
+
+Все Sprint 16–35: `PLANNED / NOT STARTED`.
 
 ---
 
-## 10. Archive
+## 7. Operations And Testing
 
-[docs/archive/README.md](docs/archive/README.md) описывает устаревшие документы и их актуальные замены.
+| Документ | Назначение |
+|---|---|
+| [TROUBLESHOOTING.md](docs/development/TROUBLESHOOTING.md) | Environment/Supabase diagnosis |
+| [CONNECTOR_FOUNDATION_HANDOFF.md](docs/development/CONNECTOR_FOUNDATION_HANDOFF.md) | Runtime admission and implementation sequence |
+| [PILOT_READINESS_CHECKLIST.md](docs/testing/PILOT_READINESS_CHECKLIST.md) | Existing Business release gate evidence |
+| [EXPLAINABILITY_QA_CHECKLIST.md](docs/testing/EXPLAINABILITY_QA_CHECKLIST.md) | Sprint 12 authenticated manual QA |
+| [RISK_WORKFLOW_QA_CHECKLIST.md](docs/testing/RISK_WORKFLOW_QA_CHECKLIST.md) | Sprint 13 authenticated manual QA |
+| [PILOT_SMOKE_TEST_CHECKLIST.md](docs/testing/PILOT_SMOKE_TEST_CHECKLIST.md) | Automated/public and authenticated smoke scopes |
+| [BACKUP_RESTORE_RUNBOOK.md](docs/operations/BACKUP_RESTORE_RUNBOOK.md) | Backup and restore procedure |
+| [MONITORING_ERROR_HANDLING_PLAN.md](docs/operations/MONITORING_ERROR_HANDLING_PLAN.md) | Monitoring and incident triage |
+| [PILOT_DOCUMENTATION_PACK.md](docs/pilot/PILOT_DOCUMENTATION_PACK.md) | Business pilot handoff |
 
-Архив не является источником истины.
+---
+
+## 8. User And Learning Docs
+
+| Документ | Назначение |
+|---|---|
+| [USER_GUIDE.md](docs/user/USER_GUIDE.md) | Current Business user guide |
+| [PLATFORM_WORKFLOW.md](docs/user/PLATFORM_WORKFLOW.md) | Current Business workflow |
+| [TRUST_SCORE_GUIDE.md](docs/user/TRUST_SCORE_GUIDE.md) | Business score/explainability |
+| [RISK_REGISTRY_GUIDE.md](docs/user/RISK_REGISTRY_GUIDE.md) | Risk workflow |
+| [IMPORT_GUIDE.md](docs/user/IMPORT_GUIDE.md) | CSV/XLSX onboarding |
+| [REPORTS_AND_EXPORT_GUIDE.md](docs/user/REPORTS_AND_EXPORT_GUIDE.md) | Reporting/export |
+| [diploma/README.md](diploma/README.md) | Учебный маршрут автора; может отражать pre-Platform snapshot |
+
+---
+
+## 9. Archive Policy
+
+- `tasks/archive/` хранит неизменяемую Sprint 01–15 history.
+- `docs/archive/` хранит superseded/reference документы.
+- Старый unchecked checklist не доказывает текущий fail или pass.
+- Архив не заменяет ADR, код, migrations, активный Gate или current Roadmap.

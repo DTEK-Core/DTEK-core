@@ -677,6 +677,6 @@ revision, explicit provenance, idempotency и отсутствие direct connec
   compatibility explainability/source contract.
 - [Database_Design_Full.md](Database_Design_Full.md) — фактическая схема MVP.
 - [SECURITY_OVERVIEW.md](../security/SECURITY_OVERVIEW.md) — security baseline.
-- [SPRINT_15.md](../../tasks/SPRINT_15.md) — порядок Connector Foundation.
+- [SPRINT_15.md](../../tasks/archive/SPRINT_15.md) — исторический порядок Connector Foundation.
 - [CONNECTOR_FOUNDATION_HANDOFF.md](../development/CONNECTOR_FOUNDATION_HANDOFF.md)
   — итоговый implementation order и gates Sprint 15.

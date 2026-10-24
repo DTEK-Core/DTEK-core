@@ -1,7 +1,7 @@
-# MVP_Scope.md — DTEK Core
+# MVP_Scope.md — DTEK Core And Platform Evolution
 
 `Статус: актуальный`  
-`Дата: 07.08.2026`
+`Дата: 24.10.2026`
 
 ---
 
@@ -48,9 +48,10 @@
 
 ---
 
-## 3. Market MVP — Следующий Scope
+## 3. Market MVP — Реализованный Scope, Release Pending
 
-Market MVP нужен для первых внешних демонстраций, интервью и пилотов.
+Market MVP реализован для первых внешних демонстраций, интервью и пилотов, но
+не имеет `PILOT READY` до закрытия Security & Stabilization Gate и factual QA.
 
 Обязательно:
 
@@ -114,3 +115,23 @@ Market MVP нужен для первых внешних демонстраци�
 - Time to first value.
 - Доля объектов с заполненным Trust Passport.
 - Доля объектов с source/evidence context.
+
+---
+
+## 7. Первый DTEK Platform MVP
+
+Platform MVP не заменяет Market MVP и строится только после стабилизации.
+
+| Milestone | Минимальная граница |
+|---|---|
+| Foundation | Workspace isolation, Evidence/Finding, Remediation, scoped execution |
+| Business MVP | Controlled discovery, evidence-backed findings, impact и remediation |
+| Home MVP | Paired local discovery, devices, Home Trust Score, safe recommendations |
+| Personal MVP | Consent, verified identities, Personal Passport, exposure и bounded intelligence |
+| Platform MVP | Shared Knowledge, history, unified governance и final GO/NO-GO |
+
+Не входят в первый Platform MVP: native mobile apps, broad agents, on-prem,
+SSO, marketplace, autonomous remediation, people search и несанкционированное
+сканирование.
+
+Полная граница: [DTEK_PLATFORM_VISION.md](DTEK_PLATFORM_VISION.md).

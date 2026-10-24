@@ -1,9 +1,9 @@
-# EPIC BACKLOG — DTEK Core MVP
+# EPIC BACKLOG — DTEK Core And Platform
 
 `Проект: DTEK Core`
 `Версия: 1.0`
-`Дата: 08.06.2026`
-`Статус: Утверждён`
+`Дата: 24.10.2026`
+`Статус: Epic 1–24 historical; Platform Epic 25–35 PLANNED`
 
 ---
 
@@ -776,6 +776,27 @@ Dashboard — первый экран, который видит пользов�
 | 1 разработчик, последовательно | 9–11 рабочих недель (2.5 месяца) |
 | 2 разработчика, параллельные треки (E6+E7+E9) | 7–8 рабочих недель (2 месяца) |
 | 3 разработчика, максимальный параллелизм | 5–6 рабочих недель (1.5 месяца) |
+
+---
+
+## Platform Evolution Epics
+
+| Epic | Sprint | Цель | Зависит от | Статус |
+|---:|---:|---|---|---|
+| 25 | 16 | Workspace & Account Foundation | Security Gate | PLANNED |
+| 26 | 17 | Unified Evidence & Finding Layer | E25 | PLANNED |
+| 27 | 18 | Recommendation, Remediation & Knowledge Core | E26 | PLANNED |
+| 28 | 19 | Scoped Assessment Execution Foundation | E25–E27 | PLANNED |
+| 29 | 20–21 | Connector Runtime & Business Discovery | E26, E28, ADR-009 | PLANNED |
+| 30 | 22–24 | Business Findings, Impact & Remediation Release | E29 | PLANNED |
+| 31 | 25–27 | Home Workspace, Discovery & Trust | E25–E28, Business gate | PLANNED |
+| 32 | 28–31 | Personal Trust & DTEK Exposure | E25–E28, privacy gate | PLANNED |
+| 33 | 32 | Knowledge & Remediation Center | E27, E30–E32 | PLANNED |
+| 34 | 33–34 | Continuous Trust & Unified Governance | E30–E33 | PLANNED |
+| 35 | 35 | Platform Validation & Release | E25–E34 | PLANNED |
+
+Epic 25–35 не являются реализованными. Detailed tasks, security requirements и
+DoD находятся в `tasks/SPRINT_16.md`–`tasks/SPRINT_35.md`.
 
 ---
 

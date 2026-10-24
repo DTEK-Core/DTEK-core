@@ -1,8 +1,8 @@
 # System_Architecture.md — DTEK Core
 
 `Статус: актуальный`  
-`Дата: 23.08.2026`<br>
-`ADR: ADR-004, ADR-007, ADR-009`
+`Дата: 24.10.2026`<br>
+`ADR: ADR-004, ADR-007, ADR-009, ADR-010`
 
 ---
 
@@ -37,6 +37,12 @@ External sources / CSV / Connectors
 ```
 
 Подробно: [Evidence_First_Architecture.md](Evidence_First_Architecture.md).
+
+ADR-010 добавляет целевую DTEK Platform architecture с `Workspace` evolution,
+mode-specific Trust Score, Findings и Remediation. Это planning model: текущая
+production schema остаётся organization-centric, а Home/Personal runtime не
+существует. Подробно:
+[DTEK_PLATFORM_ARCHITECTURE.md](DTEK_PLATFORM_ARCHITECTURE.md).
 
 ---
 
@@ -163,13 +169,14 @@ Trust Score рассчитывается в TypeScript:
 
 Последовательность развития:
 
-1. Market MVP.
-2. Pilot readiness.
-3. Evidence import as first ingestion path.
-4. Connector Framework Foundation — ADR-009, Evidence Layer, Identity
-   Resolution, Confidence/Discovery и Security specifications готовы; runtime
-   отложен решением S15-T007.
-5. First connector review после pilot admission evidence.
-6. API/webhooks.
-7. Enterprise security features.
-8. On-prem/private cloud only after commercial validation.
+1. Security & Stabilization Gate.
+2. Workspace, Evidence/Finding, Remediation и Assessment foundations.
+3. Controlled Connector Runtime и Business evolution.
+4. Home workspace и paired local collector.
+5. Personal workspace, verified exposure и bounded public intelligence.
+6. Shared Knowledge, Continuous Trust и platform governance.
+7. Platform security/privacy/operations release gate.
+8. API, enterprise security и on-prem только после commercial validation.
+
+Current/target gap:
+[DTEK_PLATFORM_GAP_ANALYSIS.md](DTEK_PLATFORM_GAP_ANALYSIS.md).

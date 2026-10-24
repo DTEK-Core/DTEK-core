@@ -45,7 +45,7 @@ Demo Ready + Interview Ready
 | [ROADMAP.md](../roadmap/ROADMAP.md) | Demo/Interview readiness отражены как завершённые, Phase B отмечена active |
 | [SPRINT_ROADMAP.md](../roadmap/SPRINT_ROADMAP.md) | Sprint 09 перенесён в completed roadmap section |
 | [USER_GUIDE.md](../user/USER_GUIDE.md) | Добавлены ссылки на demo/pilot материалы для market demo |
-| [tasks/SPRINT_09.md](../../tasks/SPRINT_09.md) | S09-T008 и Sprint 09 DoD закрыты |
+| [tasks/archive/SPRINT_09.md](../../tasks/archive/SPRINT_09.md) | S09-T008 и Sprint 09 DoD закрыты |
 | [CHANGELOG.md](../../CHANGELOG.md) | Добавлена запись о финальной синхронизации Sprint 09 |
 
 ---

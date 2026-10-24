@@ -1,14 +1,15 @@
-# PRODUCT_STRATEGY.md — DTEK Core
+# PRODUCT_STRATEGY.md — DTEK Platform / DTEK Core
 
 `Статус: источник истины`  
-`Дата: 23.08.2026`<br>
-`Этап: Connector Foundation завершён после Sprint 15`
+`Дата: 24.10.2026`<br>
+`Этап: Business foundation реализован; Platform evolution запланирована`
 
 ---
 
 ## 1. Краткое Позиционирование
 
-DTEK Core — Evidence-first Trust Intelligence Platform: платформа управления цифровым доверием и киберрисками активов на основе цифровых доказательств.
+DTEK Core — реализованная Evidence-first Trust Intelligence Platform для
+организаций и фундамент будущей DTEK Cybersecurity & Digital Trust Platform.
 
 Она помогает CISO и командам ИБ понять:
 
@@ -20,6 +21,16 @@ DTEK Core — Evidence-first Trust Intelligence Platform: платформа у�
 - как объяснить состояние безопасности руководству.
 
 После ADR-007 DTEK Core развивается не как система ручного заполнения, а как слой доверительной интерпретации данных. Пользователь подключает источники или загружает выгрузки, платформа строит цифровую модель, а специалист ИБ подтверждает и корректирует её.
+
+После ADR-010 продуктовая структура расширяется, но не переписывается:
+
+| Режим | Пользовательская задача | Статус |
+|---|---|---|
+| DTEK Business | Понять и защитить организационную инфраструктуру | IMPLEMENTED foundation |
+| DTEK Home | Понять и защитить собственную домашнюю сеть | PLANNED |
+| DTEK Personal | Понять и улучшать безопасность цифровой личности | PLANNED |
+| DTEK Exposure | Проверить собственные identifiers и digital footprint | PLANNED |
+| Knowledge & Remediation | Понять проблему, исправить и проверить | PLANNED |
 
 ---
 
@@ -160,9 +171,11 @@ vendor пересматривается только после pilot admission 
 
 ---
 
-## 8. Market MVP
+## 8. Market MVP И Platform Evolution
 
-Следующий этап — Market MVP.
+Market MVP функционально создан Sprint 09–14, а Sprint 15 завершил Connector
+Foundation specification. Фактический pilot release остаётся заблокирован
+Security & Stabilization Gate и незакрытыми authenticated release checks.
 
 Цель Market MVP:
 
@@ -246,3 +259,16 @@ DTEK Core нужно развивать как Evidence-first Trust Intelligence
 - какие риски давят на Trust Score;
 - что исправить первым;
 - как объяснить ситуацию бизнесу.
+
+Дальнейшая победа Platform MVP — не в количестве security tools, а в общем
+Trust Core, который для каждого разрешённого контекста показывает:
+
+- что существует;
+- какие evidence это подтверждают;
+- какие findings обнаружены;
+- каков trust/risk impact;
+- что сделать и как проверить результат.
+
+Главный документ расширенной стратегии:
+[DTEK_PLATFORM_VISION.md](DTEK_PLATFORM_VISION.md). Порядок реализации:
+[SPRINT_ROADMAP.md](../roadmap/SPRINT_ROADMAP.md).

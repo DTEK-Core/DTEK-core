@@ -1,9 +1,9 @@
-# MVP RELEASE PLAN — DTEK Core
+# MVP RELEASE PLAN — DTEK Core And Platform Evolution
 
 `Проект: DTEK Core`
 `Версия: 1.0`
-`Дата: 09.06.2026`
-`Статус: Исторический план Functional MVP; дополнен Evidence-first Market MVP направлением 09.07.2026`
+`Дата: 24.10.2026`
+`Статус: R0–R6 — исторический baseline; R7–R12 — PLANNED`
 
 > Sprint 01–08 закрыли функциональный MVP и UX-полировку. Sprint 09 подготовил продукт к демонстрации. После ADR-007 дальнейшее развитие идёт как Evidence-first Trust Platform и описано в `docs/roadmap/ROADMAP.md` и `docs/roadmap/SPRINT_ROADMAP.md`.
 
@@ -428,6 +428,29 @@ MVP (Release 0–5) включает **51 из 53 фич**: все P1 и P2. В�
 |---|---|
 | F-028 PDF Export | Сложность L, требует отдельного сервисного слоя; не блокирует пилот |
 | F-035 CSV Export | Простая, но ценность для аудитов важна после стабилизации продукта |
+
+---
+
+## Platform Evolution Releases
+
+R0–R6 сохраняют историю DTEK Core. Дальнейшие releases не начинаются до
+закрытия Security & Stabilization Gate.
+
+| Release | Sprint | Milestone | Пользовательский результат | Статус |
+|---|---:|---|---|---|
+| Gate | — | Stabilized Business baseline | Безопасный pre-pilot продукт | PREPARED / NOT STARTED |
+| R7 | 16–19 | Platform Foundation Ready | Общие workspace/evidence/finding/remediation contracts | PLANNED |
+| R8 | 20–24 | Business MVP | Discovery, findings, impact и remediation для организации | PLANNED |
+| R9 | 25–27 | Home MVP | Свои home devices, Home Trust Score и рекомендации | PLANNED |
+| R10 | 28–31 | Personal MVP | Personal Passport, verified exposure и bounded intelligence | PLANNED |
+| R11 | 32–34 | Shared Platform Ready | Knowledge, history и unified governance | PLANNED |
+| R12 | 35 | DTEK Platform MVP | Security/privacy/operations GO или NO-GO | PLANNED |
+
+Каждый release имеет самостоятельный admission/release gate. Неуспешная Home
+или Personal гипотеза не отменяет поддержку DTEK Business.
+
+Полная последовательность:
+[`docs/roadmap/SPRINT_ROADMAP.md`](../docs/roadmap/SPRINT_ROADMAP.md).
 
 ---
 

@@ -598,4 +598,4 @@ Critical CVE on database server,critical,vulnerability,open,high,9.8,7,srv-db-01
 - [Database_Design_Full.md](Database_Design_Full.md) — текущая схема объектов, рисков и RLS.
 - [Evidence_First_Architecture.md](Evidence_First_Architecture.md) — целевая Evidence-first архитектура.
 - [IMPORT_GUIDE.md](../user/IMPORT_GUIDE.md) — пользовательский сценарий и диагностика импорта.
-- [tasks/SPRINT_11.md](../../tasks/SPRINT_11.md) — Sprint 11 roadmap.
+- [tasks/archive/SPRINT_11.md](../../tasks/archive/SPRINT_11.md) — исторический Sprint 11 roadmap.

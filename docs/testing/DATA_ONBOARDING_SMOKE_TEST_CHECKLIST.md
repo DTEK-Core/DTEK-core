@@ -610,7 +610,7 @@ Sprint 11 готов к закрытию
 - [Evidence_Import_Schema.md](../architecture/Evidence_Import_Schema.md) — технический contract.
 - [RBAC_TESTING_GUIDE.md](RBAC_TESTING_GUIDE.md) — создание и проверка ролей.
 - [BUG_REPORT_TEMPLATE.md](BUG_REPORT_TEMPLATE.md) — оформление дефекта.
-- [SPRINT_11.md](../../tasks/SPRINT_11.md) — scope и статус Sprint 11.
+- [SPRINT_11.md](../../tasks/archive/SPRINT_11.md) — исторический scope и статус Sprint 11.
 
 ---
 
