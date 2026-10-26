@@ -441,6 +441,8 @@ refactor(scope): description
 * `docs/architecture/`
 * `docs/security/`
 * пользовательской документации.
+* `project-management/` dashboard, board или report, если изменился фактический
+  статус задачи, Sprint, Gate, риска или milestone.
 
 Документация должна отражать фактическое состояние продукта.
 

@@ -1,7 +1,7 @@
 # DOCUMENTATION_INDEX.md — DTEK Platform / DTEK Core
 
 `Статус: актуальный`  
-`Дата: 24.10.2026`
+`Дата: 26.10.2026`
 
 Единая карта источников истины. Статусы возможностей всегда проверять по коду,
 миграциям и этому разделению:
@@ -25,6 +25,7 @@
 8. [Roadmap](docs/roadmap/ROADMAP.md) и [Sprint Roadmap](docs/roadmap/SPRINT_ROADMAP.md).
 9. [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) — следующий blocking stage.
 10. [AI Development Guide](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md).
+11. [Obsidian Project Control Center](project-management/00_START_HERE.md) — оперативное управление, доски, реестры и отчёты.
 
 ---
 
@@ -161,3 +162,28 @@ Planned Sprint documents:
 - `docs/archive/` хранит superseded/reference документы.
 - Старый unchecked checklist не доказывает текущий fail или pass.
 - Архив не заменяет ADR, код, migrations, активный Gate или current Roadmap.
+
+---
+
+## 10. Project Management / Obsidian
+
+| Документ | Назначение |
+|---|---|
+| [00_START_HERE.md](project-management/00_START_HERE.md) | Главная страница Project Control Center |
+| [01_EXECUTIVE_DASHBOARD.md](project-management/01_EXECUTIVE_DASHBOARD.md) | Стадия, blockers, milestones и health |
+| [05_SPRINT_CATALOG.md](project-management/05_SPRINT_CATALOG.md) | Sprint 01–35 и активный Gate |
+| [DEVELOPMENT_BOARD.md](project-management/boards/DEVELOPMENT_BOARD.md) | Kanban разработки |
+| [IDEAS_AND_RESEARCH.md](project-management/boards/IDEAS_AND_RESEARCH.md) | Идеи, исследования и parked scope |
+| [BUGS_AND_QA.md](project-management/boards/BUGS_AND_QA.md) | Дефекты и manual QA gates |
+| [RISKS_AND_BLOCKERS.md](project-management/boards/RISKS_AND_BLOCKERS.md) | Security/product/platform risks |
+| [DESIGN_BOARD.md](project-management/boards/DESIGN_BOARD.md) | Design/Figma workflow и approved scope |
+| [DECISION_REGISTER.md](project-management/registers/DECISION_REGISTER.md) | ADR и product decisions |
+| [METRICS_REGISTER.md](project-management/registers/METRICS_REGISTER.md) | Product, engineering и guardrail metrics |
+| [PILOT_AND_CUSTOMER_REGISTER.md](project-management/registers/PILOT_AND_CUSTOMER_REGISTER.md) | Safe pilot pipeline, interview и connector demand evidence |
+| [09_DESIGN_AND_UX.md](project-management/09_DESIGN_AND_UX.md) | Design sources, UX principles и workflow |
+| [10_GO_TO_MARKET.md](project-management/10_GO_TO_MARKET.md) | First commercial wedge и pilot funnel |
+| [REPORTING_HUB.md](project-management/reports/REPORTING_HUB.md) | Task/Sprint/weekly reports |
+| [OBSIDIAN_SETUP.md](project-management/OBSIDIAN_SETUP.md) | Открытие Vault и рекомендуемые плагины |
+
+`project-management/` является оперативным слоем. Архитектурные и технические
+источники истины остаются в ADR, Sprint, коде, migrations и tests.

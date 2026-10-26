@@ -5,6 +5,25 @@
 
 ---
 
+## Obsidian Project Control Center — 2026-10-26
+
+### Добавлено
+
+- Создан `project-management/` как локальный Obsidian startup operating system
+  поверх существующего репозитория без копирования code/docs в отдельный Vault.
+- Добавлены executive dashboard, current state, product/architecture maps,
+  Sprint 01–35 catalog и Mermaid development diagrams.
+- Добавлены Kanban boards разработки, идей, QA и рисков, а также decision,
+  metrics и pilot registers.
+- Добавлены reporting hub, setup guide и шаблоны task/idea/bug/decision/Sprint/pilot.
+
+### Изменено
+
+- README, Documentation Index и agent documentation workflow связаны с новым
+  Control Center. Production code, migrations, RLS и Security Gate не менялись.
+
+---
+
 ## DTEK Platform Planning Consolidation — 2026-10-24
 
 ### Добавлено
