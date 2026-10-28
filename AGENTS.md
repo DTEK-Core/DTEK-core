@@ -441,8 +441,9 @@ refactor(scope): description
 * `docs/architecture/`
 * `docs/security/`
 * пользовательской документации.
-* `project-management/` dashboard, board или report, если изменился фактический
-  статус задачи, Sprint, Gate, риска или milestone.
+* внешний Obsidian Control Center в
+  `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core/`, если изменился
+  фактический статус задачи, Sprint, Gate, риска или milestone и Vault доступен.
 
 Документация должна отражать фактическое состояние продукта.
 

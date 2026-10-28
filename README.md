@@ -153,7 +153,6 @@ design/              Approved visual prototype
 docs/                Product, architecture, security, user docs
 tasks/               Active gate, backlogs and planned Sprint 16–35
 tasks/archive/       Immutable Sprint 01–15 history
-project-management/  Obsidian project cockpit, boards, registers and reports
 diploma/             Учебная база автора и подготовка к защите
 ```
 
@@ -165,7 +164,7 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | [diploma/README.md](diploma/README.md) | Полная учебная документация проекта: от основ до защиты диплома |
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Навигация по всей документации |
-| [project-management/00_START_HERE.md](project-management/00_START_HERE.md) | Obsidian Project Control Center для управления стартапом |
+| `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core.md` | Внешний Obsidian Project Control Center для управления стартапом |
 | [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) | ADR — приоритетный источник архитектурных решений |
 | [docs/product/DTEK_PLATFORM_VISION.md](docs/product/DTEK_PLATFORM_VISION.md) | Целевая продуктовая модель Business/Home/Personal/Knowledge |
 | [docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md](docs/architecture/DTEK_PLATFORM_ARCHITECTURE.md) | Целевая архитектура общего Trust Core и Workspace evolution |
@@ -213,7 +212,7 @@ diploma/             Учебная база автора и подготовк�
 | Активная ветка | `develop` |
 | Последний завершённый Sprint | Sprint 15 — Connector Foundation Ready / Runtime Deferred |
 | Текущая разработка | Новая разработка не начата; Security & Stabilization Gate подготовлен |
-| Управление проектом | [Obsidian Control Center](project-management/00_START_HERE.md), Development/Ideas/QA/Risk boards |
+| Управление проектом | Obsidian Vault `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core.md`, Development/Ideas/QA/Risk boards |
 | Gate перед pilot release | [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md), затем Master Pilot Readiness Checklist и ручная приёмка Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |

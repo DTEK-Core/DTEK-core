@@ -5,6 +5,21 @@
 
 ---
 
+## Obsidian Vault Integration — 2026-10-28
+
+### Изменено
+
+- Project Control Center перенесён из репозитория в существующий Obsidian Vault
+  `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core/`.
+- Существующая заметка `50 — Проекты/DTEK Core.md` стала приватной входной
+  страницей стартапа.
+- Актуальные `docs/`, `tasks/` и root sources доступны в Vault через локальные
+  символические ссылки без дублирования источников истины.
+- Указатели в README, Documentation Index и AGENTS синхронизированы с новым
+  расположением; production code и архитектура приложения не менялись.
+
+---
+
 ## Obsidian Project Control Center — 2026-10-26
 
 ### Добавлено
