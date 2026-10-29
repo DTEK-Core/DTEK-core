@@ -165,27 +165,30 @@ Planned Sprint documents:
 
 ---
 
-## 10. Project Management / Obsidian
+## 10. Управление Проектом / Obsidian
 
 | Документ | Назначение |
 |---|---|
-| `00_START_HERE.md` | Главная страница Project Control Center |
-| `01_EXECUTIVE_DASHBOARD.md` | Стадия, blockers, milestones и health |
-| `05_SPRINT_CATALOG.md` | Sprint 01–35 и активный Gate |
-| `boards/DEVELOPMENT_BOARD.md` | Kanban разработки |
-| `boards/IDEAS_AND_RESEARCH.md` | Идеи, исследования и parked scope |
-| `boards/BUGS_AND_QA.md` | Дефекты и manual QA gates |
-| `boards/RISKS_AND_BLOCKERS.md` | Security/product/platform risks |
-| `boards/DESIGN_BOARD.md` | Design/Figma workflow и approved scope |
-| `registers/DECISION_REGISTER.md` | ADR и product decisions |
-| `registers/METRICS_REGISTER.md` | Product, engineering и guardrail metrics |
-| `registers/PILOT_AND_CUSTOMER_REGISTER.md` | Safe pilot pipeline, interview и connector demand evidence |
-| `09_DESIGN_AND_UX.md` | Design sources, UX principles и workflow |
-| `10_GO_TO_MARKET.md` | First commercial wedge и pilot funnel |
-| `reports/REPORTING_HUB.md` | Task/Sprint/weekly reports |
-| `OBSIDIAN_SETUP.md` | Открытие Vault и рекомендуемые плагины |
+| `00 — Главная.md` | Главная страница управления стартапом |
+| `01 — Текущее состояние.md` | Фактическая стадия, готовые и незавершённые области |
+| `02 — Продукт и стратегия.md` | Ценность, линейка продукта и продуктовые границы |
+| `03 — Дорожная карта.md` | Этапы до DTEK Platform MVP и контрольные точки |
+| `Спринты/00 — Все спринты.md` | Единый реестр Спринтов 01–35 |
+| `Спринты/00 — Шлюз безопасности и стабилизации.md` | Обязательный этап перед Спринтом 16 |
+| `Спринты/Завершённые/` | Отдельные карточки Спринтов 01–15 |
+| `Спринты/Запланированные/` | Цели, зависимости и задачи Спринтов 16–35 |
+| `Доски/Разработка.md` | Текущая очередь разработки |
+| `Доски/Идеи и исследования.md` | Идеи, гипотезы и исследования |
+| `Доски/Ошибки и тестирование.md` | Дефекты и ручная приёмка |
+| `Доски/Риски и блокеры.md` | Security, product и platform blockers |
+| `Доски/Дизайн.md` | Работа с дизайном и Figma |
+| `Реестры/Решения.md` | Архитектурные и продуктовые решения |
+| `Реестры/Метрики.md` | Продуктовые и инженерные метрики |
+| `Реестры/Пилоты и клиенты.md` | Безопасный учёт интервью, пилотов и спроса на источники |
+| `Шаблоны/` | Русские шаблоны задач, ошибок, решений и отчётов |
+| `09 — Настройка Obsidian.md` | Путь к Vault и план установки плагинов |
 
 Все пути в таблице относятся к внешнему каталогу
 `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core/`. Он является
 оперативным слоем, а архитектурные и технические источники истины остаются в
-ADR, Sprint, коде, migrations и tests этого репозитория.
+ADR, Sprint-документах, коде, миграциях и тестах этого репозитория.
