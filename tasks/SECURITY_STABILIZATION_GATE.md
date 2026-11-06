@@ -1,7 +1,7 @@
 # SECURITY & STABILIZATION GATE — DTEK Core
 
 `Тип: blocking release gate, не продуктовый Sprint`  
-`Статус: IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`
+`Статус: IN PROGRESS / SEC-01 COMPLETE — SEC-02 NEXT`
 `Дата подготовки: 24.08.2026`  
 `Дата старта: 06.11.2026`
 `Исходная стадия: Functional pre-pilot MVP`  
@@ -24,7 +24,7 @@ Connector Runtime.
 
 ```text
 Functional pre-pilot MVP
-  -> Security & Stabilization Gate (IN PROGRESS / SEC-01 NEXT)
+  -> Security & Stabilization Gate (IN PROGRESS / SEC-02 NEXT)
   -> authenticated release evidence
   -> PILOT READY decision
 ```
@@ -59,8 +59,8 @@ Cloud migration parity в ходе аудита повторно не подтв
 | Linked project | `DTEK-Core`, ref `ehqpijmbtavfacqogtoe` |
 | Environment project ref | `.env.local` hostname совпадает с linked project ref |
 | CLI | Supabase CLI `2.106.0`; обновление до `3.x` сознательно не выполнялось в Gate |
-| Migration parity | `PASS`: local/remote `001–019` совпадают |
-| Следующая migration | `020`, создавать только после завершения backup preflight |
+| Migration parity | `PASS`: local/remote `001–020` совпадают после SEC-01 cloud apply |
+| Следующая migration | `021`; использовать только для следующей schema-changing Gate task |
 | Изменения после аудита | Product/roadmap/docs only; app, RLS и migrations не менялись |
 | Git baseline | `develop` синхронизирован с `origin/develop` на `5fbc931`; пользовательская `output/` не затрагивается |
 | Managed backup / restore point | `UNAVAILABLE`: Free Plan не включает project backups; подтверждено владельцем в Dashboard 06.11.2026 |
@@ -73,13 +73,15 @@ Managed restore не является доступным recovery path на те
 закрывает Preflight и разрешает начать `SEC-01` с migration `020`, но не доказывает
 восстанавливаемость: restore rehearsal остаётся release gate. Dashboard summary
 `No migrations` не является
-источником migration parity: linked CLI подтвердил remote history `001–019`.
+источником migration parity: linked CLI подтвердил remote history `001–020`.
 
 ---
 
 ## 3. Critical Findings
 
 ### SEC-01 — Profile Privilege Escalation
+
+`Статус: IMPLEMENTED / LOCAL JWT-RLS INTEGRATION PASS / MANUAL QA PENDING`
 
 **Проблема:** текущая `profiles_update` policy разрешает пользователю обновлять
 собственную строку без надёжной защиты `role`, `organization_id` и `status`.
@@ -96,6 +98,15 @@ Managed restore не является доступным recovery path на те
 
 **Ожидаемый результат:** direct Supabase API не позволяет изменить собственную
 роль, tenant или status и не позволяет owner/admin изменить чужой tenant.
+
+**Результат 06.11.2026:** migration `020_profile_privilege_boundaries.sql`
+удалила direct UPDATE policy/grant и ввела четыре allowlisted SECURITY DEFINER
+RPC для self-profile и membership transitions. Server Actions переведены на
+RPC, privileged audit пишется в той же DB-транзакции. Focused local test с
+реальными JWT clients и двумя tenants подтвердил direct/self/owner/cross-tenant
+DENY, разрешённые owner/admin actions, безопасное удаление membership и audit
+events. Linked parity `001–020` подтверждён после cloud apply. Authenticated
+manual QA переносится в `STAB-05`.
 
 ### SEC-02 — Blocked User Access Revocation
 
@@ -273,10 +284,10 @@ constraints, чтобы не генерировать их дважды. Securit
 
 ## 7. Security Acceptance Criteria
 
-- [ ] Self-profile update меняет только разрешённые display fields.
-- [ ] Пользователь не может изменить собственные role, tenant или status.
-- [ ] Owner/admin не может изменить profile другого tenant.
-- [ ] Owner нельзя назначить приглашением или role-management action.
+- [x] Self-profile update меняет только разрешённые display fields.
+- [x] Пользователь не может изменить собственные role, tenant или status.
+- [x] Owner/admin не может изменить profile другого tenant.
+- [x] Owner нельзя назначить приглашением или role-management action.
 - [ ] Blocked session теряет app, Server Action и direct data API access.
 - [ ] Разблокировка восстанавливает только права назначенной роли.
 - [ ] Object ↔ Risk relation требует один active tenant для обеих сторон.
@@ -285,7 +296,7 @@ constraints, чтобы не генерировать их дважды. Securit
 - [ ] Invitation membership transition atomic, single-use и retry-safe.
 - [ ] Service role остаётся только server-side и не подменяет tenant checks.
 - [ ] Security errors не раскрывают UUID, policy details, tokens или raw DB errors.
-- [ ] Security Audit Log фиксирует privileged membership transitions безопасно.
+- [x] Security Audit Log фиксирует privileged membership transitions безопасно.
 
 ---
 
@@ -433,4 +444,4 @@ evidence не считается прохождением Gate. Любой не�
 
 Команда получена 06.11.2026. Preflight завершён: linked parity и integrity-
 verified logical backup подтверждены. Gate имеет статус
-`IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`.
+`IN PROGRESS / SEC-01 COMPLETE — SEC-02 NEXT`.

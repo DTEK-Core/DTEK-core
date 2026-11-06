@@ -108,6 +108,7 @@ audit и recovery gates.
 | Import Audit Events без raw CSV data | S11 | ✅ |
 | Risk Workflow Audit Events без UUID и comment body | S13 | ✅ |
 | Audit Log privileged-read RLS (migration 019) | S13 | ✅ |
+| Profile privilege boundaries (migration 020) | Security Gate SEC-01 | ✅ |
 | Environment Health Check без secrets/raw errors, owner/admin | S14 | ✅ |
 | Monitoring/Error Handling Plan с redaction и incident severity | S14 | ✅ |
 | Connector Security Model specification | S15 | ✅; runtime gates pending |

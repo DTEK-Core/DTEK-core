@@ -23,9 +23,10 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
   }
 
   const { error } = await supabase
-    .from('profiles')
-    .update({ full_name: parsed.data.full_name, team: parsed.data.team } as never)
-    .eq('id', context.userId);
+    .rpc('update_own_profile' as never, {
+      p_full_name: parsed.data.full_name,
+      p_team:      parsed.data.team,
+    } as never);
 
   if (error) return { error: 'Не удалось обновить профиль. Попробуйте ещё раз.' };
 

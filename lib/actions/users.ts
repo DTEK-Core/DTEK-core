@@ -3,13 +3,11 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
-import { createSecurityEvent } from '@/lib/security/audit';
 
 type UserRole = 'analyst' | 'admin' | 'viewer';
 
 interface ProfileRow {
   id: string;
-  email: string | null;
   role: string | null;
   organization_id: string | null;
 }
@@ -17,7 +15,6 @@ interface ProfileRow {
 async function getCallerProfile(): Promise<{
   profile: ProfileRow;
   orgId: string;
-  actorEmail: string;
 } | null> {
   const context = await getCurrentUserContext();
   const profile = context?.profile as ProfileRow | null;
@@ -27,7 +24,6 @@ async function getCallerProfile(): Promise<{
   return {
     profile,
     orgId: profile.organization_id,
-    actorEmail: profile.email ?? '',
   };
 }
 
@@ -46,7 +42,7 @@ export async function changeUserRole(
 
   const { data: targetRaw } = await supabase
     .from('profiles')
-    .select('id, email, role, organization_id')
+    .select('id, role, organization_id')
     .eq('id', targetUserId)
     .single();
 
@@ -58,24 +54,13 @@ export async function changeUserRole(
     return { error: 'Нельзя изменить роль владельца' };
   }
 
-  const fromRole = target.role;
-
   const { error } = await supabase
-    .from('profiles')
-    .update({ role } as never)
-    .eq('id', targetUserId);
+    .rpc('change_organization_member_role' as never, {
+      p_target_user_id: targetUserId,
+      p_role:           role,
+    } as never);
 
   if (error) return { error: 'Не удалось изменить роль. Попробуйте ещё раз.' };
-
-  createSecurityEvent({
-    organizationId: caller.orgId,
-    actorId:        caller.profile.id,
-    actorEmail:     caller.actorEmail,
-    eventType:      'role.changed',
-    targetType:     'user',
-    targetId:       targetUserId,
-    metadata:       { fromRole, toRole: role },
-  });
 
   revalidatePath('/users');
   return {};
@@ -90,7 +75,7 @@ export async function blockUser(targetUserId: string): Promise<{ error?: string 
 
   const { data: targetRaw } = await supabase
     .from('profiles')
-    .select('id, email, role, organization_id')
+    .select('id, role, organization_id')
     .eq('id', targetUserId)
     .single();
 
@@ -99,21 +84,12 @@ export async function blockUser(targetUserId: string): Promise<{ error?: string 
   if (target.role === 'owner') return { error: 'Нельзя заблокировать владельца' };
 
   const { error } = await supabase
-    .from('profiles')
-    .update({ status: 'blocked' } as never)
-    .eq('id', targetUserId);
+    .rpc('set_organization_member_status' as never, {
+      p_target_user_id: targetUserId,
+      p_status:         'blocked',
+    } as never);
 
   if (error) return { error: 'Не удалось заблокировать пользователя. Попробуйте ещё раз.' };
-
-  createSecurityEvent({
-    organizationId: caller.orgId,
-    actorId:        caller.profile.id,
-    actorEmail:     caller.actorEmail,
-    eventType:      'user.blocked',
-    targetType:     'user',
-    targetId:       targetUserId,
-    metadata:       { targetEmail: target.email },
-  });
 
   revalidatePath('/users');
   return {};
@@ -128,7 +104,7 @@ export async function unblockUser(targetUserId: string): Promise<{ error?: strin
 
   const { data: targetRaw } = await supabase
     .from('profiles')
-    .select('id, email, role, organization_id')
+    .select('id, role, organization_id')
     .eq('id', targetUserId)
     .single();
 
@@ -137,9 +113,10 @@ export async function unblockUser(targetUserId: string): Promise<{ error?: strin
   if (target.role === 'owner') return { error: 'Нельзя изменить статус владельца' };
 
   const { error } = await supabase
-    .from('profiles')
-    .update({ status: 'active' } as never)
-    .eq('id', targetUserId);
+    .rpc('set_organization_member_status' as never, {
+      p_target_user_id: targetUserId,
+      p_status:         'active',
+    } as never);
 
   if (error) return { error: 'Не удалось разблокировать пользователя. Попробуйте ещё раз.' };
 
@@ -156,7 +133,7 @@ export async function removeUser(targetUserId: string): Promise<{ error?: string
 
   const { data: targetRaw } = await supabase
     .from('profiles')
-    .select('id, email, role, organization_id')
+    .select('id, role, organization_id')
     .eq('id', targetUserId)
     .single();
 
@@ -165,21 +142,11 @@ export async function removeUser(targetUserId: string): Promise<{ error?: string
   if (target.role === 'owner') return { error: 'Нельзя удалить владельца' };
 
   const { error } = await supabase
-    .from('profiles')
-    .update({ organization_id: null, role: null } as never)
-    .eq('id', targetUserId);
+    .rpc('remove_organization_member' as never, {
+      p_target_user_id: targetUserId,
+    } as never);
 
   if (error) return { error: 'Не удалось удалить пользователя. Попробуйте ещё раз.' };
-
-  createSecurityEvent({
-    organizationId: caller.orgId,
-    actorId:        caller.profile.id,
-    actorEmail:     caller.actorEmail,
-    eventType:      'user.removed',
-    targetType:     'user',
-    targetId:       targetUserId,
-    metadata:       { targetEmail: target.email },
-  });
 
   revalidatePath('/users');
   return {};

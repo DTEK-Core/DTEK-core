@@ -146,7 +146,7 @@ npx supabase migration list
 - [ ] RLS включён для tenant-scoped таблиц.
 - [ ] Service role key отсутствует в client bundle, логах и документации.
 
-Baseline от 19.08.2026: Supabase доступен; Local/Remote `001–019` совпадают.
+Baseline обновлён 06.11.2026: Supabase доступен; Local/Remote `001–020` совпадают.
 Для release candidate требуется повторный результат и дата:
 
 ```text

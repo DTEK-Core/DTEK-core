@@ -33,18 +33,18 @@ IT-администраторам видеть, каким объектам мо
 
 ## Текущий Статус
 
-**v0.15.0-dev — DTEK Business Functional pre-pilot MVP; Security & Stabilization Gate выполняется, Preflight завершён, далее SEC-01.**
+**v0.15.0-dev — DTEK Business Functional pre-pilot MVP; Security Gate выполняется, SEC-01 завершён, далее SEC-02.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
-Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Последний документированный Cloud baseline содержит migrations `001–019`; migration 018 добавляет risk comments/activity foundation, а 019 ограничивает Audit Log ролями owner/admin на уровне RLS. Контрольный аудит 24.08.2026 не смог повторно подтвердить linked parity, поэтому новая сверка обязательна перед Gate migrations. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 завершил architecture/security foundation и developer handoff. Первый connector формально отложен до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
+Консолидация от 03.08.2026 завершила dependency hardening, включила contract-тесты в CI и синхронизировала эксплуатационную документацию. Linked Cloud baseline `001–020` подтверждён 06.11.2026: migration 018 добавляет risk comments/activity foundation, 019 ограничивает Audit Log ролями owner/admin, а 020 закрывает direct profile privilege escalation. Реализация Sprint 13 и Sprint 14 завершена; authenticated QA Sprint 12/13 и остальные Pilot GO gates остаются `PENDING`. Sprint 15 завершил architecture/security foundation и developer handoff. Первый connector формально отложен до pilot admission evidence; CSV/XLSX остаётся активным ingestion path, runtime/UI/migrations/vendor не выбраны.
 
 Контрольный аудит от 24.08.2026 зафиксировал четыре blocking finding в profile
 privilege boundaries, blocked-user enforcement и cross-tenant связях Risk/Graph.
 До их устранения коммерческий pilot запрещён. Следующий обязательный этап —
 [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) со статусом
-`IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`; это не новый продуктовый Sprint. Project ref и
-migration parity `001–019` подтверждены 06.11.2026. Free Plan не предоставляет
+`IN PROGRESS / SEC-01 COMPLETE — SEC-02 NEXT`; это не новый продуктовый Sprint. Project ref и
+migration parity `001–020` подтверждены 06.11.2026. Free Plan не предоставляет
 managed backups; portable logical backup создан и прошёл integrity verification,
 restore rehearsal остаётся `PENDING`. Security/functional исправления ещё не применялись.
 
@@ -213,14 +213,14 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний завершённый Sprint | Sprint 15 — Connector Foundation Ready / Runtime Deferred |
-| Текущая разработка | Security & Stabilization Gate — `IN PROGRESS`; Preflight завершён, SEC-01 следующий |
+| Текущая разработка | Security & Stabilization Gate — `IN PROGRESS`; SEC-01 завершён, SEC-02 следующий |
 | Управление проектом | Obsidian Vault `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core.md`, Development/Ideas/QA/Risk boards |
 | Gate перед pilot release | [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md), затем Master Pilot Readiness Checklist и ручная приёмка Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
 | Pilot measurement | Scorecard, feedback loop и source inventory готовы; фактические pilot data pending |
 | Pilot documentation | [Единый client/internal pack](docs/pilot/PILOT_DOCUMENTATION_PACK.md) готов; контакты и release evidence заполняются для кандидата |
-| Схема БД | Linked parity local/remote `001–019` подтверждён 06.11.2026; следующая migration `020` ещё не создана |
+| Схема БД | Linked parity local/remote `001–020` подтверждён 06.11.2026; migration 020 закрывает direct profile privilege escalation |
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
 | Стабильное функциональное ядро | Objects, Passport, Score, Risk Workflow, Dashboard, Configurator, import/export/reporting и Environment Health Check |
 | Blocking области | Profile/RBAC boundaries, blocked-user enforcement, cross-tenant Object/Risk и Graph constraints, atomic organization/invitation flows |

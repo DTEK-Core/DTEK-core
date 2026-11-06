@@ -44,14 +44,24 @@ $$ LANGUAGE sql STABLE SECURITY DEFINER;
 ### `profiles`
 
 ```sql
--- Пользователь видит только участников своей организации
-CREATE POLICY "org_isolation" ON profiles
-  FOR SELECT USING (organization_id = current_org_id());
+-- Пользователь видит себя и участников своей организации
+CREATE POLICY "profiles_select" ON profiles
+  FOR SELECT USING (id = auth.uid() OR organization_id = current_org_id());
 
--- Пользователь обновляет только свой профиль
-CREATE POLICY "self_update" ON profiles
-  FOR UPDATE USING (id = auth.uid());
+-- Direct UPDATE для authenticated/anon запрещён.
+-- Display fields и membership изменяются только через narrow RPC migration 020.
 ```
+
+Migration 020 удаляет `profiles_update`, отзывает table-level `UPDATE` у
+`authenticated`/`anon` и разрешает только:
+
+- `update_own_profile(full_name, team)` для active self-profile;
+- `change_organization_member_role(...)` для active owner/admin;
+- `set_organization_member_status(...)` для active owner/admin;
+- `remove_organization_member(...)` для active owner/admin.
+
+Membership RPC проверяют caller tenant, role/status, target tenant, запрет self
+и owner target/assignment. Privileged transition и audit insert атомарны.
 
 ### `organizations`
 
@@ -221,6 +231,7 @@ CREATE POLICY "invite_allowed" ON invitations
 | `017_security_events.sql` | Таблица `security_events` + RLS |
 | `018_risk_workflow.sql` | Immutable `risk_comments`, `risk_activity` + tenant RLS |
 | `019_security_events_privileged_read.sql` | Audit Log SELECT ограничен owner/admin на уровне RLS |
+| `020_profile_privilege_boundaries.sql` | Запрет direct profile UPDATE, self/member RPC и атомарный audit |
 
 ---
 

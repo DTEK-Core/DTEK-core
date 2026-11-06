@@ -24,10 +24,10 @@
 | TD-003 | ✅ Reporting реализован в Sprint 10 | PDF формируется через browser print, не server renderer | Контролировать как Known Limitation |
 | TD-004 | Sprint 12 не прошёл authenticated manual QA | Explainability milestone нельзя закрыть только contract-тестами | Выполнить `EXPLAINABILITY_QA_CHECKLIST.md` до pilot release; по решению владельца не блокирует Sprint 13 |
 | TD-005 | Invite email delivery не является полноценным каналом | Командный onboarding требует ручной передачи ссылки | Sprint 14 или раньше |
-| TD-006 | Последний документированный baseline: Cloud migrations `001–019`; аудит 24.08.2026 parity повторно не подтвердил | Новую migration нельзя безопасно нумеровать/применять без linked-сверки | Выполнить `npx supabase migration list --linked` в preflight Gate |
+| TD-006 | ✅ Linked parity `001–020` подтверждён 06.11.2026 | Drift не обнаружен | Повторять перед каждой schema-changing Gate task |
 | TD-007 | `main` не синхронизирован с `develop`, production release не подтверждён | Production не отражает текущий Market MVP | Выпускать только после QA, PR и release checklist |
 | TD-008 | Sprint 13 не прошёл authenticated multi-role QA | Risk Workflow milestone нельзя закрыть только contract-тестами | Выполнить `RISK_WORKFLOW_QA_CHECKLIST.md` до pilot release |
-| TD-009 | Profile update boundaries допускают privilege/tenant escalation | Критический security blocker | SEC-01 в `SECURITY_STABILIZATION_GATE.md` |
+| TD-009 | ✅ Direct profile escalation закрыта migration 020 и tenant-scoped RPC | Manual authenticated QA остаётся Gate evidence | Проверить повторно в STAB-04/STAB-05 |
 | TD-010 | Blocked status не прекращает фактический доступ | Критический security blocker | SEC-02 в `SECURITY_STABILIZATION_GATE.md` |
 | TD-011 | Object/Risk и Graph relations не имеют полной DB-level tenant integrity | Критический security blocker | SEC-03/SEC-04 в `SECURITY_STABILIZATION_GATE.md` |
 | TD-012 | Organization/invitation membership transitions не полностью атомарны | Partial state и race conditions | STAB-01/STAB-02 в `SECURITY_STABILIZATION_GATE.md` |

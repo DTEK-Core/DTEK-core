@@ -1,8 +1,8 @@
 # SECURITY_TESTING_PLAN.md — DTEK Core
 
-`Версия: 1.0`  
-`Дата: 25.06.2026`  
-`Статус: Sprint 09 ready`
+`Версия: 1.1`
+`Дата: 06.11.2026`
+`Статус: Security Gate in progress`
 
 ---
 
@@ -36,6 +36,9 @@
 | T1.9 | Analyst сохраняет веса конфигуратора | analyst | ✅ разрешено |
 | T1.10 | Viewer создаёт связь в графе | viewer | ❌ ошибка |
 | T1.11 | Admin создаёт invite-ссылку | admin | ❌ ошибка или недоступная кнопка |
+| T1.12 | Пользователь меняет себе role/org/status через direct API | любая | ❌ ошибка |
+| T1.13 | Owner/admin меняет foreign-tenant profile через RPC | owner/admin | ❌ ошибка |
+| T1.14 | Active user меняет свои display fields через RPC | любая | ✅ разрешено |
 
 ---
 
@@ -133,6 +136,16 @@ curl -X POST https://domain/api/test \
 | T6.6 | Завершённый импорт объектов | `import.objects_completed`, инициатор и агрегированные counters |
 | T6.7 | Завершённый импорт рисков | `import.risks_completed`, инициатор и link counters |
 | T6.8 | Commit не прошёл validation | `import.failed` без содержимого исходных строк |
+| T6.9 | Разблокировка пользователя | `user.unblocked` |
+
+Focused automated test SEC-01:
+
+```bash
+npm run test:security:sec01
+```
+
+Тест требует запущенный local Supabase, создаёт временные Auth/RLS fixtures в
+двух организациях и очищает их после выполнения. Облачную базу он не изменяет.
 
 ---
 

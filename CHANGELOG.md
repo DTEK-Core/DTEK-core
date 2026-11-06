@@ -23,6 +23,18 @@
 - Код приложения, RLS и schema migrations в Preflight не изменялись; следующий
   Gate task — `SEC-01`, следующая migration — `020`.
 
+### SEC-01 — Profile Privilege Boundaries
+
+- Migration 020 запретила direct `UPDATE profiles` для anon/authenticated.
+- Self-profile allowlist и role/status/removal membership transitions переведены
+  на explicit tenant-scoped SECURITY DEFINER RPC.
+- Owner assignment, self mutation, owner target и cross-tenant target запрещены
+  в БД; privileged audit event создаётся атомарно.
+- Server Actions переведены на RPC, removal сохраняет валидную базовую роль
+  `viewer`, Audit Log получил событие `user.unblocked`.
+- Focused local JWT/RLS integration test прошёл; cloud parity `001–020`
+  подтверждён. Authenticated manual QA остаётся частью `STAB-05`.
+
 ---
 
 ## Русская Система Управления В Obsidian — 2026-10-29

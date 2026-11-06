@@ -14,6 +14,7 @@ interface EventConfig {
 const EVENT_CONFIG: Record<string, EventConfig> = {
   'role.changed':           { label: 'Изменение роли', icon: 'users', category: 'access' },
   'user.blocked':           { label: 'Блокировка', icon: 'shield', category: 'access' },
+  'user.unblocked':         { label: 'Разблокировка', icon: 'check', category: 'access' },
   'user.removed':           { label: 'Удаление пользователя', icon: 'x', category: 'access' },
   'invitation.sent':        { label: 'Приглашение отправлено', icon: 'users', category: 'user' },
   'invitation.accepted':    { label: 'Вход по приглашению', icon: 'check', category: 'user' },
@@ -114,7 +115,11 @@ function formatMeta(row: SecurityEventRow): string {
   if (row.event_type === 'invitation.cancelled') {
     return formatMetaValue(m.email ?? row.target_id);
   }
-  if (row.event_type === 'user.blocked' || row.event_type === 'user.removed') {
+  if (
+    row.event_type === 'user.blocked'
+    || row.event_type === 'user.unblocked'
+    || row.event_type === 'user.removed'
+  ) {
     return formatMetaValue(m.targetEmail ?? row.target_id);
   }
   if (row.event_type === 'config.weights_changed') {

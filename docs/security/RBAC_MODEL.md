@@ -1,7 +1,7 @@
 # RBAC_MODEL.md — DTEK Core
 
-`Версия: 1.5`
-`Дата: 23.08.2026`
+`Версия: 1.6`
+`Дата: 06.11.2026`
 `Статус: Актуальный`
 `Источник: ARCHITECTURE_DECISIONS.md ADR-003`
 
@@ -117,6 +117,18 @@ current_org_id()    -- возвращает organization_id текущего п�
 current_user_role() -- возвращает role текущего пользователя
 ```
 
+### Profile И Membership Mutations
+
+После migration 020 прямой `UPDATE profiles` через anon/authenticated API
+запрещён независимо от видимости кнопок и Server Action:
+
+- собственные `full_name`/`team` обновляются через `update_own_profile`;
+- роль, статус и удаление membership выполняются отдельными tenant-scoped RPC;
+- caller должен быть active `owner`/`admin` своей организации;
+- собственная роль/статус, owner target, назначение owner и foreign tenant
+  всегда запрещены;
+- audit event создаётся в той же транзакции, что и membership change.
+
 ### Скрытие элементов UI
 
 Client-side скрытие кнопок — дополнительная мера, не единственная защита. Пример:
@@ -140,6 +152,7 @@ Client-side скрытие кнопок — дополнительная мер�
 
 | Версия | Дата | Изменение |
 |---|---|---|
+| 1.6 | 06.11.2026 | SEC-01: direct profile UPDATE запрещён, self/member mutations переведены на tenant-scoped audited RPC |
 | 1.5 | 23.08.2026 | Добавлена утверждённая Post-MVP connector/evidence RBAC matrix S15-T005 |
 | 1.4 | 19.08.2026 | Manual invite link зафиксирован как MVP delivery path; RBAC не изменён |
 | 1.3 | 19.08.2026 | Environment Health Check ограничен owner/admin в UI и Server Action |

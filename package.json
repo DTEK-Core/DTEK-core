@@ -15,6 +15,7 @@
     "test:import:fixtures": "node testing/sprint-11-import/generate-fixtures.cjs",
     "test:trust-explainability": "node --test testing/sprint-12-explainability/top-score-drivers.test.cjs",
     "test:risk-workflow": "node --test testing/sprint-13-risk-workflow/activity-timeline.test.cjs",
+    "test:security:sec01": "node --test testing/security-gate/sec-01-profile-boundaries.test.cjs",
     "test:smoke": "node scripts/pilot-smoke-test.mjs"
   },
   "dependencies": {
