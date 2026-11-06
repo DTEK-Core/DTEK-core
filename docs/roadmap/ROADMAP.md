@@ -22,12 +22,12 @@ DTEK Core не начинается заново. Sprint 01–15 создали 
 Discovery Inbox, Home, Personal, DTEK Exposure и Knowledge Center не
 реализованы.
 
-Перед расширением обязателен
+Перед расширением выполняется обязательный
 [Security & Stabilization Gate](../../tasks/SECURITY_STABILIZATION_GATE.md) со
-статусом `PREPARED / NOT STARTED`. Он закрывает известные privilege,
+статусом `IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`. Он закрывает известные privilege,
 blocked-user, tenant isolation, atomicity, generated types, DB RLS tests и
-authenticated QA gaps. Gate не является Sprint и начинается только по отдельной
-команде владельца.
+authenticated QA gaps. Gate не является Sprint; project ref, migration parity и
+integrity logical backup подтверждены 06.11.2026, restore rehearsal остаётся `PENDING`.
 
 ---
 

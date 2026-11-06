@@ -1,7 +1,7 @@
 # DTEK Platform — Task Map
 
 `Статус: актуальный`
-`Дата: 24.10.2026`
+`Дата: 06.11.2026`
 
 ---
 
@@ -9,12 +9,12 @@
 
 | Документ | Класс | Статус |
 |---|---|---|
-| [SECURITY_STABILIZATION_GATE.md](SECURITY_STABILIZATION_GATE.md) | Blocking release gate | ACTIVE: PREPARED / NOT STARTED |
+| [SECURITY_STABILIZATION_GATE.md](SECURITY_STABILIZATION_GATE.md) | Blocking release gate | ACTIVE: PREFLIGHT COMPLETE / SEC-01 NEXT |
 | [disign/MINI_DESIGN_CHANGES.md](disign/MINI_DESIGN_CHANGES.md) | Design journal | ACTIVE |
 | [disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md](disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md) | Design Sprint | PLANNED / waiting for materials |
 
-Security Gate выполняется первым после отдельной команды владельца. Ни один
-Sprint 16+ не начинается до его закрытия.
+Security Gate начат по команде владельца 06.11.2026. Ни один Sprint 16+ не
+начинается до его фактического закрытия.
 
 ---
 

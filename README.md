@@ -33,7 +33,7 @@ IT-администраторам видеть, каким объектам мо
 
 ## Текущий Статус
 
-**v0.15.0-dev — DTEK Business Functional pre-pilot MVP; Security & Stabilization Gate подготовлен, но не начат.**
+**v0.15.0-dev — DTEK Business Functional pre-pilot MVP; Security & Stabilization Gate выполняется, Preflight завершён, далее SEC-01.**
 
 Функциональный MVP реализован и отполирован для первой демонстрации. Sprint 09 завершил упаковку Market MVP, Sprint 10 — Reporting Ready milestone, Sprint 11 — Evidence Onboarding Ready. Реализация Sprint 12 и Sprint 13 завершена вместе с пользовательской документацией и воспроизводимыми QA checklists; до закрытия milestones требуется ручная authenticated приёмка владельцем проекта.
 
@@ -43,8 +43,10 @@ IT-администраторам видеть, каким объектам мо
 privilege boundaries, blocked-user enforcement и cross-tenant связях Risk/Graph.
 До их устранения коммерческий pilot запрещён. Следующий обязательный этап —
 [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) со статусом
-`PREPARED / NOT STARTED`; это не новый продуктовый Sprint, security/functional
-исправления ещё не применялись.
+`IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`; это не новый продуктовый Sprint. Project ref и
+migration parity `001–019` подтверждены 06.11.2026. Free Plan не предоставляет
+managed backups; portable logical backup создан и прошёл integrity verification,
+restore rehearsal остаётся `PENDING`. Security/functional исправления ещё не применялись.
 
 Документы Sprint 01–15 перенесены без изменения содержания в
 [`tasks/archive/`](tasks/archive/README.md). Sprint 16–35 описывают план
@@ -211,14 +213,14 @@ diploma/             Учебная база автора и подготовк�
 |---|---|
 | Активная ветка | `develop` |
 | Последний завершённый Sprint | Sprint 15 — Connector Foundation Ready / Runtime Deferred |
-| Текущая разработка | Новая разработка не начата; Security & Stabilization Gate подготовлен |
+| Текущая разработка | Security & Stabilization Gate — `IN PROGRESS`; Preflight завершён, SEC-01 следующий |
 | Управление проектом | Obsidian Vault `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core.md`, Development/Ideas/QA/Risk boards |
 | Gate перед pilot release | [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md), затем Master Pilot Readiness Checklist и ручная приёмка Sprint 12/13 |
 | Production HTTP smoke | `npm run test:smoke` после `npm run build`; 18 public/protected route contracts |
 | Monitoring baseline | GitHub/Vercel/Supabase signals, Health UI, severity/triage plan; provider activation pending |
 | Pilot measurement | Scorecard, feedback loop и source inventory готовы; фактические pilot data pending |
 | Pilot documentation | [Единый client/internal pack](docs/pilot/PILOT_DOCUMENTATION_PACK.md) готов; контакты и release evidence заполняются для кандидата |
-| Схема БД | Локально `001–019`; Cloud parity документировался ранее и требует повторной linked-сверки перед Gate |
+| Схема БД | Linked parity local/remote `001–019` подтверждён 06.11.2026; следующая migration `020` ещё не создана |
 | Автоматический baseline | type-check, ESLint, build, import, explainability и risk workflow contract tests |
 | Стабильное функциональное ядро | Objects, Passport, Score, Risk Workflow, Dashboard, Configurator, import/export/reporting и Environment Health Check |
 | Blocking области | Profile/RBAC boundaries, blocked-user enforcement, cross-tenant Object/Risk и Graph constraints, atomic organization/invitation flows |
@@ -235,7 +237,7 @@ diploma/             Учебная база автора и подготовк�
 
 Текущие обязательства и утверждённая последовательность:
 
-1. По отдельной команде выполнить подготовленный Security & Stabilization Gate.
+1. Завершить Preflight и выполнить активный Security & Stabilization Gate.
 2. Подтвердить Business baseline, authenticated QA и pilot release evidence.
 3. Sprint 16–19: Workspace, Evidence/Finding, Remediation/Knowledge и scoped assessment foundations.
 4. Sprint 20–24: Connector Runtime, Business discovery, findings, exposure paths и Business release.

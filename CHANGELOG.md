@@ -5,6 +5,26 @@
 
 ---
 
+## Security Gate Preflight — 2026-11-06
+
+### Проверено
+
+- Supabase project `DTEK-Core` подтверждён как `Healthy`; linked ref совпадает с
+  `.env.local`.
+- Local/remote migration parity `001–019` подтверждён Supabase CLI.
+- Free Plan не предоставляет managed project backups; FileVault включён.
+- Portable logical backup `20261106T162052Z` создан вне Git: 5/5 SQL-файлов
+  непустые, права `600`, SHA-256 checksums прошли.
+
+### Ограничения
+
+- Restore rehearsal остаётся `PENDING`; data dump содержит предупреждение о
+  циклических FK `profiles` ↔ `organizations`.
+- Код приложения, RLS и schema migrations в Preflight не изменялись; следующий
+  Gate task — `SEC-01`, следующая migration — `020`.
+
+---
+
 ## Русская Система Управления В Obsidian — 2026-10-29
 
 ### Изменено

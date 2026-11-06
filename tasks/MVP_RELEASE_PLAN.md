@@ -438,7 +438,7 @@ R0–R6 сохраняют историю DTEK Core. Дальнейшие releas
 
 | Release | Sprint | Milestone | Пользовательский результат | Статус |
 |---|---:|---|---|---|
-| Gate | — | Stabilized Business baseline | Безопасный pre-pilot продукт | PREPARED / NOT STARTED |
+| Gate | — | Stabilized Business baseline | Безопасный pre-pilot продукт | IN PROGRESS / SEC-01 NEXT |
 | R7 | 16–19 | Platform Foundation Ready | Общие workspace/evidence/finding/remediation contracts | PLANNED |
 | R8 | 20–24 | Business MVP | Discovery, findings, impact и remediation для организации | PLANNED |
 | R9 | 25–27 | Home MVP | Свои home devices, Home Trust Score и рекомендации | PLANNED |

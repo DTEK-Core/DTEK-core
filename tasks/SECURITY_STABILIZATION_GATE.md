@@ -1,8 +1,9 @@
 # SECURITY & STABILIZATION GATE — DTEK Core
 
 `Тип: blocking release gate, не продуктовый Sprint`  
-`Статус: PREPARED / NOT STARTED`  
+`Статус: IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`
 `Дата подготовки: 24.08.2026`  
+`Дата старта: 06.11.2026`
 `Исходная стадия: Functional pre-pilot MVP`  
 `Следующий продуктовый Sprint: не начат`
 
@@ -23,7 +24,7 @@ Connector Runtime.
 
 ```text
 Functional pre-pilot MVP
-  -> Security & Stabilization Gate (PREPARED / NOT STARTED)
+  -> Security & Stabilization Gate (IN PROGRESS / SEC-01 NEXT)
   -> authenticated release evidence
   -> PILOT READY decision
 ```
@@ -49,6 +50,30 @@ multi-role сценариев, поэтому не заменяют acceptance c
 Cloud migration parity в ходе аудита повторно не подтверждён: локально
 присутствуют migrations `001–019`, а повторная linked-проверка остаётся
 обязательным preflight перед будущими migration changes.
+
+### Preflight Execution Log — 06.11.2026
+
+| Проверка | Фактический результат |
+|---|---|
+| Supabase project health | `Healthy`, подтверждено владельцем по Dashboard |
+| Linked project | `DTEK-Core`, ref `ehqpijmbtavfacqogtoe` |
+| Environment project ref | `.env.local` hostname совпадает с linked project ref |
+| CLI | Supabase CLI `2.106.0`; обновление до `3.x` сознательно не выполнялось в Gate |
+| Migration parity | `PASS`: local/remote `001–019` совпадают |
+| Следующая migration | `020`, создавать только после завершения backup preflight |
+| Изменения после аудита | Product/roadmap/docs only; app, RLS и migrations не менялись |
+| Git baseline | `develop` синхронизирован с `origin/develop` на `5fbc931`; пользовательская `output/` не затрагивается |
+| Managed backup / restore point | `UNAVAILABLE`: Free Plan не включает project backups; подтверждено владельцем в Dashboard 06.11.2026 |
+| Portable logical backup | `PASS`: backup ID `20261106T162052Z`, 5/5 files non-empty, SHA-256 `OK`, mode `600`, вне Git |
+| Local backup storage protection | `PASS`: FileVault `On` подтверждён системной проверкой 06.11.2026 |
+| Restore verification | `PENDING`: data export предупредил о циклических FK `profiles` ↔ `organizations`; требуется restore rehearsal в отдельный project |
+
+Managed restore не является доступным recovery path на текущем плане. FileVault
+включён, portable logical backup создан и прошёл integrity verification. Это
+закрывает Preflight и разрешает начать `SEC-01` с migration `020`, но не доказывает
+восстанавливаемость: restore rehearsal остаётся release gate. Dashboard summary
+`No migrations` не является
+источником migration parity: linked CLI подтвердил remote history `001–019`.
 
 ---
 
@@ -406,4 +431,6 @@ evidence не считается прохождением Gate. Любой не�
 4. минимально актуализировать implementation details;
 5. начать с preflight и SEC-01 без нового полного стратегического аудита.
 
-До этой команды статус остаётся `PREPARED / NOT STARTED`.
+Команда получена 06.11.2026. Preflight завершён: linked parity и integrity-
+verified logical backup подтверждены. Gate имеет статус
+`IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`.

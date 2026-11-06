@@ -1,13 +1,13 @@
 # DOCUMENTATION_INDEX.md — DTEK Platform / DTEK Core
 
 `Статус: актуальный`  
-`Дата: 26.10.2026`
+`Дата: 06.11.2026`
 
 Единая карта источников истины. Статусы возможностей всегда проверять по коду,
 миграциям и этому разделению:
 
 - **IMPLEMENTED** — DTEK Business foundation Sprint 01–15;
-- **CURRENT** — Security & Stabilization Gate, prepared/not started;
+- **CURRENT** — Security & Stabilization Gate, `IN PROGRESS / PREFLIGHT COMPLETE — SEC-01 NEXT`;
 - **PLANNED** — Sprint 16–35 и DTEK Platform evolution;
 - **FUTURE** — capabilities вне первого Platform MVP.
 
@@ -23,7 +23,7 @@
 6. [Gap Analysis](docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md) — reuse/extension/new matrix.
 7. [Platform Security Principles](docs/security/DTEK_PLATFORM_SECURITY_PRINCIPLES.md) — новые security/privacy boundaries.
 8. [Roadmap](docs/roadmap/ROADMAP.md) и [Sprint Roadmap](docs/roadmap/SPRINT_ROADMAP.md).
-9. [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) — следующий blocking stage.
+9. [Security & Stabilization Gate](tasks/SECURITY_STABILIZATION_GATE.md) — текущий blocking stage.
 10. [AI Development Guide](AI_DEVELOPMENT_GUIDE.md) и [AGENTS.md](AGENTS.md).
 11. Obsidian Project Control Center в `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core.md` — оперативное управление, доски, реестры и отчёты.
 

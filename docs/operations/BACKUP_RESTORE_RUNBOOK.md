@@ -2,9 +2,30 @@
 
 `Спринт: Sprint 14 - Pilot Readiness`  
 `Задача: S14-T005 - Backup & Restore Runbook`  
-`Версия: 1.0`  
-`Дата: 22.08.2026`  
-`Статус: IMPLEMENTED / RESTORE REHEARSAL PENDING`
+`Версия: 1.1`
+`Дата: 06.11.2026`
+`Статус: LOGICAL BACKUP INTEGRITY VERIFIED / RESTORE REHEARSAL PENDING`
+
+---
+
+## 0. Последнее Доказательство Preflight
+
+06.11.2026 для linked project `DTEK-Core` выполнен portable logical backup с
+идентификатором `20261106T162052Z`. Набор хранится вне Git на локальном диске с
+включённым FileVault и правами `600`:
+
+- `roles.sql`;
+- `schema.sql`;
+- `data.sql`;
+- `history_schema.sql`;
+- `history_data.sql`;
+- `SHA256SUMS`.
+
+Все пять SQL-файлов непустые, проверка SHA-256 завершилась `OK`. Free Plan не
+предоставляет managed project backups. Во время data export `pg_dump` сообщил о
+циклических FK между `profiles` и `organizations`; поэтому набор имеет статус
+`integrity verified`, но не `restore verified`. Restore rehearsal выполняется
+только в новом изолированном Supabase project и остаётся release gate.
 
 ---
 
