@@ -1,7 +1,7 @@
 # SECURITY_TESTING_PLAN.md — DTEK Core
 
-`Версия: 1.1`
-`Дата: 06.11.2026`
+`Версия: 1.2`
+`Дата: 08.11.2026`
 `Статус: Security Gate in progress`
 
 ---
@@ -146,6 +146,18 @@ npm run test:security:sec01
 
 Тест требует запущенный local Supabase, создаёт временные Auth/RLS fixtures в
 двух организациях и очищает их после выполнения. Облачную базу он не изменяет.
+
+Focused automated test SEC-02:
+
+```bash
+npm run test:security:sec02
+```
+
+Тест фиксирует старую JWT и refresh token до блокировки, затем проверяет DENY
+tenant data, profiles, active helpers и organization insert, удаление
+`auth.sessions`, отказ refresh, отсутствие tenant access у новой blocked JWT,
+запрет service-role reactivation, минимальное раскрытие access context и
+сохранение роли после unblock. Исходные local ACL восстанавливаются в cleanup.
 
 ---
 

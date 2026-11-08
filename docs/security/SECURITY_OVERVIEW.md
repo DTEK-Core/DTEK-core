@@ -109,6 +109,8 @@ audit и recovery gates.
 | Risk Workflow Audit Events без UUID и comment body | S13 | ✅ |
 | Audit Log privileged-read RLS (migration 019) | S13 | ✅ |
 | Profile privilege boundaries (migration 020) | Security Gate SEC-01 | ✅ |
+| Blocked membership access revocation (migration 021) | Security Gate SEC-02 | ✅; browser QA pending |
+| Blocked profile reactivation guard (migration 022) | Security Gate SEC-02 | ✅; service-role bypass denied |
 | Environment Health Check без secrets/raw errors, owner/admin | S14 | ✅ |
 | Monitoring/Error Handling Plan с redaction и incident severity | S14 | ✅ |
 | Connector Security Model specification | S15 | ✅; runtime gates pending |

@@ -2,7 +2,7 @@
 
 `Статус: planning baseline`
 `Дата: 24.10.2026`
-`Основа: фактический код, migrations 001–020, Sprint 01–15 и Security Gate progress 06.11.2026`
+`Основа: фактический код, migrations 001–022, Sprint 01–15 и Security Gate progress 08.11.2026`
 
 ---
 
@@ -75,7 +75,7 @@
 
 1. Sprint 15 завершил только specifications и handoff Connector Foundation.
 2. Security Gate подготовлен, но SEC/STAB tasks не реализованы.
-3. Production schema заканчивается на migration 020 и не содержит Workspace,
+3. Production schema заканчивается на migration 022 и не содержит Workspace,
    Evidence, Finding, Recommendation, Scan, Home или Personal entities.
 4. Existing import напрямую создаёт Business objects/risks; source context
    хранится в description text block.

@@ -1,7 +1,7 @@
 # RBAC_MODEL.md — DTEK Core
 
-`Версия: 1.6`
-`Дата: 06.11.2026`
+`Версия: 1.7`
+`Дата: 08.11.2026`
 `Статус: Актуальный`
 `Источник: ARCHITECTURE_DECISIONS.md ADR-003`
 
@@ -129,6 +129,19 @@ current_user_role() -- возвращает role текущего пользов
   всегда запрещены;
 - audit event создаётся в той же транзакции, что и membership change.
 
+### Blocked Membership
+
+После migration 021 `blocked` является обязательной authorization boundary, а
+не только UI-статусом:
+
+- RLS helpers не возвращают tenant и role заблокированному JWT;
+- Server Components и Server Actions получают отказ через общий auth context;
+- middleware очищает локальную session cookie и показывает безопасное сообщение;
+- новая попытка login завершается без предоставления app access;
+- unblock сохраняет назначенную роль, но требует новой аутентификации.
+- invitation acceptance не может реактивировать blocked profile: migration 022
+  разрешает blocked → active только доверенному membership RPC.
+
 ### Скрытие элементов UI
 
 Client-side скрытие кнопок — дополнительная мера, не единственная защита. Пример:
@@ -152,6 +165,7 @@ Client-side скрытие кнопок — дополнительная мер�
 
 | Версия | Дата | Изменение |
 |---|---|---|
+| 1.7 | 08.11.2026 | SEC-02: blocked membership закрывает app/API/action access, отзывает sessions и защищён от service-role reactivation bypass |
 | 1.6 | 06.11.2026 | SEC-01: direct profile UPDATE запрещён, self/member mutations переведены на tenant-scoped audited RPC |
 | 1.5 | 23.08.2026 | Добавлена утверждённая Post-MVP connector/evidence RBAC matrix S15-T005 |
 | 1.4 | 19.08.2026 | Manual invite link зафиксирован как MVP delivery path; RBAC не изменён |

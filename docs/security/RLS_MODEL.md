@@ -1,7 +1,7 @@
 # RLS_MODEL.md — DTEK Core
 
-`Версия: 1.1`
-`Дата: 12.08.2026`
+`Версия: 1.2`
+`Дата: 08.11.2026`
 `Статус: Актуальный`
 
 ---
@@ -23,17 +23,18 @@ PostgreSQL Row Level Security (RLS) обеспечивает изоляцию д
 
 ## Вспомогательные функции
 
-Определены в `supabase/migrations/001_helper_functions.sql`:
+Созданы migration 001 и усилены migration 021:
 
 ```sql
 -- Возвращает organization_id из profiles для текущего auth.uid()
 CREATE FUNCTION current_org_id() RETURNS uuid AS $$
-  SELECT organization_id FROM profiles WHERE id = auth.uid();
+  SELECT organization_id FROM profiles
+  WHERE id = auth.uid() AND status = 'active';
 $$ LANGUAGE sql STABLE SECURITY DEFINER;
 
 -- Возвращает роль текущего пользователя
 CREATE FUNCTION current_user_role() RETURNS text AS $$
-  SELECT role FROM profiles WHERE id = auth.uid();
+  SELECT role FROM profiles WHERE id = auth.uid() AND status = 'active';
 $$ LANGUAGE sql STABLE SECURITY DEFINER;
 ```
 
@@ -44,9 +45,12 @@ $$ LANGUAGE sql STABLE SECURITY DEFINER;
 ### `profiles`
 
 ```sql
--- Пользователь видит себя и участников своей организации
+-- Только active пользователь видит себя и участников своей организации
 CREATE POLICY "profiles_select" ON profiles
-  FOR SELECT USING (id = auth.uid() OR organization_id = current_org_id());
+  FOR SELECT USING (
+    current_user_is_active()
+    AND (id = auth.uid() OR organization_id = current_org_id())
+  );
 
 -- Direct UPDATE для authenticated/anon запрещён.
 -- Display fields и membership изменяются только через narrow RPC migration 020.
@@ -62,6 +66,17 @@ Migration 020 удаляет `profiles_update`, отзывает table-level `UP
 
 Membership RPC проверяют caller tenant, role/status, target tenant, запрет self
 и owner target/assignment. Privileged transition и audit insert атомарны.
+
+Migration 021 добавляет единый active-membership invariant. Для blocked profile
+`current_org_id()` и `current_user_role()` возвращают `NULL`, profile SELECT и
+organization INSERT отклоняются, а остальные tenant policies автоматически
+перестают предоставлять данные. `get_current_access_context()` возвращает
+blocked пользователю только status без tenant ID и role; это необходимо для
+раннего middleware guard. Переход в `blocked` атомарно удаляет `auth.sessions`.
+Migration 022 запрещает переход `blocked → active` через обычный service-role
+UPDATE. Reactivation разрешена только доверенному membership RPC; это закрывает
+обход через старое pending invitation, а superuser остаётся аварийным
+операционным recovery path.
 
 ### `organizations`
 

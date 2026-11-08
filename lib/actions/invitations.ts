@@ -33,6 +33,9 @@ type SendInvitationResult = {
   status?: 'created' | 'existing' | 'expired';
 };
 
+const ACCOUNT_ACCESS_DENIED_MESSAGE =
+  'Доступ к аккаунту приостановлен. Обратитесь к администратору организации.';
+
 async function getCallerProfile(): Promise<CallerProfile | null> {
   const context = await getCurrentUserContext();
   const profile = context?.profile as CallerProfile | null;
@@ -226,10 +229,11 @@ export async function acceptInvitation(
   const supabase = await createClient();
   let userId: string;
   let profileOrganizationId: string | null;
+  let signedInExistingAccount = false;
 
   const { data: existingProfileRaw, error: existingProfileError } = await service
     .from('profiles')
-    .select('id, organization_id')
+    .select('id, organization_id, status')
     .eq('email', inv.email)
     .limit(1)
     .maybeSingle();
@@ -239,10 +243,14 @@ export async function acceptInvitation(
   }
 
   const existingProfile = existingProfileRaw as unknown as (
-    { id: string; organization_id: string | null } | null
+    { id: string; organization_id: string | null; status: string } | null
   );
 
   if (existingProfile) {
+    if (existingProfile.status === 'blocked') {
+      return { error: ACCOUNT_ACCESS_DENIED_MESSAGE };
+    }
+
     const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email: inv.email,
       password: parsed.data.password,
@@ -253,6 +261,7 @@ export async function acceptInvitation(
     }
     userId = signInData.user.id;
     profileOrganizationId = existingProfile.organization_id;
+    signedInExistingAccount = true;
   } else {
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: inv.email,
@@ -287,7 +296,7 @@ export async function acceptInvitation(
 
   const fullName = `${parsed.data.firstName} ${parsed.data.lastName}`.trim();
 
-  const { error: profileUpdateError } = await service
+  const { data: updatedProfile, error: profileUpdateError } = await service
     .from('profiles')
     .update({
       full_name: fullName,
@@ -295,9 +304,15 @@ export async function acceptInvitation(
       role: inv.role,
       status: 'active',
     } as never)
-    .eq('id', userId);
+    .eq('id', userId)
+    .neq('status', 'blocked')
+    .select('id')
+    .maybeSingle();
 
-  if (profileUpdateError) {
+  if (profileUpdateError || !updatedProfile) {
+    if (signedInExistingAccount) {
+      await supabase.auth.signOut({ scope: 'global' });
+    }
     return { error: 'Не удалось добавить пользователя в организацию' };
   }
 

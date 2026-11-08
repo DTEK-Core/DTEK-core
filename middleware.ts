@@ -68,6 +68,21 @@ function hasSupabaseAuthCookie(request: NextRequest): boolean {
   );
 }
 
+function redirectWithSessionCookies(
+  request: NextRequest,
+  supabaseResponse: NextResponse,
+  pathname: string,
+  errorCode?: string,
+) {
+  const url = request.nextUrl.clone();
+  url.pathname = pathname;
+  if (errorCode) url.searchParams.set('error', errorCode);
+
+  const response = NextResponse.redirect(url);
+  supabaseResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
+  return response;
+}
+
 async function updateSessionWithinTimeout(request: NextRequest) {
   const timeoutMs = getSupabaseFetchTimeoutMs();
 
@@ -154,7 +169,7 @@ export async function middleware(request: NextRequest) {
     throw error;
   }
 
-  const { supabaseResponse, userId, organizationId } = session;
+  const { supabaseResponse, userId, organizationId, accessStatus } = session;
 
   // Unauthenticated user on protected route → login
   if (!userId && !isAuthPath(pathname)) {
@@ -164,6 +179,10 @@ export async function middleware(request: NextRequest) {
   }
 
   if (userId) {
+    if (accessStatus === 'blocked') {
+      return redirectWithSessionCookies(request, supabaseResponse, '/login', 'account_blocked');
+    }
+
     // No org → must create one first (all app routes except /onboarding/create)
     if (!organizationId && !isOnboardingCreatePath(pathname)) {
       const url = request.nextUrl.clone();

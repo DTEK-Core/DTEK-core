@@ -12,6 +12,13 @@ type ActionResult = {
   success?: boolean;
 };
 
+const ACCOUNT_ACCESS_DENIED_MESSAGE =
+  'Доступ к аккаунту приостановлен. Обратитесь к администратору организации.';
+
+interface AccessContextRow {
+  status: string;
+}
+
 function authError(error: unknown): ActionResult {
   if (isSupabaseConnectionError(error)) {
     return { error: getSupabaseUnavailableMessage() };
@@ -58,6 +65,21 @@ export async function login(formData: FormData): Promise<ActionResult> {
     });
 
     if (error) return { error: error.message };
+
+    const { data: accessRaw, error: accessError } = await supabase
+      .rpc('get_current_access_context' as never)
+      .maybeSingle();
+
+    if (accessError) {
+      await supabase.auth.signOut({ scope: 'local' });
+      return authError(accessError);
+    }
+
+    const access = accessRaw as unknown as AccessContextRow | null;
+    if (access?.status !== 'active') {
+      await supabase.auth.signOut({ scope: 'global' });
+      return { error: ACCOUNT_ACCESS_DENIED_MESSAGE };
+    }
   } catch (error) {
     return authError(error);
   }
@@ -98,6 +120,18 @@ export async function forgotPassword(formData: FormData): Promise<ActionResult> 
 export async function updatePassword(formData: FormData): Promise<ActionResult> {
   try {
     const supabase = await createClient();
+
+    const { data: accessRaw, error: accessError } = await supabase
+      .rpc('get_current_access_context' as never)
+      .maybeSingle();
+
+    if (accessError) return authError(accessError);
+
+    const access = accessRaw as unknown as AccessContextRow | null;
+    if (access?.status !== 'active') {
+      await supabase.auth.signOut({ scope: 'local' });
+      return { error: ACCOUNT_ACCESS_DENIED_MESSAGE };
+    }
 
     const { error } = await supabase.auth.updateUser({
       password: formData.get('password') as string,

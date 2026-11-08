@@ -35,6 +35,26 @@
 - Focused local JWT/RLS integration test прошёл; cloud parity `001–020`
   подтверждён. Authenticated manual QA остаётся частью `STAB-05`.
 
+### SEC-02 — Blocked User Access Revocation
+
+- Migration 021 сделала `current_org_id()` и `current_user_role()` зависимыми от
+  active membership и закрыла blocked JWT на tenant RLS policies.
+- Добавлен минимальный access-context RPC: blocked state доступен middleware,
+  но tenant ID и назначенная роль не раскрываются.
+- При блокировке Auth sessions удаляются в той же DB-транзакции; старый access
+  JWT немедленно теряет данные через RLS, а refresh sessions становятся
+  недоступны.
+- Server auth context, middleware и login централизованно отклоняют blocked
+  membership и показывают безопасное сообщение без raw DB details.
+- Независимый review выявил обход через service-role invitation update;
+  migration 022 запретила blocked → active вне доверенного membership RPC.
+- Invitation acceptance теперь отклоняет blocked profile до sign-in и повторно
+  проверяет status при update; password reset также требует active membership.
+- RED/GREEN integration test подтвердил direct API denial, refresh/session
+  revocation, бесполезность новой blocked JWT, запрет service-role reactivation
+  и сохранение назначенной роли после unblock; cloud parity `001–022`
+  подтверждён. Browser QA остаётся частью `STAB-05`.
+
 ---
 
 ## Русская Система Управления В Obsidian — 2026-10-29
