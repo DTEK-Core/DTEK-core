@@ -159,6 +159,19 @@ tenant data, profiles, active helpers и organization insert, удаление
 запрет service-role reactivation, минимальное раскрытие access context и
 сохранение роли после unblock. Исходные local ACL восстанавливаются в cleanup.
 
+Focused automated test SEC-03:
+
+```bash
+npm run test:security:sec03
+```
+
+Тест создаёт временные fixtures в двух организациях и подтверждает разрешённую
+same-tenant связь, DENY для cross-tenant Object ↔ Risk, viewer и blocked
+mutations, изоляцию чтения/удаления и DB-level защиту от direct SQL/service-role
+INSERT/UPDATE. Отдельно проверяется, что смена tenant у уже связанного Object
+или Risk не может нарушить invariant. Исходные local ACL восстанавливаются в
+cleanup, облачная база не изменяется.
+
 ---
 
 ## Инструменты тестирования безопасности

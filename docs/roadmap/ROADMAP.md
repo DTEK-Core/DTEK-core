@@ -24,11 +24,12 @@ Discovery Inbox, Home, Personal, DTEK Exposure и Knowledge Center не
 
 Перед расширением выполняется обязательный
 [Security & Stabilization Gate](../../tasks/SECURITY_STABILIZATION_GATE.md) со
-статусом `IN PROGRESS / SEC-02 COMPLETE — SEC-03 NEXT`. Он закрывает известные privilege,
+статусом `IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`. Он закрывает известные privilege,
 blocked-user, tenant isolation, atomicity, generated types, DB RLS tests и
 authenticated QA gaps. Gate не является Sprint; project ref, migration parity и
 integrity logical backup подтверждены 06.11.2026. SEC-01 применён migration 020,
-SEC-02 применён migration 021 и подтвердил blocked-user revocation;
+SEC-02 применил migrations 021–022 и подтвердил blocked-user revocation;
+SEC-03 применил migrations 023–024 и подтвердил Object ↔ Risk tenant invariant;
 restore rehearsal и authenticated Gate QA остаются `PENDING`.
 
 ---

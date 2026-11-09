@@ -316,6 +316,7 @@ CREATE INDEX idx_risks_due_date ON risks(due_date) WHERE due_date IS NOT NULL;
 ```sql
 CREATE TABLE object_risks (
     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    organization_id uuid NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
     object_id   uuid NOT NULL REFERENCES objects(id) ON DELETE CASCADE,
     risk_id     uuid NOT NULL REFERENCES risks(id) ON DELETE CASCADE,
     linked_at   timestamptz NOT NULL DEFAULT now(),
@@ -324,10 +325,16 @@ CREATE TABLE object_risks (
 );
 ```
 
+Migrations 023–024 усиливают исходную схему: `organization_id` заполняется DB
+trigger, а composite foreign keys `(object_id, organization_id)` и
+`(risk_id, organization_id)` гарантируют, что обе стороны связи принадлежат
+одному tenant даже для service-role/direct SQL и конкурентных транзакций.
+
 **Индексы:**
 ```sql
 CREATE INDEX idx_object_risks_object_id ON object_risks(object_id);
 CREATE INDEX idx_object_risks_risk_id ON object_risks(risk_id);
+CREATE INDEX idx_object_risks_organization_id ON object_risks(organization_id);
 ```
 
 ### 3.6.1 `risk_comments`

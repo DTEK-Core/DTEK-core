@@ -55,6 +55,25 @@
   и сохранение назначенной роли после unblock; cloud parity `001–022`
   подтверждён. Browser QA остаётся частью `STAB-05`.
 
+### SEC-03 — Object ↔ Risk Tenant Isolation
+
+- RED integration test подтвердил исходную уязвимость: active owner Tenant A
+  мог создать `Object A ↔ Risk B`, потому что RLS проверял только Object.
+- Migration 023 добавила двусторонние `SELECT`/`INSERT`/`DELETE` policies,
+  preflight существующих связей и DB trigger для service-role/direct SQL.
+- Независимый security review выявил concurrency gap trigger-only решения.
+  Review-hardening migration 024 добавила `organization_id` в `object_risks` и
+  composite foreign keys к Objects/Risks под table lock; конкурентные link и
+  parent tenant changes теперь сериализуются PostgreSQL.
+- `createRisk` проверяет выбранный Object внутри текущего tenant до создания
+  Risk и безопасно обрабатывает ошибку linkage.
+- Focused JWT/RLS test покрывает same/cross-tenant links, viewer/blocked
+  mutations, blocked read/delete, foreign read/delete, direct SQL и parent
+  tenant changes. SEC-01/02 regressions, 45 contract tests, DB lint,
+  type-check, lint и production build прошли.
+- Migrations 023–024 применены в Supabase Cloud; linked parity `001–024`
+  подтверждён 09.11.2026. Authenticated browser QA остаётся частью `STAB-05`.
+
 ---
 
 ## Русская Система Управления В Obsidian — 2026-10-29

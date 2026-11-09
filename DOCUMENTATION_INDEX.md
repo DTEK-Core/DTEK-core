@@ -1,13 +1,13 @@
 # DOCUMENTATION_INDEX.md — DTEK Platform / DTEK Core
 
 `Статус: актуальный`  
-`Дата: 06.11.2026`
+`Дата: 09.11.2026`
 
 Единая карта источников истины. Статусы возможностей всегда проверять по коду,
 миграциям и этому разделению:
 
 - **IMPLEMENTED** — DTEK Business foundation Sprint 01–15;
-- **CURRENT** — Security & Stabilization Gate, `IN PROGRESS / SEC-02 COMPLETE — SEC-03 NEXT`;
+- **CURRENT** — Security & Stabilization Gate, `IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`;
 - **PLANNED** — Sprint 16–35 и DTEK Platform evolution;
 - **FUTURE** — capabilities вне первого Platform MVP.
 

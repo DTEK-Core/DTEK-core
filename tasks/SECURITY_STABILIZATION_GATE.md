@@ -1,7 +1,7 @@
 # SECURITY & STABILIZATION GATE — DTEK Core
 
 `Тип: blocking release gate, не продуктовый Sprint`  
-`Статус: IN PROGRESS / SEC-02 COMPLETE — SEC-03 NEXT`
+`Статус: IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`
 `Дата подготовки: 24.08.2026`  
 `Дата старта: 06.11.2026`
 `Исходная стадия: Functional pre-pilot MVP`  
@@ -24,7 +24,7 @@ Connector Runtime.
 
 ```text
 Functional pre-pilot MVP
-  -> Security & Stabilization Gate (IN PROGRESS / SEC-03 NEXT)
+  -> Security & Stabilization Gate (IN PROGRESS / SEC-04 NEXT)
   -> authenticated release evidence
   -> PILOT READY decision
 ```
@@ -60,8 +60,8 @@ Cloud migration parity в ходе аудита повторно не подтв
 | Environment project ref | `.env.local` hostname совпадает с linked project ref |
 | CLI | Supabase CLI `2.106.0`; обновление до `3.x` сознательно не выполнялось в Gate |
 | Migration parity | `PASS`: local/remote `001–020` совпадают после SEC-01 cloud apply |
-| Текущая migration parity | `PASS`: local/remote `001–022` совпадают после SEC-02 review hardening 08.11.2026 |
-| Следующая migration | `023`; использовать только для следующей schema-changing Gate task |
+| Текущая migration parity | `PASS`: local/remote `001–024` совпадают после SEC-03 review hardening 09.11.2026 |
+| Следующая migration | `025`; использовать только для следующей schema-changing Gate task |
 | Изменения после аудита | Product/roadmap/docs only; app, RLS и migrations не менялись |
 | Git baseline | `develop` синхронизирован с `origin/develop` на `5fbc931`; пользовательская `output/` не затрагивается |
 | Managed backup / restore point | `UNAVAILABLE`: Free Plan не включает project backups; подтверждено владельцем в Dashboard 06.11.2026 |
@@ -149,6 +149,8 @@ refresh revocation, новую blocked session без tenant access и восс�
 
 ### SEC-03 — Cross-tenant Object ↔ Risk Relation
 
+`Статус: IMPLEMENTED / JWT-RLS INTEGRATION PASS / LINKED PARITY PASS / MANUAL QA PENDING`
+
 **Проблема:** `object_risks` проверяет tenant объекта, но не tenant риска.
 
 **Будущее решение:**
@@ -166,6 +168,19 @@ Object.organization_id
   == Risk.organization_id
   == current active tenant
 ```
+
+**Локальный результат 09.11.2026:** migration
+`023_object_risk_tenant_isolation.sql` добавила preflight-проверку существующих
+строк, DB trigger и двусторонние RLS policies. Независимый review выявил
+конкурентную гонку trigger-only решения; review-hardening migration
+`024_object_risk_composite_tenant_keys.sql` добавила явный tenant в junction и
+составные foreign keys к Objects/Risks. PostgreSQL теперь сериализует link и
+parent tenant changes. `createRisk` заранее подтверждает Object текущей
+организации и не оставляет частично созданный Risk при ошибке linkage. Focused
+integration test с JWT clients двух tenants, viewer/blocked ролями и прямым SQL
+прошёл; SEC-01/02 regression tests, local DB lint и полный quality gate также
+прошли. Migrations применены в Cloud, linked parity `001–024` подтверждён
+09.11.2026. Authenticated browser QA переносится в `STAB-05`.
 
 ### SEC-04 — Cross-tenant Trust Graph Relation
 
@@ -310,7 +325,7 @@ constraints, чтобы не генерировать их дважды. Securit
 - [x] Owner нельзя назначить приглашением или role-management action.
 - [x] Blocked session теряет app, Server Action и direct data API access.
 - [x] Разблокировка восстанавливает только права назначенной роли.
-- [ ] Object ↔ Risk relation требует один active tenant для обеих сторон.
+- [x] Object ↔ Risk relation требует один active tenant для обеих сторон.
 - [ ] Trust Graph relation требует один active tenant для relation и endpoints.
 - [ ] Organization DB flow не оставляет partial state.
 - [ ] Invitation membership transition atomic, single-use и retry-safe.
@@ -463,5 +478,5 @@ evidence не считается прохождением Gate. Любой не�
 5. начать с preflight и SEC-01 без нового полного стратегического аудита.
 
 Команда получена 06.11.2026. Preflight завершён: linked parity и integrity-
-verified logical backup подтверждены. SEC-01 и SEC-02 реализованы; Gate имеет
-статус `IN PROGRESS / SEC-02 COMPLETE — SEC-03 NEXT`.
+verified logical backup подтверждены. SEC-01–SEC-03 реализованы; Gate имеет
+статус `IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`.

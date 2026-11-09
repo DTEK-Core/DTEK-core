@@ -259,7 +259,7 @@ Supabase server secret/legacy `service_role` bypasses RLS. Поэтому:
 До connector migration существующие `SECURITY DEFINER` helpers должны пройти
 отдельную migration review: pin `search_path = ''`, schema-qualify references и
 проверить `EXECUTE` grants. T005 фиксирует gate, но не переписывает применённые
-migrations `001-022`.
+migrations `001-024`.
 
 `FORCE ROW LEVEL SECURITY` оценивается per table с repository tests. Оно не
 заменяет controls для server credential, который может bypass RLS.

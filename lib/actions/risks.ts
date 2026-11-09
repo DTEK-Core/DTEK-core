@@ -187,6 +187,17 @@ export async function createRisk(formData: FormData) {
   const normalizedSlaDays = sla_days ?? null;
   const due_date = calculateDueDate(dueDateInput, normalizedSlaDays);
 
+  if (object_id) {
+    const { data: object, error: objectError } = await admin
+      .from('objects')
+      .select('id')
+      .eq('id', object_id)
+      .eq('organization_id', orgId)
+      .maybeSingle();
+
+    if (objectError || !object) return { error: 'Объект не найден' };
+  }
+
   const { data: risk, error } = await admin
     .from('risks')
     .insert({
@@ -236,18 +247,24 @@ export async function createRisk(formData: FormData) {
     return { error: 'Не удалось зафиксировать историю риска. Попробуйте ещё раз.' };
   }
 
-  await createRiskWorkflowAuditEvents(ctx, riskId, initialActivities);
-
   if (object_id) {
-    await admin.from('object_risks').insert({
+    const { error: linkError } = await admin.from('object_risks').insert({
       risk_id:   riskId,
       object_id,
       linked_by: userId,
     } as never);
+
+    if (linkError) {
+      await admin.from('risks').delete().eq('id', riskId).eq('organization_id', orgId);
+      return { error: 'Не удалось связать риск с объектом. Попробуйте ещё раз.' };
+    }
+
     try { await recalculateObjectTrust(object_id, orgId); } catch { /* non-blocking */ }
     revalidatePath(`/objects/${object_id}`);
     revalidatePath(`/objects/${object_id}/passport`);
   }
+
+  await createRiskWorkflowAuditEvents(ctx, riskId, initialActivities);
 
   revalidatePath('/risks');
   return { success: true };

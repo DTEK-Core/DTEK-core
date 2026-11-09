@@ -1,7 +1,7 @@
 # RLS_MODEL.md — DTEK Core
 
-`Версия: 1.2`
-`Дата: 08.11.2026`
+`Версия: 1.3`
+`Дата: 09.11.2026`
 `Статус: Актуальный`
 
 ---
@@ -136,6 +136,26 @@ CREATE POLICY "write_allowed" ON risks
     AND current_user_role() IN ('owner', 'analyst')
   );
 ```
+
+### `object_risks`
+
+Migrations 023–024 закрывают исходную одностороннюю проверку junction table. Каждая
+связь обязана соединять Object и Risk одной организации. `SELECT`, `INSERT` и
+`DELETE` policies проверяют обе стороны через active-aware `current_org_id()`,
+а роли записи сохраняют существующий RBAC.
+
+`object_risks.organization_id` заполняется DB trigger и связан составными
+foreign keys с `(objects.id, objects.organization_id)` и
+`(risks.id, risks.organization_id)`. Поэтому конкурентная вставка связи и смена
+tenant у родительской записи сериализуются PostgreSQL и не могут нарушить
+invariant. Guard работает и для service-role/direct SQL, который обходит RLS.
+
+```text
+Object.organization_id == Risk.organization_id == current active tenant
+```
+
+Server Actions продолжают проверять tenant для безопасной пользовательской
+ошибки, но не считаются единственной security boundary.
 
 ### `risk_comments` И `risk_activity`
 
