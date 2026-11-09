@@ -1,359 +1,131 @@
 # AGENTS.md — DTEK Core
 
-> Этот файл читается AI-агентом при каждом запуске в директории проекта.
-> Содержит постоянный контекст проекта, архитектурные ограничения и правила работы.
-> Основной рабочий агент проекта — Codex.
+> Компактный постоянный контекст Codex. Подробности читать только по маршрутам
+> ниже: не загружать весь репозиторий и всю документацию перед каждой задачей.
 
----
+## 1. Проект И Текущий Этап
 
-## 1. Обзор проекта
+**DTEK Core** — коммерческая Evidence-first Trust Intelligence Platform для
+CISO, аналитиков ИБ и IT-администраторов.
 
-**DTEK Core** — Evidence-first Trust Intelligence Platform.
+Ключевые сущности: Trust Passport, Trust Score, Trust Graph и Risk Registry.
+После ADR-007 ручной ввод остаётся fallback и экспертной корректировкой, а
+автоматизация развивается через Evidence Layer и Connector Framework.
 
-Это коммерческий B2B SaaS-продукт в сфере кибербезопасности, который собирает цифровые доказательства из инфраструктуры организации, строит цифровую модель доверия и помогает CISO, аналитикам ИБ и IT-администраторам понимать реальный уровень защищённости инфраструктуры через единый показатель — **Trust Score**.
+Фактическое состояние:
 
-Платформа строится вокруг четырёх ключевых сущностей:
+- Sprint 01–15 завершены; история находится в `tasks/archive/`;
+- Sprint 16–35 — только `PLANNED / NOT STARTED`;
+- Security & Stabilization Gate обязателен до нового продуктового Sprint;
+- Preflight и SEC-01–SEC-04 завершены;
+- local/cloud migrations `001–025` совпадают на 09.11.2026;
+- следующая задача Gate: `STAB-01 — Atomic Organization Creation`;
+- следующий номер migration: `026`;
+- authenticated QA Sprint 12/13, Gate QA и restore rehearsal остаются `PENDING`.
 
-* **Trust Passport** — evidence-backed цифровой паспорт доверия каждого объекта;
-* **Trust Score** — взвешенная оценка доверия 0–100 по факторам безопасности и подтверждающим evidence;
-* **Trust Graph** — граф связей между объектами организации, который должен постепенно строиться автоматически;
-* **Risk Registry** — реестр ручных и импортированных рисков; auto-candidates относятся к Post-MVP Discovery Layer.
+Источник текущего статуса: `tasks/SECURITY_STABILIZATION_GATE.md`.
 
-Главный принцип развития после ADR-007: пользователь не должен вручную строить инфраструктуру с нуля. Ручной ввод сохраняется как fallback, экспертная корректировка и способ добавить бизнес-контекст.
+## 2. Приоритет Источников
 
-Проект не является учебным прототипом. Все решения должны приниматься как для коммерческого продукта.
-
----
-
-## 2. Текущий статус проекта
-
-Проект находится в стадии MVP.
-
-Завершены:
-
-* **Sprint 01** — инфраструктура проекта, Supabase, миграции, CI/CD;
-* **Sprint 02** — аутентификация, организации, пользователи, App Shell, онбординг;
-* **Sprint 03** — объекты, Trust Passport, реестр рисков;
-* **Sprint 04** — ручное тестирование Sprint 03 и стабилизация;
-* **Sprint 05** — Trust Score Engine, Trust Graph, Dashboard, Configurator;
-* **Sprint 06** — Security Hardening, RBAC/RLS аудит, подготовка security-документации;
-* **Sprint 07** — комплексное тестирование реализованной платформы.
-* **Sprint 08** — Product Review, UX/UI refinement, командные пожелания и аккуратные улучшения существующего интерфейса.
-* **Sprint 09** — Market MVP Packaging: demo narrative, demo dataset, seed plan, ICP/interview script, product one-pager, landing copy alignment, pilot offer и documentation sync.
-* **Sprint 10** — Reporting & Export: Trust Passport PDF, Risk CSV, Executive Organization Report, report RBAC/audit и smoke checklist.
-* **Sprint 11** — Evidence Import & Data Onboarding: CSV/XLSX import объектов и рисков, preview, source metadata, duplicate detection, partial success, audit events, test fixtures и ручная приёмка.
-* **ADR-007** — переход к Evidence-first Trust Platform / Trust Intelligence Platform.
-
-Текущий этап:
-
-* **Sprint 12** — Evidence-backed Trust Explainability; S12-T001–T008 реализованы, итоговый QA checklist подготовлен, ручная приёмка владельцем проекта отложена до pilot release gate.
-* **Sprint 13** — Pilot Risk Workflow; S13-T001–T008 реализованы, QA checklist подготовлен, authenticated manual QA ожидается.
-* **Консолидация 03.08.2026** — dependency baseline усилен, contract tests включены в CI, Supabase seed config и документация синхронизированы.
-* **Roadmap фиксация 07.08.2026** — коммерческий MVP ограничен Sprint 13 (Pilot Risk Workflow) и Sprint 14 (Pilot Readiness); Sprint 15 и Discovery/Evidence/Connector инициативы — Post-MVP.
-* **Sprint 14** — S14-T001–T008 реализованы: master readiness checklist, environment health, manual invitation delivery, production HTTP smoke baseline, Backup & Restore Runbook, Monitoring/Error Handling Plan, Pilot Metrics/Feedback Loop и единый Pilot Documentation Pack; pilot data, provider activation, restore rehearsal и authenticated release-candidate gates не отмечать `PASS` без фактического прогона.
-* **Sprint 15** — Post-MVP Connector Framework Foundation завершён; S15-T001–T008 закрыты с milestone `Connector Foundation Ready / Runtime Deferred`. Architecture/security contracts, Russian Market research shortlist и developer handoff готовы. S15-T007 сохраняет решение `DEFER / KEEP CSV-XLSX IMPORT PATH`: source cards/demand scores остаются `PILOT DATA PENDING`, первый connector, runtime, UI и migrations не выбраны. Новый connector scope разрешён только после admission evidence и отдельной задачи.
-* **Security Gate стартовал 06.11.2026** — Preflight и `SEC-01`–`SEC-04` завершены. Migrations `021–022` прекращают доступ blocked membership и защищают reactivation path; migrations `023–025` обеспечивают DB-level Object ↔ Risk и Trust Graph tenant invariants через двусторонний RLS и composite foreign keys. Focused local integration tests прошли, linked parity `001–025` подтверждён 09.11.2026. Следующая задача — `STAB-01` Atomic Organization Creation. Portable backup `20261106T162052Z` integrity verified, restore rehearsal и authenticated manual QA остаются `PENDING`. Gate не является Sprint и обязателен до `PILOT READY`.
-* Локально и в Cloud присутствуют migrations `001–025`; linked parity подтверждён 09.11.2026 после SEC-04. Перед следующими Gate migrations linked-сверка остаётся обязательной; следующий номер — `026`. Ручные Sprint 12/13 и Gate QA остаются pilot release gates. Не отмечать QA как PASS без фактического authenticated прогона.
-* **Platform planning 24.10.2026** — ADR-010 фиксирует эволюцию DTEK Core в
-  DTEK Platform без rewrite. Исторические Sprint 01–15 перенесены без изменения
-  в `tasks/archive/`; Sprint 16–35 созданы со статусом `PLANNED / NOT STARTED`.
-  Home, Personal, Exposure, Knowledge, Workspace runtime и новые таблицы не
-  реализованы. Security & Stabilization Gate остаётся первым этапом.
-
-Sprint 13 развивает Market MVP без изменения продуктовой границы: добавляет
-pilot-ready workflow поверх manual/imported Risk Registry. Все последующие
-Sprint должны учитывать Evidence-first стратегию: import является первым
-evidence ingestion path, explainability показывает источники данных, а
-connector framework развивается поэтапно. Целевые Platform boundaries описаны
-в `docs/product/DTEK_PLATFORM_VISION.md`, а текущий/целевой разрыв — в
-`docs/architecture/DTEK_PLATFORM_GAP_ANALYSIS.md`.
-
-Если владелец пишет `Переходим к Security & Stabilization Gate по последнему
-аудиту`, открыть `tasks/SECURITY_STABILIZATION_GATE.md`, коротко сверить только
-изменения затрагиваемых файлов после 24.08.2026 и начать подготовленный Gate без
-повторного полного стратегического аудита. Следующий продуктовый Sprint до
-закрытия Gate не начинать.
-
----
-
-## 3. Технологический стек
-
-Фактическую версию зависимостей всегда проверять в `package.json`.
-
-Основной стек:
-
-| Слой           | Технология             |
-| -------------- | ---------------------- |
-| Frontend       | Next.js App Router     |
-| UI             | React                  |
-| Язык           | TypeScript strict mode |
-| Стили          | Tailwind CSS           |
-| Компоненты     | Shadcn/UI              |
-| Backend / BaaS | Supabase               |
-| База данных    | PostgreSQL             |
-| Auth           | Supabase Auth          |
-| Security       | PostgreSQL RLS + RBAC  |
-| Deploy         | Vercel                 |
-
-Не менять стек технологий без явного решения владельца проекта.
-
----
-
-## 4. Источники истины
-
-Перед выполнением любой задачи обязательно изучить релевантные документы:
-
-* `AI_DEVELOPMENT_GUIDE.md`
-* `CLAUDE.md`, если присутствует
-* `ARCHITECTURE_DECISIONS.md`
-* `DOCUMENTATION_INDEX.md`
-* `tasks/MVP_RELEASE_PLAN.md`
-* `tasks/EPIC_BACKLOG.md`
-* `tasks/FEATURE_BACKLOG.md`
-* текущий Sprint документ
-* `docs/architecture/`
-* `docs/security/`
-* `docs/product/`
-* текущую структуру репозитория
-* папку `/design`
-
-Если документы противоречат друг другу — остановиться и сообщить о конфликте.
-
-Приоритет источников:
+При конфликте:
 
 1. `ARCHITECTURE_DECISIONS.md`
-2. текущий Sprint документ
-3. `AI_DEVELOPMENT_GUIDE.md`
-4. `AGENTS.md`
-5. остальные документы
+2. `docs/product/PRODUCT_STRATEGY.md`
+3. `docs/roadmap/ROADMAP.md`
+4. текущий task/Sprint документ
+5. `AGENTS.md`
+6. `AI_DEVELOPMENT_GUIDE.md`
+7. остальные документы
 
----
+Если конфликт влияет на архитектуру, безопасность или roadmap — остановиться и
+сообщить владельцу.
 
-## 5. Архитектурные правила
+## 3. Контекст По Требованию
 
-Запрещено без необходимости:
+Не читать автоматически README, все backlog, все Sprint, весь `docs/` или весь
+репозиторий. Использовать `rg`, затем открывать только релевантные фрагменты.
 
-* менять структуру проекта;
-* переносить существующие директории;
-* менять стек технологий;
-* заменять библиотеки;
-* обновлять зависимости;
-* создавать дублирующие сервисы;
-* создавать альтернативную реализацию уже существующей логики;
-* переписывать рабочие модули ради рефакторинга.
+| Тип задачи | Что читать |
+|---|---|
+| Security/Stabilization Gate | `tasks/SECURITY_STABILIZATION_GATE.md`, затронутые migrations/actions, релевантный `docs/security/*` |
+| Архитектура/новый модуль | ADR, `docs/architecture/System_Architecture.md`, профильный architecture document |
+| База/RLS/RBAC | профильные migrations, `docs/security/RLS_MODEL.md`, `RBAC_MODEL.md`, `Database_Design_Full.md` |
+| Product/Roadmap | `PRODUCT_STRATEGY.md`, `DTEK_PLATFORM_VISION.md`, Roadmap и текущий task |
+| UI/UX | текущий экран, связанные компоненты, `/design`, конкретный Design Sprint |
+| Connector | `CONNECTOR_FOUNDATION_HANDOFF.md`, ADR-009 и reopening gate S15-T007 |
+| Deploy/backup/environment | соответствующий документ в `docs/operations/` |
+| Простой локальный fix | только затронутый код, ближайшие тесты и действующий contract |
 
-Любые изменения должны быть максимально локальными и соответствовать текущей архитектуре проекта.
+`CLAUDE.md` и `.claude/` — legacy. Не читать и не менять без отдельной причины.
 
-Приоритет:
+## 4. Архитектурные Границы
 
-1. Точечное исправление.
-2. Улучшение существующего компонента.
-3. Локальный рефакторинг.
-4. Переписывание — только при прямом разрешении.
+- Стек: Next.js App Router, React, TypeScript strict, Tailwind/Shadcn,
+  Supabase/PostgreSQL/Auth/RLS, Vercel. Версии проверять в `package.json`.
+- Не менять стек, зависимости, структуру каталогов или публичные contracts без
+  отдельного решения.
+- Не создавать дублирующие сервисы и альтернативные реализации.
+- Порядок изменений: точечный fix → улучшение существующего компонента →
+  локальный refactor → архитектурное изменение только по ADR/разрешению.
+- DTEK Core не превращать в SIEM, EDR/XDR, DLP, CMDB, scanner или тяжёлую GRC.
+- Connector не пишет напрямую в Objects/Risks/Relations/Trust model: только
+  общий adapter/ingestion contract, Evidence Layer, review и audit trail.
+- До закрытия Gate не начинать Sprint 16 и Platform features.
 
----
+## 5. Security Инварианты
 
-## 6. Структура проекта
-
-```text
-/
-├── app/                         — маршруты Next.js App Router
-├── components/
-│   ├── ui/                      — компоненты Shadcn/UI, не редактировать вручную без причины
-│   └── shared/                  — переиспользуемые компоненты проекта
-├── lib/
-│   ├── actions/                 — Server Actions
-│   ├── supabase/                — Supabase clients
-│   ├── trust/                   — Trust Score Engine
-│   ├── security/                — audit/security helpers
-│   ├── validation/              — схемы валидации
-│   └── utils/                   — утилиты
-├── types/                       — TypeScript-типы
-├── supabase/
-│   ├── migrations/              — SQL миграции
-│   └── functions/               — Supabase Edge Functions
-├── design/                      — утверждённый дизайн-прототип
-├── docs/                        — документация проекта
-├── tasks/                       — спринты, backlog, release plan
-├── AGENTS.md                    — инструкции для Codex/AI-агента
-└── AI_DEVELOPMENT_GUIDE.md      — инженерный регламент проекта
-```
-
-Если фактическая структура отличается — сначала проанализировать, затем предложить обновление документации.
-
----
-
-## 7. Работа с дизайном
-
-Папка `/design` — источник UI/UX решений.
+Всегда проверять RLS, RBAC, active membership, multi-tenant isolation, Server
+Action authorization, Zod/input validation, least privilege и safe errors.
 
 Запрещено:
 
-* создавать новый дизайн без задачи;
-* менять пользовательские сценарии;
-* менять структуру экранов;
-* менять навигацию;
-* менять визуальную концепцию.
+- обходить RLS как основную security boundary;
+- использовать `service_role` на клиенте;
+- полагаться только на предварительную Server Action проверку перед
+  service-role mutation;
+- хранить/печатать secrets, tokens, внутренние UUID или raw DB errors;
+- отмечать manual QA как `PASS` без фактического authenticated прогона.
 
-Разрешено только в рамках утверждённого Sprint:
+## 6. Выполнение Одной Задачи
 
-* улучшать кнопки;
-* улучшать состояния hover/active/focus;
-* улучшать таблицы;
-* улучшать карточки;
-* улучшать отступы;
-* улучшать типографику;
-* улучшать микроанимации;
-* делать интерфейс более профессиональным.
-
-Главное правило после ADR-007 и ADR-009:
-
-**Развивать DTEK Core как слой доверительной интерпретации данных, не превращая продукт в SIEM/EDR/DLP/CMDB/GRC. Любой connector работает через общий adapter/ingestion contract и не пишет напрямую в бизнес-таблицы.**
-
----
-
-## 8. Безопасность
-
-DTEK Core — продукт в сфере кибербезопасности.
-
-Всегда учитывать:
-
-* RLS;
-* RBAC;
-* multi-tenant isolation;
-* Server Action authorization;
-* input validation;
-* least privilege;
-* no secrets in code;
-* safe error handling;
-* Secure SDLC.
-
-Запрещено:
-
-* обходить RLS;
-* использовать `service_role` на клиенте;
-* хранить секреты в репозитории;
-* показывать пользователю внутренние ошибки;
-* доверять входным данным без валидации.
-
----
-
-## 9. Рабочий процесс Codex
-
-Перед изменением кода Codex должен:
-
-1. Изучить задачу.
-2. Изучить связанные документы.
-3. Найти связанные файлы.
-4. Составить план.
-5. Указать файлы, которые будут изменены или созданы.
-6. Указать риски.
-7. Дождаться подтверждения, если задача неоднозначна или может затронуть архитектуру.
-
-Для простых задач можно сразу выполнять, если scope полностью ясен.
-
-Не начинать крупные изменения без плана.
-
-### Ограниченный Рабочий Цикл
-
-Один Task ID выполняется как один ограниченный рабочий цикл:
+Один Task ID = один ограниченный цикл:
 
 ```text
-анализ → реализация → локальные проверки → cleanup процессов
-→ Terminal Health Gate → документация → commit/push → короткий итог
+анализ → план/change surface/риски → RED при bug/security change
+→ реализация → затронутые тесты → quality gate → cleanup процессов
+→ Terminal Health Gate → документация → commit → push → итог
 ```
 
-Не объединять несколько независимых Sprint-задач, полный аудит, регрессионное
-тестирование и Git-финализацию в одну непрерывную execution session. После
-`build`, test runner, browser/smoke testing, dev server, Supabase CLI и других
-длительных операций убедиться, что watchers, background shells, log streams и
-дочерние Node-процессы завершены. Следующую задачу начинать только после
-подтверждения стабильного terminal state.
+- Не объединять следующий Task ID в тот же цикл.
+- Для узкого и однозначного scope выполнять без лишнего подтверждения.
+- Перед крупным/архитектурно неоднозначным изменением показать план.
+- Использовать существующие patterns и минимальный change surface.
+- После build/tests/dev/Supabase остановить watchers, sessions и контейнеры,
+  запущенные Codex.
+- Не повторять успешную проверку без последующего изменения её области.
 
-Финальные `type-check`, lint и build выполнять один раз после последнего
-соответствующего изменения. Не повторять успешные проверки только ради отчёта;
-после последующей правки повторять лишь затронутые проверки.
+## 7. Terminal И Git
 
-### Короткие Команды И Внешние Статусы
+- Диагностика — короткими non-interactive командами; поиск через `rg`.
+- Если команда не завершилась примерно за 10 секунд без прогресса, не запускать
+  дубликат: продолжить её `cell_id` через `functions.wait` или `session_id`
+  через `write_stdin` до `exit_code`.
+- Каждый nested result публиковать через `text(...)`; UI `No output` не означает
+  зависание.
+- Не запускать foreground watchers как финальную проверку.
+- Перед Git отдельно выполнить `echo CODEX_TERMINAL_HEALTH_OK` и `pwd`.
+- `git add`, `git commit`, `git push` выполнять отдельными вызовами.
+- Push: `GIT_TERMINAL_PROMPT=0 git push --porcelain origin develop`.
+- После push выполнить один `npm run git:health`; не polling GitHub/Vercel.
+- `output/` и другие пользовательские untracked файлы не добавлять и не удалять.
+- Не использовать destructive Git commands без прямого разрешения.
 
-Codex не должен создавать длительное состояние `Ran a command` без понятного
-прогресса. Диагностику и чтение выполнять небольшими командами, проверки — по
-одной или небольшими независимыми группами. Если build/test продолжает работу,
-ожидать только уже запущенный процесс и регулярно сообщать его стадию.
+Branch: `develop`; commit: Conventional Commits; push обязателен после
+завершённой задачи. `main` напрямую не изменять.
 
-Terminal-команды по умолчанию должны быть non-interactive. Для просмотра
-истории всегда использовать `git --no-pager log`; не запускать watchers и
-`npm run dev` как foreground-команды финальной проверки. Сетевые Git-команды
-выполнять с `GIT_TERMINAL_PROMPT=0`, чтобы credential prompt завершался явной
-ошибкой, а не оставлял скрытое ожидание ввода.
+## 8. Качество И Документация
 
-### Terminal Health Gate
-
-Перед финальными Git-командами отдельно выполнить
-`echo CODEX_TERMINAL_HEALTH_OK` и `pwd`. Обе команды должны немедленно вернуть
-ожидаемый stdout и `exit_code: 0`. Если этого не произошло, никакие новые
-Git-команды в этой terminal session не запускать:
-остановить только активный lifecycle по его `cell_id`/`session_id`, восстановить
-terminal session и повторить gate. Не изменять репозиторий или Git config для
-маскировки сбоя execution layer.
-
-В code-mode lifecycle инструмента имеет два разных идентификатора. Если
-`functions.exec` возвращает `cell_id`, продолжать только через `functions.wait`
-для этого cell. Если результат затем содержит terminal `session_id`, cell уже
-не является точкой ожидания: продолжать только через `write_stdin` для этого
-session до фактического `exit_code`. Каждый nested tool result обязательно
-передавать через `text(...)`; иначе UI покажет `No output` при уже выполненной
-команде. Не запускать повторную команду поверх любого из этих состояний.
-
-Метка UI `No output` сама по себе не является состоянием Git-процесса. Если
-nested result не содержит `exit_code`, нельзя запускать прямой `git status`
-повторно или ждать интерфейс бесконечно: проверить `cell_id`/`session_id` и
-довести существующий lifecycle до завершения. Для финальной проверки всегда
-использовать `npm run git:health`; runner имеет собственный timeout, проверяет
-обязательный stdout branch status и возвращает явный `PASS` или exit code 1.
-
-Если обычная локальная команда (`git status`, `git diff`, `git branch`) не
-завершается примерно за 10 секунд, не ждать и не повторять её поверх текущего
-процесса: остановить именно этот процесс и диагностировать pager, hook, lock,
-filesystem или terminal environment. Длительные build/test-команды можно ждать
-дольше только при подтверждённом прогрессе и реальном exit code. Успешный
-частичный output не считается завершением команды.
-
-После подтверждённого `git push` запрещён циклический polling GitHub/Vercel.
-External deployment status проверяется максимум один раз без ожидания смены
-состояния. `pending` не блокирует завершение обычной feature-задачи; ожидать
-`success` следует только при прямом запросе пользователя на проверку deploy.
-
-Никогда не объединять `git add && git commit && git push` или
-`git status && git rev-list` в одну команду. Каждый Git-шаг запускается
-отдельно, а сетевой push — неинтерактивно с `--porcelain`. После успешного push
-не выполнять повторные external status checks. Пустой вывод `git add` и чистого
-`git status --short` является нормальным результатом, а не причиной повторного
-запуска.
-
-Если реализация, проверки и документация завершены, но terminal session
-сломалась перед Git, не повторять разработку. В свежей session проверить diff и
-status, затем отдельно выполнить commit, push и финальный health check.
-
-Финальный отчёт разрешён только после фактического exit code для commit/push и
-отдельной короткой проверки синхронизации. Если команда была остановлена или её
-результат не получен, явно отметить Git-шаг незавершённым.
-
-Для воспроизводимой диагностики использовать `npm run diagnose:terminal`, а для
-stress-test — `npm run check:terminal`: runner создаёт двадцать изолированных
-non-interactive command cycles и ограничивает каждую команду десятью секундами.
-При timeout он завершает конкретный subprocess и печатает `COMMAND TIMEOUT`,
-команду и длительность. Финальная проверка обычной задачи должна выполняться
-через короткий `npm run git:health`, а не прямой nested `git status` или
-`git rev-list`. Полный двадцатицикловый stress-test нужен для диагностики, не
-после каждой feature-задачи. Перед ответом проверить, что запущенные Codex dev
-server, watcher или test runner завершены.
-
----
-
-## 10. Качество кода
-
-Перед завершением любой задачи обязательно выполнить:
+После последнего изменения кода выполнить:
 
 ```bash
 npm run type-check
@@ -361,114 +133,24 @@ npm run lint
 npm run build
 ```
 
-Если существуют тесты — выполнить их тоже.
+Запустить существующие затронутые тесты. Не оставлять `any`, временные logs,
+неиспользуемые imports, мёртвый код или TODO без задачи.
 
-Задача не считается завершённой, если проверки падают.
+При изменении фактического статуса синхронизировать только затронутые источники:
 
-Запрещено:
+- текущий task/Sprint/Gate;
+- `CHANGELOG.md`;
+- профильную architecture/security/user/operations документацию;
+- `README.md` и `DOCUMENTATION_INDEX.md`, только если меняется общий статус;
+- Obsidian Control Center:
+  `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core/`.
 
-* использовать `any`;
-* оставлять `TODO` без задачи;
-* оставлять неиспользуемые импорты;
-* оставлять временные console.log;
-* оставлять мёртвый код;
-* создавать дублирующие компоненты.
+Исторические Sprint в `tasks/archive/` не редактировать.
 
----
+## 9. Итог Задачи
 
-## 11. Git Workflow
+Кратко сообщить: результат, ключевые файлы, проверки, ограничения/ручные gates,
+commit hash и push. Не пересказывать весь проект и не дублировать логи команд.
 
-Работа ведётся по Git Flow:
-
-```text
-main
-└── develop
-    └── feature/<task-id>
-```
-
-Правила:
-
-* основная разработка только в `develop`;
-* `main` защищена;
-* прямые коммиты в `main` запрещены;
-* использовать Conventional Commits;
-* один commit = одно логически завершённое изменение;
-* после завершения задачи выполнить push.
-
-Формат ветки:
-
-```text
-feature/S08-T001-short-name
-```
-
-Формат commit:
-
-```text
-feat(scope): description
-fix(scope): description
-docs(scope): description
-chore(scope): description
-refactor(scope): description
-```
-
----
-
-## 12. Завершение задачи
-
-После выполнения задачи предоставить отчёт:
-
-* что реализовано;
-* какие файлы изменены;
-* какие файлы созданы;
-* какие проверки выполнены;
-* результаты проверок;
-* какие риски остались;
-* какие ограничения есть;
-* commit hash;
-* подтверждение push в `develop`.
-
----
-
-## 13. Документация
-
-После каждой значимой задачи проверить необходимость обновления:
-
-* `README.md`
-* `DOCUMENTATION_INDEX.md`
-* Sprint документа
-* `CHANGELOG.md`
-* `docs/product/`
-* `docs/architecture/`
-* `docs/security/`
-* пользовательской документации.
-* внешний Obsidian Control Center в
-  `/Users/a000/Documents/Courses/50 — Проекты/DTEK Core/`, если изменился
-  фактический статус задачи, Sprint, Gate, риска или milestone и Vault доступен.
-
-Документация должна отражать фактическое состояние продукта.
-
----
-
-## 14. `.claude` legacy
-
-Папка `.claude`, если присутствует, относится к старому Claude Code workflow.
-
-Не удалять её без отдельной задачи.
-
-Если важные инструкции из `.claude` отсутствуют в `AGENTS.md` или `AI_DEVELOPMENT_GUIDE.md`, предложить перенос.
-
-Основные инструкции для текущей работы — `AGENTS.md` и `AI_DEVELOPMENT_GUIDE.md`.
-
----
-
-## 15. Главный принцип
-
-Каждое изменение должно приближать DTEK Core к стабильному, безопасному и поддерживаемому коммерческому MVP.
-
-Не делать лишнего.
-
-Не ломать рабочее.
-
-Не переписывать без необходимости.
-
-Сохранять архитектуру, безопасность, документацию и качество.
+Главный принцип: минимально и безопасно приближать продукт к коммерческому MVP,
+не ломая архитектуру и рабочие сценарии.

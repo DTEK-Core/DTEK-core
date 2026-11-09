@@ -5,6 +5,19 @@
 
 ---
 
+## Codex Context Efficiency — 2026-11-09
+
+- `AGENTS.md` сокращён до компактного постоянного контекста без потери
+  architecture, security, quality, terminal и Git boundaries.
+- Полная история Sprint и дублирующие инструкции заменены task-specific
+  маршрутизатором документов: Codex сначала использует `rg`, затем читает
+  только релевантные фрагменты.
+- Размер автоматически загружаемого project prompt уменьшен примерно на 67%;
+  `AI_DEVELOPMENT_GUIDE.md` остаётся подробным инженерным reference и не
+  загружается целиком без необходимости.
+
+---
+
 ## Security Gate Preflight — 2026-11-06
 
 ### Проверено
