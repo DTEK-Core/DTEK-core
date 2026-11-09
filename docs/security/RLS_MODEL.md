@@ -186,18 +186,31 @@ CREATE POLICY "risk_activity_delete_deny" ON risk_activity FOR DELETE
 
 ### `relations`
 
+Migration 025 связывает `relations.organization_id` с обоими endpoint через
+composite foreign keys к `(objects.id, objects.organization_id)`. DB constraint
+действует для authenticated API, service role и direct SQL, а PostgreSQL FK
+locking не позволяет конкурентной смене tenant нарушить invariant.
+
 ```sql
 -- SELECT: все участники организации
 CREATE POLICY "org_isolation" ON relations
-  FOR SELECT USING (organization_id = current_org_id());
+  FOR SELECT USING (
+    organization_id = current_org_id()
+    AND source endpoint принадлежит current_org_id()
+    AND target endpoint принадлежит current_org_id()
+  );
 
 -- INSERT/DELETE: owner, analyst
 CREATE POLICY "write_allowed" ON relations
-  FOR ALL USING (
+  FOR INSERT/DELETE USING/WITH CHECK (
     organization_id = current_org_id()
+    AND оба endpoint принадлежат current_org_id()
     AND current_user_role() IN ('owner', 'analyst')
   );
 ```
+
+Запрет self-relation и уникальность
+`(source_object_id, target_object_id, relation_type)` сохраняются.
 
 ### `trust_factor_config`
 

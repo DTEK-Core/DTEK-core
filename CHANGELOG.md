@@ -74,6 +74,25 @@
 - Migrations 023–024 применены в Supabase Cloud; linked parity `001–024`
   подтверждён 09.11.2026. Authenticated browser QA остаётся частью `STAB-05`.
 
+### SEC-04 — Trust Graph Tenant Isolation
+
+- RED integration test подтвердил исходную уязвимость: owner Tenant A мог
+  создать relation с source A и target B, если `relations.organization_id=A`.
+- Migration 025 добавила preflight под table lock и validated composite foreign
+  keys для source/target endpoint к `objects(id, organization_id)`.
+- RLS `SELECT`, `INSERT` и `DELETE` теперь проверяет relation и оба endpoint
+  против active tenant, сохраняя owner/analyst RBAC, self-relation и uniqueness.
+- Final relation insert/delete в Server Actions переведены с service role на
+  user-scoped Supabase client, поэтому актуальные status, role и tenant
+  перепроверяются RLS непосредственно в момент mutation.
+- Focused JWT/RLS test покрывает owner/analyst, viewer/blocked, foreign tenant,
+  direct SQL, parent tenant change и детерминированную двухсессионную FK race.
+- SEC-01–03 regressions, 45 contract tests, DB lint, type-check, lint и
+  production build прошли; независимый review не оставил Critical/Important
+  замечаний.
+- Migration 025 применена в Supabase Cloud; linked parity `001–025`
+  подтверждён 09.11.2026. Browser QA остаётся частью `STAB-05`.
+
 ---
 
 ## Русская Система Управления В Obsidian — 2026-10-29

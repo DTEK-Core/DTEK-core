@@ -7,7 +7,7 @@
 миграциям и этому разделению:
 
 - **IMPLEMENTED** — DTEK Business foundation Sprint 01–15;
-- **CURRENT** — Security & Stabilization Gate, `IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`;
+- **CURRENT** — Security & Stabilization Gate, `IN PROGRESS / SEC-04 COMPLETE — STAB-01 NEXT`;
 - **PLANNED** — Sprint 16–35 и DTEK Platform evolution;
 - **FUTURE** — capabilities вне первого Platform MVP.
 

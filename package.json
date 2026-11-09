@@ -18,6 +18,7 @@
     "test:security:sec01": "node --test testing/security-gate/sec-01-profile-boundaries.test.cjs",
     "test:security:sec02": "node --test testing/security-gate/sec-02-blocked-user-access.test.cjs",
     "test:security:sec03": "node --test testing/security-gate/sec-03-object-risk-tenant-isolation.test.cjs",
+    "test:security:sec04": "node --test testing/security-gate/sec-04-graph-tenant-isolation.test.cjs",
     "test:smoke": "node scripts/pilot-smoke-test.mjs"
   },
   "dependencies": {

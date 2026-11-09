@@ -112,6 +112,7 @@ audit и recovery gates.
 | Blocked membership access revocation (migration 021) | Security Gate SEC-02 | ✅; browser QA pending |
 | Blocked profile reactivation guard (migration 022) | Security Gate SEC-02 | ✅; service-role bypass denied |
 | Object ↔ Risk tenant invariant (migrations 023–024) | Security Gate SEC-03 | ✅ linked parity `001–024`; browser QA pending |
+| Trust Graph endpoint tenant invariant (migration 025) | Security Gate SEC-04 | ✅ linked parity `001–025`; browser QA pending |
 | Environment Health Check без secrets/raw errors, owner/admin | S14 | ✅ |
 | Monitoring/Error Handling Plan с redaction и incident severity | S14 | ✅ |
 | Connector Security Model specification | S15 | ✅; runtime gates pending |

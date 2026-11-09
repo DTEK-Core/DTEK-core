@@ -172,7 +172,7 @@ error классифицируются отдельно; не заменяйте
 npx supabase migration list
 ```
 
-Ожидается совпадение Local/Remote `001–024`. Команда не должна применять или
+Ожидается совпадение Local/Remote `001–025`. Команда не должна применять или
 repair миграции. Расхождение блокирует pilot release и передаётся владельцу
 схемы БД.
 
@@ -245,7 +245,7 @@ Supabase; начните с повторного входа и шагов 2–4.
 1. Возобновите проект в Supabase Dashboard.
 2. Дождитесь статуса Active.
 3. Повторите Auth API health и UI check.
-4. Сверьте migrations `001–024`.
+4. Сверьте migrations `001–025`.
 
 ### Неверная Конфигурация
 
@@ -305,7 +305,7 @@ Escalation:
 - [ ] UI report завершён для owner или admin.
 - [ ] Все четыре UI-проверки имеют `Работает`.
 - [ ] Нет `ENOTFOUND`, timeout и retry loop.
-- [ ] Local/Remote migrations `001–024` совпадают.
+- [ ] Local/Remote migrations `001–025` совпадают.
 - [ ] Login, protected redirect и authenticated Settings работают.
 - [ ] Evidence не содержит секреты и tenant data.
 - [ ] Gate G-05 в Pilot Readiness Checklist обновлён для release candidate.

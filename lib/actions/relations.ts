@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
+import { createClient } from '@/lib/supabase/server';
 import { CreateRelationSchema } from '@/lib/validation/schemas';
 
 async function getAuthCtx() {
@@ -50,7 +51,8 @@ export async function createRelation(
     return { error: 'Один или оба объекта не найдены в организации' };
   }
 
-  const { error } = await admin.from('relations').insert({
+  const supabase = await createClient();
+  const { error } = await supabase.from('relations').insert({
     organization_id:  ctx.orgId,
     source_object_id: parsed.data.sourceObjectId,
     target_object_id: parsed.data.targetObjectId,
@@ -92,10 +94,12 @@ export async function deleteRelation(
     return { error: 'Связь не найдена или не принадлежит вашей организации' };
   }
 
-  const { error } = await admin
+  const supabase = await createClient();
+  const { error } = await supabase
     .from('relations')
     .delete()
-    .eq('id', relationId);
+    .eq('id', relationId)
+    .eq('organization_id', ctx.orgId);
 
   if (error) {
     return { error: 'Не удалось удалить связь. Попробуйте ещё раз.' };

@@ -1,7 +1,7 @@
 # SECURITY & STABILIZATION GATE — DTEK Core
 
 `Тип: blocking release gate, не продуктовый Sprint`  
-`Статус: IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`
+`Статус: IN PROGRESS / SEC-04 COMPLETE — STAB-01 NEXT`
 `Дата подготовки: 24.08.2026`  
 `Дата старта: 06.11.2026`
 `Исходная стадия: Functional pre-pilot MVP`  
@@ -24,7 +24,7 @@ Connector Runtime.
 
 ```text
 Functional pre-pilot MVP
-  -> Security & Stabilization Gate (IN PROGRESS / SEC-04 NEXT)
+  -> Security & Stabilization Gate (IN PROGRESS / STAB-01 NEXT)
   -> authenticated release evidence
   -> PILOT READY decision
 ```
@@ -60,8 +60,8 @@ Cloud migration parity в ходе аудита повторно не подтв
 | Environment project ref | `.env.local` hostname совпадает с linked project ref |
 | CLI | Supabase CLI `2.106.0`; обновление до `3.x` сознательно не выполнялось в Gate |
 | Migration parity | `PASS`: local/remote `001–020` совпадают после SEC-01 cloud apply |
-| Текущая migration parity | `PASS`: local/remote `001–024` совпадают после SEC-03 review hardening 09.11.2026 |
-| Следующая migration | `025`; использовать только для следующей schema-changing Gate task |
+| Текущая migration parity | `PASS`: local/remote `001–025` совпадают после SEC-04 09.11.2026 |
+| Следующая migration | `026`; использовать только для следующей schema-changing Gate task |
 | Изменения после аудита | Product/roadmap/docs only; app, RLS и migrations не менялись |
 | Git baseline | `develop` синхронизирован с `origin/develop` на `5fbc931`; пользовательская `output/` не затрагивается |
 | Managed backup / restore point | `UNAVAILABLE`: Free Plan не включает project backups; подтверждено владельцем в Dashboard 06.11.2026 |
@@ -184,6 +184,8 @@ integration test с JWT clients двух tenants, viewer/blocked ролями и
 
 ### SEC-04 — Cross-tenant Trust Graph Relation
 
+`Статус: IMPLEMENTED / JWT-RLS INTEGRATION PASS / LINKED PARITY PASS / MANUAL QA PENDING`
+
 **Проблема:** `relations.organization_id` проверяется, но принадлежность
 `source_object_id` и `target_object_id` этой организации не гарантируется БД.
 
@@ -202,6 +204,18 @@ source_object.organization_id
   == relation.organization_id
   == current active tenant
 ```
+
+**Локальный результат 09.11.2026:** migration
+`025_graph_relation_tenant_isolation.sql` выполняет preflight под table lock,
+добавляет composite foreign keys для source/target endpoint и усиливает RLS
+`SELECT`, `INSERT`, `DELETE` проверкой relation и обоих Objects. Focused JWT/RLS
+test подтвердил same-tenant owner/analyst flow, cross-tenant/viewer/blocked
+DENY, foreign read/delete, direct SQL, детерминированную concurrency-защиту и
+сохранение self/uniqueness semantics. Final Server Action mutations переведены
+с service role на user-scoped RLS boundary, устраняя stale-auth TOCTOU. Local DB
+lint, полный quality gate и независимый review прошли. Migration применена в
+Cloud, linked parity `001–025` подтверждён 09.11.2026. Authenticated browser QA
+переносится в `STAB-05`.
 
 ---
 
@@ -326,7 +340,7 @@ constraints, чтобы не генерировать их дважды. Securit
 - [x] Blocked session теряет app, Server Action и direct data API access.
 - [x] Разблокировка восстанавливает только права назначенной роли.
 - [x] Object ↔ Risk relation требует один active tenant для обеих сторон.
-- [ ] Trust Graph relation требует один active tenant для relation и endpoints.
+- [x] Trust Graph relation требует один active tenant для relation и endpoints.
 - [ ] Organization DB flow не оставляет partial state.
 - [ ] Invitation membership transition atomic, single-use и retry-safe.
 - [ ] Service role остаётся только server-side и не подменяет tenant checks.
@@ -419,7 +433,7 @@ checklists остаются источниками подробных cases:
 
 ## 12. Definition Of Done
 
-- [ ] SEC-01–SEC-04 реализованы и имеют negative DB-level tests.
+- [x] SEC-01–SEC-04 реализованы и имеют negative DB-level tests.
 - [ ] STAB-01–STAB-05 выполнены и задокументированы.
 - [ ] Cloud/local migration parity подтверждён до и после deploy.
 - [ ] Реальные Supabase types отражают production schema.
@@ -478,5 +492,5 @@ evidence не считается прохождением Gate. Любой не�
 5. начать с preflight и SEC-01 без нового полного стратегического аудита.
 
 Команда получена 06.11.2026. Preflight завершён: linked parity и integrity-
-verified logical backup подтверждены. SEC-01–SEC-03 реализованы; Gate имеет
-статус `IN PROGRESS / SEC-03 COMPLETE — SEC-04 NEXT`.
+verified logical backup подтверждены. SEC-01–SEC-04 реализованы; Gate имеет
+статус `IN PROGRESS / SEC-04 COMPLETE — STAB-01 NEXT`.

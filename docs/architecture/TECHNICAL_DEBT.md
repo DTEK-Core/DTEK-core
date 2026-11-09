@@ -24,12 +24,12 @@
 | TD-003 | ✅ Reporting реализован в Sprint 10 | PDF формируется через browser print, не server renderer | Контролировать как Known Limitation |
 | TD-004 | Sprint 12 не прошёл authenticated manual QA | Explainability milestone нельзя закрыть только contract-тестами | Выполнить `EXPLAINABILITY_QA_CHECKLIST.md` до pilot release; по решению владельца не блокирует Sprint 13 |
 | TD-005 | Invite email delivery не является полноценным каналом | Командный onboarding требует ручной передачи ссылки | Sprint 14 или раньше |
-| TD-006 | ✅ Linked parity `001–024` подтверждён 09.11.2026 | Drift не обнаружен | Повторять перед каждой schema-changing Gate task |
+| TD-006 | ✅ Linked parity `001–025` подтверждён 09.11.2026 | Drift не обнаружен | Повторять перед каждой schema-changing Gate task |
 | TD-007 | `main` не синхронизирован с `develop`, production release не подтверждён | Production не отражает текущий Market MVP | Выпускать только после QA, PR и release checklist |
 | TD-008 | Sprint 13 не прошёл authenticated multi-role QA | Risk Workflow milestone нельзя закрыть только contract-тестами | Выполнить `RISK_WORKFLOW_QA_CHECKLIST.md` до pilot release |
 | TD-009 | ✅ Direct profile escalation закрыта migration 020 и tenant-scoped RPC | Manual authenticated QA остаётся Gate evidence | Проверить повторно в STAB-04/STAB-05 |
 | TD-010 | ✅ Migrations 021–022 закрывают blocked app/API/action access, sessions и service-role reactivation bypass | Manual authenticated QA остаётся Gate evidence | Проверить повторно в STAB-04/STAB-05 |
-| TD-011 | ✅ Object/Risk integrity закрыта migrations 023–024; Graph relation ещё не имеет полной DB-level tenant integrity | SEC-03 linked parity PASS, SEC-04 остаётся blocker | Выполнить SEC-04 в `SECURITY_STABILIZATION_GATE.md` |
+| TD-011 | ✅ Object/Risk и Graph relation DB-level tenant integrity закрыты migrations 023–025 | SEC-03/SEC-04 linked parity и focused integration PASS | Повторить authenticated matrix в STAB-04/STAB-05 |
 | TD-012 | Organization/invitation membership transitions не полностью атомарны | Partial state и race conditions | STAB-01/STAB-02 в `SECURITY_STABILIZATION_GATE.md` |
 | TD-013 | Supabase types остаются заглушкой; RLS integration suite отсутствует | Ослабленная compile-time и security verification | STAB-03/STAB-04 в `SECURITY_STABILIZATION_GATE.md` |
 

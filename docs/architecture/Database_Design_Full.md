@@ -400,6 +400,12 @@ CREATE TABLE relations (
 );
 ```
 
+Migration 025 добавляет composite foreign keys
+`(source_object_id, organization_id)` и `(target_object_id, organization_id)` к
+`objects(id, organization_id)`. Они гарантируют, что relation и оба endpoint
+принадлежат одной организации, включая service-role/direct SQL и конкурентные
+транзакции. Исходные `no_self_relation` и uniqueness semantics не меняются.
+
 **Индексы:**
 ```sql
 CREATE INDEX idx_relations_organization_id ON relations(organization_id);

@@ -109,7 +109,7 @@ SUPABASE_ACCESS_TOKEN=<token> npx supabase db push --include-all
 SUPABASE_ACCESS_TOKEN=<token> npx supabase migration list
 ```
 
-Все локальные и удалённые версии `001–024` должны совпадать. Только после этого при необходимости разрешён `db push`.
+Все локальные и удалённые версии `001–025` должны совпадать. Только после этого при необходимости разрешён `db push`.
 
 Regenerate TypeScript types после новых миграций:
 
@@ -184,7 +184,7 @@ plan и подтверждаются перед pilot release.
 [ ] npm run test:smoke — 18/18 HTTP-контрактов проходят
 [ ] npm audit — 0 известных уязвимостей
 [ ] Переменные окружения настроены в Vercel
-[ ] `supabase migration list --linked` подтверждает миграции `001–024` на Cloud
+[ ] `supabase migration list --linked` подтверждает миграции `001–025` на Cloud
 [ ] Ручной QA Sprint 12 завершён без Blocker/Critical
 [ ] Ручной QA Sprint 13 завершён без Blocker/Critical
 [ ] Backup state подтверждён; restore rehearsal выполнен по runbook

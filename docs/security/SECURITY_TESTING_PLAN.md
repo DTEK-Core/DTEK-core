@@ -172,6 +172,19 @@ INSERT/UPDATE. Отдельно проверяется, что смена tenant
 или Risk не может нарушить invariant. Исходные local ACL восстанавливаются в
 cleanup, облачная база не изменяется.
 
+Focused automated test SEC-04:
+
+```bash
+npm run test:security:sec04
+```
+
+Тест создаёт временный Trust Graph в двух организациях и проверяет owner и
+analyst same-tenant writes, DENY cross-tenant endpoint, viewer/blocked
+mutations, blocked/foreign read-delete и DB-level direct SQL/service-role
+INSERT/UPDATE. Отдельно подтверждаются validated composite foreign keys и
+запрет смены tenant у связанного endpoint. Исходные local ACL восстанавливаются
+в cleanup, облачная база не изменяется.
+
 ---
 
 ## Инструменты тестирования безопасности
