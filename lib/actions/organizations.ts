@@ -1,8 +1,8 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUserContext } from '@/lib/supabase/auth';
+import { createClient } from '@/lib/supabase/server';
 import { CreateOrgSchema } from '@/lib/validation/schemas';
 
 export async function createOrganization(formData: FormData) {
@@ -22,46 +22,21 @@ export async function createOrganization(formData: FormData) {
     return { error: parsed.error.issues[0]?.message ?? 'Заполните все обязательные поля' };
   }
 
-  const { name, short_name, industry, size, inn, region } = parsed.data;
+  const supabase = await createClient();
+  const { data: organizationId, error } = await supabase.rpc(
+    'create_organization_atomic' as never,
+    {
+      p_name: parsed.data.name,
+      p_short_name: parsed.data.short_name,
+      p_industry: parsed.data.industry ?? null,
+      p_size: parsed.data.size,
+      p_inn: parsed.data.inn ?? null,
+      p_region: parsed.data.region ?? null,
+    } as never,
+  );
 
-  // Admin client bypasses RLS — safe, Server Action runs server-side only.
-  // auth.uid() is not reliably set in PostgREST context after signUp redirect.
-  const admin = createAdminClient();
-
-  const { data: orgRaw, error: orgError } = await admin
-    .from('organizations')
-    .insert({
-      name,
-      short_name,
-      industry,
-      size,
-      inn,
-      region,
-      owner_id: context.userId,
-    } as never)
-    .select('id')
-    .single();
-
-  if (orgError) return { error: 'Не удалось создать организацию. Попробуйте ещё раз.' };
-
-  const org = orgRaw as unknown as { id: string } | null;
-  if (!org?.id) return { error: 'Не удалось создать организацию' };
-
-  const [profileResult, configResult] = await Promise.all([
-    admin
-      .from('profiles')
-      .update({ organization_id: org.id, role: 'owner' } as never)
-      .eq('id', context.userId),
-    admin
-      .from('trust_factor_config')
-      .insert({ organization_id: org.id } as never),
-  ]);
-
-  if (profileResult.error) {
-    return { error: 'Не удалось назначить роль владельца. Попробуйте ещё раз.' };
-  }
-  if (configResult.error) {
-    return { error: 'Не удалось создать конфигурацию Trust Score. Попробуйте ещё раз.' };
+  if (error || typeof organizationId !== 'string') {
+    return { error: 'Не удалось создать организацию. Попробуйте ещё раз.' };
   }
 
   redirect('/onboarding/wizard');

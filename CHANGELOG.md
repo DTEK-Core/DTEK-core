@@ -5,6 +5,27 @@
 
 ---
 
+## Security Gate STAB-01 — 2026-11-09
+
+- Migration 026 добавила authenticated SECURITY DEFINER RPC
+  `create_organization_atomic(...)`: organization, owner membership, default
+  Trust Score config и `org.created` audit event создаются одной транзакцией.
+- RPC использует `auth.uid()`, блокирует profile через `FOR UPDATE`, требует
+  active user без tenant и отклоняет повторный, параллельный, blocked, invited,
+  member, anonymous и service-role вызов.
+- Direct INSERT в `organizations` для `anon`/`authenticated` закрыт; Server
+  Action переведена с нескольких service-role mutations на один user-scoped
+  RPC и возвращает только безопасную ошибку.
+- Focused integration test подтвердил rollback при отказе config/audit insert,
+  concurrency single-winner, отсутствие orphan rows и сохранение tenant
+  isolation. SEC-01–04 regressions и 45 contract tests прошли.
+- DB lint, type-check, lint и production build прошли; migration 026 применена
+  в Supabase Cloud, linked parity `001–026` подтверждён 09.11.2026.
+- Следующая задача blocking Gate — `STAB-02 — Atomic Invitation Acceptance`;
+  authenticated browser QA остаётся `PENDING` до STAB-05.
+
+---
+
 ## Codex Context Efficiency — 2026-11-09
 
 - `AGENTS.md` сокращён до компактного постоянного контекста без потери

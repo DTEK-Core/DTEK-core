@@ -26,6 +26,8 @@ role TEXT CHECK (role IN ('owner', 'analyst', 'admin', 'viewer'))
 > Приглашение с ролью `owner` запрещено. Owner создаётся только при создании организации.
 > В текущем MVP invite-ссылки создаёт только `owner`. `admin` — делегированная роль внутри уже созданной организации, а не первый зарегистрированный пользователь.
 > Manual invite link передаётся адресату owner вручную; email provider в Commercial MVP не заявлен.
+> Первый `owner` назначается только authenticated RPC создания организации;
+> direct INSERT организации и самостоятельное назначение membership запрещены.
 
 ---
 

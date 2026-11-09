@@ -1,7 +1,7 @@
 # SECURITY & STABILIZATION GATE — DTEK Core
 
 `Тип: blocking release gate, не продуктовый Sprint`  
-`Статус: IN PROGRESS / SEC-04 COMPLETE — STAB-01 NEXT`
+`Статус: IN PROGRESS / STAB-01 COMPLETE — STAB-02 NEXT`
 `Дата подготовки: 24.08.2026`  
 `Дата старта: 06.11.2026`
 `Исходная стадия: Functional pre-pilot MVP`  
@@ -24,7 +24,7 @@ Connector Runtime.
 
 ```text
 Functional pre-pilot MVP
-  -> Security & Stabilization Gate (IN PROGRESS / STAB-01 NEXT)
+  -> Security & Stabilization Gate (IN PROGRESS / STAB-02 NEXT)
   -> authenticated release evidence
   -> PILOT READY decision
 ```
@@ -60,8 +60,8 @@ Cloud migration parity в ходе аудита повторно не подтв
 | Environment project ref | `.env.local` hostname совпадает с linked project ref |
 | CLI | Supabase CLI `2.106.0`; обновление до `3.x` сознательно не выполнялось в Gate |
 | Migration parity | `PASS`: local/remote `001–020` совпадают после SEC-01 cloud apply |
-| Текущая migration parity | `PASS`: local/remote `001–025` совпадают после SEC-04 09.11.2026 |
-| Следующая migration | `026`; использовать только для следующей schema-changing Gate task |
+| Текущая migration parity | `PASS`: local/remote `001–026` совпадают после STAB-01 09.11.2026 |
+| Следующая migration | `027`; использовать только для следующей schema-changing Gate task |
 | Изменения после аудита | Product/roadmap/docs only; app, RLS и migrations не менялись |
 | Git baseline | `develop` синхронизирован с `origin/develop` на `5fbc931`; пользовательская `output/` не затрагивается |
 | Managed backup / restore point | `UNAVAILABLE`: Free Plan не включает project backups; подтверждено владельцем в Dashboard 06.11.2026 |
@@ -223,6 +223,8 @@ Cloud, linked parity `001–025` подтверждён 09.11.2026. Authenticate
 
 ### STAB-01 — Atomic Organization Creation
 
+`Статус: COMPLETE — 09.11.2026`
+
 Перенести критический DB flow `organization + owner membership +
 trust_factor_config` в одну транзакционную PostgreSQL function/RPC. RPC должна:
 
@@ -236,6 +238,20 @@ trust_factor_config` в одну транзакционную PostgreSQL functio
 
 Server Action сохраняет Zod validation и вызывает RPC через user-scoped client,
 а не собирает транзакцию несколькими `service_role` запросами.
+
+Migration 026 добавила `create_organization_atomic(...)`, закрыла direct INSERT
+в `organizations` для `anon`/`authenticated` и объединила organization, owner
+membership, default `trust_factor_config` и `org.created` audit event в одну
+транзакцию. RPC использует `auth.uid()`, блокирует profile через `FOR UPDATE`,
+принимает только active profile без tenant и не доступна `anon`/`service_role`.
+Server Action переведена на user-scoped client и не раскрывает raw DB errors.
+
+Focused integration test проверяет happy path, repeat/race, direct INSERT,
+invalid whitespace, anon/service-role и недопустимые profile states, а также
+rollback при ошибке config или audit insert. SEC-01–04 regressions, 45 contract
+tests, DB lint, type-check, lint и production build прошли. Migration применена
+в Cloud; linked parity `001–026` подтверждён 09.11.2026. Authenticated browser
+QA остаётся частью `STAB-05`.
 
 ### STAB-02 — Atomic Invitation Acceptance
 
@@ -434,8 +450,8 @@ checklists остаются источниками подробных cases:
 ## 12. Definition Of Done
 
 - [x] SEC-01–SEC-04 реализованы и имеют negative DB-level tests.
-- [ ] STAB-01–STAB-05 выполнены и задокументированы.
-- [ ] Cloud/local migration parity подтверждён до и после deploy.
+- [ ] STAB-01–STAB-05 выполнены и задокументированы (STAB-01 завершён).
+- [x] Cloud/local migration parity подтверждён после STAB-01 (`001–026`).
 - [ ] Реальные Supabase types отражают production schema.
 - [ ] `npm run type-check` — PASS.
 - [ ] `npm run lint` — PASS.
@@ -492,5 +508,5 @@ evidence не считается прохождением Gate. Любой не�
 5. начать с preflight и SEC-01 без нового полного стратегического аудита.
 
 Команда получена 06.11.2026. Preflight завершён: linked parity и integrity-
-verified logical backup подтверждены. SEC-01–SEC-04 реализованы; Gate имеет
-статус `IN PROGRESS / SEC-04 COMPLETE — STAB-01 NEXT`.
+verified logical backup подтверждены. SEC-01–SEC-04 и STAB-01 реализованы; Gate
+имеет статус `IN PROGRESS / STAB-01 COMPLETE — STAB-02 NEXT`.

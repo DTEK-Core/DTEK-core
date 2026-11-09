@@ -185,6 +185,18 @@ INSERT/UPDATE. Отдельно подтверждаются validated composite
 запрет смены tenant у связанного endpoint. Исходные local ACL восстанавливаются
 в cleanup, облачная база не изменяется.
 
+Focused automated test STAB-01:
+
+```bash
+npm run test:stability:stab01
+```
+
+Тест проверяет атомарное создание organization, owner membership, default
+config и audit event; запрет direct INSERT; repeat/concurrent single-winner;
+отказ для anon, service role и недопустимых profile states; полный rollback при
+ошибке config или audit insert. Временные ACL и fixtures восстанавливаются в
+cleanup, облачная база не изменяется.
+
 ---
 
 ## Инструменты тестирования безопасности

@@ -586,8 +586,8 @@ ALTER TABLE organizations ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "orgs_select" ON organizations FOR SELECT
     USING (id = current_org_id());
 
-CREATE POLICY "orgs_insert" ON organizations FOR INSERT
-    WITH CHECK (owner_id = auth.uid());
+-- Direct INSERT для anon/authenticated запрещён migration 026.
+-- Создание выполняется только через create_organization_atomic(...).
 
 CREATE POLICY "orgs_update" ON organizations FOR UPDATE
     USING (id = current_org_id() AND current_user_role() = 'owner');
@@ -595,6 +595,12 @@ CREATE POLICY "orgs_update" ON organizations FOR UPDATE
 CREATE POLICY "orgs_delete" ON organizations FOR DELETE
     USING (id = current_org_id() AND current_user_role() = 'owner');
 ```
+
+`create_organization_atomic(...)` использует caller `auth.uid()` и одной
+транзакцией создаёт organization, owner membership, default
+`trust_factor_config` и `org.created` audit event. Row lock профиля исключает
+двойное создание при параллельных запросах; ошибка любого шага откатывает весь
+переход.
 
 **`objects`**
 ```sql

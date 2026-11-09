@@ -8,6 +8,7 @@ export type SecurityEventType =
   | 'invitation.sent'
   | 'invitation.accepted'
   | 'invitation.cancelled'
+  | 'org.created'
   | 'org.updated'
   | 'config.weights_changed'
   | 'object.created'

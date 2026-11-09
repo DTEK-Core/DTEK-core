@@ -90,6 +90,13 @@ CREATE POLICY "owner_update" ON organizations
   FOR UPDATE USING (id = current_org_id() AND current_user_role() = 'owner');
 ```
 
+После migration 026 прямой `INSERT organizations` для `anon` и
+`authenticated` запрещён. Первый tenant создаётся только через
+`create_organization_atomic(...)`: функция использует `auth.uid()`, блокирует
+active profile без текущей организации и в одной транзакции создаёт
+organization, owner membership, default Trust Score config и безопасный audit
+event. `anon` и `service_role` не имеют права `EXECUTE` этой RPC.
+
 ### `objects`
 
 ```sql

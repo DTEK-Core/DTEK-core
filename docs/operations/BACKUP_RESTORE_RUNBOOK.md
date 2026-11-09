@@ -66,9 +66,9 @@ point и проверки target project. Для rehearsal и анализа в�
 
 | Область | Текущее состояние | Как восстанавливается |
 |---|---|---|
-| PostgreSQL schema/data | Supabase Cloud, migrations `001-025` | Managed backup или проверенный logical backup |
+| PostgreSQL schema/data | Supabase Cloud, migrations `001-026` | Managed backup или проверенный logical backup |
 | Supabase Auth users | Используется Email/Password | Managed database restore; проверить login/reset после restore |
-| RLS, functions, triggers | В migrations `001-025` | Database restore и сверка с Git migrations |
+| RLS, functions, triggers | В migrations `001-026` | Database restore и сверка с Git migrations |
 | Supabase Storage objects | В MVP не используются | Перед каждым release повторно подтвердить; при появлении нужен отдельный object backup |
 | Edge Functions | В MVP не используются | Перед каждым release повторно подтвердить; функции разворачиваются отдельно |
 | Auth configuration | Site URL, redirect URLs, email settings | Вручную воспроизвести по configuration inventory |
@@ -175,7 +175,7 @@ Logical export является дополнительной переносим�
 - Auth providers, Site URL, redirect URLs, email templates/SMTP status;
 - список Storage buckets и Edge Functions либо подтверждение `не используются`;
 - имена Vercel env variables и environments, где они заданы;
-- release commit SHA и список migrations `001-025`;
+- release commit SHA и список migrations `001-026`;
 - ответственных и support/escalation channel.
 
 ---
@@ -351,7 +351,7 @@ unset TARGET_DB_URL
 
 На target project:
 
-- [ ] Сверить Postgres version, extensions и migrations `001-025`.
+- [ ] Сверить Postgres version, extensions и migrations `001-026`.
 - [ ] Воспроизвести Auth Site URL, redirect URLs и Email/Password settings.
 - [ ] Проверить SMTP/email template status; MVP manual invite link остаётся
       основным delivery path.
@@ -371,7 +371,7 @@ environment. Production/Preview variables Vercel менять после про�
 
 ### 10.1. Database и Auth
 
-- [ ] Все migrations `001-025` присутствуют без drift.
+- [ ] Все migrations `001-026` присутствуют без drift.
 - [ ] Количество организаций, profiles, objects, risks, relations и invitations
       соответствует recovery point либо расхождение объяснено.
 - [ ] Существующий test owner входит в систему.

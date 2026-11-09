@@ -17,10 +17,10 @@ CISO, аналитиков ИБ и IT-администраторов.
 - Sprint 01–15 завершены; история находится в `tasks/archive/`;
 - Sprint 16–35 — только `PLANNED / NOT STARTED`;
 - Security & Stabilization Gate обязателен до нового продуктового Sprint;
-- Preflight и SEC-01–SEC-04 завершены;
-- local/cloud migrations `001–025` совпадают на 09.11.2026;
-- следующая задача Gate: `STAB-01 — Atomic Organization Creation`;
-- следующий номер migration: `026`;
+- Preflight, SEC-01–SEC-04 и STAB-01 завершены;
+- local/cloud migrations `001–026` совпадают на 09.11.2026;
+- следующая задача Gate: `STAB-02 — Atomic Invitation Acceptance`;
+- следующий номер migration: `027`;
 - authenticated QA Sprint 12/13, Gate QA и restore rehearsal остаются `PENDING`.
 
 Источник текущего статуса: `tasks/SECURITY_STABILIZATION_GATE.md`.

@@ -9,7 +9,7 @@
 
 | Документ | Класс | Статус |
 |---|---|---|
-| [SECURITY_STABILIZATION_GATE.md](SECURITY_STABILIZATION_GATE.md) | Blocking release gate | ACTIVE: SEC-04 COMPLETE / STAB-01 NEXT |
+| [SECURITY_STABILIZATION_GATE.md](SECURITY_STABILIZATION_GATE.md) | Blocking release gate | ACTIVE: STAB-01 COMPLETE / STAB-02 NEXT |
 | [disign/MINI_DESIGN_CHANGES.md](disign/MINI_DESIGN_CHANGES.md) | Design journal | ACTIVE |
 | [disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md](disign/DESIGN_SPRINT_01_SETTINGS_PROFILE.md) | Design Sprint | PLANNED / waiting for materials |
 
